@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-green: #07512E;
+  --color-brand-green-dark: #04361E;
+  --color-brand-green-light: #0d6b3e;
+  --color-brand-yellow: #FFDE59;
+  --color-brand-yellow-dark: #e6c543;
+  --color-brand-cream: #FAF9F6;
+  
+  --font-serif: var(--font-playfair), Georgia, serif;
+  --font-sans: var(--font-montserrat), sans-serif;
+  
+  --animate-fade-in: fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-slide-up: slide-up 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-scale-up: scale-up 12s ease-out infinite alternate;
+  
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slide-up {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes scale-up {
+    from { transform: scale(1); }
+    to { transform: scale(1.08); }
+  }
+}
+
+:root {
+  --background: #FCFCF9;
+  --foreground: #111827;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* Custom premium scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #07512E;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #04361E;
+}
+
+/* Luxury card shadow & typography utilities */
+.luxury-shadow {
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+}
+
+.luxury-card-hover {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.luxury-card-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(7, 81, 46, 0.08);
+}
+
