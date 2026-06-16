@@ -3,7 +3,7 @@ import ContactHero from "@/components/ContactHero";
 import ContactInfo from "@/components/ContactInfo";
 import ContactForm from "@/components/ContactForm";
 import Footer from "@/components/Footer";
-
+ 
 export const metadata = {
   title: "Contact Us | Vardaan - Fine Handcrafted Jewelry",
   description: "Connect with Vardaan's Delhi atelier. Contact our custom design consultants, inquire about certificates, or view showroom hours.",
