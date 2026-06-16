@@ -18,15 +18,15 @@ export default function BridalCollection() {
       {/* Content */}
       <div className="relative z-10 w-full max-w-[1192px] mx-auto px-4 lg:px-0">
         <div className="max-w-lg">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-white mb-6">
+          <h2 className="text-[36px] sm:text-[48px] font-serif font-medium text-[#FFFFFF] mb-4 sm:mb-6 leading-tight">
             Bridal Collection
           </h2>
-          <p className="text-base md:text-lg text-white/90 font-sans leading-relaxed mb-8 max-w-md">
+          <p className="text-[16px] sm:text-[20px] font-sans font-normal text-[#FFFFFF] leading-relaxed mb-6 sm:mb-8 max-w-md">
             Celebrate your special day with timeless bridal jewellery crafted to make every moment unforgettable.
           </p>
           <Link
             href="/collections/bridal"
-            className="inline-flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-semibold text-[20px] w-[184px] h-[48px] hover:bg-[#e6c543] transition-colors"
+            className="inline-flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] w-[184px] h-[48px] hover:bg-[#e6c543] transition-colors duration-300"
           >
             Explore Now
           </Link>

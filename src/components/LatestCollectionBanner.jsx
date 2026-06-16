@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function LatestCollectionBanner() {
   return (
-    <section className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden flex items-center">
+    <section className="relative w-full h-[496px] overflow-hidden flex items-center">
       {/* Background Image */}
       <img
         src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781526285/Latest_Collection_avkkym.png"
@@ -12,8 +12,12 @@ export default function LatestCollectionBanner() {
         className="absolute inset-0 w-full h-full object-cover object-center"
       />
 
-      {/* Gradient Overlay for Text Readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#07512E]/95 via-[#07512E]/60 to-transparent md:w-3/4 lg:w-1/2" />
+      {/* Image Overlay for Text Readability */}
+      <img 
+        src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781605418/Overlay_for_readability_2_ylbztd.png"
+        alt="Overlay"
+        className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+      />
 
       {/* Content */}
       <div className="relative z-10 w-full max-w-[1192px] mx-auto px-4 lg:px-0">
@@ -26,7 +30,7 @@ export default function LatestCollectionBanner() {
           </p>
           <Link
             href="/collections/latest"
-            className="inline-flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-semibold text-[20px] w-[184px] h-[48px] hover:bg-[#e6c543] transition-colors"
+            className="inline-flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] w-[184px] h-[48px] hover:bg-[#e6c543] transition-colors duration-300"
           >
             Explore Now
           </Link>

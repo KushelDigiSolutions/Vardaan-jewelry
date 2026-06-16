@@ -171,8 +171,8 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Mobile Menu Button - Left Aligned in navbar overlay */}
-        <div className="md:hidden absolute left-4 bottom-5 z-20">
+        {/* Mobile Menu Button - Right Aligned in navbar overlay */}
+        <div className="md:hidden absolute right-4 bottom-5 z-20">
           <button 
             onClick={() => setIsMobileMenuOpen(true)}
             className="text-[#FFDE59] hover:text-white p-2 rounded-full hover:bg-white/5 transition-colors focus:outline-none"
@@ -185,7 +185,7 @@ export default function Navbar() {
 
       {/* Mobile Sidebar Navigation Drawer */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-50 md:hidden flex animate-fade-in">
+        <div className="fixed inset-0 z-50 md:hidden flex justify-end animate-fade-in">
           {/* Overlay Background */}
           <div 
             onClick={() => setIsMobileMenuOpen(false)}
@@ -193,7 +193,7 @@ export default function Navbar() {
           />
 
           {/* Drawer Content */}
-          <div className="relative w-80 max-w-[85vw] bg-[#07512E] text-white flex flex-col h-full z-10 shadow-2xl p-6 border-r border-[#053d22]">
+          <div className="relative w-80 max-w-[85vw] bg-[#07512E] text-white flex flex-col h-full z-10 shadow-2xl p-6 border-l border-[#053d22]">
             <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
               <div className="flex items-center gap-2">
                 <span className="font-serif tracking-widest text-lg text-[#FFDE59] uppercase">Vardaan</span>
