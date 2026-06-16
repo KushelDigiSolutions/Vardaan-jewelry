@@ -8,8 +8,8 @@
   --color-brand-yellow-dark: #e6c543;
   --color-brand-cream: #FAF9F6;
   
-  --font-serif: var(--font-playfair), Georgia, serif;
-  --font-sans: var(--font-montserrat), sans-serif;
+  --font-serif: "GT Walsheim Pro", "GT Walsheim", sans-serif;
+  --font-sans: "GT Walsheim Pro", "GT Walsheim", sans-serif;
   
   --animate-fade-in: fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   --animate-slide-up: slide-up 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
