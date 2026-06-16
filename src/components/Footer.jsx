@@ -129,7 +129,7 @@ export default function Footer() {
             Customer Service
           </h4>
           <ul className="flex flex-col gap-3 text-xs text-gray-300 font-light">
-            <li><Link href="#contact" className="hover:text-[#FFDE59] transition-colors">Contact Us</Link></li>
+            <li><Link href="/contact" className="hover:text-[#FFDE59] transition-colors">Contact Us</Link></li>
             <li><Link href="#shipping" className="hover:text-[#FFDE59] transition-colors">Shipping Policy</Link></li>
             <li><Link href="#returns" className="hover:text-[#FFDE59] transition-colors">Return & Refund Policy</Link></li>
             <li><Link href="#track" className="hover:text-[#FFDE59] transition-colors">Track Order</Link></li>
@@ -152,7 +152,7 @@ export default function Footer() {
             About Us
           </h4>
           <ul className="flex flex-col gap-3 text-xs text-gray-300 font-light relative z-10">
-            <li><Link href="#story" className="hover:text-[#FFDE59] transition-colors">Our Story</Link></li>
+            <li><Link href="/about" className="hover:text-[#FFDE59] transition-colors">Our Story</Link></li>
             <li><Link href="#blogs" className="hover:text-[#FFDE59] transition-colors">Blogs</Link></li>
             <li><Link href="#careers" className="hover:text-[#FFDE59] transition-colors">Careers</Link></li>
           </ul>

@@ -2,18 +2,19 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FiPhone, FiSearch, FiHeart, FiShoppingBag, FiMenu, FiX, FiUser } from "react-icons/fi";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const pathname = usePathname();
 
   const navLinks = [
-    { label: "Shop", href: "#" },
-    { label: "Jewellery", href: "#" },
-    { label: "Collections", href: "#", active: true },
-    { label: "Shop By Material", href: "#" },
-    { label: "Shop By Occasion", href: "#" },
+    { label: "Home", href: "/" },
+    { label: "About Us", href: "/about" },
+    { label: "Shop", href: "/#shop" },
+    { label: "Contact", href: "/contact" },
   ];
 
   return (
@@ -93,7 +94,10 @@ export default function Navbar() {
         />
 
         {/* Brand Logo & Tagline Container */}
-        <div className="flex flex-col items-center text-center relative z-10 max-w-xs md:max-w-md mb-6 animate-fade-in">
+        <Link 
+          href="/" 
+          className="flex flex-col items-center text-center relative z-10 max-w-xs md:max-w-md mb-6 animate-fade-in hover:opacity-90 transition-opacity"
+        >
           {/* Logo SVG (Recreating the luxury V emblem from the screenshot) */}
           <div className="flex justify-center mb-1">
             <svg 
@@ -143,25 +147,28 @@ export default function Navbar() {
             </p>
             <div className="h-[0.5px] flex-grow bg-gradient-to-l from-transparent to-[#FFDE59]/50" />
           </div>
-        </div>
+        </Link>
 
         {/* Desktop Navigation Links */}
         <nav className="hidden md:flex items-center gap-8 lg:gap-12 relative z-10 border-t border-white/10 pt-4 w-full justify-center max-w-4xl">
-          {navLinks.map((link, idx) => (
-            <Link 
-              key={idx} 
-              href={link.href}
-              className={`text-sm tracking-widest font-serif transition-colors relative py-1 duration-200 group uppercase ${
-                link.active ? "text-[#FFDE59]" : "text-white/90 hover:text-[#FFDE59]"
-              }`}
-            >
-              {link.label}
-              {/* Underline Indicator */}
-              <span className={`absolute bottom-0 left-0 w-full h-[1.5px] bg-[#FFDE59] transform origin-left transition-transform duration-300 ${
-                link.active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
-              }`} />
-            </Link>
-          ))}
+          {navLinks.map((link, idx) => {
+            const isActive = pathname === link.href || (link.href === "/" && pathname === null);
+            return (
+              <Link 
+                key={idx} 
+                href={link.href}
+                className={`text-sm tracking-widest font-serif transition-colors relative py-1 duration-200 group uppercase ${
+                  isActive ? "text-[#FFDE59]" : "text-white/90 hover:text-[#FFDE59]"
+                }`}
+              >
+                {link.label}
+                {/* Underline Indicator */}
+                <span className={`absolute bottom-0 left-0 w-full h-[1.5px] bg-[#FFDE59] transform origin-left transition-transform duration-300 ${
+                  isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                }`} />
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Mobile Menu Button - Left Aligned in navbar overlay */}
@@ -202,18 +209,21 @@ export default function Navbar() {
 
             {/* Navigation links inside drawer */}
             <nav className="flex flex-col gap-6">
-              {navLinks.map((link, idx) => (
-                <Link 
-                  key={idx} 
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`text-base tracking-widest font-serif py-1.5 border-b border-white/5 uppercase ${
-                    link.active ? "text-[#FFDE59] font-medium" : "text-white/80 hover:text-[#FFDE59]"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {navLinks.map((link, idx) => {
+                const isActive = pathname === link.href || (link.href === "/" && pathname === null);
+                return (
+                  <Link 
+                    key={idx} 
+                    href={link.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`text-base tracking-widest font-serif py-1.5 border-b border-white/5 uppercase ${
+                      isActive ? "text-[#FFDE59] font-medium" : "text-white/80 hover:text-[#FFDE59]"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
             </nav>
 
             <div className="mt-auto pt-6 border-t border-white/10">
