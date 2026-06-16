@@ -50,7 +50,7 @@ const testimonials = [
 
 export default function CustomerFeedback() {
   return (
-    <section className="h-[520px] bg-[#FFFFFF] overflow-hidden flex flex-col justify-center">
+    <section className="min-h-[520px] py-12 md:py-16 bg-[#FFFFFF] overflow-hidden flex flex-col justify-center">
       <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col">
         <div className="mb-12 text-center">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif text-[#2d3732] font-medium tracking-wide">

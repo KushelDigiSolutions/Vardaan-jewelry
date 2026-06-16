@@ -41,8 +41,8 @@ export default function ContactForm() {
   };
 
   return (
-    <section className="py-28 px-6 md:px-16 lg:px-24 bg-[#FAF9F6] border-t border-gray-100 relative" id="contact-form-section">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+    <section className="py-16 lg:py-28 bg-[#FAF9F6] border-t border-gray-100 relative" id="contact-form-section">
+      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
         
         {/* Left Column: Asymmetric Guide sidebar */}
         <div className="lg:col-span-4 flex flex-col gap-6 lg:sticky lg:top-8">
@@ -50,7 +50,7 @@ export default function ContactForm() {
             Private Commissions
           </span>
           
-          <h2 className="text-2xl md:text-3.5xl font-serif text-[#07512E] font-light uppercase tracking-wide leading-tight">
+          <h2 className="text-[32px] md:text-[48px] font-serif text-[#07512E] font-normal uppercase tracking-wide leading-[1.1]">
             Concierge <br />
             <span className="font-normal text-amber-600">Private Suite</span>
           </h2>
@@ -121,7 +121,7 @@ export default function ContactForm() {
                 <span className="text-[10px] tracking-[0.25em] font-semibold text-[#FFDE59] uppercase">
                   Write to us
                 </span>
-                <h2 className="text-2xl md:text-3.5xl font-serif text-[#FFDE59] font-light uppercase tracking-wide">
+                <h2 className="text-[28px] md:text-[40px] font-serif text-[#FFDE59] font-normal uppercase tracking-wide leading-[1.1]">
                   Private Inquiry Form
                 </h2>
                 <div className="w-10 h-[1.5px] bg-[#FFDE59] mt-1" />

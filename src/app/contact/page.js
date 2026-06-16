@@ -3,6 +3,7 @@ import ContactHero from "@/components/ContactHero";
 import ContactInfo from "@/components/ContactInfo";
 import ContactForm from "@/components/ContactForm";
 import TrustFeatures from "@/components/TrustFeatures";
+import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
  
 export const metadata = {
@@ -20,6 +21,7 @@ export default function ContactPage() {
         <ContactInfo />
         <ContactForm />
         <TrustFeatures />
+        <FAQ />
       </main>
       <Footer />
     </>

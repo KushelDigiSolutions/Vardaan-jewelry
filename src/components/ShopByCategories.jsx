@@ -34,8 +34,10 @@ export default function ShopByCategories() {
         setSlideWidth(window.innerWidth - 32); // mobile full width
       } else if (window.innerWidth < 1024) {
         setSlideWidth((window.innerWidth - 32 - 16) / 2); // tablet 2 cols
+      } else if (window.innerWidth < 1204) {
+        setSlideWidth((window.innerWidth - 32 - 32) / 3); // small desktop 3 cols
       } else {
-        setSlideWidth(380); // desktop fixed
+        setSlideWidth(380); // large desktop fixed
       }
     };
     handleResize();
@@ -128,7 +130,7 @@ export default function ShopByCategories() {
               >
                 <Link
                   href={cat.link}
-                  className="group relative w-full lg:w-[360px] h-[420px] overflow-hidden block"
+                  className="group relative w-full h-[420px] overflow-hidden block"
                 >
                   <img
                     src={cat.image}

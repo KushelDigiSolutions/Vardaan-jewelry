@@ -40,7 +40,7 @@ export default function ContactHero() {
           <span className="w-4 h-[1px] bg-[#FFDE59]" />
         </div>
         
-        <h1 className="text-3xl md:text-5xl font-serif font-light text-white leading-tight tracking-wider uppercase">
+        <h1 className="text-[36px] md:text-[56px] font-serif font-normal text-white leading-[1.1] tracking-wide uppercase">
           A Covenant of <br />
           <span className="text-[#FFDE59] font-normal tracking-[0.05em] relative">
             Personal Service
