@@ -45,10 +45,10 @@ export default function ShopByCategories() {
 
   return (
     <section className="py-16 md:py-24 bg-[#FFF6E8] overflow-hidden">
-      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0">
+      <div className="w-full max-w-[1172px] mx-auto px-4 lg:px-0">
         {/* Header Section */}
         <div className="flex justify-between items-center mb-10">
-          <h2 className="text-[32px] font-bold font-serif text-[#07512E] tracking-wide">
+          <h2 className="text-[32px] font-bold font-serif text-[#07512E] ">
             Shop by Categories
           </h2>
           <div className="flex gap-3">
@@ -76,11 +76,11 @@ export default function ShopByCategories() {
         {/* Carousel Window */}
         <div className="w-full relative overflow-hidden">
           <div 
-            className="flex gap-6 lg:gap-[26px] transition-transform duration-700 ease-in-out"
+            className="flex gap-4 transition-transform duration-700 ease-in-out"
             style={{ 
               // Using a simple slide logic: each slide moves by 1 item's width + gap.
-              // On desktop: 380px + 26px = 406px
-              transform: `translateX(calc(-${currentIndex} * (380px + 26px)))` 
+              // On desktop: 380px + 16px = 396px
+              transform: `translateX(calc(-${currentIndex} * (380px + 16px)))` 
             }}
           >
             {carouselItems.map((cat, idx) => (
@@ -90,7 +90,7 @@ export default function ShopByCategories() {
               >
                 <Link
                   href={cat.link}
-                  className="group relative w-full lg:w-[380px] h-[504px] overflow-hidden block"
+                  className="group relative w-full lg:w-[360px] h-[420px] overflow-hidden block"
                 >
                   <img
                     src={cat.image}

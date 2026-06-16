@@ -43,8 +43,8 @@ export default function NewJewelry() {
   };
 
   return (
-    <section className="py-16 md:py-24 px-4 md:px-8 lg:px-12 bg-[#F5F4F1]">
-      <div className="max-w-7xl mx-auto flex flex-col">
+    <section className="py-16 md:py-24 bg-[#F5F4F1]">
+      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col">
         
         {/* Header Section */}
         <div className="flex justify-between items-center mb-10">
@@ -74,10 +74,19 @@ export default function NewJewelry() {
         </div>
 
         {/* Carousel Window */}
-        <div className="w-full relative overflow-hidden">
+        <div className="w-full relative overflow-hidden mb-6">
+          <style dangerouslySetInnerHTML={{__html: `
+            .new-track { --slide-offset: calc(100% + 24px); }
+            @media (min-width: 768px) {
+              .new-track { --slide-offset: calc(50% + 12px); }
+            }
+            @media (min-width: 1024px) {
+              .new-track { --slide-offset: calc(33.3333% + 8px); }
+            }
+          `}} />
           <div 
-            className="flex gap-6 transition-transform duration-700 ease-in-out"
-            style={{ transform: `translateX(calc(-${currentIndex * 100}% - ${currentIndex * 24}px))` }}
+            className="flex gap-6 transition-transform duration-700 ease-in-out new-track w-full"
+            style={{ transform: `translateX(calc(-${currentIndex} * var(--slide-offset)))` }}
           >
             {carouselItems.map((item, idx) => (
               <div 
@@ -85,9 +94,9 @@ export default function NewJewelry() {
                 className="flex-shrink-0 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
               >
                 {item.type === "product" ? (
-                  <div className="h-full flex flex-col bg-white p-5 shadow-sm border border-gray-100">
+                  <div className="h-full flex flex-col bg-white p-4 shadow-sm border border-gray-100">
                     {/* Product Image */}
-                    <div className="relative aspect-[4/3] w-full mb-5 bg-gray-100 overflow-hidden group">
+                    <div className="relative aspect-square w-full mb-4 bg-gray-100 overflow-hidden group">
                       <img 
                         src={item.image} 
                         alt={item.name}
@@ -97,17 +106,17 @@ export default function NewJewelry() {
 
                     {/* Product Details */}
                     <div className="flex flex-col flex-grow">
-                      <h3 className="font-serif text-[#1a1a1a] text-lg leading-snug mb-3 line-clamp-2">
+                      <h3 className="font-serif text-[#303030] text-[24px] font-medium leading-snug mb-2 line-clamp-2">
                         {item.name}
                       </h3>
-                      <p className="text-[#07512E] font-bold mb-5">
+                      <p className="text-[#07512E] font-semibold mb-4">
                         {item.price}
                       </p>
-                      <div className="mt-auto flex gap-3">
-                        <button className="flex-1 bg-[#FDE066] text-[#1a1a1a] font-semibold py-2.5 text-sm hover:bg-[#e6c95c] transition-colors">
+                      <div className="mt-auto flex gap-4">
+                        <button className="flex-1 h-[48px] flex items-center justify-center bg-[#FFDE59] text-[#101010] font-semibold text-[16px] hover:bg-[#e6c543] transition-colors">
                           Shop Now
                         </button>
-                        <button className="flex-1 bg-white border border-[#07512E] text-[#07512E] font-semibold py-2.5 text-sm hover:bg-[#07512E] hover:text-white transition-colors">
+                        <button className="flex-1 h-[48px] flex items-center justify-center bg-white border border-[#07512E] text-[#07512E] font-semibold text-[16px] hover:bg-[#07512E] hover:text-white transition-colors">
                           Add to Cart
                         </button>
                       </div>
