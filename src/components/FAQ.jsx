@@ -1,95 +1,91 @@
 "use client";
 
 import React, { useState } from "react";
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
-const faqData = [
+const faqItems = [
   {
-    id: 1,
     question: "What is your design process like?",
-    answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nisl felis, blandit in laoreet sed, malesuada id elit. Duis sed odio blandit tortor maximus euismod. Phasellus convallis dolor vel suscipit sagittis. Donec aliquam leo suscipit, semper dui a, condimentum sem.",
+    answer: "Our design process begins with a deep understanding of traditional aesthetics and modern craftsmanship. We sketch initial concepts, select premium fabrics, and then our master artisans execute the intricate hand-embroidery to create a unique piece.",
   },
   {
-    id: 2,
-    question: "What is your design process like?",
-    answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nisl felis, blandit in laoreet sed, malesuada id elit. Duis sed odio blandit tortor maximus euismod. Phasellus convallis dolor vel suscipit sagittis. Donec aliquam leo suscipit, semper dui a, condimentum sem.",
+    question: "How long does shipping take?",
+    answer: "Standard shipping typically takes 5-7 business days within India. International shipping can take 10-15 business days depending on the destination and customs processing.",
   },
   {
-    id: 3,
-    question: "What is your design process like?",
-    answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nisl felis, blandit in laoreet sed, malesuada id elit. Duis sed odio blandit tortor maximus euismod. Phasellus convallis dolor vel suscipit sagittis. Donec aliquam leo suscipit, semper dui a, condimentum sem.",
+    question: "Do you offer custom sizing?",
+    answer: "Yes, we specialize in custom sizing for all our deity dresses. You can provide specific measurements of your idol, and we will tailor the dress to ensure a perfect fit.",
   },
   {
-    id: 4,
-    question: "What is your design process like?",
-    answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nisl felis, blandit in laoreet sed, malesuada id elit. Duis sed odio blandit tortor maximus euismod. Phasellus convallis dolor vel suscipit sagittis. Donec aliquam leo suscipit, semper dui a, condimentum sem.",
+    question: "What materials do you use for the dresses?",
+    answer: "We use only the finest materials including pure silk, velvet, organza, and high-quality cotton. All our embellishments like Gota Patti and Zardosi are made with premium threads and stones.",
   },
 ];
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState(0); // First item open by default
+  const [openIndex, setOpenIndex] = useState(0);
 
-  const toggleAccordion = (index) => {
-    setOpenIndex(openIndex === index ? -1 : index);
+  const toggleFaq = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
-    <section className="py-16 md:py-24 px-4 md:px-8 bg-white">
-      <div className="max-w-4xl mx-auto">
-        
+    <section className="py-10 md:py-16 bg-[#FFFFFF] overflow-hidden">
+      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col">
         {/* Header */}
-        <div className="mb-12 md:mb-16 text-left">
-          <p className="text-[#07512E] font-semibold tracking-wider text-sm md:text-base mb-3 uppercase">
+        <div className="mb-10 text-center md:text-left">
+          <p className="text-sm md:text-base font-medium tracking-wider text-[#07512E] uppercase">
             FAQ
           </p>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif text-[#0d1c22] font-semibold">
+          <h2 className="mt-2 text-3xl md:text-4xl lg:text-5xl font-serif font-medium leading-tight text-[#0d1c22]">
             Most asked questions
           </h2>
         </div>
 
-        {/* Accordion List */}
-        <div className="flex flex-col">
-          {faqData.map((item, index) => {
-            const isOpen = openIndex === index;
-            return (
-              <div 
-                key={item.id} 
-                className="border-b border-gray-100 py-6 first:pt-0"
-              >
-                <button
-                  onClick={() => toggleAccordion(index)}
-                  className="w-full flex justify-between items-center text-left focus:outline-none"
-                  aria-expanded={isOpen}
+          {/* FAQ List */}
+          <div className="">
+            {faqItems.map((item, index) => {
+              const isOpen = openIndex === index;
+              return (
+                <div
+                  key={index}
+                  className={`py-4 sm:py-6 md:py-7 ${index === faqItems.length - 1 ? "" : "border-b border-[#E5E7EB]"}`}
                 >
-                  <span className="text-base md:text-lg font-semibold text-[#1a1a1a] pr-4">
-                    {item.question}
-                  </span>
-                  <span className="text-[#1a1a1a] ml-4 flex-shrink-0">
-                    {isOpen ? (
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M12 19V5M5 12l7-7 7 7"/>
-                      </svg>
-                    ) : (
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M12 5v14M19 12l-7 7-7-7"/>
-                      </svg>
-                    )}
-                  </span>
-                </button>
-                
-                <div 
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                    isOpen ? "max-h-96 opacity-100 mt-4" : "max-h-0 opacity-0"
-                  }`}
-                >
-                  <p className="text-gray-500 text-sm md:text-base leading-relaxed pr-10">
-                    {item.answer}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+                  <div 
+                    className="flex cursor-pointer items-start justify-between gap-4"
+                    onClick={() => toggleFaq(index)}
+                  >
+                    <div className="flex-1 pr-2">
+                      <h3 className="text-[16px] sm:text-[18px] md:text-[20px] font-medium font-sans leading-[1.45] text-[#1a1a1a]">
+                        {item.question}
+                      </h3>
 
+                      <div 
+                        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                          isOpen ? "max-h-[500px] opacity-100 mt-4" : "max-h-0 opacity-0"
+                        }`}
+                      >
+                        <p className="max-w-[980px] text-[14px] md:text-[15px] font-sans leading-relaxed text-gray-500">
+                          {item.answer}
+                        </p>
+                      </div>
+                    </div>
+
+                    <button
+                      className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center text-[#1a1a1a]"
+                      aria-label={isOpen ? "Collapse FAQ" : "Expand FAQ"}
+                    >
+                      {isOpen ? (
+                        <FiChevronUp className="w-5 h-5 sm:w-6 sm:h-6" />
+                      ) : (
+                        <FiChevronDown className="w-5 h-5 sm:w-6 sm:h-6" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
       </div>
     </section>
   );

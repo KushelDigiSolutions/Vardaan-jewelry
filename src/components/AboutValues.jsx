@@ -28,21 +28,21 @@ export default function AboutValues() {
   ];
 
   return (
-    <section className="py-28 px-6 md:px-16 lg:px-24 bg-[#07512E] text-white relative overflow-hidden">
+    <section className="py-16 lg:py-28 bg-[#07512E] text-white relative overflow-hidden">
       {/* Background brand stamp watermark */}
       <div 
         className="absolute inset-0 bg-no-repeat bg-center bg-contain pointer-events-none mix-blend-screen opacity-[0.08]"
         style={{ backgroundImage: `url('https://res.cloudinary.com/dd9tagtiw/image/upload/v1781515128/a29bc3df60dd42fbfd5b10b5b93b4efd38995dd5_clck27.png')` }}
       />
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 relative z-10">
         
         {/* Title */}
         <div className="flex flex-col items-center text-center gap-4 mb-20">
-          <span className="text-[10px] tracking-[0.3em] text-[#FFDE59] uppercase font-semibold">
+          <span className="text-[14px] md:text-[16px] tracking-widest text-[#FFDE59] uppercase font-semibold">
             Brand Promises
           </span>
-          <h2 className="text-3xl md:text-5.5xl font-serif text-white font-light uppercase tracking-wide">
+          <h2 className="text-[32px] md:text-[48px] font-serif text-white font-light uppercase tracking-wide">
             Covenants of <span className="font-normal text-[#FFDE59]">Purity</span>
           </h2>
           <div className="w-12 h-[2px] bg-[#FFDE59] mt-2" />
@@ -65,10 +65,10 @@ export default function AboutValues() {
                 </div>
 
                 {/* Text */}
-                <h3 className="font-serif text-lg text-[#FFDE59] uppercase tracking-wide mb-3 font-normal">
+                <h3 className="font-serif text-[20px] md:text-[24px] text-[#FFDE59] uppercase tracking-wide mb-3 font-normal">
                   {val.title}
                 </h3>
-                <p className="text-xs text-gray-300 font-light leading-relaxed">
+                <p className="text-[14px] md:text-[16px] text-gray-300 font-light leading-relaxed">
                   {val.desc}
                 </p>
               </div>

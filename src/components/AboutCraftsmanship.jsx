@@ -31,15 +31,15 @@ export default function AboutCraftsmanship() {
   ];
 
   return (
-    <section className="py-28 px-6 md:px-16 lg:px-24 bg-[#FCFCF9] border-y border-gray-100">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-16 lg:py-28 bg-[#FCFCF9] border-y border-gray-100">
+      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0">
         
         {/* Section Title */}
         <div className="flex flex-col items-center text-center gap-4 mb-16">
-          <span className="text-[10px] tracking-[0.3em] font-semibold text-amber-600 uppercase">
+          <span className="text-[14px] md:text-[16px] tracking-widest font-semibold text-amber-600 uppercase">
             ATELIER CRAFTSMANSHIP
           </span>
-          <h2 className="text-3xl md:text-5.5xl font-serif text-[#07512E] font-light uppercase tracking-wide">
+          <h2 className="text-[32px] md:text-[48px] font-serif text-[#07512E] font-light uppercase tracking-wide">
             The Journey of <span className="font-normal text-amber-600">Creation</span>
           </h2>
           <div className="w-12 h-[2px] bg-[#FFDE59] mt-2" />
@@ -69,10 +69,10 @@ export default function AboutCraftsmanship() {
 
               {/* Slide Up Content Container */}
               <div className="absolute inset-x-0 bottom-0 p-6 flex flex-col justify-end translate-y-16 group-hover:translate-y-0 transition-transform duration-500 ease-out h-[60%] bg-gradient-to-t from-[#04361E] to-transparent">
-                <h3 className="font-serif text-lg text-[#FFDE59] uppercase tracking-wide mb-2 font-normal">
+                <h3 className="font-serif text-[20px] md:text-[24px] text-[#FFDE59] uppercase tracking-wide mb-2 font-normal">
                   {step.title}
                 </h3>
-                <p className="text-[11px] text-gray-300 font-light leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                <p className="text-[14px] md:text-[16px] text-gray-300 font-light leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
                   {step.desc}
                 </p>
               </div>

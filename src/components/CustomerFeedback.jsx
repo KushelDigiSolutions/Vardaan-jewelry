@@ -1,62 +1,88 @@
 import React from "react";
 
+function QuoteIcon() {
+  return (
+    <svg
+      viewBox="0 0 42 26"
+      className="h-[28px] sm:h-[32px] w-auto opacity-80 group-hover:opacity-100 transition-opacity"
+      aria-hidden="true"
+    >
+      {/* Outer Green Stroke */}
+      <path
+        d="M15.099 2.246C11.166 4.064 8.728 7.01 7.787 11.084c-.213.92-.319 1.822-.319 2.707 0 3.575 1.728 5.363 5.186 5.363 1.552 0 2.84-.46 3.861-1.382 1.022-.92 1.533-2.105 1.533-3.55 0-1.304-.45-2.406-1.348-3.31-.878-.92-1.935-1.418-3.17-1.488.249-1.694 1.286-3.336 3.117-4.925l1.772-1.542L15.099 2.246ZM31.677 2.246c-3.95 1.818-6.387 4.764-7.31 8.838a12.64 12.64 0 0 0-.32 2.707c0 3.575 1.72 5.363 5.16 5.363 1.57 0 2.866-.46 3.888-1.382 1.022-.92 1.533-2.105 1.533-3.55 0-1.304-.45-2.406-1.347-3.31-.88-.92-1.936-1.418-3.171-1.488.248-1.694 1.286-3.336 3.117-4.925l1.773-1.542-3.323-.711Z"
+        fill="#07512E"
+        stroke="#07512E"
+        strokeWidth="3.5"
+        strokeLinejoin="round"
+      />
+      {/* Inner White Stroke + Green Fill */}
+      <path
+        d="M15.099 2.246C11.166 4.064 8.728 7.01 7.787 11.084c-.213.92-.319 1.822-.319 2.707 0 3.575 1.728 5.363 5.186 5.363 1.552 0 2.84-.46 3.861-1.382 1.022-.92 1.533-2.105 1.533-3.55 0-1.304-.45-2.406-1.348-3.31-.878-.92-1.935-1.418-3.17-1.488.249-1.694 1.286-3.336 3.117-4.925l1.772-1.542L15.099 2.246ZM31.677 2.246c-3.95 1.818-6.387 4.764-7.31 8.838a12.64 12.64 0 0 0-.32 2.707c0 3.575 1.72 5.363 5.16 5.363 1.57 0 2.866-.46 3.888-1.382 1.022-.92 1.533-2.105 1.533-3.55 0-1.304-.45-2.406-1.347-3.31-.88-.92-1.936-1.418-3.171-1.488.248-1.694 1.286-3.336 3.117-4.925l1.773-1.542-3.323-.711Z"
+        fill="#07512E"
+        stroke="#ffffff"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 const testimonials = [
   {
     id: 1,
-    quote: "Supporting vardaan has been a truly uplifting experience. Knowing that my contribution helps feed the needy and spread devotion brings deep satisfaction to my heart.",
+    quote: '"Supporting vardaan has been a truly uplifting experience. Knowing that my contribution helps feed the needy and spread devotion brings deep satisfaction to my heart."',
     name: "Jerome Bell",
-    location: "India",
+    location: "Inidia",
   },
   {
     id: 2,
-    quote: "Supporting vardaan has been a truly uplifting experience. Knowing that my contribution helps feed the needy and spread devotion brings deep satisfaction to my heart.",
+    quote: '"Supporting vardaan has been a truly uplifting experience. Knowing that my contribution helps feed the needy and spread devotion brings deep satisfaction to my heart."',
     name: "Jerome Bell",
-    location: "India",
+    location: "Inidia",
   },
   {
     id: 3,
-    quote: "Supporting Vardaan has been a truly uplifting experience. Knowing that my contribution helps feed the needy and spread devotion brings deep satisfaction to my heart.",
+    quote: '"Supporting vardaan has been a truly uplifting experience. Knowing that my contribution helps feed the needy and spread devotion brings deep satisfaction to my heart."',
     name: "Jerome Bell",
-    location: "India",
+    location: "Inidia",
   },
 ];
 
 export default function CustomerFeedback() {
   return (
-    <section className="py-16 md:py-24 px-4 md:px-8 bg-[#fafaf9]">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-serif text-[#2d3732] font-semibold text-center mb-12 md:mb-16">
-          Customer Feedback
-        </h2>
+    <section className="h-[520px] bg-[#FFFFFF] overflow-hidden flex flex-col justify-center">
+      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col">
+        <div className="mb-12 text-center">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif text-[#2d3732] font-medium tracking-wide">
+            Customer Feedback
+          </h2>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {testimonials.map((testimonial) => (
-            <div 
-              key={testimonial.id} 
-              className="bg-white rounded-[2rem] p-8 md:p-10 shadow-[0_8px_40px_rgba(0,0,0,0.04)] flex flex-col"
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 transition-all duration-300">
+          {testimonials.map((item) => (
+            <article
+              key={item.id}
+              className="rounded-[32px] bg-white px-6 py-8 md:px-8 md:py-10 shadow-[0_10px_40px_rgba(0,0,0,0.03)] hover:shadow-[0_15px_50px_rgba(0,0,0,0.06)] transition-all group flex flex-col"
             >
-              {/* Quote Icon */}
-              <div className="mb-6 text-[#07512E]">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10 11L8.5 16H5L6.5 11V6H11V11H10ZM18 11L16.5 16H13L14.5 11V6H19V11H18Z" />
-                </svg>
+              <div className="mb-4">
+                <QuoteIcon />
               </div>
 
-              {/* Quote Text */}
-              <p className="text-[#333] text-sm md:text-base leading-relaxed mb-10 flex-grow font-sans">
-                "{testimonial.quote}"
+              <p className="w-full text-[14px] md:text-[15px] leading-relaxed text-[#1a1a1a] font-sans flex-grow">
+                {item.quote}
               </p>
 
-              {/* Author Info */}
-              <div className="mt-auto">
-                <h4 className="text-[#1a1a1a] font-semibold text-base mb-1">
-                  {testimonial.name}
-                </h4>
-                <p className="text-gray-400 text-sm">
-                  {testimonial.location}
+              <div className="my-6 h-px w-full bg-gradient-to-r from-gray-200 via-gray-100 to-transparent" />
+
+              <div className="flex flex-col">
+                <h3 className="text-[16px] font-medium leading-none text-[#1a1a1a] mb-1.5">
+                  {item.name}
+                </h3>
+                <p className="text-[#a0a0a0] text-[14px]">
+                  {item.location}
                 </p>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>

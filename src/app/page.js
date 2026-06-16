@@ -10,8 +10,6 @@ import LatestCollectionBanner from "@/components/LatestCollectionBanner";
 import InstagramFeed from "@/components/InstagramFeed";
 import CustomerFeedback from "@/components/CustomerFeedback";
 import FAQ from "@/components/FAQ";
-import BrandPromise from "@/components/BrandPromise";
-import AboutUs from "@/components/AboutUs";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -30,13 +28,8 @@ export default function Home() {
         <InstagramFeed />
         <CustomerFeedback />
         <FAQ />
-        <BrandPromise />
-    
-  
-        <AboutUs />
       </main>
       <Footer />
     </>
   );
 }
-

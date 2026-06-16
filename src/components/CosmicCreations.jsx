@@ -36,13 +36,13 @@ export default function CosmicCreations() {
         
         {/* Text Content */}
         <div className="relative z-10 w-full max-w-[456px] flex flex-col justify-center text-left mx-auto lg:mx-0">
-          <p className="text-white/80 font-sans tracking-[0.15em] uppercase text-[24px] mb-4 font-light">
+          <p className="text-white/80 font-sans tracking-[0.15em] uppercase text-[16px] sm:text-[24px] mb-4 font-light">
             COSMIC CREATIONS
           </p>
-          <h2 className="font-serif text-[40px] text-white mb-6 leading-[1.1]">
+          <h2 className="font-serif text-[32px] sm:text-[40px] text-white mb-6 leading-[1.1]">
             Vardaan Created<br />Necklace
           </h2>
-          <p className="font-sans text-white/90 text-[18px] font-normal leading-relaxed mb-8 pr-4 lg:pr-0">
+          <p className="font-sans text-white/90 text-[15px] sm:text-[18px] font-normal leading-relaxed mb-8 pr-4 lg:pr-0">
             Shimmering like a trail of stardust in the night sky, 
             the fine jewelry pieces that form the Vardaan 
             Created Diamonds Galaxy Collection highlight the 

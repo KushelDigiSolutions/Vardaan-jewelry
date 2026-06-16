@@ -28,26 +28,52 @@ const products = [
   },
 ];
 
-const carouselItems = [...products, ...products, ...products];
-
 export default function RoyallyCrafted() {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(products.length);
+  const [isTransitioning, setIsTransitioning] = useState(true);
+  const totalItems = products.length;
 
   const nextSlide = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % (carouselItems.length - 2));
-  }, []);
+    if (!isTransitioning) return;
+    setCurrentIndex((prev) => prev + 1);
+  }, [isTransitioning]);
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev === 0 ? carouselItems.length - 3 : prev - 1));
+    if (!isTransitioning) return;
+    setCurrentIndex((prev) => prev - 1);
   };
 
+  useEffect(() => {
+    if (currentIndex >= totalItems * 2) {
+      const timer = setTimeout(() => {
+        setIsTransitioning(false);
+        setCurrentIndex(currentIndex - totalItems);
+      }, 700);
+      return () => clearTimeout(timer);
+    }
+    if (currentIndex <= 0) {
+      const timer = setTimeout(() => {
+        setIsTransitioning(false);
+        setCurrentIndex(currentIndex + totalItems);
+      }, 700);
+      return () => clearTimeout(timer);
+    }
+  }, [currentIndex, totalItems]);
+
+  useEffect(() => {
+    if (!isTransitioning) {
+      const timer = setTimeout(() => setIsTransitioning(true), 50);
+      return () => clearTimeout(timer);
+    }
+  }, [isTransitioning]);
+
   return (
-    <section className="py-16 md:py-24 bg-[#FEF5E6]">
+    <section className="py-10 md:py-16 bg-[#FEF5E6]">
       <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col">
         
         {/* Header Section */}
         <div className="flex justify-between items-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-serif text-[#1e2a24] font-semibold tracking-wide">
+          <h2 className="text-3xl md:text-4xl font-serif text-[#1e2a24] font-medium tracking-wide">
             Royally Crafted for you
           </h2>
           <div className="flex gap-3">
@@ -84,10 +110,10 @@ export default function RoyallyCrafted() {
             }
           `}} />
           <div 
-            className="flex gap-6 transition-transform duration-700 ease-in-out royal-track w-full"
+            className={`flex gap-6 royal-track w-full ${isTransitioning ? 'transition-transform duration-700 ease-in-out' : ''}`}
             style={{ transform: `translateX(calc(-${currentIndex} * var(--slide-offset)))` }}
           >
-            {carouselItems.map((product, idx) => (
+            {[...products, ...products, ...products].map((product, idx) => (
               <div 
                 key={idx} 
                 className="flex-shrink-0 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.3333%-16px)] h-full flex flex-col bg-white p-4 shadow-sm border border-gray-100 mx-auto"
@@ -113,17 +139,17 @@ export default function RoyallyCrafted() {
 
                 {/* Product Details */}
                 <div className="flex flex-col flex-grow">
-                  <h3 className="font-serif text-[#303030] text-[24px] font-medium leading-snug mb-2 line-clamp-2">
+                  <h3 className="font-serif text-[#303030] text-[20px] sm:text-[24px] font-medium leading-snug mb-2 line-clamp-2">
                     {product.name}
                   </h3>
-                  <p className="text-[#07512E] font-semibold mb-4">
+                  <p className="text-[#07512E] font-medium mb-4">
                     {product.price}
                   </p>
                   <div className="mt-auto flex gap-4">
-                    <button className="flex-1 h-[48px] flex items-center justify-center bg-[#FFDE59] text-[#101010] font-semibold text-[16px] hover:bg-[#e6c543] transition-colors">
+                    <button className="flex-1 h-[48px] flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] hover:bg-[#e6c543] transition-colors duration-300">
                       Shop Now
                     </button>
-                    <button className="flex-1 h-[48px] flex items-center justify-center bg-white border border-[#07512E] text-[#07512E] font-semibold text-[16px] hover:bg-[#07512E] hover:text-white transition-colors">
+                    <button className="flex-1 h-[48px] flex items-center justify-center bg-white border border-[#07512E] text-[#07512E] font-sans font-medium text-[20px] hover:bg-[#07512E] hover:text-white transition-colors duration-300">
                       Add to Cart
                     </button>
                   </div>
@@ -136,19 +162,19 @@ export default function RoyallyCrafted() {
         {/* Footer Area with Features and View All Link */}
         <div className="flex flex-col md:flex-row justify-between items-center pt-2 pb-4 gap-6">
           <div className="flex flex-wrap items-center gap-6 md:gap-8">
-            <div className="flex items-center gap-2 text-[#07512E] font-semibold text-sm">
+            <div className="flex items-center gap-2 text-[#07512E] font-medium text-[18px]">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M20 6L9 17l-5-5" />
               </svg>
               Easy 10 Day Returns
             </div>
-            <div className="flex items-center gap-2 text-[#07512E] font-semibold text-sm">
+            <div className="flex items-center gap-2 text-[#07512E] font-medium text-[18px]">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M20 6L9 17l-5-5" />
               </svg>
               Light Weight Material
             </div>
-            <div className="flex items-center gap-2 text-[#07512E] font-semibold text-sm">
+            <div className="flex items-center gap-2 text-[#07512E] font-medium text-[18px]">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M20 6L9 17l-5-5" />
               </svg>
@@ -156,7 +182,7 @@ export default function RoyallyCrafted() {
             </div>
           </div>
           
-          <Link href="/collections/royal" className="text-sm text-[#1e2a24] hover:text-[#07512E] flex items-center gap-2 font-serif font-semibold text-lg">
+          <Link href="/collections/royal" className="text-[#101010] hover:text-[#07512E] flex items-center gap-2 font-serif font-medium text-[20px]">
             View All <span aria-hidden="true" className="text-gray-400 font-sans">&rarr;</span>
           </Link>
         </div>

@@ -4,16 +4,16 @@ import React from "react";
 
 export default function AboutWhoWeAre() {
   return (
-    <section className="py-28 px-6 md:px-16 lg:px-24 bg-[#FCFCF9]">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+    <section className="py-16 lg:py-28 bg-[#FCFCF9]">
+      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
         
         {/* Left Side: Drop-Cap & Narrative */}
         <div className="lg:col-span-5 flex flex-col items-start gap-6 relative">
-          <span className="text-[10px] tracking-[0.3em] font-semibold text-amber-600 uppercase">
+          <span className="text-[14px] md:text-[16px] tracking-widest font-semibold text-amber-600 uppercase">
             The Design Collective
           </span>
           
-          <h2 className="text-3xl md:text-5.5xl font-serif text-[#07512E] font-light leading-tight uppercase tracking-wide">
+          <h2 className="text-[32px] md:text-[48px] font-serif text-[#07512E] font-light leading-tight uppercase tracking-wide">
             We Are <br />
             <span className="font-normal text-[#FFDE59] bg-[#07512E] px-4 py-1.5 inline-block mt-2 shadow-sm rounded-sm">Vardaan</span>
           </h2>
@@ -21,12 +21,12 @@ export default function AboutWhoWeAre() {
           <div className="w-12 h-[2px] bg-[#FFDE59] mt-2" />
 
           {/* Narrative with drop-cap */}
-          <div className="text-xs md:text-[13px] text-gray-600 font-light leading-relaxed tracking-wide mt-2">
-            <span className="float-left text-5xl md:text-6xl font-serif text-[#07512E] leading-[0.8] pr-2.5 pt-1 font-normal">W</span>
+          <div className="text-[14px] md:text-[16px] text-gray-600 font-light leading-relaxed tracking-wide mt-2">
+            <span className="float-left text-[48px] md:text-[64px] font-serif text-[#07512E] leading-[0.8] pr-2.5 pt-1 font-normal">W</span>
             e are a collective of generational goldsmiths, certified gemologists, and modern artisans. Headquartered in our Delhi design atelier, we practice high jewelry design not as a trade, but as a commitment to heritage. We preserve India's oldest filigree and carving practices, ensuring that old-world secrets stay alive.
           </div>
 
-          <p className="text-xs md:text-[13px] text-gray-600 font-light leading-relaxed tracking-wide">
+          <p className="text-[14px] md:text-[16px] text-gray-600 font-light leading-relaxed tracking-wide">
             By keeping our workshops local, ethically auditing our gemstone supply chain, and co-creating designs directly with you, Vardaan ensures that every creation is a personal amulet.
           </p>
 
@@ -34,7 +34,7 @@ export default function AboutWhoWeAre() {
 
           {/* Signature Badge */}
           <div className="flex items-center gap-3">
-            <span className="font-serif italic text-amber-700 text-sm">Design Atelier Team</span>
+            <span className="font-serif italic text-amber-700 text-[16px]">Design Atelier Team</span>
             <span className="w-2 h-2 rounded-full bg-[#FFDE59]" />
           </div>
         </div>
@@ -42,7 +42,7 @@ export default function AboutWhoWeAre() {
         {/* Right Side: Staggered 3-Image Editorial Gallery */}
         <div className="lg:col-span-7 grid grid-cols-12 gap-4 relative py-6">
           {/* Main Large Image */}
-          <div className="col-span-8 relative aspect-[4/3] rounded-lg overflow-hidden shadow-2xl border border-gray-100/60 z-10 hover:scale-[1.01] transition-transform duration-500">
+          <div className="col-span-12 sm:col-span-8 relative aspect-[4/3] rounded-lg overflow-hidden shadow-2xl border border-gray-100/60 z-10 hover:scale-[1.01] transition-transform duration-500">
             <img 
               src="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=700&auto=format&fit=crop" 
               alt="Artisan at work bench" 

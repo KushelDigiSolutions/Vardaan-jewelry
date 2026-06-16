@@ -22,19 +22,60 @@ const categories = [
   },
 ];
 
-// Duplicate items to ensure smooth carousel experience even on large screens
-const carouselItems = [...categories, ...categories, ...categories, ...categories];
-
 export default function ShopByCategories() {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(categories.length);
+  const [isTransitioning, setIsTransitioning] = useState(true);
+  const [slideWidth, setSlideWidth] = useState(380);
+  const totalItems = categories.length;
 
-  const nextSlide = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % (carouselItems.length - 3)); 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setSlideWidth(window.innerWidth - 32); // mobile full width
+      } else if (window.innerWidth < 1024) {
+        setSlideWidth((window.innerWidth - 32 - 16) / 2); // tablet 2 cols
+      } else {
+        setSlideWidth(380); // desktop fixed
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  const nextSlide = useCallback(() => {
+    if (!isTransitioning) return;
+    setCurrentIndex((prev) => prev + 1);
+  }, [isTransitioning]);
+
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev === 0 ? carouselItems.length - 4 : prev - 1));
+    if (!isTransitioning) return;
+    setCurrentIndex((prev) => prev - 1);
   };
+
+  useEffect(() => {
+    if (currentIndex >= totalItems * 2) {
+      const timer = setTimeout(() => {
+        setIsTransitioning(false);
+        setCurrentIndex(currentIndex - totalItems);
+      }, 700);
+      return () => clearTimeout(timer);
+    }
+    if (currentIndex <= 0) {
+      const timer = setTimeout(() => {
+        setIsTransitioning(false);
+        setCurrentIndex(currentIndex + totalItems);
+      }, 700);
+      return () => clearTimeout(timer);
+    }
+  }, [currentIndex, totalItems]);
+
+  useEffect(() => {
+    if (!isTransitioning) {
+      const timer = setTimeout(() => setIsTransitioning(true), 50);
+      return () => clearTimeout(timer);
+    }
+  }, [isTransitioning]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -44,11 +85,11 @@ export default function ShopByCategories() {
   }, [nextSlide]);
 
   return (
-    <section className="py-16 md:py-24 bg-[#FFF6E8] overflow-hidden">
+    <section className="py-10 md:py-16 bg-[#FFF6E8] overflow-hidden">
       <div className="w-full max-w-[1172px] mx-auto px-4 lg:px-0">
         {/* Header Section */}
         <div className="flex justify-between items-center mb-10">
-          <h2 className="text-[32px] font-bold font-serif text-[#07512E] ">
+          <h2 className="text-[32px] font-medium font-serif text-[#07512E] ">
             Shop by Categories
           </h2>
           <div className="flex gap-3">
@@ -76,17 +117,14 @@ export default function ShopByCategories() {
         {/* Carousel Window */}
         <div className="w-full relative overflow-hidden">
           <div 
-            className="flex gap-4 transition-transform duration-700 ease-in-out"
-            style={{ 
-              // Using a simple slide logic: each slide moves by 1 item's width + gap.
-              // On desktop: 380px + 16px = 396px
-              transform: `translateX(calc(-${currentIndex} * (380px + 16px)))` 
-            }}
+            className={`flex gap-4 ${isTransitioning ? 'transition-transform duration-700 ease-in-out' : ''}`}
+            style={{ transform: `translateX(calc(-${currentIndex} * (${slideWidth}px + 16px)))` }}
           >
-            {carouselItems.map((cat, idx) => (
+            {[...categories, ...categories, ...categories].map((cat, idx) => (
               <div 
                 key={idx} 
-                className="flex-shrink-0 w-full md:w-[calc(50%-12px)] lg:w-[380px] flex justify-center"
+                className="flex-shrink-0 flex justify-center"
+                style={{ width: `${slideWidth}px` }}
               >
                 <Link
                   href={cat.link}

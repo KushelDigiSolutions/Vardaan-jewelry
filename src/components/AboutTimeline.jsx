@@ -32,10 +32,10 @@ export default function AboutTimeline() {
         
         {/* Title */}
         <div className="flex flex-col items-center text-center gap-4 mb-24">
-          <span className="text-[10px] tracking-[0.3em] font-semibold text-amber-600 uppercase">
+          <span className="text-[14px] md:text-[16px] tracking-widest font-semibold text-amber-600 uppercase">
             ATELIER CHRONOLOGY
           </span>
-          <h2 className="text-3xl md:text-5.5xl font-serif text-[#07512E] font-light uppercase tracking-wide">
+          <h2 className="text-[32px] md:text-[48px] font-serif text-[#07512E] font-light uppercase tracking-wide">
             Our Journey <span className="font-normal text-amber-600">Through Time</span>
           </h2>
           <div className="w-12 h-[2px] bg-[#FFDE59] mt-2" />
@@ -57,7 +57,7 @@ export default function AboutTimeline() {
 
                 {/* Concentric Timeline Bubble */}
                 <div className="absolute left-0 top-1.5 md:left-1/2 md:-translate-x-1/2 md:top-1/2 md:-translate-y-1/2 z-10 flex items-center justify-center">
-                  <div className="w-8 h-8 rounded-full bg-[#07512E] border-2 border-[#FFDE59] shadow-lg flex items-center justify-center text-[#FFDE59] font-serif text-[10px] font-bold">
+                  <div className="w-8 h-8 rounded-full bg-[#07512E] border-2 border-[#FFDE59] shadow-lg flex items-center justify-center text-[#FFDE59] font-serif text-[12px] md:text-[14px] font-bold">
                     0{idx + 1}
                   </div>
                 </div>
@@ -72,11 +72,11 @@ export default function AboutTimeline() {
                     {ms.year}
                   </span>
                   
-                  <h3 className="font-serif text-[15px] text-[#07512E] uppercase font-normal mb-2 tracking-wide">
+                  <h3 className="font-serif text-[20px] md:text-[24px] text-[#07512E] uppercase font-normal mb-2 tracking-wide">
                     {ms.title}
                   </h3>
                   
-                  <p className="text-xs text-gray-500 font-light leading-relaxed">
+                  <p className="text-[14px] md:text-[16px] text-gray-500 font-light leading-relaxed">
                     {ms.desc}
                   </p>
                 </div>
