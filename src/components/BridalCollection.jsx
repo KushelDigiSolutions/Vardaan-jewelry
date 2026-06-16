@@ -4,19 +4,19 @@ import Image from "next/image";
 
 export default function BridalCollection() {
   return (
-    <section className="relative w-full h-[500px] md:h-[600px] lg:h-[700px] overflow-hidden flex items-center">
+    <section className="relative w-full h-[496px] overflow-hidden flex items-center">
       {/* Background Image Placeholder */}
       <img
-        src="/images/bridal-collection-bg.jpg"
+        src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781586844/Bridal_Collection_image_sbbumb.jpg"
         alt="Bridal Collection"
-        className="absolute inset-0 w-full h-full object-cover object-center"
+        className="absolute inset-0 w-full h-full object-cover object-right"
       />
 
       {/* Gradient Overlay for Text Readability */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#07512E]/90 via-[#07512E]/60 to-transparent md:w-3/4 lg:w-2/3 xl:w-1/2" />
 
       {/* Content */}
-      <div className="relative z-10 px-6 md:px-12 lg:px-24 max-w-7xl mx-auto w-full">
+      <div className="relative z-10 w-full max-w-[1192px] mx-auto px-4 lg:px-0">
         <div className="max-w-lg">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-white mb-6">
             Bridal Collection
@@ -26,7 +26,7 @@ export default function BridalCollection() {
           </p>
           <Link
             href="/collections/bridal"
-            className="inline-block bg-[#FDE066] text-[#1a1a1a] font-semibold px-8 py-3 hover:bg-[#e6c95c] transition-colors"
+            className="inline-flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-semibold text-[20px] w-[184px] h-[48px] hover:bg-[#e6c543] transition-colors"
           >
             Explore Now
           </Link>

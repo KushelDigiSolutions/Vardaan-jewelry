@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -36,12 +36,19 @@ export default function LatestCollection() {
     setCurrentIndex((prev) => (prev === 0 ? products.length - 1 : prev - 1));
   };
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      nextSlide();
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [nextSlide]);
+
   return (
     <section className="py-16 md:py-24 bg-[#F5F5F7] overflow-hidden">
       <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col lg:flex-row gap-8 lg:gap-[24px]">
         
         {/* Left Side: Large Promotional Banner */}
-        <div className="w-full lg:w-[584px] relative h-[400px] lg:h-[626px] flex-shrink-0 overflow-hidden group">
+        <div className="w-full lg:w-[584px] relative h-[400px] lg:h-[600px] flex-shrink-0 overflow-hidden group">
           {/* Placeholder for the user's banner image */}
           <img 
             src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781529489/Latest_Collection_mjuzxl.png" 
@@ -101,24 +108,25 @@ export default function LatestCollection() {
           </div>
 
           {/* Carousel Viewport */}
-          <div className="w-full flex-grow relative overflow-visible">
+          <div className="w-full flex-grow relative overflow-hidden">
+            <style dangerouslySetInnerHTML={{__html: `
+              .latest-track { --slide-offset: calc(100% + 24px); }
+              @media (min-width: 640px) {
+                .latest-track { --slide-offset: calc(50% + 12px); }
+              }
+              @media (min-width: 1024px) {
+                .latest-track { --slide-offset: calc(404px + 24px); }
+              }
+            `}} />
             <div 
-              className="flex gap-6 transition-transform duration-500 ease-in-out h-full w-max lg:w-auto"
+              className="flex gap-6 transition-transform duration-500 ease-in-out h-full latest-track w-full"
               style={{ 
-                // On mobile it scrolls by 100%, on desktop by card width + gap (404 + 24)
-                transform: `translateX(calc(-${currentIndex} * var(--slide-offset, 100%)))` 
+                transform: `translateX(calc(-${currentIndex} * var(--slide-offset)))` 
               }}
             >
-              <style dangerouslySetInnerHTML={{__html: `
-                .latest-track { --slide-offset: 100%; }
-                @media (min-width: 1024px) {
-                  .latest-track { --slide-offset: calc(404px + 24px); }
-                }
-              `}} />
-              <div className="flex gap-6 transition-transform duration-500 ease-in-out h-full latest-track w-full">
-                {[...products, ...products].map((product, idx) => (
-                  <div key={idx} className="flex-shrink-0 w-full sm:w-[calc(50%-12px)] lg:w-[404px] lg:h-[522px] flex flex-col bg-white p-4 shadow-sm border border-gray-100">
-                    {/* Product Image */}
+              {[...products, ...products].map((product, idx) => (
+                <div key={idx} className="flex-shrink-0 w-full sm:w-[calc(50%-12px)] lg:w-[340px] h-[490px] flex flex-col bg-white p-4 shadow-sm border border-gray-100">
+                  {/* Product Image */}
                     <div className="relative aspect-square w-full mb-4 bg-gray-100 overflow-hidden group">
                       <img 
                         src={product.image} 
@@ -151,7 +159,6 @@ export default function LatestCollection() {
                     </div>
                   </div>
                 ))}
-              </div>
             </div>
           </div>
 

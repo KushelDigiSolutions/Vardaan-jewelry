@@ -11,8 +11,6 @@ import InstagramFeed from "@/components/InstagramFeed";
 import CustomerFeedback from "@/components/CustomerFeedback";
 import FAQ from "@/components/FAQ";
 import BrandPromise from "@/components/BrandPromise";
-import FeaturedCollections from "@/components/FeaturedCollections";
-import Bestsellers from "@/components/Bestsellers";
 import AboutUs from "@/components/AboutUs";
 import Footer from "@/components/Footer";
 
@@ -33,8 +31,8 @@ export default function Home() {
         <CustomerFeedback />
         <FAQ />
         <BrandPromise />
-        <FeaturedCollections />
-        <Bestsellers />
+    
+  
         <AboutUs />
       </main>
       <Footer />
