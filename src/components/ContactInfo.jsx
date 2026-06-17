@@ -29,8 +29,8 @@ export default function ContactInfo() {
   ];
 
   return (
-    <section className="py-28 px-6 md:px-16 lg:px-24 bg-[#FCFCF9]">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+    <section className="py-16 lg:py-28 bg-[#FCFCF9]">
+      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
         
         {/* Column 1: Staggered Image Showcase (Left - 4 columns) */}
         <div className="lg:col-span-4 relative flex items-center justify-center py-6">
@@ -87,7 +87,7 @@ export default function ContactInfo() {
             Delhi Showroom
           </span>
           
-          <h3 className="text-2xl md:text-3.5xl font-serif text-[#07512E] font-light leading-tight uppercase tracking-wide">
+          <h3 className="text-[32px] md:text-[48px] font-serif text-[#07512E] font-normal leading-[1.1] uppercase tracking-wide">
             Flagship Suite <br />
             <span className="font-normal text-amber-600">Hours</span>
           </h3>

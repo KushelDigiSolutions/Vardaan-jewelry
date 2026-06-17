@@ -48,7 +48,7 @@ export default function HeroSlider() {
   };
 
   return (
-    <section className="relative w-full h-[50vh] sm:h-[65vh] lg:h-[80vh] min-h-[400px] overflow-hidden bg-[#04361E]">
+    <section className="relative w-full h-[50vh] sm:h-[65vh] lg:h-[582px] min-h-[400px] overflow-hidden bg-[#04361E]">
       {/* Slides Container */}
       <div className="relative w-full h-full">
         {slides.map((slide, idx) => (
@@ -74,8 +74,7 @@ export default function HeroSlider() {
               <div className="pointer-events-auto flex flex-col items-start justify-between select-none
                 absolute 
                 bottom-12 left-6
-                md:top-1/2 md:-translate-y-1/2 md:bottom-auto md:left-auto md:right-20
-                [@media(min-width:1400px)]:top-[423px] [@media(min-width:1400px)]:-translate-y-0 [@media(min-width:1400px)]:left-[1056px] [@media(min-width:1400px)]:right-auto
+                lg:bottom-auto lg:right-auto lg:top-1/2 lg:-translate-y-1/2 lg:left-[1056px]
                 w-[260px] sm:h-[272px] gap-4 sm:gap-0">
                 
                 {/* Subtitle */}
