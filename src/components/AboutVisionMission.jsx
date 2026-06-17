@@ -9,7 +9,7 @@ export default function AboutVisionMission() {
         
         {/* Descriptive Section Heading */}
         <div className="lg:col-span-4 flex flex-col items-start gap-4">
-          <span className="text-[14px] md:text-[16px] tracking-widest font-semibold text-amber-600 uppercase">
+          <span className="text-[18px] tracking-widest font-semibold text-amber-600 uppercase">
             Maison Principles
           </span>
           <h2 className="text-[32px] md:text-[48px] font-serif text-[#07512E] font-light leading-tight uppercase tracking-wide">
@@ -17,7 +17,7 @@ export default function AboutVisionMission() {
             <span className="font-normal text-amber-600">Direction</span>
           </h2>
           <div className="w-12 h-[2px] bg-[#FFDE59] mt-1" />
-          <p className="text-[14px] md:text-[16px] text-gray-500 font-light leading-relaxed max-w-xs mt-2">
+          <p className="text-[18px] text-gray-500 font-light leading-relaxed max-w-xs mt-2">
             Explore the dual forces driving our designs: a clear future vision combined with an unwavering daily mission.
           </p>
         </div>
@@ -33,7 +33,7 @@ export default function AboutVisionMission() {
             <h3 className="text-[24px] md:text-[32px] font-serif uppercase tracking-wide text-[#FFDE59]">
               Our Vision
             </h3>
-            <p className="text-[14px] md:text-[16px] text-gray-200 font-light leading-relaxed">
+            <p className="text-[18px] text-gray-200 font-light leading-relaxed">
               To be a globally recognized boutique jeweler, where each creation is celebrated for its organic floral geometry and holds a legacy of blessings for the generations that inherit it.
             </p>
             {/* Elegant V watermark */}
@@ -50,7 +50,7 @@ export default function AboutVisionMission() {
             <h3 className="text-[24px] md:text-[32px] font-serif uppercase tracking-wide text-[#07512E] group-hover:text-amber-600 transition-colors">
               Our Mission
             </h3>
-            <p className="text-[14px] md:text-[16px] text-gray-600 font-light leading-relaxed">
+            <p className="text-[18px] text-gray-600 font-light leading-relaxed">
               To keep the ancestral craft of fine handcrafting alive, enforce strict transparency with GIA gemstone grading, and provide direct atelier customization services for our patrons.
             </p>
             {/* Elegant M watermark */}

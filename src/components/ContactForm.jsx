@@ -46,7 +46,7 @@ export default function ContactForm() {
         
         {/* Left Column: Asymmetric Guide sidebar */}
         <div className="lg:col-span-4 flex flex-col gap-6 lg:sticky lg:top-8">
-          <span className="text-[10px] tracking-[0.3em] font-semibold text-amber-600 uppercase">
+          <span className="text-[12px] md:text-[14px] tracking-[0.3em] font-semibold text-amber-600 uppercase">
             Private Commissions
           </span>
           
@@ -57,22 +57,22 @@ export default function ContactForm() {
           
           <div className="w-12 h-[2px] bg-[#FFDE59] mt-1" />
 
-          <p className="text-xs text-gray-500 font-light leading-relaxed">
+          <p className="text-[18px] text-gray-500 font-light leading-relaxed">
             For custom creations and private viewing slots, please outline your design ideas, target materials (gold karat, diamond specifications), and date preferences.
           </p>
 
-          <div className="flex flex-col gap-4 mt-4 bg-white p-6 rounded-lg border border-gray-100 shadow-sm relative overflow-hidden">
-            <span className="text-[10px] tracking-[0.2em] font-semibold text-[#07512E] uppercase">
+          <div className="flex flex-col gap-4 mt-4 bg-white p-8 rounded-lg border border-gray-100 shadow-sm relative overflow-hidden">
+            <span className="text-[12px] md:text-[14px] tracking-widest font-semibold text-[#07512E] uppercase">
               Our Security Covenant
             </span>
-            <ul className="flex flex-col gap-3 text-[11px] text-gray-500 font-light">
+            <ul className="flex flex-col gap-3 text-[14px] md:text-[16px] text-gray-500 font-light">
               <li className="flex items-center gap-2">
                 <FiCheck className="text-amber-600 shrink-0" />
                 <span>NDA custom blueprints on request.</span>
               </li>
               <li className="flex items-center gap-2">
                 <FiCheck className="text-amber-600 shrink-0" />
-                <span>Certified metal and gemstone assays.</span>
+                <span className="whitespace-nowrap text-ellipsis overflow-hidden">Certified metal and gemstone assays.</span>
               </li>
               <li className="flex items-center gap-2">
                 <FiCheck className="text-amber-600 shrink-0" />
@@ -98,17 +98,17 @@ export default function ContactForm() {
               </div>
               
               <div className="flex flex-col gap-2">
-                <h3 className="font-serif text-2xl text-[#FFDE59] uppercase tracking-wide">
+                <h3 className="font-serif text-[28px] md:text-[32px] text-[#FFDE59] uppercase tracking-wide">
                   Concierge Notified
                 </h3>
-                <p className="text-xs text-gray-300 font-light max-w-sm leading-relaxed">
+                <p className="text-[18px] text-gray-300 font-light max-w-md leading-relaxed mt-2">
                   Thank you for your request. A private consultant has been assigned and will reply to your submission within 12 hours.
                 </p>
               </div>
 
               <button
                 onClick={() => setIsSubmitted(false)}
-                className="bg-[#FFDE59] hover:bg-[#e6c543] text-[#07512E] font-semibold text-[10px] tracking-widest px-8 py-3.5 uppercase rounded shadow transition-colors cursor-pointer mt-2"
+                className="bg-[#FFDE59] hover:bg-[#e6c543] text-[#07512E] font-semibold text-[12px] md:text-[14px] tracking-widest px-8 py-4 uppercase rounded shadow transition-colors cursor-pointer mt-4"
               >
                 Submit Another Inquiry
               </button>
@@ -118,13 +118,13 @@ export default function ContactForm() {
               
               {/* Form Title */}
               <div className="flex flex-col gap-2.5">
-                <span className="text-[10px] tracking-[0.25em] font-semibold text-[#FFDE59] uppercase">
+                <span className="text-[12px] md:text-[14px] tracking-widest font-semibold text-[#FFDE59] uppercase">
                   Write to us
                 </span>
                 <h2 className="text-[28px] md:text-[40px] font-serif text-[#FFDE59] font-normal uppercase tracking-wide leading-[1.1]">
                   Private Inquiry Form
                 </h2>
-                <div className="w-10 h-[1.5px] bg-[#FFDE59] mt-1" />
+                <div className="w-10 h-[2px] bg-[#FFDE59] mt-1" />
               </div>
 
               {/* Flat-Line Inputs Grid */}
@@ -236,7 +236,7 @@ export default function ContactForm() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-[#FFDE59] hover:bg-[#e6c543] text-[#07512E] font-semibold text-[10px] tracking-widest px-10 py-4 uppercase rounded shadow-lg transition-colors cursor-pointer flex items-center justify-center gap-2"
+                  className="bg-[#FFDE59] hover:bg-[#e6c543] text-[#07512E] font-semibold text-[12px] md:text-[14px] tracking-widest px-10 py-4 uppercase rounded shadow-lg transition-colors cursor-pointer flex items-center justify-center gap-2"
                 >
                   {isSubmitting ? (
                     <>

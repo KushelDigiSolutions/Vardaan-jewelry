@@ -32,7 +32,7 @@ export default function AboutTimeline() {
         
         {/* Title */}
         <div className="flex flex-col items-center text-center gap-4 mb-24">
-          <span className="text-[14px] md:text-[16px] tracking-widest font-semibold text-amber-600 uppercase">
+          <span className="text-[18px] tracking-widest font-semibold text-amber-600 uppercase">
             ATELIER CHRONOLOGY
           </span>
           <h2 className="text-[32px] md:text-[48px] font-serif text-[#07512E] font-light uppercase tracking-wide">
@@ -76,7 +76,7 @@ export default function AboutTimeline() {
                     {ms.title}
                   </h3>
                   
-                  <p className="text-[14px] md:text-[16px] text-gray-500 font-light leading-relaxed">
+                  <p className="text-[18px] text-gray-500 font-light leading-relaxed">
                     {ms.desc}
                   </p>
                 </div>

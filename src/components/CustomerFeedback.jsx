@@ -68,17 +68,17 @@ export default function CustomerFeedback() {
                 <QuoteIcon />
               </div>
 
-              <p className="w-full text-[14px] md:text-[15px] leading-relaxed text-[#1a1a1a] font-sans flex-grow">
+              <p className="w-full text-[18px] leading-relaxed text-[#1a1a1a] font-sans flex-grow">
                 {item.quote}
               </p>
 
               <div className="my-6 h-px w-full bg-gradient-to-r from-gray-200 via-gray-100 to-transparent" />
 
               <div className="flex flex-col">
-                <h3 className="text-[16px] font-medium leading-none text-[#1a1a1a] mb-1.5">
+                <h3 className="text-[18px] font-medium leading-none text-[#1a1a1a] mb-1.5">
                   {item.name}
                 </h3>
-                <p className="text-[#a0a0a0] text-[14px]">
+                <p className="text-[#a0a0a0] text-[16px]">
                   {item.location}
                 </p>
               </div>
