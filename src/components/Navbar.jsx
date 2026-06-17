@@ -107,7 +107,7 @@ export default function Navbar() {
         <Link 
           key={idx} 
           href={link.href}
-          className={`text-[14px] lg:text-[15px] font-serif transition-colors relative py-1.5 duration-200 group whitespace-nowrap ${
+          className={`text-[14px] lg:text-[20px] font-serif transition-colors relative py-1.5 duration-200 group whitespace-nowrap ${
             isActive ? "text-[#FFDE59]" : "text-white hover:text-[#FFDE59]"
           }`}
         >
@@ -124,7 +124,7 @@ export default function Navbar() {
   return (
     <>
       {/* --- STATIC NAVBAR (Normal Top Screen State) --- */}
-      <header className="w-full z-40 relative">
+      <header className="w-full z-[60] relative">
         {renderTopBar()}
 
         {/* Main Luxury Green Navbar */}
@@ -175,7 +175,7 @@ export default function Navbar() {
 
       {/* --- STICKY NAVBAR (Scrolled State) --- */}
       <header 
-        className={`fixed top-0 left-0 w-full z-50 shadow-2xl transition-all duration-[600ms] ease-in-out transform ${
+        className={`fixed top-0 left-0 w-full z-[60] shadow-2xl transition-all duration-[600ms] ease-in-out transform ${
           isScrolled ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
         }`}
       >

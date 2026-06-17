@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useCallback, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 
 const products = [
   {
@@ -181,9 +181,9 @@ export default function LatestCollection() {
                         {product.price}
                       </p>
                       <div className="mt-auto flex gap-4">
-                        <button className="flex-1 h-[48px] flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] hover:bg-[#e6c543] transition-colors duration-300">
+                        <Link href={`/product/${product.id}`} className="flex-1 h-[48px] flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] hover:bg-[#e6c543] transition-colors duration-300">
                           Shop Now
-                        </button>
+                        </Link>
                         <button className="flex-1 h-[48px] flex items-center justify-center bg-white border border-[#07512E] text-[#07512E] font-sans font-medium text-[20px] hover:bg-[#07512E] hover:text-white transition-colors duration-300">
                           Add to Cart
                         </button>
