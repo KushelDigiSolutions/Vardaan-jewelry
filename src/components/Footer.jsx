@@ -80,7 +80,7 @@ export default function Footer() {
             </div>
           </div>
           
-          <p className="text-[14px] text-gray-300 font-light leading-relaxed">
+          <p className="text-[18px] text-gray-300 font-light leading-relaxed">
             Discover timeless elegance with beautifully crafted jewellery designed to celebrate every moment. Our collections blend exquisite artistry, premium quality, and modern sophistication to create pieces you'll cherish forever.
           </p>
 
@@ -141,10 +141,10 @@ export default function Footer() {
             />
           </div>
           
-          <h4 className="font-sans text-white text-[15px] font-semibold tracking-wide uppercase relative z-10">
+          <h4 className="font-sans text-white text-[22px] font-medium tracking-wide uppercase relative z-10">
             About Us
           </h4>
-          <ul className="flex flex-col gap-3 text-[16px] text-gray-300 font-normal relative z-10">
+          <ul className="flex flex-col gap-3 text-[18px] text-gray-300 font-normal relative z-10">
             <li><Link href="/about" className="hover:text-[#FFDE59] transition-colors">Our Story</Link></li>
             <li><Link href="#blogs" className="hover:text-[#FFDE59] transition-colors">Blogs</Link></li>
             <li><Link href="#careers" className="hover:text-[#FFDE59] transition-colors">Careers</Link></li>
@@ -158,10 +158,10 @@ export default function Footer() {
 
         {/* Col 4: Information */}
         <div className="lg:col-span-2 flex flex-col gap-4 justify-start lg:pt-6">
-          <h4 className="font-sans text-white text-[15px] font-semibold tracking-wide uppercase">
+          <h4 className="font-sans text-white text-[22px] font-medium tracking-wide ">
             Information
           </h4>
-          <ul className="flex flex-col gap-3 text-[16px] text-gray-300 font-normal">
+          <ul className="flex flex-col gap-3 text-[18px] text-gray-300 font-normal">
             <li><Link href="#privacy" className="hover:text-[#FFDE59] transition-colors">Privacy Policy</Link></li>
             <li><Link href="#terms" className="hover:text-[#FFDE59] transition-colors">Terms & Conditions</Link></li>
             <li><Link href="#cancellation" className="hover:text-[#FFDE59] transition-colors">Cancellation Policy</Link></li>

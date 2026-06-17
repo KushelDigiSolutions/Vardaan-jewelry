@@ -180,7 +180,7 @@ export default function ShopProducts() {
       <div className="w-full max-w-[1192px] mx-auto px-4 xl:px-0">
         
        
-        <div className="bg-[#0A5230] text-white py-3 px-4 md:px-6 flex items-center justify-between shadow-md mb-8 relative z-20">
+         <div className="bg-[#0A5230]  text-white py-3 px-4 md:px-6 flex sm:flex-row flex-col items-start  sm:items-center justify-between shadow-md mb-8 relative z-20">
           
          
           <button 
@@ -296,13 +296,13 @@ export default function ShopProducts() {
                   <div className="mt-auto flex flex-col gap-2">
                     <button
                       onClick={() => handleAddToCart(product.id)}
-                      className="w-full bg-[#FFDE59] text-black hover:bg-[#e6c543] font-serif font-medium uppercase py-3 tracking-widest text-[13px] transition-colors cursor-pointer text-center"
+                      className="w-full bg-[#FFDE59] text-black hover:bg-[#e6c543] font-serif font-[600] uppercase py-3 tracking-widest text-[13px] transition-colors cursor-pointer text-center"
                     >
                       Shop Now
                     </button>
                     <button
                       onClick={() => handleAddToCart(product.id)}
-                      className={`w-full border border-[#07512E] text-[#07512E] hover:bg-[#07512E] hover:text-white font-serif font-medium uppercase py-3 tracking-widest text-[13px] transition-all cursor-pointer text-center ${
+                      className={`w-full border-2 border-[#07512E] text-[#07512E] hover:bg-[#07512E] hover:text-white font-serif font-[600] uppercase py-3 tracking-widest text-[13px] transition-all cursor-pointer text-center ${
                         cartState[product.id] ? "bg-[#07512E] text-white" : "bg-transparent"
                       }`}
                     >
@@ -353,7 +353,7 @@ export default function ShopProducts() {
           </button>
 
           {/* Page Numbers */}
-          <div className="flex items-center gap-4 sm:gap-6 text-[15px] sm:text-[18px]">
+          <div className="flex items-center gap-2 sm:gap-6 text-[15px] sm:text-[18px]">
             <button
               onClick={() => setCurrentPage(1)}
               className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all cursor-pointer ${

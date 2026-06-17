@@ -32,7 +32,7 @@ export default function Navbar() {
   ];
 
   const renderTopBar = () => (
-    <div className="bg-[#FFDE59] text-[#07512E] py-2.5 px-4 md:px-8 lg:px-12 grid grid-cols-1 md:grid-cols-3 items-center gap-4 text-xs md:text-[13px] font-medium">
+    <div className="bg-[#FFDE59] text-[#07512E] py-2.5 px-4 md:px-8 lg:px-12 grid grid-cols-2 md:grid-cols-2 items-center gap-4 text-xs md:text-[13px] font-medium">
       {/* Phone Call Section (Left Aligned) */}
       <div className="flex items-center justify-center md:justify-start">
         <a 
@@ -45,7 +45,7 @@ export default function Navbar() {
       </div>
 
       {/* Search Bar (Centered) */}
-      <div className="flex justify-center w-full">
+      {/* <div className="flex justify-center w-full">
         <form 
           onSubmit={(e) => { e.preventDefault(); console.log("Searching for:", searchQuery); }}
           className="flex items-center w-full max-w-[420px] bg-[#FEFDF9] overflow-hidden shadow-sm"
@@ -64,7 +64,7 @@ export default function Navbar() {
             <FiSearch className="w-5 h-5" />
           </button>
         </form>
-      </div>
+      </div> */}
 
       {/* User Profile, Wishlist, Cart Links (Right Aligned) */}
       <div className="flex items-center justify-center md:justify-end gap-6 font-sans">
@@ -161,7 +161,7 @@ export default function Navbar() {
           </nav>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden absolute right-4 bottom-5 z-20">
+          <div className="md:hidden absolute right-4 z-20">
             <button 
               onClick={() => setIsMobileMenuOpen(true)}
               className="text-[#FFDE59] hover:text-white p-2 rounded-full hover:bg-white/5 transition-colors focus:outline-none"
