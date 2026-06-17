@@ -6,7 +6,7 @@ import AboutHeritage from "@/components/AboutHeritage";
 import AboutVisionMission from "@/components/AboutVisionMission";
 import AboutCraftsmanship from "@/components/AboutCraftsmanship";
 import AboutValues from "@/components/AboutValues";
-import Footer from "@/components/Footer";
+import Footer from "@/components/Footer"; 
 
 export const metadata = {
   title: "About Us | Vardaan - Fine Handcrafted Jewelry",
