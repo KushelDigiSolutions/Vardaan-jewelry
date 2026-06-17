@@ -13,8 +13,10 @@ export default function RootLayout({ children }) {
       lang="en"
       className="h-full antialiased"
     >
-      <body className="min-h-full flex flex-col font-sans bg-[#FCFCF9] text-gray-900 overflow-x-hidden">
-        {children}
+      <body className="min-h-full flex flex-col font-sans bg-[#111111] text-gray-900 overflow-x-hidden">
+        <div className="w-full max-w-[1720px] mx-auto min-h-screen flex flex-col bg-[#FCFCF9] relative shadow-2xl overflow-x-hidden">
+          {children}
+        </div>
       </body>
     </html>
   );

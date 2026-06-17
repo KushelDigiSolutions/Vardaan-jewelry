@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiPhone, FiSearch, FiHeart, FiShoppingBag, FiMenu, FiX, FiUser } from "react-icons/fi";
+import { FiPhone, FiSearch, FiHeart, FiShoppingCart, FiMenu, FiX } from "react-icons/fi";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -20,42 +20,45 @@ export default function Navbar() {
   return (
     <header className="w-full z-50">
       {/* Yellow Top Bar */}
-      <div className="bg-[#FFDE59] text-[#07512E] py-2.5 px-4 md:px-8 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-3 text-xs md:text-sm font-semibold border-b border-[#ffd738]">
-        {/* Phone Call Section */}
-        <a 
-          href="tel:+919818719997" 
-          className="flex items-center gap-2 hover:opacity-80 transition-opacity font-medium"
-        >
-          <FiPhone className="w-4 h-4 stroke-[2.5]" />
-          <span>+91 98187 19997</span>
-        </a>
-
-        {/* Search Bar */}
-        <form 
-          onSubmit={(e) => { e.preventDefault(); console.log("Searching for:", searchQuery); }}
-          className="flex items-center w-full max-w-sm md:max-w-md bg-white rounded shadow-sm border border-gray-200 overflow-hidden"
-        >
-          <input
-            type="text"
-            placeholder="Search for keywords, Products"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="flex-grow px-3.5 py-1.5 text-xs text-gray-800 focus:outline-none placeholder-gray-400"
-          />
-          <button 
-            type="submit" 
-            className="bg-[#07512E] hover:bg-[#04361E] text-white p-2.5 transition-colors duration-200 flex items-center justify-center cursor-pointer"
+      <div className="bg-[#FFDE59] text-[#07512E] py-2.5 px-4 md:px-8 lg:px-12 grid grid-cols-1 md:grid-cols-3 items-center gap-4 text-xs md:text-[13px] font-medium">
+        {/* Phone Call Section (Left Aligned) */}
+        <div className="flex items-center justify-center md:justify-start">
+          <a 
+            href="tel:+919818719997" 
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
           >
-            <FiSearch className="w-4 h-4" />
-          </button>
-        </form>
+            <FiPhone className="w-[18px] h-[18px] stroke-[2] fill-[#07512E]" />
+            <span className="font-semibold text-sm">91 98187 19997</span>
+          </a>
+        </div>
 
-        {/* User Profile, Wishlist, Cart Links */}
-        <div className="flex items-center gap-5 md:gap-6">
+        {/* Search Bar (Centered) */}
+        <div className="flex justify-center w-full">
+          <form 
+            onSubmit={(e) => { e.preventDefault(); console.log("Searching for:", searchQuery); }}
+            className="flex items-center w-full max-w-[420px] bg-[#FEFDF9] overflow-hidden shadow-sm"
+          >
+            <input
+              type="text"
+              placeholder="Search for keywords, Products"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="flex-grow px-4 py-2 text-sm text-gray-800 focus:outline-none placeholder-gray-500 font-sans bg-transparent"
+            />
+            <button 
+              type="submit" 
+              className="bg-[#07512E] hover:bg-[#04361E] text-white px-4 py-2 transition-colors duration-200 flex items-center justify-center cursor-pointer"
+            >
+              <FiSearch className="w-5 h-5" />
+            </button>
+          </form>
+        </div>
+
+        {/* User Profile, Wishlist, Cart Links (Right Aligned) */}
+        <div className="flex items-center justify-center md:justify-end gap-6 font-sans">
           {/* User Profile Avatar */}
           <div className="flex items-center gap-1.5 cursor-pointer hover:opacity-85 transition-opacity">
-            <div className="w-7 h-7 rounded-full bg-gray-300 border border-[#07512E]/20 overflow-hidden relative">
-              {/* Profile placeholder image matching screenshot */}
+            <div className="w-7 h-7 rounded-full bg-gray-300 overflow-hidden relative shadow-sm">
               <img 
                 src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop" 
                 alt="Profile"
@@ -67,98 +70,54 @@ export default function Navbar() {
           {/* Wishlist */}
           <Link 
             href="#wishlist" 
-            className="flex items-center gap-1.5 hover:opacity-80 transition-opacity font-medium"
+            className="flex items-center gap-1.5 hover:opacity-80 transition-opacity"
           >
-            <FiHeart className="w-4 h-4 text-[#07512E] fill-[#07512E]/10 stroke-[2]" />
-            <span className="hidden sm:inline">Wishlist</span>
+            <FiHeart className="w-[18px] h-[18px] text-[#07512E] fill-[#07512E]" />
+            <span className="hidden sm:inline font-semibold">Wishlist</span>
           </Link>
 
           {/* Cart */}
           <Link 
             href="#cart" 
-            className="flex items-center gap-1.5 hover:opacity-80 transition-opacity font-medium"
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
           >
-            <FiShoppingBag className="w-4 h-4 text-[#07512E] stroke-[2]" />
-            <span className="hidden sm:inline">Cart</span>
+            <FiShoppingCart className="w-[18px] h-[18px] text-[#07512E] stroke-[2]" />
+            <span className="hidden sm:inline font-semibold">Cart</span>
           </Link>
         </div>
       </div>
 
       {/* Main Luxury Green Navbar */}
-      <div className="relative bg-[#07512E] text-white px-4 md:px-8 py-6 md:py-8 flex flex-col items-center overflow-hidden border-b border-[#053d22]">
+      <div className="relative bg-[#07512E] text-white px-4 md:px-8 py-5 md:py-6 flex flex-col items-center overflow-hidden">
         
         {/* Background Subtle Floral Pattern Overlay (from Cloudinary link provided by user) */}
         <div 
-          className="absolute left-0 top-0 h-full w-[350px] md:w-[450px] bg-no-repeat bg-left-top bg-contain pointer-events-none mix-blend-screen opacity-15"
-          style={{ backgroundImage: `url('https://res.cloudinary.com/dd9tagtiw/image/upload/v1781515128/a29bc3df60dd42fbfd5b10b5b93b4efd38995dd5_clck27.png')` }}
+          className="absolute left-[-20%] md:left-[-5%] top-1/2 -translate-y-1/2 w-[500px] md:w-[700px] h-[500px] md:h-[700px] bg-no-repeat bg-center bg-contain pointer-events-none mix-blend-screen opacity-80"
+          style={{ backgroundImage: `url('https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781612368/photo-1535632066927-ab7c9ab60908_1_cre4nd.png')` }}
         />
 
         {/* Brand Logo & Tagline Container */}
         <Link 
           href="/" 
-          className="flex flex-col items-center text-center relative z-10 max-w-xs md:max-w-md mb-6 animate-fade-in hover:opacity-90 transition-opacity"
+          className="flex flex-col items-center text-center relative z-10 max-w-xs md:max-w-md mb-5 hover:opacity-95 transition-opacity"
         >
-          {/* Logo SVG (Recreating the luxury V emblem from the screenshot) */}
-          <div className="flex justify-center mb-1">
-            <svg 
-              className="w-12 h-12 text-[#FFDE59] drop-shadow-md"
-              viewBox="0 0 100 100" 
-              fill="none" 
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {/* Detailed luxury V scrollwork monogram */}
-              <path 
-                d="M15 15C25 15 35 25 42 45L50 68L58 45C65 25 75 15 85 15" 
-                stroke="currentColor" 
-                strokeWidth="4" 
-                strokeLinecap="round"
-              />
-              <path 
-                d="M50 72L42 48L32 20H18" 
-                stroke="currentColor" 
-                strokeWidth="1.5" 
-                strokeLinecap="round"
-              />
-              <path 
-                d="M50 72L58 48L68 20H82" 
-                stroke="currentColor" 
-                strokeWidth="1.5" 
-                strokeLinecap="round"
-              />
-              {/* Decorative internal flourishes */}
-              <circle cx="50" cy="74" r="2.5" fill="currentColor" />
-              <path d="M42 22C42 22 46 16 50 22C54 16 58 22 58 22" stroke="currentColor" strokeWidth="1" />
-              <path d="M35 35C40 32 46 36 46 36" stroke="currentColor" strokeWidth="1" />
-              <path d="M65 35C60 32 54 36 54 36" stroke="currentColor" strokeWidth="1" />
-              <path d="M50 30V48" stroke="currentColor" strokeWidth="0.75" strokeDasharray="2 2" />
-            </svg>
-          </div>
-          
-          {/* Brand Name */}
-          <h1 className="text-2xl md:text-3.5xl font-serif tracking-[0.25em] text-[#FFDE59] uppercase font-light">
-            Vardaan
-          </h1>
-          
-          {/* Tagline */}
-          <div className="flex items-center gap-3 w-full mt-1.5">
-            <div className="h-[0.5px] flex-grow bg-gradient-to-r from-transparent to-[#FFDE59]/50" />
-            <p className="text-[9px] md:text-[10px] tracking-[0.3em] font-serif text-[#FFDE59] font-medium whitespace-nowrap uppercase">
-              More than a jewel, a blessing
-            </p>
-            <div className="h-[0.5px] flex-grow bg-gradient-to-l from-transparent to-[#FFDE59]/50" />
-          </div>
+          <img 
+            src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781607744/Untitled_design_6_2_uirv47.png" 
+            alt="Vardaan Logo" 
+            className="w-[180px] md:w-[220px] h-auto object-contain"
+          />
         </Link>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-8 lg:gap-12 relative z-10 border-t border-white/10 pt-4 w-full justify-center max-w-4xl">
+        <nav className="hidden md:flex items-center gap-8 lg:gap-14 relative z-10 pt-2 w-full justify-center max-w-4xl">
           {navLinks.map((link, idx) => {
             const isActive = pathname === link.href || (link.href === "/" && pathname === null);
             return (
               <Link 
                 key={idx} 
                 href={link.href}
-                className={`text-sm tracking-widest font-serif transition-colors relative py-1 duration-200 group uppercase ${
-                  isActive ? "text-[#FFDE59]" : "text-white/90 hover:text-[#FFDE59]"
+                className={`text-[15px] font-serif transition-colors relative py-1.5 duration-200 group ${
+                  isActive ? "text-[#FFDE59]" : "text-white hover:text-[#FFDE59]"
                 }`}
               >
                 {link.label}

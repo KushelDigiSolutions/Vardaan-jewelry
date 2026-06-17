@@ -189,21 +189,20 @@ export default function Footer() {
       </div>
 
       {/* 4. Yellow Footer Bottom Bar */}
-      <div className="bg-[#FFDE59] text-[#07512E] py-4 md:py-4 py-5 border-t border-[#ffd738]">
-        <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col md:flex-row items-center md:justify-between gap-4 md:gap-3 text-[13px] font-semibold">
-          <p className="text-center md:text-left leading-relaxed">
-             <span className="text-[16px] leading-none inline-block align-middle mr-1">©</span> 
-             Copyright 2026 Vardaan All Rights <br className="block md:hidden" /> Reserved.
+      <div className="bg-[#FFDE59] text-[#07512E] py-4 border-t border-[#ffd738]">
+        <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col md:flex-row items-center md:justify-between gap-3 text-[13px] font-semibold">
+          <p className="flex items-center gap-1 text-center md:text-left">
+             <span className="text-[16px] leading-none">©</span> Copyright 2026 Vardaan All Rights Reserved.
           </p>
-          <p className="text-center md:text-right leading-relaxed">
+          <p className="text-center md:text-right">
             Designed and developed by{" "}
             <a 
               href="https://kusheldigi.com" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="hover:opacity-70 transition-opacity underline underline-offset-2 inline-block md:inline"
+              className="hover:opacity-70 transition-opacity underline underline-offset-2"
             >
-              Kushel Digi <br className="block md:hidden" /> Solution
+              Kushel Digi Solution
             </a>
           </p>
         </div>
