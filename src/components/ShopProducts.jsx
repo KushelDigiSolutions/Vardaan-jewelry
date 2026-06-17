@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import Link from "next/link";
 import { FiSliders, FiHeart, FiX, FiCheck, FiShoppingBag } from "react-icons/fi";
+import { useCart } from "../context/CartContext";
 
 const PRODUCTS_DATA = [
   // Page 1 Products
@@ -125,6 +127,7 @@ export default function ShopProducts() {
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [favorites, setFavorites] = useState({});
   const [cartState, setCartState] = useState({});
+  const { addToCart } = useCart();
 
   const toggleFavorite = (id) => {
     setFavorites((prev) => ({
@@ -133,17 +136,17 @@ export default function ShopProducts() {
     }));
   };
 
-  const handleAddToCart = (id) => {
+  const handleAddToCart = (product) => {
     setCartState((prev) => ({
       ...prev,
-      [id]: true
+      [product.id]: true
     }));
+    addToCart(product);
+    
+    // reset visual feedback after 3s
     setTimeout(() => {
-      setCartState((prev) => ({
-        ...prev,
-        [id]: false
-      }));
-    }, 1500);
+      setCartState((prev) => ({ ...prev, [product.id]: false }));
+    }, 3000);
   };
 
   // Perform filtering & sorting
@@ -178,12 +181,12 @@ export default function ShopProducts() {
   return (
     <section className="py-8 bg-[#FFFDF9]">
       <div className="w-full max-w-[1192px] mx-auto px-4 xl:px-0">
-        
-       
-         <div className="bg-[#0A5230]  text-white py-3 px-4 md:px-6 flex sm:flex-row flex-col items-start  sm:items-center justify-between shadow-md mb-8 relative z-20">
-          
-         
-          <button 
+
+
+        <div className="bg-[#0A5230]  text-white py-3 px-4 md:px-6 flex sm:flex-row flex-col items-start  sm:items-center justify-between shadow-md mb-8 relative z-20">
+
+
+          <button
             onClick={() => setIsFilterDrawerOpen(true)}
             className="border border-white rounded px-4 py-2 hover:bg-white/10 transition-colors flex items-center gap-2 text-sm sm:text-[17px] font-sans tracking-wider  font-medium cursor-pointer"
           >
@@ -191,75 +194,74 @@ export default function ShopProducts() {
             <span>Filters</span>
           </button>
 
-         <div className="flex items-center gap-4">
-          <span className="text-sm md:text-[17px] tracking-wide text-white/90 font-serif font-light">
-            (1318 total results)
-          </span>
+          <div className="flex items-center gap-4">
+            <span className="text-sm md:text-[17px] tracking-wide text-white/90 font-serif font-light">
+              (1318 total results)
+            </span>
 
-          
-          {/* Custom Sort Dropdown */}
-          <div className="relative">
-            <button
-              onClick={() => setIsSortOpen(!isSortOpen)}
-              className="flex items-center gap-1.5 border border-white rounded px-3.5 py-2 text-sm sm:text-[17px] bg-[#07512E] hover:bg-white/10 transition-colors cursor-pointer font-sans font-medium text-white"
-            >
-              <span className="text-white/80 font-light hidden sm:inline">Sort by: </span>
-              <span>
-                {sortOrder === "price-range" && "Price range"}
-                {sortOrder === "price-low" && "Price: Low to High"}
-                {sortOrder === "price-high" && "Price: High to Low"}
-              </span>
-              <svg className={`fill-current h-3.5 w-3.5 transition-transform duration-300 ${isSortOpen ? "rotate-180" : ""}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-              </svg>
-            </button>
 
-            {isSortOpen && (
-              <>
-                {/* Click outside overlay */}
-                <div 
-                  className="fixed inset-0 z-30 cursor-default" 
-                  onClick={() => setIsSortOpen(false)} 
-                />
-                
-                {/* Dropdown Options List */}
-                <div className="absolute right-0 mt-2 w-56 bg-white border border-[#F0ECE3] shadow-2xl rounded-md z-40 overflow-hidden text-left py-1 text-gray-800 animate-slide-up">
-                  {[
-                    { id: "price-range", label: "Price range" },
-                    { id: "price-low", label: "Price: Low to High" },
-                    { id: "price-high", label: "Price: High to Low" }
-                  ].map((opt) => (
-                    <button
-                      key={opt.id}
-                      onClick={() => {
-                        setSortOrder(opt.id);
-                        setIsSortOpen(false);
-                      }}
-                      className={`w-full text-left px-4 py-3 text-sm transition-colors cursor-pointer flex items-center justify-between ${
-                        sortOrder === opt.id
-                          ? "bg-[#07512E]/10 text-[#07512E] font-semibold"
-                          : "hover:bg-gray-50 text-gray-700"
-                      }`}
-                    >
-                      <span>{opt.label}</span>
-                      {sortOrder === opt.id && (
-                        <FiCheck className="text-[#07512E] w-4 h-4 stroke-[2.5]" />
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </>
-            )}
+            {/* Custom Sort Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setIsSortOpen(!isSortOpen)}
+                className="flex items-center gap-1.5 border border-white rounded px-3.5 py-2 text-sm sm:text-[17px] bg-[#07512E] hover:bg-white/10 transition-colors cursor-pointer font-sans font-medium text-white"
+              >
+                <span className="text-white/80 font-light hidden sm:inline">Sort by: </span>
+                <span>
+                  {sortOrder === "price-range" && "Price range"}
+                  {sortOrder === "price-low" && "Price: Low to High"}
+                  {sortOrder === "price-high" && "Price: High to Low"}
+                </span>
+                <svg className={`fill-current h-3.5 w-3.5 transition-transform duration-300 ${isSortOpen ? "rotate-180" : ""}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
+              </button>
+
+              {isSortOpen && (
+                <>
+                  {/* Click outside overlay */}
+                  <div
+                    className="fixed inset-0 z-30 cursor-default"
+                    onClick={() => setIsSortOpen(false)}
+                  />
+
+                  {/* Dropdown Options List */}
+                  <div className="absolute right-0 mt-2 w-56 bg-white border border-[#F0ECE3] shadow-2xl rounded-md z-40 overflow-hidden text-left py-1 text-gray-800 animate-slide-up">
+                    {[
+                      { id: "price-range", label: "Price range" },
+                      { id: "price-low", label: "Price: Low to High" },
+                      { id: "price-high", label: "Price: High to Low" }
+                    ].map((opt) => (
+                      <button
+                        key={opt.id}
+                        onClick={() => {
+                          setSortOrder(opt.id);
+                          setIsSortOpen(false);
+                        }}
+                        className={`w-full text-left px-4 py-3 text-sm transition-colors cursor-pointer flex items-center justify-between ${sortOrder === opt.id
+                            ? "bg-[#07512E]/10 text-[#07512E] font-semibold"
+                            : "hover:bg-gray-50 text-gray-700"
+                          }`}
+                      >
+                        <span>{opt.label}</span>
+                        {sortOrder === opt.id && (
+                          <FiCheck className="text-[#07512E] w-4 h-4 stroke-[2.5]" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
           </div>
-         </div>
-          
+
         </div>
 
-       
+
         {processedProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12">
             {processedProducts.map((product) => (
-              <div 
+              <div
                 key={product.id}
                 className="bg-white border border-[#F0ECE3] flex flex-col group overflow-hidden transition-all duration-300 relative"
               >
@@ -284,27 +286,26 @@ export default function ShopProducts() {
 
                 {/* Details */}
                 <div className="p-5 flex flex-col flex-grow text-left">
-                  <h3 className="font-serif text-[#1e2a24] text-[18px] sm:text-[20px] font-light leading-snug tracking-wide mb-3 min-h-[56px] line-clamp-2">
+                  <h3 className="font-sans text-[#303030] text-[20px] sm:text-[24px] font-medium leading-snug mb-3 min-h-[56px] line-clamp-2">
                     {product.name}
                   </h3>
 
-                  <p className="text-[#07512E] text-[18px] font-semibold mb-6">
+                  <p className="text-[#07512E] font-medium text-[16px] mb-6">
                     {product.price}
                   </p>
 
                   {/* Buttons Container */}
                   <div className="mt-auto flex flex-col gap-2">
-                    <button
-                      onClick={() => handleAddToCart(product.id)}
-                      className="w-full bg-[#FFDE59] text-black hover:bg-[#e6c543] font-serif font-[600] uppercase py-3 tracking-widest text-[13px] transition-colors cursor-pointer text-center"
+                    <Link
+                      href={`/product/${product.id}`}
+                      className="w-full bg-[#FFDE59] text-[#101010] hover:bg-[#e6c543] font-sans font-medium text-[20px] py-3 transition-colors cursor-pointer text-center block"
                     >
                       Shop Now
-                    </button>
+                    </Link>
                     <button
-                      onClick={() => handleAddToCart(product.id)}
-                      className={`w-full border-2 border-[#07512E] text-[#07512E] hover:bg-[#07512E] hover:text-white font-serif font-[600] uppercase py-3 tracking-widest text-[13px] transition-all cursor-pointer text-center ${
-                        cartState[product.id] ? "bg-[#07512E] text-white" : "bg-transparent"
-                      }`}
+                      onClick={() => handleAddToCart(product)}
+                      className={`w-full border-2 border-[#07512E] text-[#07512E] hover:bg-[#07512E] hover:text-white font-sans font-medium text-[20px] py-3 transition-all cursor-pointer text-center ${cartState[product.id] ? "bg-[#07512E] text-white" : "bg-transparent"
+                        }`}
                     >
                       {cartState[product.id] ? (
                         <span className="flex items-center justify-center gap-1.5">
@@ -338,16 +339,15 @@ export default function ShopProducts() {
           </div>
         )}
 
-       
+
         {/* Pagination Controls matching screenshot exactly (Previous aligned left, numbers centered, Next aligned right) */}
         <div className="flex items-center justify-between w-full pb-4  border-[#F0ECE3] mt-12 text-gray-950 font-sans">
           {/* Previous Link */}
           <button
             onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
             disabled={currentPage === 1}
-            className={`flex items-center gap-2 transition-colors cursor-pointer text-[15px] sm:text-[18px] ${
-              currentPage === 1 ? "opacity-35 cursor-not-allowed text-gray-400" : "text-gray-900 hover:text-[#0A5230]"
-            }`}
+            className={`flex items-center gap-2 transition-colors cursor-pointer text-[15px] sm:text-[18px] ${currentPage === 1 ? "opacity-35 cursor-not-allowed text-gray-400" : "text-gray-900 hover:text-[#0A5230]"
+              }`}
           >
             <span className="text-[17px] sm:text-[20px]">←</span> Previous
           </button>
@@ -356,22 +356,20 @@ export default function ShopProducts() {
           <div className="flex items-center gap-2 sm:gap-6 text-[15px] sm:text-[18px]">
             <button
               onClick={() => setCurrentPage(1)}
-              className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all cursor-pointer ${
-                currentPage === 1
+              className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all cursor-pointer ${currentPage === 1
                   ? "bg-[#0A5230] text-white font-medium"
                   : "text-gray-800 hover:bg-gray-100"
-              }`}
+                }`}
             >
               1
             </button>
 
             <button
               onClick={() => setCurrentPage(2)}
-              className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all cursor-pointer ${
-                currentPage === 2
+              className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all cursor-pointer ${currentPage === 2
                   ? "bg-[#0A5230] text-white font-medium"
                   : "text-gray-800 hover:bg-gray-100"
-              }`}
+                }`}
             >
               2
             </button>
@@ -397,9 +395,8 @@ export default function ShopProducts() {
           <button
             onClick={() => setCurrentPage((p) => Math.min(p + 1, 2))}
             disabled={currentPage === 2}
-            className={`flex items-center gap-2 transition-colors cursor-pointer text-[15px] sm:text-[18px] ${
-              currentPage === 2 ? "opacity-35 cursor-not-allowed text-gray-400" : "text-gray-900 hover:text-[#0A5230]"
-            }`}
+            className={`flex items-center gap-2 transition-colors cursor-pointer text-[15px] sm:text-[18px] ${currentPage === 2 ? "opacity-35 cursor-not-allowed text-gray-400" : "text-gray-900 hover:text-[#0A5230]"
+              }`}
           >
             Next <span className="text-[17px] sm:text-[20px]">→</span>
           </button>
@@ -418,7 +415,7 @@ export default function ShopProducts() {
 
           {/* Drawer Content */}
           <div className="relative w-80 max-w-[85vw] bg-white h-full z-10 shadow-2xl flex flex-col p-6 border-l border-gray-100 animate-slide-up">
-            
+
             {/* Header */}
             <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-6">
               <h2 className="text-xl font-serif text-[#07512E] tracking-wider uppercase font-semibold">
@@ -435,7 +432,7 @@ export default function ShopProducts() {
 
             {/* Filter sections */}
             <div className="flex-grow overflow-y-auto space-y-8 pr-1">
-              
+
               {/* Category Filter */}
               <div>
                 <h3 className="text-xs font-sans font-bold tracking-widest text-gray-400 uppercase mb-3">
@@ -455,11 +452,10 @@ export default function ShopProducts() {
                         setSelectedCategory(cat.id);
                         setCurrentPage(1);
                       }}
-                      className={`text-left text-sm py-1.5 px-3 transition-colors ${
-                        selectedCategory === cat.id
+                      className={`text-left text-sm py-1.5 px-3 transition-colors ${selectedCategory === cat.id
                           ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]"
                           : "text-gray-600 hover:text-[#07512E]"
-                      }`}
+                        }`}
                     >
                       {cat.label}
                     </button>
@@ -484,11 +480,10 @@ export default function ShopProducts() {
                         setPriceFilter(range.id);
                         setCurrentPage(1);
                       }}
-                      className={`text-left text-sm py-1.5 px-3 transition-colors ${
-                        priceFilter === range.id
+                      className={`text-left text-sm py-1.5 px-3 transition-colors ${priceFilter === range.id
                           ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]"
                           : "text-gray-600 hover:text-[#07512E]"
-                      }`}
+                        }`}
                     >
                       {range.label}
                     </button>

@@ -1,5 +1,7 @@
 import "gtwalsheim4web/GTWalsheimPro.css";
 import "./globals.css";
+import { CartProvider } from "../context/CartContext";
+import CartDrawer from "../components/CartDrawer";
 
 export const metadata = {
   title: "Vardaan - More than a Jewel, a Blessing",
@@ -14,9 +16,12 @@ export default function RootLayout({ children }) {
       className="h-full antialiased"
     >
       <body className="min-h-full flex flex-col font-sans bg-[#111111] text-gray-900 overflow-x-hidden">
-        <div className="w-full max-w-[1720px] mx-auto min-h-screen flex flex-col bg-[#FCFCF9] relative shadow-2xl overflow-x-hidden">
-          {children}
-        </div>
+        <CartProvider>
+          <div className="w-full max-w-[1720px] mx-auto min-h-screen flex flex-col bg-[#FCFCF9] relative shadow-2xl overflow-x-hidden">
+            {children}
+            <CartDrawer />
+          </div>
+        </CartProvider>
       </body>
     </html>
   );
