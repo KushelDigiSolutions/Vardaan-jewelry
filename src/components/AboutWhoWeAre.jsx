@@ -9,7 +9,7 @@ export default function AboutWhoWeAre() {
         
         {/* Left Side: Drop-Cap & Narrative */}
         <div className="lg:col-span-5 flex flex-col items-start gap-6 relative">
-          <span className="text-[14px] md:text-[16px] tracking-widest font-semibold text-amber-600 uppercase">
+          <span className="text-[18px] tracking-widest font-semibold text-amber-600 uppercase">
             The Design Collective
           </span>
           
@@ -21,12 +21,12 @@ export default function AboutWhoWeAre() {
           <div className="w-12 h-[2px] bg-[#FFDE59] mt-2" />
 
           {/* Narrative with drop-cap */}
-          <div className="text-[14px] md:text-[16px] text-gray-600 font-light leading-relaxed tracking-wide mt-2">
+          <div className="text-[18px] text-gray-600 font-light leading-relaxed tracking-wide mt-2">
             <span className="float-left text-[48px] md:text-[64px] font-serif text-[#07512E] leading-[0.8] pr-2.5 pt-1 font-normal">W</span>
             e are a collective of generational goldsmiths, certified gemologists, and modern artisans. Headquartered in our Delhi design atelier, we practice high jewelry design not as a trade, but as a commitment to heritage. We preserve India's oldest filigree and carving practices, ensuring that old-world secrets stay alive.
           </div>
 
-          <p className="text-[14px] md:text-[16px] text-gray-600 font-light leading-relaxed tracking-wide">
+          <p className="text-[18px] text-gray-600 font-light leading-relaxed tracking-wide">
             By keeping our workshops local, ethically auditing our gemstone supply chain, and co-creating designs directly with you, Vardaan ensures that every creation is a personal amulet.
           </p>
 

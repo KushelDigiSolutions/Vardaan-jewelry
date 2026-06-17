@@ -34,10 +34,10 @@ export default function TrustFeatures() {
               <div className="w-20 h-20 rounded-full bg-[#f4f8f6] flex items-center justify-center mb-6">
                 {feature.icon}
               </div>
-              <h3 className="text-[#07512E] font-bold tracking-wider text-[15px] mb-3">
+              <h3 className="text-[#07512E] font-bold tracking-wider text-[20px] mb-3">
                 {feature.title}
               </h3>
-              <p className="text-gray-500 text-[14.5px] leading-relaxed max-w-[260px]">
+              <p className="text-gray-500 text-[18px] leading-relaxed max-w-[260px]">
                 {feature.description}
               </p>
             </div>

@@ -36,7 +36,7 @@ export default function AboutCraftsmanship() {
         
         {/* Section Title */}
         <div className="flex flex-col items-center text-center gap-4 mb-16">
-          <span className="text-[14px] md:text-[16px] tracking-widest font-semibold text-amber-600 uppercase">
+          <span className="text-[18px] tracking-widest font-semibold text-amber-600 uppercase">
             ATELIER CRAFTSMANSHIP
           </span>
           <h2 className="text-[32px] md:text-[48px] font-serif text-[#07512E] font-light uppercase tracking-wide">
@@ -72,7 +72,7 @@ export default function AboutCraftsmanship() {
                 <h3 className="font-serif text-[20px] md:text-[24px] text-[#FFDE59] uppercase tracking-wide mb-2 font-normal">
                   {step.title}
                 </h3>
-                <p className="text-[14px] md:text-[16px] text-gray-300 font-light leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                <p className="text-[18px] text-gray-300 font-light leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
                   {step.desc}
                 </p>
               </div>

@@ -17,7 +17,7 @@ export default function AboutHero() {
         <div className="relative z-10 flex flex-col items-start gap-6 animate-slide-up">
           <div className="flex items-center gap-3">
             <span className="w-8 h-[1px] bg-[#FFDE59]" />
-            <span className="text-[14px] md:text-[16px] font-semibold tracking-widest text-[#FFDE59] uppercase">
+            <span className="text-[18px] font-semibold tracking-widest text-[#FFDE59] uppercase">
               The Legacy Maison
             </span>
           </div>
@@ -30,7 +30,7 @@ export default function AboutHero() {
             </span>
           </h1>
 
-          <p className="text-[14px] md:text-[16px] text-gray-300 font-light max-w-lg leading-relaxed tracking-wide mt-2">
+          <p className="text-[18px] text-gray-300 font-light max-w-lg leading-relaxed tracking-wide mt-2">
             Vardaan stands at the intersection of cultural legacy and fine jewelry design. Every gemstone is selected for its purity; every curve is hand-crafted to celebrate your sacred path.
           </p>
 
@@ -47,7 +47,7 @@ export default function AboutHero() {
               <circle cx="50" cy="76" r="2" fill="currentColor"/>
             </svg>
             <div className="flex flex-col">
-              <span className="text-[14px] md:text-[16px] tracking-widest font-serif uppercase text-[#FFDE59]">Vardaan Atelier</span>
+              <span className="text-[18px] tracking-widest font-serif uppercase text-[#FFDE59]">Vardaan Atelier</span>
               <span className="text-[12px] md:text-[14px] text-gray-400 uppercase tracking-widest font-sans font-light mt-0.5">Delhi • Paris • Milan</span>
             </div>
           </div>
@@ -69,7 +69,7 @@ export default function AboutHero() {
 
         {/* Dynamic bottom badge */}
         <div className="absolute bottom-8 right-4 lg:right-[max(1rem,calc(50vw-596px))] z-20 bg-white/95 text-[#07512E] py-3 px-6 rounded shadow-2xl border border-gray-100 flex items-center gap-3 backdrop-blur-md">
-          <span className="text-[14px] md:text-[16px] tracking-widest font-serif uppercase font-semibold text-amber-600">Pure Gold Covenant</span>
+          <span className="text-[18px] tracking-widest font-serif uppercase font-semibold text-amber-600">Pure Gold Covenant</span>
           <span className="w-1.5 h-1.5 rounded-full bg-[#07512E]" />
         </div>
       </div>

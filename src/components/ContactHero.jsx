@@ -4,7 +4,7 @@ import React from "react";
 
 export default function ContactHero() {
   return (
-    <section className="relative h-[55vh] min-h-[380px] flex items-center justify-center overflow-hidden bg-[#04361E] px-6">
+    <section className="relative min-h-[550px] lg:h-[65vh] lg:min-h-[500px] py-24 lg:py-0 flex items-center justify-center overflow-hidden bg-[#04361E] px-6">
       
       {/* Outer Golden Border Frames */}
       <div className="absolute inset-4 border border-[#FFDE59]/20 pointer-events-none z-20" />
@@ -33,23 +33,23 @@ export default function ContactHero() {
         </div>
 
         <div className="flex items-center gap-2.5">
-          <span className="w-4 h-[1px] bg-[#FFDE59]" />
-          <span className="text-[10px] font-semibold tracking-[0.4em] text-[#FFDE59] uppercase">
+          <span className="w-8 h-[1px] bg-[#FFDE59]" />
+          <span className="text-[18px] font-semibold tracking-widest text-[#FFDE59] uppercase">
             Atelier Concierge Desk
           </span>
-          <span className="w-4 h-[1px] bg-[#FFDE59]" />
+          <span className="w-8 h-[1px] bg-[#FFDE59]" />
         </div>
         
-        <h1 className="text-[36px] md:text-[56px] font-serif font-normal text-white leading-[1.1] tracking-wide uppercase">
+        <h1 className="text-[32px] sm:text-[40px] md:text-[64px] font-serif font-light text-white leading-[1.1] tracking-wide uppercase">
           A Covenant of <br />
           <span className="text-[#FFDE59] font-normal tracking-[0.05em] relative">
             Personal Service
           </span>
         </h1>
         
-        <div className="w-12 h-[1px] bg-[#FFDE59]/30 my-1" />
+        <div className="w-12 h-[2px] bg-[#FFDE59]/30 my-2" />
         
-        <p className="text-xs text-gray-300 font-light max-w-md leading-relaxed tracking-wide">
+        <p className="text-[18px] text-gray-300 font-light max-w-lg leading-relaxed tracking-wide mt-2">
           Our design curators are available to guide you through bespoke custom selections, GIA certification inquiries, or private suite reservations.
         </p>
       </div>

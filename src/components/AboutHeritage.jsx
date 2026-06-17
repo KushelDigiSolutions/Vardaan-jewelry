@@ -25,7 +25,7 @@ export default function AboutHeritage() {
         
         {/* Quote Author */}
         <div className="flex flex-col items-center gap-2">
-          <span className="text-[14px] md:text-[16px] tracking-widest font-semibold text-[#FFDE59] uppercase">
+          <span className="text-[18px] tracking-widest font-semibold text-[#FFDE59] uppercase">
             The Philosophy of Vardaan
           </span>
           <div className="w-12 h-[1px] bg-[#FFDE59]" />
@@ -36,17 +36,17 @@ export default function AboutHeritage() {
           <div className="flex flex-col gap-2">
             <span className="text-2xl font-serif text-[#FFDE59] font-normal">Est. 2005</span>
             <span className="text-[12px] md:text-[14px] text-gray-400 font-semibold tracking-widest uppercase">Atelier Inception</span>
-            <p className="text-[14px] text-gray-300 font-light leading-relaxed">Starting with private commissions, crafting heirloom gold styling.</p>
+            <p className="text-[18px] text-gray-300 font-light leading-relaxed">Starting with private commissions, crafting heirloom gold styling.</p>
           </div>
           <div className="flex flex-col gap-2 border-t md:border-t-0 md:border-x border-white/10 pt-6 md:pt-0 md:px-8">
             <span className="text-2xl font-serif text-[#FFDE59] font-normal">100% Hallmark</span>
             <span className="text-[12px] md:text-[14px] text-gray-400 font-semibold tracking-widest uppercase">Pure Gold Standard</span>
-            <p className="text-[14px] text-gray-300 font-light leading-relaxed">Adhering to strict federal BIS purity audits for every gold item.</p>
+            <p className="text-[18px] text-gray-300 font-light leading-relaxed">Adhering to strict federal BIS purity audits for every gold item.</p>
           </div>
           <div className="flex flex-col gap-2 border-t md:border-t-0 pt-6 md:pt-0">
             <span className="text-2xl font-serif text-[#FFDE59] font-normal">Complimentary</span>
             <span className="text-[12px] md:text-[14px] text-gray-400 font-semibold tracking-widest uppercase">Lifetime Covenant</span>
-            <p className="text-[14px] text-gray-300 font-light leading-relaxed">Complimentary restoration, inspections, and polishing for life.</p>
+            <p className="text-[18px] text-gray-300 font-light leading-relaxed">Complimentary restoration, inspections, and polishing for life.</p>
           </div>
         </div>
 

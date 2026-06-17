@@ -66,13 +66,13 @@ export default function ContactInfo() {
                 </div>
 
                 <div className="flex flex-col gap-1 w-full">
-                  <span className="text-[9px] tracking-widest text-[#FFDE59] uppercase font-semibold">
+                  <span className="text-[12px] md:text-[14px] tracking-widest text-[#FFDE59] uppercase font-semibold">
                     {chan.title}
                   </span>
-                  <span className="font-serif text-[14px] font-medium tracking-wide break-words group-hover:text-amber-300 transition-colors">
+                  <span className="font-serif text-[14px] sm:text-[16px] md:text-[20px] font-medium tracking-wide whitespace-nowrap group-hover:text-amber-300 transition-colors mt-1">
                     {chan.value}
                   </span>
-                  <p className="text-[10px] text-gray-300 font-light mt-0.5 leading-relaxed">
+                  <p className="text-[14px] sm:text-[16px] md:text-[18px] text-gray-300 font-light mt-1 leading-relaxed">
                     {chan.desc}
                   </p>
                 </div>
@@ -83,7 +83,7 @@ export default function ContactInfo() {
 
         {/* Column 3: Operating Hours & Direct Suit CTA (Right - 4 columns) */}
         <div className="lg:col-span-4 flex flex-col items-start gap-6 pl-0 lg:pl-6">
-          <span className="text-[10px] tracking-[0.3em] font-semibold text-amber-600 uppercase">
+          <span className="text-[12px] md:text-[14px] tracking-widest font-semibold text-amber-600 uppercase">
             Delhi Showroom
           </span>
           
@@ -94,22 +94,22 @@ export default function ContactInfo() {
           
           <div className="w-12 h-[2px] bg-[#FFDE59] mt-1" />
 
-          <div className="flex gap-3 items-start w-full bg-[#FAF9F6] border border-gray-150/80 p-5 rounded-lg">
-            <FiClock className="text-amber-600 w-5 h-5 shrink-0 mt-0.5" />
+          <div className="flex gap-4 items-start w-full bg-[#FAF9F6] border border-gray-150/80 p-6 rounded-lg mt-2">
+            <FiClock className="text-amber-600 w-6 h-6 shrink-0 mt-0.5" />
             <div className="flex flex-col">
-              <span className="text-[10px] font-semibold text-[#07512E] uppercase tracking-wider">Atelier Hours</span>
-              <span className="text-xs text-gray-600 font-light mt-1">Mon - Sat: 11:00 AM - 7:30 PM</span>
-              <span className="text-[10px] text-gray-400 font-light italic mt-0.5">Sundays Closed</span>
+              <span className="text-[18px] font-semibold text-[#07512E] uppercase tracking-wider">Atelier Hours</span>
+              <span className="text-[18px] text-gray-600 font-light mt-1">Mon - Sat: 11:00 AM - 7:30 PM</span>
+              <span className="text-[12px] text-gray-400 font-light italic mt-1">Sundays Closed</span>
             </div>
           </div>
 
-          <p className="text-xs text-gray-500 font-light leading-relaxed">
+          <p className="text-[18px] text-gray-500 font-light leading-relaxed mt-2">
             Private consultations are managed through designated VIP suites to ensure a secure, personalized, and comfortable experience.
           </p>
 
           <a 
             href="#contact-form-section"
-            className="flex items-center gap-2 text-xs font-serif font-semibold text-[#07512E] hover:text-amber-600 transition-colors uppercase group"
+            className="flex items-center gap-2 text-[14px] font-serif font-semibold text-[#07512E] hover:text-amber-600 transition-colors uppercase group mt-2"
           >
             <span>Book Private Consultation Suite</span>
             <FiChevronRight className="w-4 h-4 translate-x-0 group-hover:translate-x-1 transition-transform" />

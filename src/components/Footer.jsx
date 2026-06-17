@@ -34,7 +34,7 @@ export default function Footer() {
             <h3 className="font-serif text-[#FFFFFF] text-[24px] sm:text-[28px] font-bold uppercase">
               SUBSCRIBE TO THE NEWSLETTER
             </h3>
-            <p className="text-[14px] text-[#FFFFFF] font-normal leading-relaxed mt-2 max-w-lg">
+            <p className="text-[15px] text-[#FFFFFF] font-normal leading-relaxed mt-2 max-w-lg">
               Subscribe to our newsletter and be the first to know about exclusive offers, new product releases, and exciting events at Typhoon Defense.
             </p>
           </div>
@@ -131,13 +131,13 @@ export default function Footer() {
         </div>
 
         {/* Col 3: About Us (with watermark) */}
-        <div className="lg:col-span-2 flex flex-col gap-4 relative overflow-hidden justify-start lg:pt-6">
+        <div className="lg:col-span-2 flex flex-col gap-4 relative justify-start lg:pt-6">
           {/* Logo watermark overlay behind links */}
-          <div className="absolute left-6 top-[52px] pointer-events-none select-none opacity-[70px] z-0">
+          <div className="absolute -left-4 top-2 md:left-6 md:top-[52px] pointer-events-none select-none z-0">
             <img 
               src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781608371/Untitled_design_6_3_1_l9tztp.png" 
               alt="Watermark Logo" 
-              className="w-[231px] h-[213px] object-contain object-top"
+              className="w-[180px] md:w-[231px] h-auto object-contain object-top"
             />
           </div>
           
@@ -190,21 +190,24 @@ export default function Footer() {
 
       {/* 4. Yellow Footer Bottom Bar */}
       <div className="bg-[#FFDE59] text-[#07512E] py-4 border-t border-[#ffd738]">
-        <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col md:flex-row items-center md:justify-between gap-3 text-[13px] font-semibold">
-          <p className="flex items-center gap-1 text-center md:text-left">
-             <span className="text-[16px] leading-none">©</span> Copyright 2026 Vardaan All Rights Reserved.
-          </p>
-          <p className="text-center md:text-right">
-            Designed and developed by{" "}
+        <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col md:flex-row items-center md:justify-between gap-5 md:gap-3 text-[13px] font-semibold">
+          <div className="text-center md:text-left flex flex-col md:flex-row md:items-center">
+            <span className="flex items-center justify-center md:justify-start gap-1">
+              <span className="text-[16px] leading-none">©</span> Copyright 2026 Vardaan
+            </span>
+            <span className="md:ml-1 mt-0.5 md:mt-0">All Rights Reserved.</span>
+          </div>
+          <div className="text-center md:text-right flex flex-col md:flex-row md:items-center">
+            <span>Designed and developed by</span>
             <a 
               href="https://kusheldigi.com" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="hover:opacity-70 transition-opacity underline underline-offset-2"
+              className="hover:opacity-70 transition-opacity underline underline-offset-2 md:ml-1 mt-0.5 md:mt-0"
             >
-              Kushel Digi Solution
+              kusheldigi.com
             </a>
-          </p>
+          </div>
         </div>
       </div>
     </footer>

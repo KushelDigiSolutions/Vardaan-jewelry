@@ -39,7 +39,7 @@ export default function AboutValues() {
         
         {/* Title */}
         <div className="flex flex-col items-center text-center gap-4 mb-20">
-          <span className="text-[14px] md:text-[16px] tracking-widest text-[#FFDE59] uppercase font-semibold">
+          <span className="text-[18px] tracking-widest text-[#FFDE59] uppercase font-semibold">
             Brand Promises
           </span>
           <h2 className="text-[32px] md:text-[48px] font-serif text-white font-light uppercase tracking-wide">
@@ -68,7 +68,7 @@ export default function AboutValues() {
                 <h3 className="font-serif text-[20px] md:text-[24px] text-[#FFDE59] uppercase tracking-wide mb-3 font-normal">
                   {val.title}
                 </h3>
-                <p className="text-[14px] md:text-[16px] text-gray-300 font-light leading-relaxed">
+                <p className="text-[18px] text-gray-300 font-light leading-relaxed">
                   {val.desc}
                 </p>
               </div>

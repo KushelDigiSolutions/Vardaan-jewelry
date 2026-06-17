@@ -34,7 +34,7 @@ export default function FAQ() {
       <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col">
         {/* Header */}
         <div className="mb-10 text-center md:text-left">
-          <p className="text-sm md:text-base font-medium tracking-wider text-[#07512E] uppercase">
+          <p className="text-[20px] md:text-[32px] font-medium tracking-wider text-[#07512E] uppercase">
             FAQ
           </p>
           <h2 className="mt-2 text-3xl md:text-4xl lg:text-5xl font-serif font-medium leading-tight text-[#0d1c22]">
@@ -65,7 +65,7 @@ export default function FAQ() {
                           isOpen ? "max-h-[500px] opacity-100 mt-4" : "max-h-0 opacity-0"
                         }`}
                       >
-                        <p className="max-w-[980px] text-[14px] md:text-[15px] font-sans leading-relaxed text-gray-500">
+                        <p className="max-w-[980px] text-[18px] font-sans leading-relaxed text-gray-500">
                           {item.answer}
                         </p>
                       </div>
