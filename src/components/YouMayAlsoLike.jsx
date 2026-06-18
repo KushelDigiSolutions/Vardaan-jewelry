@@ -44,7 +44,7 @@ export default function YouMayAlsoLike() {
             <div key={product.id} className="bg-white flex flex-col shadow-sm group">
               
               {/* Product Image Area */}
-              <div className="relative aspect-[5/4] sm:aspect-[4/3] w-full overflow-hidden bg-[#F7F5F0]">
+              <Link href={`/product/${product.id}`} className="relative aspect-[5/4] sm:aspect-[4/3] w-full overflow-hidden bg-[#F7F5F0] block">
                 <img 
                   src={product.image} 
                   alt={product.name}
@@ -58,13 +58,15 @@ export default function YouMayAlsoLike() {
                 >
                   <FiHeart className="w-6 h-6 text-white stroke-[1.5]" />
                 </button>
-              </div>
+              </Link>
 
               {/* Product Details Area */}
               <div className="p-6 flex flex-col flex-grow">
-                <h3 className="text-[20px] sm:text-[24px] font-sans font-medium text-[#303030] leading-snug mb-3 min-h-[56px] line-clamp-2">
-                  {product.name}
-                </h3>
+                <Link href={`/product/${product.id}`}>
+                  <h3 className="text-[20px] sm:text-[24px] font-sans font-medium text-[#303030] leading-snug mb-3 min-h-[56px] line-clamp-2 hover:text-[#07512E] transition-colors">
+                    {product.name}
+                  </h3>
+                </Link>
                 
                 <p className="text-[16px] text-[#07512E] font-medium mb-6">
                   {product.price}

@@ -114,7 +114,7 @@ export default function Footer() {
 
           {/* Separator Line 1 */}
           <div className="hidden lg:flex lg:col-span-1 justify-center">
-            <div className="w-[1px] h-[75%] bg-white/10 self-center" />
+            <div className="w-[1px] h-[100%] bg-white/10 self-center" />
           </div>
 
           {/* Col 2: Customer Service */}
@@ -134,7 +134,7 @@ export default function Footer() {
 
           {/* Separator Line 2 */}
           <div className="hidden lg:flex lg:col-span-1 justify-center">
-            <div className="w-[1px] h-[75%] bg-white/10 self-center" />
+            <div className="w-[1px] h-[100%] bg-white/10 self-center" />
           </div>
 
           {/* Col 3: About Us (with watermark) */}
@@ -162,7 +162,7 @@ export default function Footer() {
 
           {/* Separator Line 3 */}
           <div className="hidden lg:flex lg:col-span-1 justify-center">
-            <div className="w-[1px] h-[75%] bg-white/10 self-center" />
+            <div className="w-[1px] h-[100%] bg-white/10 self-center" />
           </div>
 
           {/* Col 4: Information */}
@@ -176,13 +176,29 @@ export default function Footer() {
                 <li><Link href="#terms" className="hover:text-[#FFDE59] transition-colors">Terms & Conditions</Link></li>
                 <li><Link href="#cancellation" className="hover:text-[#FFDE59] transition-colors">Cancellation Policy</Link></li>
               </ul>
+              
+              {/* Mobile-only Trust Badges (below Cancellation Policy) */}
+              <div className="flex md:hidden flex-col gap-5 text-[14px] font-medium tracking-widest text-white mt-4">
+                <div className="flex items-center gap-2.5">
+                  <HiOutlineShieldCheck className="w-[24px] h-[24px] text-white stroke-[1.5]" />
+                  <span className="uppercase font-sans mt-0.5">SECURE CHECKOUT</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <FiRefreshCw className="w-[24px] h-[24px] text-white stroke-[1.5]" />
+                  <span className="uppercase font-sans mt-0.5">EASY RETURNS</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <HiOutlineTruck className="w-[24px] h-[24px] text-white stroke-[1.5]" />
+                  <span className="uppercase font-sans mt-0.5">FAST SHIPPING</span>
+                </div>
+              </div>
             </div>
           </div>
 
         </div>
 
-        {/* 3. Lower Trust Badges Segment */}
-        <div className="pb-8 lg:pb-10 flex justify-center w-full px-4">
+        {/* 3. Lower Trust Badges Segment (Hidden on mobile) */}
+        <div className="hidden md:flex pb-8 lg:pb-10 justify-center w-full px-4">
           <div className="w-full max-w-[712px] h-auto flex flex-col md:flex-row justify-center md:justify-between items-center gap-6 md:gap-4 text-[14px] font-medium tracking-widest text-white">
             <div className="flex items-center gap-2.5">
               <HiOutlineShieldCheck className="w-[24px] h-[24px] text-white stroke-[1.5]" />

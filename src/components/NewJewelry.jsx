@@ -3,6 +3,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useCart } from "../context/CartContext";
 
 const products = [
   {
@@ -32,6 +33,7 @@ const productItems = products.filter(p => p.type === "product");
 const bannerItem = products.find(p => p.type === "banner");
 
 export default function NewJewelry() {
+  const { addToCart } = useCart();
   const [currentIndex, setCurrentIndex] = useState(productItems.length);
   const [isTransitioning, setIsTransitioning] = useState(true);
   const totalItems = productItems.length;
@@ -123,19 +125,21 @@ export default function NewJewelry() {
                 >
                   <div className="h-full flex flex-col bg-white p-4 shadow-sm border border-gray-100 mx-auto">
                     {/* Product Image */}
-                    <div className="relative aspect-square w-full mb-4 bg-gray-100 overflow-hidden group">
+                    <Link href={`/product/${item.id}`} className="relative aspect-square w-full mb-4 bg-gray-100 overflow-hidden group block">
                       <img 
                         src={item.image} 
                         alt={item.name}
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
-                    </div>
+                    </Link>
 
                     {/* Product Details */}
                     <div className="flex flex-col flex-grow">
-                      <h3 className="font-serif text-[#303030] text-[20px] sm:text-[24px] font-medium leading-snug mb-2 line-clamp-2">
-                        {item.name}
-                      </h3>
+                      <Link href={`/product/${item.id}`}>
+                        <h3 className="font-serif text-[#303030] text-[20px] sm:text-[24px] font-medium leading-snug mb-2 line-clamp-2 hover:text-[#07512E] transition-colors">
+                          {item.name}
+                        </h3>
+                      </Link>
                       <p className="text-[#07512E] font-medium mb-4">
                         {item.price}
                       </p>
@@ -143,7 +147,10 @@ export default function NewJewelry() {
                         <Link href={`/product/${item.id}`} className="flex-1 h-[48px] flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] hover:bg-[#e6c543] transition-colors duration-300">
                           Shop Now
                         </Link>
-                        <button className="flex-1 h-[48px] flex items-center justify-center bg-white border border-[#07512E] text-[#07512E] font-sans font-medium text-[20px] hover:bg-[#07512E] hover:text-white transition-colors duration-300">
+                        <button 
+                          onClick={() => addToCart(item)}
+                          className="flex-1 h-[48px] flex items-center justify-center bg-white border border-[#07512E] text-[#07512E] font-sans font-medium text-[20px] hover:bg-[#07512E] hover:text-white transition-colors duration-300"
+                        >
                           Add to Cart
                         </button>
                       </div>
