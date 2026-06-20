@@ -275,20 +275,22 @@ export default function ShopProducts() {
                 </button>
 
                 {/* Aspect-square Product Image */}
-                <div className="relative aspect-square w-full bg-[#FAF9F6] overflow-hidden">
+                <Link href={`/product/${product.id}`} className="relative aspect-square w-full bg-[#FAF9F6] overflow-hidden block">
                   <img
                     src={product.image}
                     alt={product.name}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-black/[0.02] pointer-events-none" />
-                </div>
+                </Link>
 
                 {/* Details */}
                 <div className="p-5 flex flex-col flex-grow text-left">
-                  <h3 className="font-sans text-[#303030] text-[20px] sm:text-[24px] font-medium leading-snug mb-3 min-h-[56px] line-clamp-2">
-                    {product.name}
-                  </h3>
+                  <Link href={`/product/${product.id}`}>
+                    <h3 className="font-sans text-[#303030] text-[20px] sm:text-[24px] font-medium leading-snug mb-3 min-h-[56px] line-clamp-2 hover:text-[#07512E] transition-colors">
+                      {product.name}
+                    </h3>
+                  </Link>
 
                   <p className="text-[#07512E] font-medium text-[16px] mb-6">
                     {product.price}

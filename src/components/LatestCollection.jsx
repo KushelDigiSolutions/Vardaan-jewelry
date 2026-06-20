@@ -3,6 +3,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useCart } from "../context/CartContext";
 
 const products = [
   {
@@ -26,6 +27,7 @@ const products = [
 ];
 
 export default function LatestCollection() {
+  const { addToCart } = useCart();
   const [currentIndex, setCurrentIndex] = useState(products.length);
   const [isTransitioning, setIsTransitioning] = useState(true);
   const totalItems = products.length;
@@ -159,36 +161,41 @@ export default function LatestCollection() {
               {[...products, ...products, ...products].map((product, idx) => (
                 <div key={idx} className="flex-shrink-0 w-full sm:w-[calc(50%-12px)] lg:w-[340px] h-[490px] flex flex-col bg-white p-4 shadow-sm border border-gray-100">
                   {/* Product Image */}
-                    <div className="relative aspect-square w-full mb-4 bg-gray-100 overflow-hidden group">
-                      <img 
-                        src={product.image} 
-                        alt={product.name}
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      <button className="absolute top-3 right-3 text-white hover:text-red-500 transition-colors z-10" aria-label="Add to wishlist">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                        </svg>
-                      </button>
-                    </div>
-
-                    {/* Product Details */}
-                    <div className="flex flex-col flex-grow">
-                      <h3 className="font-serif text-[#303030] text-[20px] sm:text-[24px] font-medium leading-snug mb-2 line-clamp-2">
-                        {product.name}
-                      </h3>
-                      <p className="text-[#07512E] font-medium mb-4">
-                        {product.price}
-                      </p>
-                      <div className="mt-auto flex gap-4">
-                        <Link href={`/product/${product.id}`} className="flex-1 h-[48px] flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] hover:bg-[#e6c543] transition-colors duration-300">
-                          Shop Now
-                        </Link>
-                        <button className="flex-1 h-[48px] flex items-center justify-center bg-white border border-[#07512E] text-[#07512E] font-sans font-medium text-[20px] hover:bg-[#07512E] hover:text-white transition-colors duration-300">
-                          Add to Cart
+                      <Link href={`/product/${product.id}`} className="relative aspect-square w-full mb-4 bg-gray-100 overflow-hidden group block">
+                        <img 
+                          src={product.image} 
+                          alt={product.name}
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <button className="absolute top-3 right-3 text-white hover:text-red-500 transition-colors z-10" aria-label="Add to wishlist">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                          </svg>
                         </button>
+                      </Link>
+
+                      {/* Product Details */}
+                      <div className="flex flex-col flex-grow">
+                        <Link href={`/product/${product.id}`}>
+                          <h3 className="font-serif text-[#303030] text-[20px] sm:text-[24px] font-medium leading-snug mb-2 line-clamp-2 hover:text-[#07512E] transition-colors">
+                            {product.name}
+                          </h3>
+                        </Link>
+                        <p className="text-[#07512E] font-medium mb-4">
+                          {product.price}
+                        </p>
+                        <div className="mt-auto flex gap-4">
+                          <Link href={`/product/${product.id}`} className="flex-1 h-[48px] flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] hover:bg-[#e6c543] transition-colors duration-300">
+                            Shop Now
+                          </Link>
+                          <button 
+                            onClick={() => addToCart(product)}
+                            className="flex-1 h-[48px] flex items-center justify-center bg-white border border-[#07512E] text-[#07512E] font-sans font-medium text-[20px] hover:bg-[#07512E] hover:text-white transition-colors duration-300"
+                          >
+                            Add to Cart
+                          </button>
+                        </div>
                       </div>
-                    </div>
                   </div>
                 ))}
             </div>

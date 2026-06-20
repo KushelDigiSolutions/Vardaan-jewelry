@@ -27,6 +27,20 @@ export function CartProvider({ children }) {
     setIsCartOpen(true);
   }, []);
 
+  const removeFromCart = useCallback((id) => {
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
+  }, []);
+
+  const updateQuantity = useCallback((id, delta) => {
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.id === id
+          ? { ...item, quantity: Math.max(1, (item.quantity || 1) + delta) }
+          : item
+      )
+    );
+  }, []);
+
   const closeCart = useCallback(() => setIsCartOpen(false), []);
   const openCart = useCallback(() => setIsCartOpen(true), []);
 
@@ -36,6 +50,8 @@ export function CartProvider({ children }) {
         isCartOpen,
         cartItems,
         addToCart,
+        removeFromCart,
+        updateQuantity,
         closeCart,
         openCart,
       }}

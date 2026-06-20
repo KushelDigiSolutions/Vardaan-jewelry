@@ -9,14 +9,14 @@ const slides = [
     subtitle: "NEW LAUNCH",
     title: "STYLED BY\nNATURE",
     ctaText: "Shop Now",
-    ctaLink: "#shop",
+    ctaLink: "/shop",
   },
   {
     image: "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781603449/hero_banner_optimized_jkbhox.png",
     subtitle: "SIGNATURE PIECES",
     title: "THE HARMONY\nSERIES",
     ctaText: "Explore Collection",
-    ctaLink: "#collections",
+    ctaLink: "/shop",
     styleFilter: "hue-rotate-15 saturate-110", // Subtle visual distinction for slide 2
   },
   {
@@ -24,7 +24,7 @@ const slides = [
     subtitle: "LEGACY CRAFT",
     title: "BLESSINGS OF\nLIGHT",
     ctaText: "Book Appointment",
-    ctaLink: "#contact",
+    ctaLink: "/contact",
     styleFilter: "brightness-95 contrast-105", // Subtle visual distinction for slide 3
   },
 ];

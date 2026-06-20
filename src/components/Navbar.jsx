@@ -4,12 +4,15 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FiPhone, FiSearch, FiHeart, FiShoppingCart, FiShoppingBag, FiMenu, FiX } from "react-icons/fi";
+import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
+  const { cartItems } = useCart();
+  const cartItemCount = cartItems?.length || 0;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -69,7 +72,7 @@ export default function Navbar() {
       {/* User Profile, Wishlist, Cart Links (Right Aligned) */}
       <div className="flex items-center justify-center md:justify-end gap-6 font-sans">
         {/* User Profile Avatar */}
-        <div className="flex items-center gap-1.5 cursor-pointer hover:opacity-85 transition-opacity">
+        <Link href="/login" className="flex items-center gap-1.5 cursor-pointer hover:opacity-85 transition-opacity">
           <div className="w-7 h-7 rounded-full bg-gray-300 overflow-hidden relative shadow-sm">
             <img 
               src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop" 
@@ -77,11 +80,11 @@ export default function Navbar() {
               className="w-full h-full object-cover"
             />
           </div>
-        </div>
+        </Link>
 
         {/* Wishlist */}
         <Link 
-          href="#wishlist" 
+          href="/wishlist" 
           className="flex items-center gap-1.5 hover:opacity-80 transition-opacity"
         >
           <FiHeart className="w-[18px] h-[18px] text-[#07512E] fill-[#07512E]" />
@@ -90,10 +93,17 @@ export default function Navbar() {
 
         {/* Cart */}
         <Link 
-          href="#cart" 
+          href="/cart" 
           className="flex items-center gap-2 hover:opacity-80 transition-opacity"
         >
-          <FiShoppingCart className="w-[18px] h-[18px] text-[#07512E] stroke-[2]" />
+          <div className="relative">
+            <FiShoppingCart className="w-[18px] h-[18px] text-[#07512E] stroke-[2]" />
+            {cartItemCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full shadow-sm">
+                {cartItemCount}
+              </span>
+            )}
+          </div>
           <span className="hidden sm:inline font-semibold">Cart</span>
         </Link>
       </div>
@@ -149,7 +159,7 @@ export default function Navbar() {
             className="flex flex-col items-center text-center relative z-10 max-w-xs md:max-w-md mb-5 hover:opacity-95 transition-opacity"
           >
             <img 
-              src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781607744/Untitled_design_6_2_uirv47.png" 
+              src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781789797/vardan_logo_2_br1lkx.png" 
               alt="Vardaan Logo" 
               className="w-[180px] md:w-[220px] h-auto object-contain"
             />
@@ -266,12 +276,19 @@ export default function Navbar() {
                   <FiPhone className="text-[#FFDE59]" />
                   <span>+91 98187 19997</span>
                 </a>
-                <Link href="#wishlist" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 text-white/80">
+                <Link href="/wishlist" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 text-white/80 hover:text-[#FFDE59]">
                   <FiHeart className="text-[#FFDE59]" />
                   <span>My Wishlist</span>
                 </Link>
-                <Link href="#cart" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 text-white/80">
-                  <FiShoppingBag className="text-[#FFDE59]" />
+                <Link href="/cart" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 text-white/80 hover:text-[#FFDE59]">
+                  <div className="relative">
+                    <FiShoppingBag className="text-[#FFDE59] w-5 h-5" />
+                    {cartItemCount > 0 && (
+                      <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[9px] font-bold w-3.5 h-3.5 flex items-center justify-center rounded-full">
+                        {cartItemCount}
+                      </span>
+                    )}
+                  </div>
                   <span>Shopping Cart</span>
                 </Link>
               </div>
