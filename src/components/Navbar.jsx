@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiPhone, FiSearch, FiHeart, FiShoppingCart, FiShoppingBag, FiMenu, FiX } from "react-icons/fi";
+import { FiPhone, FiSearch, FiHeart, FiShoppingCart, FiShoppingBag, FiMenu, FiX, FiUser } from "react-icons/fi";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -12,6 +13,7 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const { cartItems } = useCart();
+  const { user } = useAuth();
   const cartItemCount = cartItems?.length || 0;
 
   useEffect(() => {
@@ -72,15 +74,27 @@ export default function Navbar() {
       {/* User Profile, Wishlist, Cart Links (Right Aligned) */}
       <div className="flex items-center justify-center md:justify-end gap-6 font-sans">
         {/* User Profile Avatar */}
-        <Link href="/login" className="flex items-center gap-1.5 cursor-pointer hover:opacity-85 transition-opacity">
-          <div className="w-7 h-7 rounded-full bg-gray-300 overflow-hidden relative shadow-sm">
-            <img 
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop" 
-              alt="Profile"
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </Link>
+        {user ? (
+          <Link href="/profile" className="flex items-center gap-1.5 cursor-pointer hover:opacity-85 transition-opacity" title="My Account">
+            <div className="w-7 h-7 rounded-full bg-[#07512E]/10 border border-[#07512E]/20 overflow-hidden relative shadow-sm flex items-center justify-center text-[11px] font-bold text-[#07512E]">
+              {user.avatar ? (
+                <img 
+                  src={user.avatar.startsWith("http") ? user.avatar : `http://localhost:5000${user.avatar}`} 
+                  alt={user.name || "User"}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                user.name ? user.name.split(" ").map(n => n[0]).join("").substring(0, 2).toUpperCase() : "U"
+              )}
+            </div>
+            <span className="hidden sm:inline text-xs font-semibold text-[#07512E]">{(user.name || "").split(" ")[0] || "User"}</span>
+          </Link>
+        ) : (
+          <Link href="/login" className="flex items-center gap-1.5 cursor-pointer hover:opacity-85 transition-opacity text-[#07512E]" title="Sign In">
+            <FiUser className="w-[18px] h-[18px] stroke-[2.5]" />
+            <span className="hidden sm:inline font-semibold">Sign In</span>
+          </Link>
+        )}
 
         {/* Wishlist */}
         <Link 

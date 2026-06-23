@@ -8,17 +8,17 @@ const categories = [
   {
     title: "Sets",
     image: "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781528583/sets_xvoyfd.png",
-    link: "/category/sets",
+    link: "/shop?category=sets",
   },
   {
     title: "Earrings",
     image: "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781528601/earing_fktmvk.png",
-    link: "/category/earrings",
+    link: "/shop?category=earrings",
   },
   {
     title: "rings",
     image: "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781528583/rings_pkq8gv.png",
-    link: "/category/rings",
+    link: "/shop?category=rings",
   },
 ];
 

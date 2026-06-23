@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import ShopHero from "@/components/ShopHero";
@@ -9,15 +10,27 @@ export const metadata = {
   keywords: "shop vardaan jewelry, gold rings, diamond earrings, gold sets, luxury emerald necklaces, certified bridal jewelry",
 };
 
+function ShopProductsFallback() {
+  return (
+    <div className="w-full max-w-[1192px] mx-auto px-4 py-20 text-center font-sans">
+      <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#07512E] mx-auto mb-4"></div>
+      <p className="text-gray-400 text-sm">Loading jewelry collection...</p>
+    </div>
+  );
+}
+
 export default function ShopPage() {
   return (
     <>
       <Navbar />
       <main className="flex-grow">
         <ShopHero />
-        <ShopProducts />
+        <Suspense fallback={<ShopProductsFallback />}>
+          <ShopProducts />
+        </Suspense>
       </main>
       <Footer />
     </>
   );
 }
+

@@ -5,50 +5,57 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "../context/CartContext";
 
-const products = [
-  {
-    id: 1,
-    type: "product",
-    name: "Ruby Raang Emerald Layered Neckpiece",
-    price: "₹ 1995",
-    image: "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525757/Rectangle_23_9_fyoemo.png",
-  },
-  {
-    id: 2,
-    type: "product",
-    name: "Lucy Williams Engravable Arco Gold Ring",
-    price: "₹ 1995",
-    image: "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png",
-  },
-  {
-    id: 3,
-    type: "banner",
-    title: "Let Your Love\nTick Forever",
-    image: "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781590593/New_Jewelry_ndyxqb.png",
-    link: "/shop",
-  },
-];
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
-const productItems = products.filter(p => p.type === "product");
-const bannerItem = products.find(p => p.type === "banner");
+const bannerItem = {
+  type: "banner",
+  title: "Let Your Love\nTick Forever",
+  image: "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781590593/New_Jewelry_ndyxqb.png",
+  link: "/shop",
+};
 
 export default function NewJewelry() {
   const { addToCart } = useCart();
-  const [currentIndex, setCurrentIndex] = useState(productItems.length);
+  const [productItems, setProductItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(true);
+  
   const totalItems = productItems.length;
 
+  useEffect(() => {
+    const fetchNewJewelry = async () => {
+      try {
+        const res = await fetch(`${API_URL}/products?limit=4`);
+        if (res.ok) {
+          const json = await res.json();
+          const items = json.data?.products || json.data || [];
+          setProductItems(items);
+          if (items.length > 0) {
+            setCurrentIndex(items.length);
+          }
+        }
+      } catch (err) {
+        console.error("Error loading new jewelry products:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchNewJewelry();
+  }, []);
+
   const nextSlide = useCallback(() => {
-    if (!isTransitioning) return;
+    if (!isTransitioning || totalItems === 0) return;
     setCurrentIndex((prev) => prev + 1);
-  }, [isTransitioning]);
+  }, [isTransitioning, totalItems]);
 
   const prevSlide = () => {
-    if (!isTransitioning) return;
+    if (!isTransitioning || totalItems === 0) return;
     setCurrentIndex((prev) => prev - 1);
   };
 
   useEffect(() => {
+    if (totalItems === 0) return;
     if (currentIndex >= totalItems * 2) {
       const timer = setTimeout(() => {
         setIsTransitioning(false);
@@ -66,11 +73,12 @@ export default function NewJewelry() {
   }, [currentIndex, totalItems]);
 
   useEffect(() => {
+    if (totalItems === 0) return;
     if (!isTransitioning) {
       const timer = setTimeout(() => setIsTransitioning(true), 50);
       return () => clearTimeout(timer);
     }
-  }, [isTransitioning]);
+  }, [isTransitioning, totalItems]);
 
   return (
     <section className="py-10 md:py-16 bg-[#F5F5F7]">
@@ -104,61 +112,74 @@ export default function NewJewelry() {
         </div>
 
         {/* Content Layout */}
-        <div className="flex flex-col lg:flex-row gap-6 w-full mb-6">
+        <div className="flex flex-col lg:flex-row gap-6 w-full mb-6 min-h-[490px]">
           
           {/* Carousel Window (Products) */}
-          <div className="w-full lg:w-[calc(66.6666%-8px)] relative overflow-hidden">
-            <style dangerouslySetInnerHTML={{__html: `
-              .new-track { --slide-offset: calc(100% + 24px); }
-              @media (min-width: 768px) {
-                .new-track { --slide-offset: calc(50% + 12px); }
-              }
-            `}} />
-            <div 
-              className={`flex gap-6 new-track w-full h-full ${isTransitioning ? 'transition-transform duration-700 ease-in-out' : ''}`}
-              style={{ transform: `translateX(calc(-${currentIndex} * var(--slide-offset)))` }}
-            >
-              {[...productItems, ...productItems, ...productItems].map((item, idx) => (
+          <div className="w-full lg:w-[calc(66.6666%-8px)] relative overflow-hidden flex items-center justify-center bg-white border border-gray-100 shadow-sm p-4">
+            {loading ? (
+              <div className="text-center py-20">
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#07512E] mx-auto mb-3"></div>
+                <p className="text-gray-500 text-sm">Loading fine jewelry...</p>
+              </div>
+            ) : productItems.length > 0 ? (
+              <>
+                <style dangerouslySetInnerHTML={{__html: `
+                  .new-track { --slide-offset: calc(100% + 24px); }
+                  @media (min-width: 768px) {
+                    .new-track { --slide-offset: calc(50% + 12px); }
+                  }
+                `}} />
                 <div 
-                  key={idx} 
-                  className="flex-shrink-0 w-full md:w-[calc(50%-12px)] h-full"
+                  className={`flex gap-6 new-track w-full h-full ${isTransitioning ? 'transition-transform duration-700 ease-in-out' : ''}`}
+                  style={{ transform: `translateX(calc(-${currentIndex} * var(--slide-offset)))` }}
                 >
-                  <div className="h-full flex flex-col bg-white p-4 shadow-sm border border-gray-100 mx-auto">
-                    {/* Product Image */}
-                    <Link href={`/product/${item.id}`} className="relative aspect-square w-full mb-4 bg-gray-100 overflow-hidden group block">
-                      <img 
-                        src={item.image} 
-                        alt={item.name}
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </Link>
-
-                    {/* Product Details */}
-                    <div className="flex flex-col flex-grow">
-                      <Link href={`/product/${item.id}`}>
-                        <h3 className="font-serif text-[#303030] text-[20px] sm:text-[24px] font-medium leading-snug mb-2 line-clamp-2 hover:text-[#07512E] transition-colors">
-                          {item.name}
-                        </h3>
-                      </Link>
-                      <p className="text-[#07512E] font-medium mb-4">
-                        {item.price}
-                      </p>
-                      <div className="mt-auto flex gap-4">
-                        <Link href={`/product/${item.id}`} className="flex-1 h-[48px] flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] hover:bg-[#e6c543] transition-colors duration-300">
-                          Shop Now
+                  {[...productItems, ...productItems, ...productItems].map((item, idx) => (
+                    <div 
+                      key={idx} 
+                      className="flex-shrink-0 w-full md:w-[calc(50%-12px)] h-full text-left"
+                    >
+                      <div className="h-full flex flex-col bg-white p-4 border border-gray-100 mx-auto">
+                        {/* Product Image */}
+                        <Link href={`/product/${item._id}`} className="relative aspect-square w-full mb-4 bg-gray-50 overflow-hidden group block">
+                          <img 
+                            src={item.images?.[0] || "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png"} 
+                            alt={item.name}
+                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
                         </Link>
-                        <button 
-                          onClick={() => addToCart(item)}
-                          className="flex-1 h-[48px] flex items-center justify-center bg-white border border-[#07512E] text-[#07512E] font-sans font-medium text-[20px] hover:bg-[#07512E] hover:text-white transition-colors duration-300"
-                        >
-                          Add to Cart
-                        </button>
+
+                        {/* Product Details */}
+                        <div className="flex flex-col flex-grow">
+                          <Link href={`/product/${item._id}`}>
+                            <h3 className="font-serif text-[#303030] text-[20px] sm:text-[24px] font-medium leading-snug mb-2 line-clamp-2 hover:text-[#07512E] transition-colors">
+                              {item.name}
+                            </h3>
+                          </Link>
+                          <p className="text-[#07512E] font-medium mb-4">
+                            ₹ {(item.salePrice || item.price).toLocaleString("en-IN")}
+                          </p>
+                          <div className="mt-auto flex gap-4">
+                            <Link href={`/product/${item._id}`} className="flex-1 h-[48px] flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] hover:bg-[#e6c543] transition-colors duration-300">
+                              Shop Now
+                            </Link>
+                            <button 
+                              onClick={() => addToCart(item)}
+                              className="flex-1 h-[48px] flex items-center justify-center bg-white border border-[#07512E] text-[#07512E] font-sans font-medium text-[20px] hover:bg-[#07512E] hover:text-white transition-colors duration-300"
+                            >
+                              Add to Cart
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </>
+            ) : (
+              <div className="text-center py-20 text-gray-500">
+                No new products found.
+              </div>
+            )}
           </div>
 
           {/* Fixed Banner Window */}
