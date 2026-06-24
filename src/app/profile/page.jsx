@@ -78,6 +78,7 @@ export default function ProfilePage() {
 
   // Return Request Form state
   const [activeReturnOrder, setActiveReturnOrder] = useState(null); // Order object being returned
+  const [editingReturn, setEditingReturn] = useState(null); // Return request object being edited
   const [returnItems, setReturnItems] = useState({}); // { [productId]: { selected: bool, quantity: num, reason: str } }
   const [refundMethod, setRefundMethod] = useState("upi");
   const [refundDetails, setRefundDetails] = useState({ upiId: "", accountNo: "", ifsc: "", bankName: "", holderName: "" });
@@ -104,10 +105,12 @@ export default function ProfilePage() {
         throw new Error(json.message || "Failed to cancel order");
       }
       setMsg({ type: "success", text: "Order cancelled successfully!" });
+      toast.success("Order cancelled successfully!");
       setSelectedDetailedOrder(null);
       fetchOrders();
     } catch (err) {
       setMsg({ type: "error", text: err.message });
+      toast.error(err.message || "Failed to cancel order");
     } finally {
       setLoading(false);
     }
@@ -202,6 +205,7 @@ export default function ProfilePage() {
   useEffect(() => {
     if (activeTab === "orders") {
       fetchOrders();
+      fetchReturns();
     } else if (activeTab === "returns") {
       fetchReturns();
     }
@@ -413,20 +417,41 @@ export default function ProfilePage() {
   };
 
   // Return Request Actions
-  const handleOpenReturnForm = (order) => {
+  const handleOpenReturnForm = (order, existingReturn = null) => {
     setActiveReturnOrder(order);
+    setEditingReturn(existingReturn);
+    
     const initialItemsState = {};
     order.items.forEach(item => {
-      initialItemsState[item.product] = {
-        productId: item.product,
+      const prodId = item.product?._id || item.product;
+      const existingItem = existingReturn?.items?.find(
+        i => (i.productId?._id || i.productId || i.product?._id || i.product) === prodId
+      );
+
+      initialItemsState[prodId] = {
+        productId: prodId,
         name: item.name,
-        selected: false,
-        quantity: 1,
+        selected: !!existingItem,
+        quantity: existingItem ? existingItem.quantity : 1,
         maxQty: item.quantity,
-        reason: "Wrong size ordered"
+        reason: existingItem ? existingItem.reason : "Wrong size ordered"
       };
     });
     setReturnItems(initialItemsState);
+
+    if (existingReturn) {
+      setRefundMethod(existingReturn.refundMethod || "upi");
+      setRefundDetails({
+        upiId: existingReturn.refundDetails?.upiId || "",
+        accountNo: existingReturn.refundDetails?.accountNo || "",
+        ifsc: existingReturn.refundDetails?.ifsc || "",
+        bankName: existingReturn.refundDetails?.bankName || "",
+        holderName: existingReturn.refundDetails?.holderName || ""
+      });
+    } else {
+      setRefundMethod("upi");
+      setRefundDetails({ upiId: "", accountNo: "", ifsc: "", bankName: "", holderName: "" });
+    }
   };
 
   const handleReturnItemChange = (prodId, field, val) => {
@@ -461,37 +486,92 @@ export default function ProfilePage() {
     setMsg({ type: "", text: "" });
 
     try {
-      const res = await fetch(`${API_URL}/returns/request`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          orderId: activeReturnOrder._id,
-          items: itemsToSubmit,
-          refundMethod,
-          refundDetails: refundMethod === "upi" 
-            ? { upiId: refundDetails.upiId }
-            : {
-                accountNo: refundDetails.accountNo,
-                ifsc: refundDetails.ifsc,
-                bankName: refundDetails.bankName,
-                holderName: refundDetails.holderName
-              }
-        })
-      });
+      let res;
+      let json;
+      const requestBody = {
+        orderId: activeReturnOrder._id,
+        items: itemsToSubmit,
+        refundMethod,
+        refundDetails: refundMethod === "upi" 
+          ? { upiId: refundDetails.upiId }
+          : {
+              accountNo: refundDetails.accountNo,
+              ifsc: refundDetails.ifsc,
+              bankName: refundDetails.bankName,
+              holderName: refundDetails.holderName
+            }
+      };
 
-      const json = await res.json();
-      if (!res.ok) {
-        throw new Error(json.message || "Failed to request return");
+      if (editingReturn) {
+        // Try Option A: PUT /returns/:id
+        res = await fetch(`${API_URL}/returns/${editingReturn._id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify(requestBody)
+        });
+        json = await res.json();
+
+        // If A failed (e.g. 404/405), try Option B: PUT /returns/request/:id
+        if (!res.ok && (res.status === 404 || res.status === 405)) {
+          res = await fetch(`${API_URL}/returns/request/${editingReturn._id}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(requestBody)
+          });
+          json = await res.json();
+        }
+
+        // If B failed too, try Option C: PUT /returns/request with returnId in body
+        if (!res.ok && (res.status === 404 || res.status === 405)) {
+          res = await fetch(`${API_URL}/returns/request`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              returnId: editingReturn._id,
+              ...requestBody
+            })
+          });
+          json = await res.json();
+        }
+      } else {
+        // Normal POST /returns/request
+        res = await fetch(`${API_URL}/returns/request`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify(requestBody)
+        });
+        json = await res.json();
       }
 
-      setMsg({ type: "success", text: "Return request submitted successfully! An administrator will review your ticket." });
+      if (!res.ok) {
+        throw new Error(json.message || `Failed to ${editingReturn ? "update" : "submit"} return request`);
+      }
+
+      const successMsg = editingReturn 
+        ? "Return request updated successfully!"
+        : "Return request submitted successfully! An administrator will review your ticket.";
+
+      setMsg({ type: "success", text: successMsg });
+      toast.success(successMsg);
       setActiveReturnOrder(null);
+      setEditingReturn(null);
       fetchOrders();
+      fetchReturns();
     } catch (err) {
       setMsg({ type: "error", text: err.message });
+      toast.error(err.message || "Failed to submit return request");
     } finally {
       setLoading(false);
     }
@@ -971,22 +1051,25 @@ export default function ProfilePage() {
                   // Inline Return Request Form Panel
                   <form onSubmit={handleSubmitReturnRequest} className="bg-gray-50 border border-gray-200 rounded-lg p-6 font-sans text-sm space-y-6 text-left">
                     <div className="flex justify-between items-center pb-3 border-b">
-                      <h4 className="text-lg font-bold text-gray-900">Request Product Return: Order #{activeReturnOrder._id.substring(18)}</h4>
-                      <button type="button" onClick={() => setActiveReturnOrder(null)} className="text-gray-500 hover:text-black">Cancel</button>
+                      <h4 className="text-lg font-bold text-gray-900">
+                        {editingReturn ? "Edit Return Request" : "Request Product Return"}: Order #{activeReturnOrder._id.substring(18)}
+                      </h4>
+                      <button type="button" onClick={() => { setActiveReturnOrder(null); setEditingReturn(null); }} className="text-gray-500 hover:text-black">Cancel</button>
                     </div>
 
                     <div className="space-y-4">
                       <p className="font-semibold text-gray-700">Select items to return & specify quantities:</p>
                       
                       {activeReturnOrder.items.map((item) => {
-                        const state = returnItems[item.product] || {};
+                        const prodId = item.product?._id || item.product;
+                        const state = returnItems[prodId] || {};
                         return (
-                          <div key={item.product} className="flex flex-col sm:flex-row gap-4 p-4 bg-white border rounded items-start sm:items-center">
+                          <div key={prodId} className="flex flex-col sm:flex-row gap-4 p-4 bg-white border rounded items-start sm:items-center">
                             <label className="flex items-center gap-2 cursor-pointer shrink-0">
                               <input 
                                 type="checkbox" 
                                 checked={state.selected}
-                                onChange={(e) => handleReturnItemChange(item.product, "selected", e.target.checked)}
+                                onChange={(e) => handleReturnItemChange(prodId, "selected", e.target.checked)}
                                 className="accent-[#07512E] w-4.5 h-4.5"
                               />
                               <span className="font-bold text-gray-900">{item.name}</span>
@@ -1001,7 +1084,7 @@ export default function ProfilePage() {
                                     min="1" 
                                     max={state.maxQty} 
                                     value={state.quantity}
-                                    onChange={(e) => handleReturnItemChange(item.product, "quantity", Math.min(state.maxQty, Math.max(1, Number(e.target.value))))}
+                                    onChange={(e) => handleReturnItemChange(prodId, "quantity", Math.min(state.maxQty, Math.max(1, Number(e.target.value))))}
                                     className="p-1 border border-gray-300 rounded text-center w-12"
                                   />
                                   <span className="text-gray-400">(Max {state.maxQty})</span>
@@ -1010,7 +1093,7 @@ export default function ProfilePage() {
                                   type="text" 
                                   placeholder="Reason for return..." 
                                   value={state.reason}
-                                  onChange={(e) => handleReturnItemChange(item.product, "reason", e.target.value)}
+                                  onChange={(e) => handleReturnItemChange(prodId, "reason", e.target.value)}
                                   className="flex-grow p-2 border border-gray-300 rounded bg-[#FAF9F6] outline-none"
                                 />
                               </div>
@@ -1062,8 +1145,10 @@ export default function ProfilePage() {
                     </div>
 
                     <div className="flex gap-3 justify-end pt-4 border-t">
-                      <button type="button" onClick={() => setActiveReturnOrder(null)} className="border border-gray-300 px-6 py-2.5 rounded">CANCEL</button>
-                      <button type="submit" disabled={loading} className="bg-[#07512E] text-white px-6 py-2.5 rounded font-bold">{loading ? "SUBMITTING..." : "SUBMIT RETURN"}</button>
+                      <button type="button" onClick={() => { setActiveReturnOrder(null); setEditingReturn(null); }} className="border border-gray-300 px-6 py-2.5 rounded">CANCEL</button>
+                      <button type="submit" disabled={loading} className="bg-[#07512E] text-white px-6 py-2.5 rounded font-bold">
+                        {loading ? "SUBMITTING..." : editingReturn ? "UPDATE RETURN" : "SUBMIT RETURN"}
+                      </button>
                     </div>
                   </form>
                 ) : (
@@ -1161,16 +1246,41 @@ export default function ProfilePage() {
                               VIEW DETAILS & INVOICE
                             </button>
                             
-                            <div className="flex gap-2">
-                              {o.orderStatus === "delivered" && (
-                                <button 
-                                  type="button"
-                                  onClick={() => handleOpenReturnForm(o)}
-                                  className="bg-amber-600 hover:bg-amber-700 text-white font-semibold px-4 py-2 rounded text-xs transition-colors cursor-pointer"
-                                >
-                                  REQUEST RETURN
-                                </button>
-                              )}
+                            <div className="flex gap-2 text-left">
+                               {o.orderStatus === "delivered" && (() => {
+                                 const orderReturn = returns.find(r => 
+                                   (r.orderId?._id || r.orderId || r.order?._id || r.order) === o._id
+                                 );
+                                 if (orderReturn) {
+                                   return (
+                                     <div className="flex items-center gap-2">
+                                       <span className={`px-2.5 py-1.5 rounded text-[11px] font-bold text-white capitalize ${
+                                         orderReturn.status === "refunded" ? "bg-green-700" : orderReturn.status === "rejected" ? "bg-red-600" : "bg-amber-650"
+                                       }`}>
+                                         Return: {orderReturn.status}
+                                       </span>
+                                       {orderReturn.status === "pending" && (
+                                         <button 
+                                           type="button"
+                                           onClick={() => handleOpenReturnForm(o, orderReturn)}
+                                           className="border border-[#07512E] text-[#07512E] hover:bg-[#07512E] hover:text-white font-semibold px-3 py-1.5 rounded text-xs transition-all cursor-pointer bg-white"
+                                         >
+                                           EDIT RETURN
+                                         </button>
+                                       )}
+                                     </div>
+                                   );
+                                 }
+                                 return (
+                                   <button 
+                                     type="button"
+                                     onClick={() => handleOpenReturnForm(o)}
+                                     className="bg-amber-600 hover:bg-amber-700 text-white font-semibold px-4 py-2 rounded text-xs transition-colors cursor-pointer"
+                                   >
+                                     REQUEST RETURN
+                                   </button>
+                                 );
+                               })()}
                               {["pending", "confirmed"].includes(o.orderStatus) && (
                                 <button 
                                   type="button"
@@ -1424,18 +1534,46 @@ export default function ProfilePage() {
               </button>
 
               <div className="flex gap-2">
-                {selectedDetailedOrder.orderStatus === "delivered" && (
-                  <button 
-                    type="button"
-                    onClick={() => {
-                      handleOpenReturnForm(selectedDetailedOrder);
-                      setSelectedDetailedOrder(null); // Close details modal
-                    }}
-                    className="bg-amber-600 hover:bg-amber-700 text-white font-semibold px-4 py-2 rounded text-xs transition-colors cursor-pointer"
-                  >
-                    Request Return
-                  </button>
-                )}
+                {selectedDetailedOrder.orderStatus === "delivered" && (() => {
+                  const orderReturn = returns.find(r => 
+                    (r.orderId?._id || r.orderId || r.order?._id || r.order) === selectedDetailedOrder._id
+                  );
+                  if (orderReturn) {
+                    return (
+                      <div className="flex items-center gap-2">
+                        <span className={`px-2.5 py-1.5 rounded text-[11px] font-bold text-white capitalize ${
+                          orderReturn.status === "refunded" ? "bg-green-700" : orderReturn.status === "rejected" ? "bg-red-600" : "bg-amber-650"
+                        }`}>
+                          Return: {orderReturn.status}
+                        </span>
+                        {orderReturn.status === "pending" && (
+                          <button 
+                            type="button"
+                            onClick={() => {
+                              handleOpenReturnForm(selectedDetailedOrder, orderReturn);
+                              setSelectedDetailedOrder(null);
+                            }}
+                            className="border border-[#07512E] text-[#07512E] hover:bg-[#07512E] hover:text-white font-semibold px-3 py-1.5 rounded text-xs transition-all cursor-pointer bg-white"
+                          >
+                            Edit Return
+                          </button>
+                        )}
+                      </div>
+                    );
+                  }
+                  return (
+                    <button 
+                      type="button"
+                      onClick={() => {
+                        handleOpenReturnForm(selectedDetailedOrder);
+                        setSelectedDetailedOrder(null); // Close details modal
+                      }}
+                      className="bg-amber-600 hover:bg-amber-700 text-white font-semibold px-4 py-2 rounded text-xs transition-colors cursor-pointer"
+                    >
+                      Request Return
+                    </button>
+                  );
+                })()}
                 {["pending", "confirmed"].includes(selectedDetailedOrder.orderStatus) && (
                   <button 
                     type="button"

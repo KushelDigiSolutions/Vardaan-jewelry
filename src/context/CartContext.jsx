@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
 import { useAuth } from "./AuthContext";
+import { useToast } from "./ToastContext";
 
 const CartContext = createContext();
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
@@ -10,6 +11,7 @@ export function CartProvider({ children }) {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const { token } = useAuth();
+  const toast = useToast();
 
   // Helper to fetch options
   const getHeaders = useCallback(() => {
@@ -176,6 +178,9 @@ export function CartProvider({ children }) {
 
   // Remove an item
   const removeFromCart = useCallback(async (id, variant = "50") => {
+    const item = cartItems.find((i) => (i.productId === id || i.id === id) && i.variant === variant);
+    const itemName = item ? item.name : "Product";
+
     if (token) {
       try {
         const res = await fetch(`${API_URL}/cart/remove`, {
@@ -189,25 +194,31 @@ export function CartProvider({ children }) {
         });
         if (res.ok) {
           await fetchCart();
+          toast.success(`Removed "${itemName}" from cart`);
         }
       } catch (err) {
         console.error("Remove from cart API error:", err);
       }
     } else {
       setCartItems((prev) => {
-        const updated = prev.filter((item) => !(item.id === id && item.variant === variant));
+        const updated = prev.filter((item) => !((item.id === id || item.productId === id) && item.variant === variant));
         saveToLocal(updated);
+        toast.success(`Removed "${itemName}" from cart`);
         return updated;
       });
     }
-  }, [token, getHeaders, fetchCart]);
+  }, [token, getHeaders, fetchCart, cartItems, toast]);
 
   // Update item quantity
   const updateQuantity = useCallback(async (id, delta, variant = "50") => {
-    const item = cartItems.find(i => i.id === id && i.variant === variant);
+    const item = cartItems.find(i => (i.id === id || i.productId === id) && i.variant === variant);
     if (!item) return;
 
     const newQty = Math.max(1, item.quantity + delta);
+    if (newQty === item.quantity) return; // No change (e.g. trying to decrease below 1)
+
+    const isIncrease = delta > 0;
+    const actionText = isIncrease ? "Increased" : "Decreased";
 
     if (token) {
       try {
@@ -222,6 +233,7 @@ export function CartProvider({ children }) {
         });
         if (res.ok) {
           await fetchCart();
+          toast.success(`${actionText} "${item.name}" quantity to ${newQty}`);
         }
       } catch (err) {
         console.error("Update quantity API error:", err);
@@ -229,15 +241,16 @@ export function CartProvider({ children }) {
     } else {
       setCartItems((prev) => {
         const updated = prev.map((item) =>
-          item.id === id && item.variant === variant
+          (item.id === id || item.productId === id) && item.variant === variant
             ? { ...item, quantity: newQty }
             : item
         );
         saveToLocal(updated);
+        toast.success(`${actionText} "${item.name}" quantity to ${newQty}`);
         return updated;
       });
     }
-  }, [token, getHeaders, cartItems, fetchCart]);
+  }, [token, getHeaders, cartItems, fetchCart, toast]);
 
   const clearCart = useCallback(async () => {
     if (token) {

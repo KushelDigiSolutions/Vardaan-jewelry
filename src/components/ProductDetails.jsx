@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import Link from "next/link";
-import { FiShare2, FiHome, FiHeart, FiCheck, FiAlertTriangle } from "react-icons/fi";
+import { FiShare2, FiHome, FiHeart, FiCheck, FiAlertTriangle, FiStar } from "react-icons/fi";
 import { TbTruckDelivery } from "react-icons/tb";
 import { LuShieldCheck } from "react-icons/lu";
 import { useCart } from "../context/CartContext";
@@ -36,6 +36,10 @@ export default function ProductDetails({ productId }) {
   const [selectedGrossWeight, setSelectedGrossWeight] = useState("");
   const [selectedNetWeight, setSelectedNetWeight]     = useState("");
 
+  // Product reviews and rating states
+  const [reviews, setReviews] = useState([]);
+  const [reviewsLoading, setReviewsLoading] = useState(false);
+
   // ── Fetch product ──────────────────────────────────────────────────────────
   useEffect(() => {
     const fetchProductData = async () => {
@@ -58,6 +62,9 @@ export default function ProductDetails({ productId }) {
             setSelectedNetWeight(firstVar.netWeight || "");
             setSelectedSize("");
           }
+          if (p.reviews && Array.isArray(p.reviews)) {
+            setReviews(p.reviews);
+          }
         }
       } catch (err) {
         console.error("Failed to load product details:", err);
@@ -66,6 +73,27 @@ export default function ProductDetails({ productId }) {
       }
     };
     fetchProductData();
+  }, [productId]);
+
+  // ── Fetch reviews ──────────────────────────────────────────────────────────
+  useEffect(() => {
+    const fetchReviews = async () => {
+      if (!productId) return;
+      setReviewsLoading(true);
+      try {
+        const res = await fetch(`${API_URL}/products/${productId}/reviews`);
+        if (res.ok) {
+          const json = await res.json();
+          const reviewsData = Array.isArray(json) ? json : (json.data || json.reviews || []);
+          setReviews(reviewsData);
+        }
+      } catch (err) {
+        console.error("Failed to load reviews:", err);
+      } finally {
+        setReviewsLoading(false);
+      }
+    };
+    fetchReviews();
   }, [productId]);
 
   // ── Check wishlist ─────────────────────────────────────────────────────────
@@ -181,10 +209,12 @@ export default function ProductDetails({ productId }) {
   // Sync quantity from cart if item is already in cart
   useEffect(() => {
     if (isInCart && cartItem) {
+      /* eslint-disable-next-line react-hooks/set-state-in-effect */
       setQuantity(cartItem.quantity);
     } else {
       setQuantity(1);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isInCart, cartItem?.quantity]);
 
   /** Current display price */
@@ -199,6 +229,26 @@ export default function ProductDetails({ productId }) {
   const hasDiscount = activeVariant
     ? activeVariant.salePrice > 0 && activeVariant.salePrice < activeVariant.price
     : product?.salePrice > 0 && product?.salePrice < product?.price;
+
+  // Compute average rating and count dynamically
+  const { averageRating, totalRatingsCount } = useMemo(() => {
+    let totalScore = 0;
+    const count = reviews.length;
+
+    if (count > 0) {
+      totalScore = reviews.reduce((sum, r) => sum + (r.rating || 0), 0);
+      return {
+        averageRating: Number((totalScore / count).toFixed(1)),
+        totalRatingsCount: count
+      };
+    }
+
+    // Fallback to product model stats if available
+    return {
+      averageRating: product?.averageRating || product?.rating || 0,
+      totalRatingsCount: product?.totalRatings || product?.numReviews || 0
+    };
+  }, [reviews, product]);
 
   /** Out-of-stock flag */
   const isOutOfStock = activeVariant
@@ -314,7 +364,6 @@ export default function ProductDetails({ productId }) {
         if (newQty === quantity) return;
         await updateQuantity(product._id, delta, variantStr);
         setQuantity(newQty);
-        toast.success("Cart updated successfully!");
       } catch (err) {
         console.error("Cart update quantity error:", err);
         toast.error("Failed to update cart quantity.");
@@ -405,17 +454,44 @@ export default function ProductDetails({ productId }) {
 
           {/* ── Price Display ── */}
           <div className="mb-6">
-            <p className="text-[22px] text-[#303030] font-medium font-sans flex items-baseline gap-1.5">
-              INR:&nbsp;
-              <span className="font-light text-[24px]">
-                {displayPrice.toLocaleString("en-IN")}
-              </span>
-              {hasDiscount && (
-                <span className="ml-2 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-semibold">
-                  SALE
+            <div className="flex items-center justify-between flex-wrap gap-2 mb-1.5">
+              <p className="text-[22px] text-[#303030] font-medium font-sans flex items-baseline gap-1.5">
+                INR:&nbsp;
+                <span className="font-light text-[24px]">
+                  {displayPrice.toLocaleString("en-IN")}
                 </span>
+                {hasDiscount && (
+                  <span className="ml-2 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-semibold">
+                    SALE
+                  </span>
+                )}
+              </p>
+
+              {/* Price Rating */}
+              {totalRatingsCount > 0 && (
+                <div 
+                  onClick={() => {
+                    const el = document.getElementById("reviews-section");
+                    if (el) el.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="flex items-center gap-1 cursor-pointer hover:opacity-80 transition-opacity bg-[#FFFDF4] px-2 py-0.5 border border-[#F5EEDC] rounded-full"
+                  title="Click to view reviews"
+                >
+                  <div className="flex text-[#FFDE59]">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <FiStar 
+                        key={i} 
+                        className={`w-3.5 h-3.5 ${
+                          i < Math.round(averageRating) ? "fill-[#FFDE59]" : "text-gray-300"
+                        }`} 
+                      />
+                    ))}
+                  </div>
+                  <span className="text-xs font-semibold text-gray-700 ml-0.5">{averageRating}</span>
+                  <span className="text-[10px] text-gray-400">({totalRatingsCount})</span>
+                </div>
               )}
-            </p>
+            </div>
             {hasDiscount && (
               <p className="text-sm text-gray-400 line-through">
                 Original Price: ₹ {originalPrice.toLocaleString("en-IN")}
@@ -817,6 +893,120 @@ export default function ProductDetails({ productId }) {
                 ))
               }
             </ul>
+          </div>
+
+          {/* =========================================
+              CUSTOMER REVIEWS SECTION
+              ========================================= */}
+          <div id="reviews-section" className="bg-[#FFFDF4] px-6 pt-5 pb-6 sm:px-8 sm:pt-6 sm:pb-8 border border-[#F5EEDC] mb-5 text-left font-sans">
+            <h2 className="text-[28px] font-medium font-serif text-[#303030] mb-4">
+              Customer Reviews
+            </h2>
+            <div className="w-full h-px bg-[#E5DCC5] mb-6"></div>
+
+            {/* Overall Rating Stats */}
+            <div className="flex flex-col sm:flex-row items-center gap-6 mb-8 bg-[#FAF9F5] p-5 border border-[#E5DCC5]/40 rounded">
+              <div className="text-center shrink-0">
+                <p className="text-4xl font-serif font-bold text-[#07512E]">{averageRating}</p>
+                <div className="flex justify-center text-[#FFDE59] my-2">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <FiStar 
+                      key={i} 
+                      className={`w-5 h-5 ${
+                        i < Math.round(averageRating) ? "fill-[#FFDE59]" : "text-gray-300"
+                      }`} 
+                    />
+                  ))}
+                </div>
+                <p className="text-xs text-gray-500 font-medium">Based on {totalRatingsCount} ratings</p>
+              </div>
+
+              {/* Star Progress Bars */}
+              <div className="w-full space-y-1.5">
+                {[5, 4, 3, 2, 1].map((stars) => {
+                  const starCount = reviews.filter(r => r.rating === stars).length;
+                  const percent = totalRatingsCount > 0 ? (starCount / totalRatingsCount) * 100 : 0;
+                  return (
+                    <div key={stars} className="flex items-center gap-3 text-xs">
+                      <span className="w-8 text-gray-500 font-semibold flex items-center justify-end gap-0.5">
+                        {stars} <FiStar className="w-3 h-3 text-[#FFDE59] fill-[#FFDE59]" />
+                      </span>
+                      <div className="flex-1 h-2 bg-gray-200/80 rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-[#07512E] transition-all duration-500" 
+                          style={{ width: `${percent}%` }}
+                        />
+                      </div>
+                      <span className="w-6 text-gray-400 text-right">{starCount}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Reviews List */}
+            {reviewsLoading ? (
+              <div className="text-center py-6 text-gray-500 text-sm">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#07512E] mx-auto mb-2"></div>
+                Loading reviews...
+              </div>
+            ) : reviews.length > 0 ? (
+              <div className="space-y-4 max-h-[450px] overflow-y-auto pr-2 custom-scrollbar">
+                {reviews.map((review, idx) => {
+                  const reviewerName = review.name || review.user?.name || review.userName || "Verified Buyer";
+                  const initials = reviewerName
+                    .split(" ")
+                    .map(n => n[0])
+                    .join("")
+                    .substring(0, 2)
+                    .toUpperCase();
+                  
+                  const reviewDate = review.createdAt 
+                    ? new Date(review.createdAt).toLocaleDateString("en-IN", {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })
+                    : "Recently";
+
+                  return (
+                    <div key={review._id || idx} className="border-b border-[#E5DCC5]/30 pb-4 last:border-0 last:pb-0">
+                      <div className="flex items-start gap-3">
+                        <div className="w-9 h-9 rounded-full bg-[#07512E]/10 border border-[#07512E]/20 flex items-center justify-center text-xs font-bold text-[#07512E] shrink-0">
+                          {initials}
+                        </div>
+                        <div className="flex-grow">
+                          <div className="flex items-center justify-between flex-wrap gap-1 mb-1">
+                            <span className="text-[14px] font-bold text-gray-900">{reviewerName}</span>
+                            <span className="text-[11px] text-gray-400 font-sans">{reviewDate}</span>
+                          </div>
+                          
+                          <div className="flex text-[#FFDE59] mb-1.5">
+                            {Array.from({ length: 5 }).map((_, i) => (
+                              <FiStar 
+                                key={i} 
+                                className={`w-3.5 h-3.5 ${
+                                  i < (review.rating || 0) ? "fill-[#FFDE59]" : "text-gray-300"
+                                }`} 
+                              />
+                            ))}
+                          </div>
+
+                          <p className="text-[13.5px] text-[#404040] leading-relaxed font-normal">
+                            {review.comment}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="text-center py-8 text-gray-500 bg-[#FAF9F5]/40 border border-dashed border-[#E5DCC5]/40 rounded">
+                <p className="text-[14px] mb-1">No reviews yet for this product.</p>
+                <p className="text-xs text-gray-400">Purchased this item? You can leave a review from your Order History in your Profile dashboard.</p>
+              </div>
+            )}
           </div>
 
           {/* Safe Checkout & Logos */}
