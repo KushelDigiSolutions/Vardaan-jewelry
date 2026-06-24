@@ -2,10 +2,12 @@
 
 import React, { useState } from "react";
 import { FiCheck } from "react-icons/fi";
+import { useToast } from "../context/ToastContext";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
 export default function ContactForm() {
+  const toast = useToast();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -26,6 +28,29 @@ export default function ContactForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // 1. Name validation: At least 2 characters
+    if (formData.name.trim().length < 2) {
+      toast.error("Full Name must be at least 2 characters long.");
+      return;
+    }
+
+    // 2. Email validation: valid syntax, no double dot, exactly one @
+    const email = formData.email.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const atCount = (email.match(/@/g) || []).length;
+    if (!emailRegex.test(email) || email.includes('..') || atCount !== 1) {
+      toast.error("Please enter a valid email address (e.g. yourname@domain.com, containing exactly one '@' and no double dots).");
+      return;
+    }
+
+    // 3. Mobile validation: Exactly 10 digits
+    const phone = formData.phone.trim();
+    if (!/^\d{10}$/.test(phone)) {
+      toast.error("Phone number must be exactly 10 digits (e.g., 9876543210).");
+      return;
+    }
+
     setIsSubmitting(true);
     
     try {
@@ -33,13 +58,16 @@ export default function ContactForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          subject: formData.subject,
-          message: formData.message
+          name: formData.name.trim(),
+          email: email,
+          phone: phone,
+          subject: formData.subject.trim(),
+          message: formData.message.trim()
         })
       });
-      if (res.ok) {
+      const data = await res.json();
+      if (res.ok && data.success) {
+        toast.success(data.message || "Thank you! Your private concierge inquiry has been registered successfully.");
         setIsSubmitted(true);
         setFormData({
           name: "",
@@ -48,9 +76,12 @@ export default function ContactForm() {
           subject: "",
           message: ""
         });
+      } else {
+        toast.error(data.message || "Failed to record inquiry. Please try again.");
       }
     } catch (err) {
       console.error("Failed to send contact inquiry:", err);
+      toast.error("Connection failed: Could not reach the server. Please check your internet connection.");
     } finally {
       setIsSubmitting(false);
     }
@@ -186,7 +217,7 @@ export default function ContactForm() {
                   </label>
                 </div>
 
-                {/* Phone Number */}
+                 {/* Phone Number */}
                 <div className="relative flex flex-col pt-4">
                   <input 
                     type="tel" 
@@ -194,6 +225,7 @@ export default function ContactForm() {
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder=" "
+                    required
                     className="peer w-full bg-transparent border-b border-white/20 focus:border-[#FFDE59] py-2 text-sm text-white focus:outline-none transition-colors duration-300 font-light"
                     id="phone"
                   />
@@ -201,7 +233,7 @@ export default function ContactForm() {
                     htmlFor="phone"
                     className="absolute top-4 left-0 text-xs text-gray-400 font-semibold tracking-widest uppercase transition-all duration-300 pointer-events-none peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#FFDE59] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[9px] peer-[:not(:placeholder-shown)]:text-[#FFDE59]"
                   >
-                    Phone Number
+                    Phone Number *
                   </label>
                 </div>
 

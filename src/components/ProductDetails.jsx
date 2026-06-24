@@ -25,6 +25,7 @@ export default function ProductDetails({ productId }) {
   const [loading, setLoading]           = useState(true);
   const [quantity, setQuantity]         = useState(1);
   const [selectedImageIdx, setSelectedImageIdx] = useState(0);
+  const [selectedWearableIdx, setSelectedWearableIdx] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [addedFeedback, setAddedFeedback] = useState(false);
 
@@ -757,28 +758,91 @@ export default function ProductDetails({ productId }) {
         {/* =========================================
             COLUMN 2: IMAGE GALLERY
             ========================================= */}
-        <div className="w-full lg:w-[395px] flex flex-col gap-4 order-1 lg:order-2 shrink-0">
-          <div className="w-full aspect-square bg-[#F7F5F0] overflow-hidden relative border border-gray-100 rounded-lg">
-            <img
-              src={activeImage}
-              alt={product.name}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
+        <div className="w-full lg:w-[395px] flex flex-col gap-6 order-1 lg:order-2 shrink-0">
+          {/* Top Section: Main product image */}
+          <div>
+            <span className="text-[11px] uppercase font-bold text-amber-800 tracking-widest block mb-2 font-sans">Product Close-up</span>
+            <div className="w-full aspect-square bg-[#F7F5F0] overflow-hidden relative border border-gray-100 rounded-lg shadow-sm">
+              <img
+                src={product.mainImage || product.images?.[0] || "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png"}
+                alt={product.name}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+              />
+            </div>
           </div>
 
-          {product.images && product.images.length > 1 && (
-            <div className="flex items-center justify-center gap-2 overflow-x-auto py-1">
-              {product.images.map((img, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setSelectedImageIdx(idx)}
-                  className={`w-16 h-14 bg-gray-50 border-2 cursor-pointer shrink-0 rounded overflow-hidden transition-all ${
-                    selectedImageIdx === idx ? "border-[#07512E]" : "border-transparent hover:border-gray-200"
-                  }`}
-                >
-                  <img src={img} alt={`${product.name} view ${idx + 1}`} className="w-full h-full object-cover" />
-                </button>
-              ))}
+          {/* Bottom Section: Wearable Media (Images & Videos showing the product being worn) */}
+          {product.wearableMedia && product.wearableMedia.length > 0 && (
+            <div className="flex flex-col gap-3 pt-4 border-t border-gray-200">
+              <span className="text-[11px] uppercase font-bold text-amber-800 tracking-widest block mb-1 font-sans">On Body & Details</span>
+              
+              {/* Active Wearable Media Display Area */}
+              <div className="w-full aspect-[4/5] bg-[#F7F5F0] overflow-hidden relative border border-gray-100 rounded-lg shadow-sm">
+                {product.wearableMedia[selectedWearableIdx]?.mediaType === 'video' ? (
+                  <video
+                    key={product.wearableMedia[selectedWearableIdx]?.url}
+                    src={product.wearableMedia[selectedWearableIdx]?.url}
+                    autoPlay
+                    loop
+                    muted
+                    controls
+                    playsInline
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                ) : (
+                  <img
+                    src={product.wearableMedia[selectedWearableIdx]?.url}
+                    alt={`${product.name} on body`}
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                )}
+              </div>
+
+              {/* Thumbnails below the wearable display */}
+              <div className="flex items-center justify-start gap-2 overflow-x-auto py-1">
+                {product.wearableMedia.map((media, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setSelectedWearableIdx(idx)}
+                    className={`w-16 h-16 bg-gray-50 border-2 cursor-pointer shrink-0 rounded overflow-hidden relative transition-all ${
+                      selectedWearableIdx === idx ? "border-[#07512E] scale-105 shadow-sm" : "border-transparent opacity-80 hover:opacity-100"
+                    }`}
+                  >
+                    {media.mediaType === 'video' ? (
+                      <div className="w-full h-full relative">
+                        <video src={media.url} muted className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                          <svg className="w-6 h-6 text-white fill-white" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                          </svg>
+                        </div>
+                      </div>
+                    ) : (
+                      <img src={media.url} alt={`Wearable thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Fallback to traditional multiple images gallery if wearable media is not specified */}
+          {(!product.wearableMedia || product.wearableMedia.length === 0) && product.images && product.images.length > 1 && (
+            <div className="flex flex-col gap-2">
+              <span className="text-[11px] uppercase font-bold text-amber-800 tracking-widest block font-sans">Additional Views</span>
+              <div className="flex items-center justify-center gap-2 overflow-x-auto py-1">
+                {product.images.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setSelectedImageIdx(idx)}
+                    className={`w-16 h-14 bg-gray-50 border-2 cursor-pointer shrink-0 rounded overflow-hidden transition-all ${
+                      selectedImageIdx === idx ? "border-[#07512E]" : "border-transparent hover:border-gray-200"
+                    }`}
+                  >
+                    <img src={img} alt={`${product.name} view ${idx + 1}`} className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
             </div>
           )}
         </div>
