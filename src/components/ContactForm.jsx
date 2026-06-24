@@ -57,11 +57,11 @@ export default function ContactForm() {
   };
 
   return (
-    <section className="py-16 lg:py-28 bg-[#FAF9F6] border-t border-gray-100 relative" id="contact-form-section">
-      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+    <section className="py-16 lg:py-28 lg:px-6 bg-[#FAF9F6] border-t border-gray-100 relative" id="contact-form-section">
+      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 grid grid-cols-1 xl:grid-cols-12   gap-12 lg:gap-16 items-start">
         
         {/* Left Column: Asymmetric Guide sidebar */}
-        <div className="lg:col-span-4 flex flex-col gap-6 lg:sticky lg:top-8">
+        <div className="lg:col-span-4 flex  flex-col gap-6 lg:sticky lg:top-8">
           <span className="text-[12px] md:text-[14px] tracking-[0.3em] font-semibold text-amber-600 uppercase">
             Private Commissions
           </span>
@@ -99,7 +99,7 @@ export default function ContactForm() {
         </div>
 
         {/* Right Column: Flat-Line Luxury Form Card */}
-        <div className="lg:col-span-8 bg-[#07512E] rounded-xl shadow-[0_20px_50px_rgba(7,81,78,0.15)] p-8 md:p-12 relative overflow-hidden w-full text-white border border-white/5">
+        <div className="lg:col-span-8 bg-[#07512E] rounded-xl shadow-[0_20px_50px_rgba(7,81,78,0.15)] p-8 md:p-10 relative overflow-hidden w-full text-white border border-white/5">
           {/* Subtle Watermark overlay */}
           <div 
             className="absolute inset-0 bg-no-repeat bg-left-bottom bg-contain pointer-events-none mix-blend-screen opacity-[0.06]"
@@ -252,7 +252,7 @@ export default function ContactForm() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-[#FFDE59] hover:bg-[#e6c543] text-[#07512E] font-semibold text-[12px] md:text-[14px] tracking-widest px-10 py-4 uppercase rounded shadow-lg transition-colors cursor-pointer flex items-center justify-center gap-2"
+                  className="bg-[#FFDE59] hover:bg-[#e6c543] text-[#07512E] font-semibold text-[12px] md:text-[14px] tracking-widest px-8 py-3 uppercase rounded shadow-lg transition-colors cursor-pointer flex items-center justify-center gap-2"
                 >
                   {isSubmitting ? (
                     <>
@@ -263,7 +263,7 @@ export default function ContactForm() {
                       <span>Transmitting...</span>
                     </>
                   ) : (
-                    <span>Submit Inquiry</span>
+                    <span className="text-[14px] font-semibold">Submit Inquiry</span>
                   )}
                 </button>
               </div>

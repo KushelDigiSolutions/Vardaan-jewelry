@@ -19,7 +19,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#07512E] text-white select-none h-auto">
       {/* 1. Newsletter Segment */}
-      <div className="relative overflow-hidden border-b border-white/5 min-h-[220px] py-10 lg:py-0 flex items-center">
+      <div className="relative overflow-hidden border-b border-white/5 min-h-[220px] py-10 lg:py-0  lg:px-10 flex items-center">
         {/* Left Side decorative triangle overlay */}
         <div className="absolute left-0 bottom-0 w-[120px] h-[120px] bg-[#FFDE59] opacity-20 pointer-events-none [clip-path:polygon(0_0,0_100%,100%_100%)]" />
         {/* Right Side decorative triangle overlay */}
@@ -35,7 +35,7 @@ export default function Footer() {
               <h3 className="font-serif text-[#FFFFFF] text-[28px] font-bold uppercase leading-[1.2]">
                 SUBSCRIBE TO THE NEWSLETTER
               </h3>
-              <p className="text-[14px] text-[#FFFFFF] font-normal leading-[1.6] mt-2">
+              <p className="text-[16px] text-[#FFFFFF] font-normal leading-[1.6] mt-2">
                 Subscribe to our newsletter and be the first to know about exclusive offers, new product releases, and exciting events at Typhoon Defense.
               </p>
             </div>
@@ -51,12 +51,12 @@ export default function Footer() {
               placeholder="Enter your email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="flex-grow px-4 h-full text-xs text-gray-800 focus:outline-none placeholder-gray-400 font-medium"
+              className="flex-grow px-4 h-full text-[16px] text-gray-800 focus:outline-none placeholder-gray-400 font-medium"
               required
             />
             <button
               type="submit"
-              className="bg-[#FFDE59] hover:bg-[#e6c543] text-[#07512E] font-semibold text-xs tracking-widest px-8 h-full uppercase transition-colors duration-200 cursor-pointer shrink-0"
+              className="bg-[#FFDE59] hover:bg-[#e6c543] text-[#07512E] sm: font-semibold text-[16px] tracking-widest px-8 h-full uppercase transition-colors duration-200 cursor-pointer shrink-0"
             >
               Subscribe
             </button>
@@ -71,8 +71,8 @@ export default function Footer() {
         <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 py-10 lg:py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-0 text-sm">
 
           {/* Col 1: Logo, text, social links */}
-          <div className="lg:col-span-3 flex flex-col gap-6 justify-start">
-            <div className="w-full lg:max-w-[334px] h-auto flex flex-col justify-between gap-6">
+          <div className="lg:col-span-3 flex flex-col gap-6 justify-start ">
+            <div className="w-full lg:max-w-[334px] h-auto  flex flex-col justify-between gap-6 lg:ps-6 xl:ps-0 ">
               <div className="flex flex-col items-start">
                 {/* SVG Logo matching the branding */}
                 <div className="flex flex-col items-center gap-1 w-max">
@@ -90,7 +90,7 @@ export default function Footer() {
             </div>
 
             {/* Circle Social Links */}
-            <div className="flex items-center gap-4 mt-2">
+            <div className="flex items-center gap-4 mt-2 lg:ps-6 xl:ps-0">
               {[
                 { icon: FaFacebookF, label: "Facebook" },
                 { icon: FiInstagram, label: "Instagram" },
@@ -219,18 +219,18 @@ export default function Footer() {
         <div className="bg-[#FFDE59] text-[#07512E] py-4 border-t border-[#ffd738]">
           <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col md:flex-row items-center md:justify-between gap-5 md:gap-3 text-[13px] font-semibold">
             <div className="text-center md:text-left flex flex-col md:flex-row md:items-center">
-              <span className="flex items-center justify-center md:justify-start gap-1">
-                <span className="text-[16px] leading-none">©</span> Copyright 2026 Vardaan
+              <span className="flex items-center justify-center md:justify-start gap-1 text-[16px] font-normal">
+                <span className="text-[24px]  leading-none">©</span> Copyright 2026 Vardaan
               </span>
-              <span className="md:ml-1 mt-0.5 md:mt-0">All Rights Reserved.</span>
+              <span className="md:ml-1 mt-0.5 md:mt-0 text-[16px] font-normal">All Rights Reserved.</span>
             </div>
             <div className="text-center md:text-right flex flex-col md:flex-row md:items-center">
-              <span>Designed and developed by</span>
+              <span className="text-[16px] font-normal">Designed and developed by</span>
               <a
                 href="https://kusheldigi.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className=" md:ml-1 mt-0.5 md:mt-0"
+                className=" md:ml-1 mt-0.5 md:mt-0 text-[16px] font-semibold"
               >
                 kusheldigi.com
               </a>

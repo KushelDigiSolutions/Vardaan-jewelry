@@ -26,7 +26,7 @@ export default function TrustFeatures() {
   ];
 
   return (
-    <section className="py-12 md:py-20 bg-white">
+    <section className="py-12 md:py-20 lg:px-6 bg-white">
       <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-8">
           {features.map((feature, index) => (

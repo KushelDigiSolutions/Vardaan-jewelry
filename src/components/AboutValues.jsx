@@ -2,6 +2,7 @@
 
 import React from "react";
 import { FiCheckSquare, FiGlobe, FiLayers, FiCompass } from "react-icons/fi";
+import FAQ from "./FAQ";
 
 export default function AboutValues() {
   const values = [
@@ -28,7 +29,7 @@ export default function AboutValues() {
   ];
 
   return (
-    <section className="py-16 lg:py-28 bg-[#07512E] text-white relative overflow-hidden">
+    <section className="py-16 lg:pt-20 bg-[#07512E] text-white relative overflow-hidden">
       {/* Background brand stamp watermark */}
       <div 
         className="absolute inset-0 bg-no-repeat bg-center bg-contain pointer-events-none mix-blend-screen opacity-[0.08]"
@@ -49,7 +50,7 @@ export default function AboutValues() {
         </div>
 
         {/* Glassmorphic Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 pb-8 lg:px-6">
           {values.map((val, idx) => {
             const Icon = val.icon;
             return (
@@ -75,8 +76,12 @@ export default function AboutValues() {
             );
           })}
         </div>
+        
 
       </div>
+      <div>
+          <FAQ/>
+        </div>
     </section>
   );
 }

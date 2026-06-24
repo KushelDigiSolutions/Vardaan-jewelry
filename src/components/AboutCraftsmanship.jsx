@@ -31,7 +31,7 @@ export default function AboutCraftsmanship() {
   ];
 
   return (
-    <section className="py-16 lg:py-28 bg-[#FCFCF9] border-y border-gray-100">
+    <section className="py-16 lg:py-28 lg:px-6 bg-[#FCFCF9] border-y border-gray-100">
       <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0">
         
         {/* Section Title */}

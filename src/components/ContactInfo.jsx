@@ -29,7 +29,7 @@ export default function ContactInfo() {
   ];
 
   return (
-    <section className="py-16 lg:py-28 bg-[#FCFCF9]">
+    <section className="py-16 lg:py-28 lg:px-6  bg-[#FCFCF9]">
       <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
         
         {/* Column 1: Staggered Image Showcase (Left - 4 columns) */}
@@ -82,7 +82,7 @@ export default function ContactInfo() {
         </div>
 
         {/* Column 3: Operating Hours & Direct Suit CTA (Right - 4 columns) */}
-        <div className="lg:col-span-4 flex flex-col items-start gap-6 pl-0 lg:pl-6">
+        <div className="lg:col-span-4  flex flex-col items-start gap-6 pl-0 lg:pl-6">
           <span className="text-[12px] md:text-[14px] tracking-widest font-semibold text-amber-600 uppercase">
             Delhi Showroom
           </span>

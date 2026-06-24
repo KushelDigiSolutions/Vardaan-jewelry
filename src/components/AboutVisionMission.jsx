@@ -4,15 +4,15 @@ import React from "react";
 
 export default function AboutVisionMission() {
   return (
-    <section className="py-16 lg:py-32 bg-[#FAF9F6] overflow-hidden">
-      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+    <section className="py-16 lg:py-32 lg:px-6 bg-[#FAF9F6] overflow-hidden">
+      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 grid  grid-cols-1 place-items-center lg:grid-cols-12 gap-12 items-center">
         
         {/* Descriptive Section Heading */}
-        <div className="lg:col-span-4 flex flex-col items-start gap-4">
+        <div className="lg:col-span-4  flex flex-col items-start gap-4">
           <span className="text-[18px] tracking-widest font-semibold text-amber-600 uppercase">
             Maison Principles
           </span>
-          <h2 className="text-[32px] md:text-[48px] font-serif text-[#07512E] font-light leading-tight uppercase tracking-wide">
+          <h2 className="text-[28px] md:text-[36px] xl:text-[40px] font-serif text-[#07512E] font-light leading-tight uppercase tracking-wide">
             Our Purpose & <br />
             <span className="font-normal text-amber-600">Direction</span>
           </h2>

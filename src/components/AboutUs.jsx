@@ -2,8 +2,8 @@ import React from "react";
 
 export default function AboutUs() {
   return (
-    <section className="py-10 md:py-16 bg-[#FAF9F6]" id="about">
-      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+    <section className="py-10 md:py-16 lg:px-6  bg-[#FAF9F6]" id="about">
+      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 grid grid-cols-1 xl:grid-cols-12 gap-16 items-center">
         
         {/* Story Text */}
         <div className="lg:col-span-6 flex flex-col items-start gap-4">
@@ -11,7 +11,7 @@ export default function AboutUs() {
             Our Legacy
           </span>
           <h2 className="text-[32px] md:text-[48px] font-serif text-[#07512E] font-normal leading-tight tracking-wide uppercase">
-            Crafted for Grace, <br />
+            Crafted for Grace,
             Born of Blessings
           </h2>
           <div className="w-16 h-[2px] bg-[#FFDE59] mt-1 mb-2" />
@@ -53,8 +53,9 @@ export default function AboutUs() {
               className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 ease-out"
             />
             {/* Elegant transparent overlay with brand stamp */}
-            <div className="absolute bottom-4 right-4 bg-[#07512E]/90 text-[#FFDE59] text-[9px] tracking-[0.2em] font-serif uppercase px-4 py-2 rounded backdrop-blur-sm shadow-md">
-              Vardaan Atelier
+            <div className="absolute bottom-4 right-4  text-[#FFDE59] text-[9px] tracking-[0.2em] font-serif uppercase px-4 py-2 rounded backdrop-blur-sm shadow-md">
+                        <img src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781789797/vardan_logo_2_br1lkx.png" alt="" className="w-20 color-transparent" />
+
             </div>
           </div>
         </div>

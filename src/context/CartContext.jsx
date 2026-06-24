@@ -149,6 +149,8 @@ export function CartProvider({ children }) {
           }),
         });
         if (res.ok) {
+
+          
           await fetchCart();
         }
       } catch (err) {

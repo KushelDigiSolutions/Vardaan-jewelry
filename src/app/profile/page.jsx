@@ -595,11 +595,11 @@ export default function ProfilePage() {
       <Navbar />
 
       <div className="flex-1 w-full max-w-[1280px] mx-auto px-4 md:px-8 lg:px-12 py-10 lg:py-16 text-left">
-        <div className="flex items-center justify-between mb-8 border-b border-[#F0ECE3] pb-6">
-          <h1 className="text-[32px] md:text-[40px] font-serif text-[#07512E]">My Account Dashboard</h1>
+        <div className="flex sm: flex-wrap  sm: gap-4 items-center justify-between mb-8 border-b border-[#F0ECE3] pb-6">
+          <h1 className="text-[32px] md:text-[40px]  text-[#07512E]">My Account Dashboard</h1>
           <button
             onClick={() => { logout(); router.push("/login"); }}
-            className="flex items-center gap-1.5 border border-red-200 text-red-600 px-4 py-2 hover:bg-red-50 text-sm font-sans font-semibold cursor-pointer rounded"
+            className="flex items-center text-nowrap  gap-1.5 border border-red-200 text-red-600 px-4 py-2 hover:bg-red-50 text-sm font-sans font-semibold cursor-pointer rounded"
           >
             <FiLogOut /> Sign Out
           </button>
@@ -616,7 +616,7 @@ export default function ProfilePage() {
 
         <div className="flex flex-col lg:flex-row gap-8 items-start">
           {/* Tab Navigation Menu (Left Sidebar) */}
-          <div className="w-full lg:w-60 bg-white border border-[#F0ECE3] rounded-lg p-4 flex flex-col gap-1 shrink-0 font-sans shadow-sm">
+          <div className="w-full lg:w-60 bg-white border border-[#F0ECE3] rounded-lg p-4 flex flex-col gap-1 shrink-0  shadow-sm">
             <button
               onClick={() => { setActiveTab("info"); setMsg({ type: "", text: "" }); }}
               className={`flex items-center gap-2.5 px-4 py-3 rounded text-left text-sm font-semibold transition-colors cursor-pointer ${
@@ -660,7 +660,7 @@ export default function ProfilePage() {
           </div>
 
           {/* Tab Content Panel (Right Column) */}
-          <div className="flex-grow w-full bg-white border border-[#F0ECE3] rounded-lg p-6 sm:p-8 shadow-sm">
+          <div className="flex-grow w-full min-h-68  bg-white border border-[#F0ECE3] rounded-lg p-6 sm:p-8 shadow-sm">
             
             {/* TAB 1: Profile Info & Security */}
             {activeTab === "info" && (
@@ -808,7 +808,7 @@ export default function ProfilePage() {
             {activeTab === "addresses" && (
               <div className="animate-fade-in space-y-6">
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-xl font-serif text-[#07512E]">Saved Addresses</h3>
+                  <h3 className="text-xl font-serif text-[#07512E] font-semibold">Saved Addresses</h3>
                   {!isAddingAddress && !isEditingAddress && (
                     <button 
                       onClick={() => setIsAddingAddress(true)}
@@ -897,7 +897,7 @@ export default function ProfilePage() {
                         <div key={addr._id} className="border border-gray-200 rounded p-4 font-sans text-sm flex flex-col justify-between">
                           <div>
                             <p className="font-bold text-gray-900 mb-1.5 flex items-center gap-1.5">
-                              {addr.title} {addr.isDefault && <span className="bg-[#07512E] text-white px-1.5 py-0.5 rounded text-[9px] font-normal font-sans tracking-wide uppercase">DEFAULT</span>}
+                              {addr.title} {addr.isDefault && <span className="bg-[#07512E] text-white px-1.5 py-0.5 text-center rounded text-[9px] font-normal  tracking-wide uppercase">DEFAULT</span>}
                             </p>
                             <p className="text-gray-600">{addr.street}</p>
                             <p className="text-gray-600">{addr.city}, {addr.state} - {addr.zipCode}</p>
@@ -910,16 +910,16 @@ export default function ProfilePage() {
                           </div>
                           
                           <div className="border-t border-gray-100 pt-3 mt-4 flex items-center justify-between text-xs font-semibold">
-                            <div className="flex gap-2">
+                            <div className="flex gap-4 ">
                               <button 
                                 onClick={() => setIsEditingAddress(addr)}
-                                className="bg-transparent border-none text-[#07512E] hover:underline cursor-pointer flex items-center gap-1"
+                                className="bg-transparent border-none text-[14px] text-[#07512E] hover:underline cursor-pointer flex items-center gap-1"
                               >
                                 <FiEdit3 /> Edit
                               </button>
                               <button 
                                 onClick={() => deleteAddress(addr._id)}
-                                className="bg-transparent border-none text-red-500 hover:underline cursor-pointer flex items-center gap-1"
+                                className="bg-transparent border-none text-[14px] text-red-500 hover:underline cursor-pointer flex items-center gap-1"
                               >
                                 <FiTrash2 /> Delete
                               </button>
@@ -948,7 +948,7 @@ export default function ProfilePage() {
               <div className="animate-fade-in space-y-6 text-left">
                 <div className="flex justify-between items-center mb-4 border-b pb-4">
                   <div>
-                    <h3 className="text-xl font-serif text-[#07512E]">Change Account Password</h3>
+                    <h3 className="text-xl font-serif text-[#07512E] font-semibold">Change Account Password</h3>
                     <p className="text-xs text-gray-500 font-sans mt-1">Ensure your account is protected with a strong password.</p>
                   </div>
                 </div>
@@ -1154,12 +1154,12 @@ export default function ProfilePage() {
                 ) : (
                   // Orders log list
                   <div className="space-y-6">
-                    <h3 className="text-xl font-serif text-[#07512E]">Order Logs History</h3>
+                    <h3 className="text-xl font-serif text-[#07512E] font-semibold">Order Logs History</h3>
                     
                     {ordersLoading ? (
                       <div className="text-center py-8">
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#07512E] mx-auto mb-2"></div>
-                        <p className="text-xs text-gray-500">Querying transactions...</p>
+                        <p className="text-sm text-gray-500">Querying transactions...</p>
                       </div>
                     ) : orders.length === 0 ? (
                       <p className="text-sm text-gray-500 italic py-6">You haven't placed any orders yet. Visit our shop to find matching jewelry!</p>
@@ -1170,14 +1170,14 @@ export default function ProfilePage() {
                           {/* Order Metas Header */}
                           <div className="flex flex-col sm:flex-row justify-between pb-3.5 border-b border-gray-150 gap-2">
                             <div>
-                              <p className="font-bold text-gray-900">Order ID: <span className="font-mono text-xs text-[#0A5230]">#{o._id.substring(18)}</span></p>
-                              <p className="text-xs text-gray-500">Date: {new Date(o.createdAt).toLocaleDateString("en-IN")}</p>
+                              <p className="font-bold text-gray-900 text-[16px] ">Order ID: <span className="font-mono text-[14px] text-[#0A5230]">#{o._id.substring(18)}</span></p>
+                              <p className="text-xs text-gray-500 text-[14px]">Date: {new Date(o.createdAt).toLocaleDateString("en-IN")}</p>
                             </div>
                             <div className="flex gap-2 items-center text-xs">
-                              <span className={`px-2.5 py-0.5 rounded text-[11px] font-bold text-white capitalize ${
+                              <span className={`px-2.5 py-1 rounded text-[11px] font-bold text-white capitalize ${
                                 o.orderStatus === "delivered" ? "bg-green-700" : o.orderStatus === "cancelled" ? "bg-red-600" : "bg-amber-600"
                               }`}>{o.orderStatus}</span>
-                              <span className="font-bold text-gray-900">Total: ₹ {o.totalAmount.toLocaleString("en-IN")}</span>
+                              <span className="font-bold text-[15px] text-gray-900">Total:  ₹ {o.totalAmount.toLocaleString("en-IN")}</span>
                             </div>
                           </div>
 
@@ -1198,7 +1198,7 @@ export default function ProfilePage() {
                                       {item.variant && item.variant !== "default" && (
                                         <p className="text-[11px] text-amber-700 italic font-medium mt-0.5">{item.variant}</p>
                                       )}
-                                      <p className="text-xs text-gray-500">Qty: {item.quantity} | Price: ₹ {item.price.toLocaleString("en-IN")}</p>
+                                      <p className="text-[14px] text-gray-500 ">Qty: {item.quantity} | Price: ₹ {item.price.toLocaleString("en-IN")}</p>
                                     </div>
                                   </div>
                                   <div className="flex flex-col items-end gap-2 shrink-0">
@@ -1241,7 +1241,7 @@ export default function ProfilePage() {
                             <button
                               type="button"
                               onClick={() => setSelectedDetailedOrder(o)}
-                              className="text-[#07512E] hover:underline text-xs font-bold tracking-wider cursor-pointer"
+                              className="text-[#07512E] hover:underline text-sm font-bold tracking-wider cursor-pointer"
                             >
                               VIEW DETAILS & INVOICE
                             </button>
@@ -1305,7 +1305,7 @@ export default function ProfilePage() {
             {/* TAB 4: Track Returns */}
             {activeTab === "returns" && (
               <div className="animate-fade-in space-y-6">
-                <h3 className="text-xl font-serif text-[#07512E]">My Product Returns Logs</h3>
+                <h3 className="text-xl font-serif text-[#07512E] font-semibold">My Product Returns Logs</h3>
 
                 {returnsLoading ? (
                   <div className="text-center py-8">
