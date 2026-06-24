@@ -136,12 +136,12 @@ export default function LatestCollection() {
         {/* Right Side: Product Carousel */}
         <div className="w-full flex-1 flex flex-col min-w-0">
           {/* Header */}
-          <div className="flex justify-between items-center mb-8 w-full xl:h-[80px]">
-            <div className="flex flex-col justify-center gap-2">
+          <div className="flex justify-between flex-col md:flex-row  gap-4  sm:gap-8   xs: items-start md:items-center  mb-8 w-full xl:h-[80px]">
+            <div className="flex flex-col justify-start gap-2">
               <h2 className="text-[28px] sm:text-[32px] text-[#303030] font-medium tracking-wide leading-none">
                 Latest Collection
               </h2>
-              <Link href="/collections/latest" className="text-[20px] text-[#101010] font-medium hover:underline flex items-center gap-1 leading-none">
+              <Link href="/shop?category=latest" className="text-[20px] text-[#101010] font-medium hover:underline flex items-center gap-1 leading-none">
                 View All <span aria-hidden="true">&rarr;</span>
               </Link>
             </div>
@@ -149,7 +149,7 @@ export default function LatestCollection() {
             <div className="flex gap-3">
               <button
                 onClick={prevSlide}
-                className="w-10 h-10 rounded-full border border-[#07512E] flex items-center justify-center text-[#07512E] hover:bg-[#07512E] hover:text-white transition-colors"
+                className="w-10 h-10 rounded-full cursor-pointer border border-[#07512E] flex items-center justify-center text-[#07512E] hover:bg-[#07512E] hover:text-white transition-colors"
                 aria-label="Previous products"
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -158,7 +158,7 @@ export default function LatestCollection() {
               </button>
               <button
                 onClick={nextSlide}
-                className="w-10 h-10 rounded-full bg-[#07512E] flex items-center justify-center text-white hover:bg-[#04361E] transition-colors"
+                className="w-10 h-10 rounded-full cursor-pointer bg-[#07512E] flex items-center justify-center text-white hover:bg-[#04361E] transition-colors"
                 aria-label="Next products"
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">

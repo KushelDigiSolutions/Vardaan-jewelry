@@ -1,6 +1,13 @@
+'use client'
 import React from "react";
+import CountUp from "react-countup";
+import { useInView } from "react-intersection-observer";
 
 export default function AboutUs() {
+    const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.3,
+  });
   return (
     <section className="py-10 md:py-16 lg:px-6  bg-[#FAF9F6]" id="about">
       <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 grid grid-cols-1 xl:grid-cols-12 gap-16 items-center">
@@ -25,8 +32,8 @@ export default function AboutUs() {
           </p>
 
           <div className="flex gap-4 sm:gap-8 mt-6">
-            <div>
-              <span className="block font-serif text-3xl text-[#07512E]">20+</span>
+            <div ref={ref}>
+              <span className="block font-serif text-3xl text-[#07512E]"> {inView && <CountUp end={20} duration={2} />}+</span>
               <span className="text-[12px] md:text-[14px] text-gray-400 font-medium tracking-widest uppercase">Years of Artistry</span>
             </div>
             <div className="border-l border-gray-200 pl-4 sm:pl-8">

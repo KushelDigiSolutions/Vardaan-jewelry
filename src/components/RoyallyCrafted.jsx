@@ -83,14 +83,14 @@ export default function RoyallyCrafted() {
       <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col">
         
         {/* Header Section */}
-        <div className="flex justify-between items-center mb-10">
+        <div className="flex justify-between sm: flex-wrap sm: gap-4 items-center mb-10">
           <h2 className="text-3xl md:text-4xl font-serif text-[#1e2a24] font-medium tracking-wide">
             Royally Crafted for you
           </h2>
           <div className="flex gap-3">
             <button 
               onClick={prevSlide}
-              className="w-10 h-10 rounded-full border border-[#07512E] flex items-center justify-center text-[#07512E] hover:bg-[#07512E] hover:text-white transition-colors z-10"
+              className="w-10 h-10 rounded-full cursor-pointer border border-[#07512E] flex items-center justify-center text-[#07512E] hover:bg-[#07512E] hover:text-white transition-colors z-10"
               aria-label="Previous slide"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -99,7 +99,7 @@ export default function RoyallyCrafted() {
             </button>
             <button 
               onClick={nextSlide}
-              className="w-10 h-10 rounded-full bg-[#07512E] flex items-center justify-center text-white hover:bg-[#04361E] transition-colors z-10"
+              className="w-10 h-10 rounded-full cursor-pointer bg-[#07512E] flex items-center justify-center text-white hover:bg-[#04361E] transition-colors z-10"
               aria-label="Next slide"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
