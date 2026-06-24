@@ -26,6 +26,7 @@ export default function ShopByCategories() {
   const [currentIndex, setCurrentIndex] = useState(categories.length);
   const [isTransitioning, setIsTransitioning] = useState(true);
   const [slideWidth, setSlideWidth] = useState(380);
+  const [isHovered, setIsHovered] = useState(false);
   const totalItems = categories.length;
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export default function ShopByCategories() {
       } else if (window.innerWidth < 1024) {
         setSlideWidth((window.innerWidth - 32 - 16) / 2); // tablet 2 cols
       } else if (window.innerWidth < 1204) {
-        setSlideWidth((window.innerWidth - 32 - 32) / 3); // small desktop 3 cols
+        setSlideWidth((window.innerWidth - 64) / 3); // 1024px to 1204px: exactly 3 cards fit perfectly (32px padding + 32px gaps = 64px)
       } else {
         setSlideWidth(380); // large desktop fixed
       }
@@ -80,15 +81,16 @@ export default function ShopByCategories() {
   }, [isTransitioning]);
 
   useEffect(() => {
+    if (isHovered) return;
     const timer = setInterval(() => {
       nextSlide();
     }, 3000);
     return () => clearInterval(timer);
-  }, [nextSlide]);
+  }, [nextSlide, isHovered]);
 
   return (
     <section className="py-10 md:py-16 bg-[#FFF6E8] overflow-hidden">
-      <div className="w-full max-w-[1172px] mx-auto px-4 lg:px-0">
+      <div className="w-full max-w-[1172px] mx-auto px-4 xl:px-0">
         {/* Header Section */}
         <div className="flex justify-between items-center mb-10">
           <h2 className="text-[32px] font-medium font-serif text-[#07512E] ">
@@ -116,8 +118,12 @@ export default function ShopByCategories() {
           </div>
         </div>
 
-        {/* Carousel Window */}
-        <div className="w-full relative overflow-hidden">
+        {/* Carousel Window (Pause on Hover) */}
+        <div 
+          className="w-full relative overflow-hidden"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
           <div 
             className={`flex gap-4 ${isTransitioning ? 'transition-transform duration-700 ease-in-out' : ''}`}
             style={{ transform: `translateX(calc(-${currentIndex} * (${slideWidth}px + 16px)))` }}

@@ -13,7 +13,7 @@ export default function LatestCollectionBanner() {
       />
 
       {/* Image Overlay for Text Readability */}
-      <img 
+      <img
         src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781605418/Overlay_for_readability_2_ylbztd.png"
         alt="Overlay"
         className="absolute inset-0 w-full h-full object-cover pointer-events-none"

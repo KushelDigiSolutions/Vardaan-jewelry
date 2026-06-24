@@ -16,10 +16,12 @@ export default function Navbar() {
   const { user } = useAuth();
   const cartItemCount = cartItems?.length || 0;
 
+
+
   useEffect(() => {
     const handleScroll = () => {
-      // Show sticky navbar after scrolling down completely past the normal header
-      if (window.scrollY > 300) {
+      // Show sticky navbar immediately upon a slight scroll
+      if (window.scrollY > 20) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -40,8 +42,8 @@ export default function Navbar() {
     <div className="bg-[#FFDE59] text-[#07512E] py-2.5 px-4 md:px-8 lg:px-12 grid grid-cols-2 md:grid-cols-2 items-center gap-4 text-xs md:text-[13px] font-medium">
       {/* Phone Call Section (Left Aligned) */}
       <div className="flex items-center justify-center md:justify-start">
-        <a 
-          href="tel:+919818719997" 
+        <a
+          href="tel:+919818719997"
           className="flex items-center gap-2  transition-opacity"
         >
           <FiPhone className="w-[18px] h-[18px] stroke-[2] fill-[#07512E]" />
@@ -78,8 +80,8 @@ export default function Navbar() {
           <Link href="/profile" className="flex items-center gap-1.5 cursor-pointer hover:opacity-85 transition-opacity" title="My Account">
             <div className="w-7 h-7 rounded-full bg-[#07512E]/10 border border-[#07512E]/20 overflow-hidden relative shadow-sm flex items-center justify-center text-[11px] font-bold text-[#07512E]">
               {user.avatar ? (
-                <img 
-                  src={user.avatar.startsWith("http") ? user.avatar : `http://localhost:5000${user.avatar}`} 
+                <img
+                  src={user.avatar.startsWith("http") ? user.avatar : `http://localhost:5000${user.avatar}`}
                   alt={user.name || "User"}
                   className="w-full h-full object-cover"
                 />
@@ -97,8 +99,8 @@ export default function Navbar() {
         )}
 
         {/* Wishlist */}
-        <Link 
-          href="/wishlist" 
+        <Link
+          href="/wishlist"
           className="flex items-center gap-1.5  transition-opacity"
         >
           <FiHeart className="w-[18px] h-[18px] text-[#07512E] fill-[#07512E]" />
@@ -106,8 +108,8 @@ export default function Navbar() {
         </Link>
 
         {/* Cart */}
-        <Link 
-          href="/cart" 
+        <Link
+          href="/cart"
           className="flex items-center gap-2  transition-opacity"
         >
           <div className="relative">
@@ -128,18 +130,16 @@ export default function Navbar() {
     navLinks.map((link, idx) => {
       const isActive = pathname === link.href || (link.href === "/" && pathname === null);
       return (
-        <Link 
-          key={idx} 
+        <Link
+          key={idx}
           href={link.href}
-          className={`text-[14px] lg:text-[20px] font-serif transition-colors relative pb-3.5 duration-200 group whitespace-nowrap ${
-            isActive ? "text-[#FFDE59]" : "text-white hover:text-[#FFDE59]"
-          }`}
+          className={`text-[14px] lg:text-[20px] font-serif transition-colors relative pb-3.5 duration-200 group whitespace-nowrap ${isActive ? "text-[#FFDE59]" : "text-white hover:text-[#FFDE59]"
+            }`}
         >
           {link.label}
           {/* Underline Indicator */}
-          <span className={`absolute bottom-0 left-0 w-full h-[1.5px] bg-[#FFDE59] transform origin-left transition-transform duration-300 ${
-            isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
-          }`} />
+          <span className={`absolute bottom-0 left-0 w-full h-[1.5px] bg-[#FFDE59] transform origin-left transition-transform duration-300 ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+            }`} />
         </Link>
       );
     })
@@ -147,92 +147,64 @@ export default function Navbar() {
 
   return (
     <>
-      {/* --- STATIC NAVBAR (Normal Top Screen State) --- */}
-      <header className="w-full z-[60] relative">
-        {renderTopBar()}
+      {/* Spacer div to prevent content below from jumping/hiding behind the fixed navbar */}
+      <div className="w-full h-[190px] md:h-[210px] bg-[#07512E]" />
 
-        {/* Main Luxury Green Navbar */}
-        <div className="relative bg-[#07512E] text-white px-4 md:px-8 pt-5 md:pt-6 flex flex-col items-center overflow-hidden">
-          
-          {/* Background Subtle Floral Pattern Overlay */}
-        <div className="flex">
-
-            <div 
-            className="absolute left-[-20%] md:left-[-5%] top-1/2 -translate-y-1/2 w-[500px] md:w-[75%] h-[500px] md:h-[700px] bg-no-repeat bg-center bg-contain pointer-events-none mix-blend-screen opacity-80"
-            style={{ backgroundImage: `url('https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781612368/photo-1535632066927-ab7c9ab60908_1_cre4nd.png')` }}
-          />
-          <div 
-            className="absolute right-[0%] top-1/2 -translate-y-1/2 w-[500px] md:w-[30%] h-[500px] md:h-[700px] bg-no-repeat bg-center bg-contain pointer-events-none mix-blend-screen opacity-80"
-            style={{ backgroundImage: `url('https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781612369/photo-1535632066927-ab7c9ab60908_2_hr2sjj.png')` }}
-          />
+      {/* --- MAIN ANIMATED FIXED NAVBAR --- */}
+      <header className="fixed top-0 left-0 w-full z-[60] shadow-2xl bg-[#07512E] transition-all duration-300">
+        {/* Top Bar - Collapses smoothly on scroll */}
+        <div className={`w-full transition-all duration-300 overflow-hidden ${isScrolled ? "max-h-0 opacity-0" : "max-h-[200px] opacity-100"}`}>
+          {renderTopBar()}
         </div>
 
-          {/* Brand Logo & Tagline Container */}
-          <Link 
-            href="/" 
-            className="flex flex-col items-center text-center relative z-10 max-w-xs md:max-w-md mb-5 hover:opacity-95 transition-opacity"
-          >
-            <img 
-              src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781789797/vardan_logo_2_br1lkx.png" 
-              alt="Vardaan Logo" 
-              className="w-[180px] md:w-[220px] h-auto object-contain"
+        {/* Main Luxury Green Navbar Container */}
+        <div className={`relative bg-[#07512E] text-white transition-all duration-300 ease-in-out overflow-hidden flex items-center ${
+          isScrolled 
+            ? "px-4 md:px-8 lg:px-12 py-3 flex-row justify-between" 
+            : "px-4 md:px-8 pt-5 md:pt-6 pb-2 flex-col justify-center"
+        }`}>
+          {/* Background Subtle Floral Pattern Overlay */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            <div
+              className={`absolute left-[-20%] md:left-[-5%] top-1/2 -translate-y-1/2 w-[500px] md:w-[75%] h-[500px] md:h-[700px] bg-no-repeat bg-center bg-contain mix-blend-screen transition-opacity duration-300 ${isScrolled ? "opacity-30" : "opacity-80"}`}
+              style={{ backgroundImage: `url('https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781612368/photo-1535632066927-ab7c9ab60908_1_cre4nd.png')` }}
             />
-          </Link>
-
-          {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-6 lg:gap-14 relative z-10 pt-2 w-full justify-center max-w-5xl">
-            {renderNavLinks()}
-          </nav>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden absolute right-4 z-20">
-            <button 
-              onClick={() => setIsMobileMenuOpen(true)}
-              className="text-[#FFDE59] hover:text-white p-2 rounded-full hover:bg-white/5 transition-colors focus:outline-none"
-              aria-label="Open mobile menu"
-            >
-              <FiMenu className="w-6 h-6" />
-            </button>
+            <div
+              className={`absolute right-[0%] top-1/2 -translate-y-1/2 w-[500px] md:w-[30%] h-[500px] md:h-[700px] bg-no-repeat bg-center bg-contain mix-blend-screen transition-opacity duration-300 ${isScrolled ? "opacity-0" : "opacity-80"}`}
+              style={{ backgroundImage: `url('https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781612369/photo-1535632066927-ab7c9ab60908_2_hr2sjj.png')` }}
+            />
           </div>
-        </div>
-      </header>
 
-      {/* --- STICKY NAVBAR (Scrolled State) --- */}
-      <header 
-        className={`fixed top-0 left-0 w-full z-[60] shadow-2xl transition-all duration-[600ms] ease-in-out transform ${
-          isScrolled ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
-        }`}
-      >
-        {renderTopBar()}
+          {/* Left: Brand Logo Container (Takes flex-1 to balance right container) */}
+          <div className={`relative z-10 flex transition-all duration-300 ease-in-out ${
+            isScrolled ? "flex-1 justify-start mb-0" : "w-full justify-center mb-5"
+          }`}>
+            <Link href="/" className="hover:opacity-95 transition-opacity inline-block">
+              <img
+                src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781789797/vardan_logo_2_br1lkx.png"
+                alt="Vardaan Logo"
+                className={`h-auto object-contain transition-all duration-400 ease-in-out ${
+                  isScrolled ? "w-[120px] md:w-[150px]" : "w-[180px] md:w-[220px]"
+                }`}
+              />
+            </Link>
+          </div>
 
-        {/* Green Main Bar (Horizontal Layout as requested) */}
-        <div className="relative bg-[#07512E] text-white px-4 md:px-8 lg:px-12 py-3 flex items-center justify-between overflow-hidden">
-          
-          {/* Background Subtle Floral Pattern Overlay */}
-          <div 
-            className="absolute left-[-5%] top-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-no-repeat bg-center bg-contain pointer-events-none mix-blend-screen opacity-50"
-            style={{ backgroundImage: `url('https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781612368/photo-1535632066927-ab7c9ab60908_1_cre4nd.png')` }}
-          />
-
-          {/* Left: Brand Logo */}
-          <Link href="/" className="relative z-10 hover:opacity-90 transition-opacity flex-shrink-0">
-            <img 
-              src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781789797/vardan_logo_2_br1lkx.png" 
-              alt="Vardaan Logo" 
-              className="w-[120px] md:w-[150px] h-auto object-contain"
-            />
-          </Link>
-
-          {/* Right/Center: Navigation Links */}
-          <nav className="hidden lg:flex items-center justify-center gap-5 xl:gap-8 relative z-10 flex-grow px-8">
+          {/* Center: Desktop Navigation Links (Stays perfectly centered and vertically aligned with VARDAAN text in logo) */}
+          <nav className={`hidden md:flex items-center justify-center relative z-10 transition-all duration-300 ease-in-out ${
+            isScrolled ? "gap-6 lg:gap-10 pt-4" : "gap-6 lg:gap-14 pt-2 w-full max-w-5xl"
+          }`}>
             {renderNavLinks()}
           </nav>
 
-          {/* Mobile Menu Button for Sticky Navbar */}
-          <div className="lg:hidden relative z-20">
-            <button 
+          {/* Right: Dummy Spacer for Desktop / Mobile Menu Button for Mobile (Takes flex-1 to balance left logo) */}
+          <div className={`relative z-20 flex transition-all duration-300 ease-in-out ${
+            isScrolled ? "flex-1 justify-end" : "md:hidden absolute right-4 top-6"
+          }`}>
+            <div className="hidden md:block" /> {/* Preserves exact flex-1 balance on desktop */}
+            <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="text-[#FFDE59] hover:text-white p-2 rounded-full hover:bg-white/5 transition-colors focus:outline-none"
+              className="md:hidden text-[#FFDE59] hover:text-white p-2 rounded-full hover:bg-white/5 transition-colors focus:outline-none"
               aria-label="Open mobile menu"
             >
               <FiMenu className="w-6 h-6" />
@@ -245,7 +217,7 @@ export default function Navbar() {
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-[60] md:hidden flex justify-end animate-fade-in">
           {/* Overlay Background */}
-          <div 
+          <div
             onClick={() => setIsMobileMenuOpen(false)}
             className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
           />
@@ -254,13 +226,13 @@ export default function Navbar() {
           <div className="relative w-full bg-[#07512E] text-white flex flex-col h-full z-10 shadow-2xl p-6 border-l border-[#053d22]">
             <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
               <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2">
-                <img 
-                  src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781789797/vardan_logo_2_br1lkx.png" 
-                  alt="Vardaan Logo" 
+                <img
+                  src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781789797/vardan_logo_2_br1lkx.png"
+                  alt="Vardaan Logo"
                   className="w-[130px] h-auto object-contain"
                 />
               </Link>
-              <button 
+              <button
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="text-white hover:text-[#FFDE59] p-1.5 rounded-full hover:bg-white/5 transition-colors"
                 aria-label="Close menu"
@@ -274,43 +246,18 @@ export default function Navbar() {
               {navLinks.map((link, idx) => {
                 const isActive = pathname === link.href || (link.href === "/" && pathname === null);
                 return (
-                  <Link 
-                    key={idx} 
+                  <Link
+                    key={idx}
                     href={link.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={`text-base tracking-widest font-serif py-1.5 border-b border-white/5 uppercase ${
-                      isActive ? "text-[#FFDE59] font-medium" : "text-white/80 hover:text-[#FFDE59]"
-                    }`}
+                    className={`text-base tracking-widest font-serif py-1.5 border-b border-white/5 uppercase ${isActive ? "text-[#FFDE59] font-medium" : "text-white/80 hover:text-[#FFDE59]"
+                      }`}
                   >
                     {link.label}
                   </Link>
                 );
               })}
             </nav>
-
-            {/* <div className="mt-auto pt-6 border-t border-white/10">
-              <div className="flex flex-col gap-4 text-sm">
-                <a href="tel:+919818719997" className="flex items-center gap-3 text-white/80">
-                  <FiPhone className="text-[#FFDE59]" />
-                  <span>+91 98187 19997</span>
-                </a>
-                <Link href="/wishlist" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 text-white/80 hover:text-[#FFDE59]">
-                  <FiHeart className="text-[#FFDE59]" />
-                  <span>My Wishlist</span>
-                </Link>
-                <Link href="/cart" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 text-white/80 hover:text-[#FFDE59]">
-                  <div className="relative">
-                    <FiShoppingBag className="text-[#FFDE59] w-5 h-5" />
-                    {cartItemCount > 0 && (
-                      <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[9px] font-bold w-3.5 h-3.5 flex items-center justify-center rounded-full">
-                        {cartItemCount}
-                      </span>
-                    )}
-                  </div>
-                  <span>Shopping Cart</span>
-                </Link>
-              </div>
-            </div> */}
           </div>
         </div>
       )}

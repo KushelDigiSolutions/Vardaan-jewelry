@@ -33,6 +33,7 @@ export default function RoyallyCrafted() {
   const { addToCart } = useCart();
   const [currentIndex, setCurrentIndex] = useState(products.length);
   const [isTransitioning, setIsTransitioning] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
   const totalItems = products.length;
 
   const nextSlide = useCallback(() => {
@@ -69,6 +70,14 @@ export default function RoyallyCrafted() {
     }
   }, [isTransitioning]);
 
+  useEffect(() => {
+    if (isHovered) return;
+    const timer = setInterval(() => {
+      nextSlide();
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [nextSlide, isHovered]);
+
   return (
     <section className="py-10 md:py-16 bg-[#FEF5E6]">
       <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col">
@@ -101,7 +110,11 @@ export default function RoyallyCrafted() {
         </div>
 
         {/* Carousel Window */}
-        <div className="w-full relative overflow-hidden mb-6">
+        <div 
+          className="w-full relative overflow-hidden mb-6"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
           <style dangerouslySetInnerHTML={{__html: `
             .royal-track { --slide-offset: calc(100% + 24px); }
             @media (min-width: 768px) {
