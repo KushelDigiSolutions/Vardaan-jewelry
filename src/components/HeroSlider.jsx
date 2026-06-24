@@ -12,7 +12,7 @@ const slides = [
     ctaLink: "/shop",
   },
   {
-    image: "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781603449/hero_banner_optimized_jkbhox.png",
+    image: "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1782281607/home_page_banner_dmb1bp.jpg",
     subtitle: "SIGNATURE PIECES",
     title: "THE HARMONY\nSERIES",
     ctaText: "Explore Collection",
@@ -20,7 +20,7 @@ const slides = [
     styleFilter: "hue-rotate-15 saturate-110", // Subtle visual distinction for slide 2
   },
   {
-    image: "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781603449/hero_banner_optimized_jkbhox.png",
+    image: "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1782281607/home_page_banner_image_czgpzk.jpg",
     subtitle: "LEGACY CRAFT",
     title: "BLESSINGS OF\nLIGHT",
     ctaText: "Book Appointment",
@@ -54,15 +54,12 @@ export default function HeroSlider() {
         {slides.map((slide, idx) => (
           <div
             key={idx}
-            className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
-              idx === current ? "opacity-100 z-10" : "opacity-0 z-0"
-            }`}
+            className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${idx === current ? "opacity-100 z-10" : "opacity-0 z-0"
+              }`}
           >
             {/* Background Image */}
             <div
-              className={`absolute inset-0 bg-cover bg-center transition-transform duration-1000 ${
-                idx === current ? "scale-100 animate-scale-up" : "scale-105"
-              } ${slide.styleFilter || ""}`}
+              className={`absolute inset-0 bg-cover bg-center ${slide.styleFilter || ""}`}
               style={{ backgroundImage: `url('${slide.image}')` }}
             />
 
@@ -76,7 +73,7 @@ export default function HeroSlider() {
                 bottom-12 left-6
                 lg:bottom-auto lg:right-auto lg:top-1/2 lg:-translate-y-1/2 lg:left-[1056px]
                 w-[260px] sm:h-[272px] gap-4 sm:gap-0">
-                
+
                 {/* Subtitle */}
                 <span className="text-[16px] sm:text-[24px] font-sans font-medium tracking-wider text-[#FFFFFF] uppercase animate-slide-up">
                   {slide.subtitle}
@@ -122,11 +119,10 @@ export default function HeroSlider() {
           <button
             key={idx}
             onClick={() => setCurrent(idx)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 cursor-pointer ${
-              idx === current
-                ? "bg-[#FFDE59] scale-110 shadow"
-                : "bg-transparent border border-white/60 hover:bg-white/30"
-            }`}
+            className={`w-3 h-3 rounded-full transition-all duration-300 cursor-pointer ${idx === current
+              ? "bg-[#FFDE59] scale-110 shadow"
+              : "bg-transparent border border-white/60 hover:bg-white/30"
+              }`}
             aria-label={`Go to slide ${idx + 1}`}
           />
         ))}
