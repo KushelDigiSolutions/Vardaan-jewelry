@@ -32,7 +32,7 @@ export default function AboutHeritage() {
         </div>
 
         {/* Staggered Grid Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 w-full mt-8 max-w-4xl text-left border border-white/10 p-10 rounded-lg bg-[#053D22]/50 backdrop-blur-md">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 xl:min-w-300 w-full mt-8 max-w-4xl text-left border border-white/10 p-10 rounded-lg bg-[#053D22]/50 backdrop-blur-md">
           <div className="flex flex-col gap-2">
             <span className="text-2xl font-serif text-[#FFDE59] font-normal">Est. 2005</span>
             <span className="text-[12px] md:text-[14px] text-gray-400 font-semibold tracking-widest uppercase">Atelier Inception</span>

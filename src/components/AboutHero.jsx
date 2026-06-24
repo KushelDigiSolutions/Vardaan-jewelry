@@ -14,7 +14,7 @@ export default function AboutHero() {
           style={{ backgroundImage: `url('https://res.cloudinary.com/dd9tagtiw/image/upload/v1781515128/a29bc3df60dd42fbfd5b10b5b93b4efd38995dd5_clck27.png')` }}
         />
 
-        <div className="relative z-10 flex flex-col items-start gap-6 animate-slide-up">
+        <div className="relative z-10 flex flex-col  lg:ps-2 items-start gap-6 animate-slide-up">
           <div className="flex items-center gap-3">
             <span className="w-8 h-[1px] bg-[#FFDE59]" />
             <span className="text-[18px] font-semibold tracking-widest text-[#FFDE59] uppercase">
@@ -36,7 +36,8 @@ export default function AboutHero() {
 
           {/* Luxury Monogram stamp */}
           <div className="flex items-center gap-4 mt-4 pt-6 border-t border-white/10 w-full max-w-sm">
-            <svg 
+          <img src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781789797/vardan_logo_2_br1lkx.png" alt="" className="w-45" />
+            {/* <svg 
               className="w-10 h-10 text-[#FFDE59] shrink-0"
               viewBox="0 0 100 100" 
               fill="none" 
@@ -49,7 +50,7 @@ export default function AboutHero() {
             <div className="flex flex-col">
               <span className="text-[18px] tracking-widest font-serif uppercase text-[#FFDE59]">Vardaan Atelier</span>
               <span className="text-[12px] md:text-[14px] text-gray-400 uppercase tracking-widest font-sans font-light mt-0.5">Delhi • Paris • Milan</span>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

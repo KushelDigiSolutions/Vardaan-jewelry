@@ -30,10 +30,10 @@ export default function FAQ() {
   };
 
   return (
-    <section className="py-10 md:py-16 bg-[#FFFFFF] overflow-hidden">
+    <section className="py-10 md:py-16 lg:px-6 bg-[#FFFFFF] overflow-hidden">
       <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col">
         {/* Header */}
-        <div className="mb-10 text-center md:text-left">
+        <div className="mb-10 ">
           <p className="text-[20px] md:text-[32px] font-medium tracking-wider text-[#07512E] uppercase">
             FAQ
           </p>
