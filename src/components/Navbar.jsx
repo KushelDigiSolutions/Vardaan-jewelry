@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiPhone, FiSearch, FiHeart, FiShoppingCart, FiShoppingBag, FiMenu, FiX } from "react-icons/fi";
+import { FiPhone, FiSearch, FiHeart, FiShoppingCart, FiShoppingBag, FiMenu, FiX, FiUser } from "react-icons/fi";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -12,6 +13,7 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const { cartItems } = useCart();
+  const { user } = useAuth();
   const cartItemCount = cartItems?.length || 0;
 
   useEffect(() => {
@@ -40,7 +42,7 @@ export default function Navbar() {
       <div className="flex items-center justify-center md:justify-start">
         <a 
           href="tel:+919818719997" 
-          className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2  transition-opacity"
         >
           <FiPhone className="w-[18px] h-[18px] stroke-[2] fill-[#07512E]" />
           <span className="font-semibold text-sm">91 98187 19997</span>
@@ -72,20 +74,32 @@ export default function Navbar() {
       {/* User Profile, Wishlist, Cart Links (Right Aligned) */}
       <div className="flex items-center justify-center md:justify-end gap-6 font-sans">
         {/* User Profile Avatar */}
-        <Link href="/login" className="flex items-center gap-1.5 cursor-pointer hover:opacity-85 transition-opacity">
-          <div className="w-7 h-7 rounded-full bg-gray-300 overflow-hidden relative shadow-sm">
-            <img 
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop" 
-              alt="Profile"
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </Link>
+        {user ? (
+          <Link href="/profile" className="flex items-center gap-1.5 cursor-pointer hover:opacity-85 transition-opacity" title="My Account">
+            <div className="w-7 h-7 rounded-full bg-[#07512E]/10 border border-[#07512E]/20 overflow-hidden relative shadow-sm flex items-center justify-center text-[11px] font-bold text-[#07512E]">
+              {user.avatar ? (
+                <img 
+                  src={user.avatar.startsWith("http") ? user.avatar : `http://localhost:5000${user.avatar}`} 
+                  alt={user.name || "User"}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                user.name ? user.name.split(" ").map(n => n[0]).join("").substring(0, 2).toUpperCase() : "U"
+              )}
+            </div>
+            <span className="hidden sm:inline text-xs font-semibold text-[#07512E]">{(user.name || "").split(" ")[0] || "User"}</span>
+          </Link>
+        ) : (
+          <Link href="/login" className="flex items-center gap-1.5 cursor-pointer hover:opacity-85 transition-opacity text-[#07512E]" title="Sign In">
+            <FiUser className="w-[18px] h-[18px] stroke-[2.5]" />
+            <span className="hidden sm:inline font-semibold">Sign In</span>
+          </Link>
+        )}
 
         {/* Wishlist */}
         <Link 
           href="/wishlist" 
-          className="flex items-center gap-1.5 hover:opacity-80 transition-opacity"
+          className="flex items-center gap-1.5  transition-opacity"
         >
           <FiHeart className="w-[18px] h-[18px] text-[#07512E] fill-[#07512E]" />
           <span className="hidden sm:inline font-semibold">Wishlist</span>
@@ -94,7 +108,7 @@ export default function Navbar() {
         {/* Cart */}
         <Link 
           href="/cart" 
-          className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2  transition-opacity"
         >
           <div className="relative">
             <FiShoppingCart className="w-[18px] h-[18px] text-[#07512E] stroke-[2]" />
@@ -117,7 +131,7 @@ export default function Navbar() {
         <Link 
           key={idx} 
           href={link.href}
-          className={`text-[14px] lg:text-[20px] font-serif transition-colors relative py-1.5 duration-200 group whitespace-nowrap ${
+          className={`text-[14px] lg:text-[20px] font-serif transition-colors relative pb-3.5 duration-200 group whitespace-nowrap ${
             isActive ? "text-[#FFDE59]" : "text-white hover:text-[#FFDE59]"
           }`}
         >
@@ -138,7 +152,7 @@ export default function Navbar() {
         {renderTopBar()}
 
         {/* Main Luxury Green Navbar */}
-        <div className="relative bg-[#07512E] text-white px-4 md:px-8 py-5 md:py-6 flex flex-col items-center overflow-hidden">
+        <div className="relative bg-[#07512E] text-white px-4 md:px-8 pt-5 md:pt-6 flex flex-col items-center overflow-hidden">
           
           {/* Background Subtle Floral Pattern Overlay */}
         <div className="flex">
@@ -203,7 +217,7 @@ export default function Navbar() {
           {/* Left: Brand Logo */}
           <Link href="/" className="relative z-10 hover:opacity-90 transition-opacity flex-shrink-0">
             <img 
-              src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781607744/Untitled_design_6_2_uirv47.png" 
+              src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781789797/vardan_logo_2_br1lkx.png" 
               alt="Vardaan Logo" 
               className="w-[120px] md:w-[150px] h-auto object-contain"
             />
@@ -237,11 +251,15 @@ export default function Navbar() {
           />
 
           {/* Drawer Content */}
-          <div className="relative w-80 max-w-[85vw] bg-[#07512E] text-white flex flex-col h-full z-10 shadow-2xl p-6 border-l border-[#053d22]">
+          <div className="relative w-full bg-[#07512E] text-white flex flex-col h-full z-10 shadow-2xl p-6 border-l border-[#053d22]">
             <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
-              <div className="flex items-center gap-2">
-                <span className="font-serif tracking-widest text-lg text-[#FFDE59] uppercase">Vardaan</span>
-              </div>
+              <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2">
+                <img 
+                  src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781789797/vardan_logo_2_br1lkx.png" 
+                  alt="Vardaan Logo" 
+                  className="w-[130px] h-auto object-contain"
+                />
+              </Link>
               <button 
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="text-white hover:text-[#FFDE59] p-1.5 rounded-full hover:bg-white/5 transition-colors"
@@ -270,7 +288,7 @@ export default function Navbar() {
               })}
             </nav>
 
-            <div className="mt-auto pt-6 border-t border-white/10">
+            {/* <div className="mt-auto pt-6 border-t border-white/10">
               <div className="flex flex-col gap-4 text-sm">
                 <a href="tel:+919818719997" className="flex items-center gap-3 text-white/80">
                   <FiPhone className="text-[#FFDE59]" />
@@ -292,7 +310,7 @@ export default function Navbar() {
                   <span>Shopping Cart</span>
                 </Link>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       )}

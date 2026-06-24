@@ -1,6 +1,8 @@
 import "gtwalsheim4web/GTWalsheimPro.css";
 import "./globals.css";
+import { AuthProvider } from "../context/AuthContext";
 import { CartProvider } from "../context/CartContext";
+import { ToastProvider } from "../context/ToastContext";
 import CartDrawer from "../components/CartDrawer";
 
 export const metadata = {
@@ -16,14 +18,19 @@ export default function RootLayout({ children }) {
       className="h-full antialiased"
     >
       <body className="min-h-full flex flex-col font-sans bg-[#111111] text-gray-900 overflow-x-hidden">
-        <CartProvider>
-          <div className="w-full max-w-[1720px] mx-auto min-h-screen flex flex-col bg-[#FCFCF9] relative shadow-2xl overflow-x-hidden">
-            {children}
-            <CartDrawer />
-          </div>
-        </CartProvider>
+        <AuthProvider>
+          <ToastProvider>
+            <CartProvider>
+              <div className="w-full max-w-[1720px] mx-auto min-h-screen flex flex-col bg-[#FCFCF9] relative shadow-2xl overflow-x-hidden">
+                {children}
+                <CartDrawer />
+              </div>
+            </CartProvider>
+          </ToastProvider>
+        </AuthProvider>
       </body>
     </html>
+
   );
 }
 

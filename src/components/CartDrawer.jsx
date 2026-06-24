@@ -87,7 +87,11 @@ export default function CartDrawer() {
         <div className="flex items-center justify-between p-5 border-b border-gray-100">
           <div className="flex items-center gap-2 text-sm text-[#404040] font-sans">
             <FiCheckCircle className="w-5 h-5 text-green-600 stroke-[2]" />
-            <span>1 item has been added to your bag</span>
+            <span>
+              {cartItems.length === 0
+                ? "Your bag is empty"
+                : `${cartItems.length} item${cartItems.length > 1 ? "s" : ""} in your bag`}
+            </span>
           </div>
           <button
             onClick={closeCart}
@@ -100,36 +104,44 @@ export default function CartDrawer() {
         {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto">
           <div className="py-5 w-full max-w-[512px] px-4 mx-auto">
-            {/* Added Item (Using dynamic item if available, or placeholder to match screenshot) */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-6">
-              <div className="w-[120px] sm:w-[220px] h-[100px] sm:h-[186px] bg-[#F7F5F0] shrink-0 mx-auto sm:mx-0">
-                <img
-                  src={cartItems.length > 0 ? cartItems[cartItems.length - 1].image : "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781529483/Lucy_Williams_Engravable_Arco_Cord_Ring_fp3lgn.png"}
-                  alt="Added Product"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="flex flex-col w-full sm:w-[276px] h-auto sm:h-[186px] py-1 shrink-0 text-center sm:text-left">
-                <h3 className="text-[20px] font-sans font-medium text-[#111827] mb-1 leading-snug">
-                  {cartItems.length > 0 ? cartItems[cartItems.length - 1].name : "Dragon & Phoenix pendant"}
-                </h3>
-                <p className="text-[14px] text-[#6B7280]  font-normal font-sans leading-relaxed mb-3 line-clamp-2">
-                  Crystal pearls, Dragon's claw, White, 18K rose gold...
-                </p>
-                <div className="flex flex-col gap-3 mt-4 sm:mt-auto items-center sm:items-start">
-                  {/* Quantity Box */}
-                  <div className="flex items-center border border-gray-200 rounded-full px-4 py-1.5 w-fit">
-                    <button className="px-2 text-gray-500 text-lg hover:text-black leading-none">-</button>
-                    <span className="px-4 text-[15px] font-sans text-gray-800 leading-none">1</span>
-                    <button className="px-2 text-gray-500 text-lg hover:text-black leading-none">+</button>
+            {/* Last Added Item Preview */}
+            {cartItems.length > 0 ? (() => {
+              const lastItem = cartItems[cartItems.length - 1];
+              return (
+                <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                  <div className="w-[120px] sm:w-[220px] h-[100px] sm:h-[186px] bg-[#F7F5F0] shrink-0 mx-auto sm:mx-0 overflow-hidden rounded">
+                    <img
+                      src={lastItem.image || "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781529483/Lucy_Williams_Engravable_Arco_Cord_Ring_fp3lgn.png"}
+                      alt={lastItem.name}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
-                  {/* Price */}
-                  <span className="text-[24px] font-semibold font-sans text-[#111827]">
-                    {cartItems.length > 0 && cartItems[cartItems.length - 1].price ? cartItems[cartItems.length - 1].price : "₹ 13,900.00"}
-                  </span>
+                  <div className="flex flex-col w-full sm:w-[276px] h-auto sm:h-[186px] py-1 shrink-0 text-center sm:text-left">
+                    <h3 className="text-[20px] font-sans font-medium text-[#111827] mb-1 leading-snug">
+                      {lastItem.name}
+                    </h3>
+                    {lastItem.variant && lastItem.variant !== "default" && (
+                      <p className="text-[13px] text-[#6B7280] font-normal font-sans leading-relaxed mb-1 italic">
+                        {lastItem.variant}
+                      </p>
+                    )}
+                    <p className="text-[13px] text-[#9CA3AF] font-sans mb-2">
+                      Qty: {lastItem.quantity}
+                    </p>
+                    <div className="flex flex-col gap-1 mt-auto items-center sm:items-start">
+                      <span className="text-[24px] font-semibold font-sans text-[#111827]">
+                        ₹ {(lastItem.price * lastItem.quantity).toLocaleString("en-IN")}
+                      </span>
+                      <span className="text-[12px] text-gray-400 font-sans">
+                        ₹ {lastItem.price.toLocaleString("en-IN")} each
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              );
+            })() : (
+              <p className="text-center text-gray-400 font-sans py-8">No items in your bag yet.</p>
+            )}
 
             <div className="flex flex-col gap-2.5 mb-8">
               <Link

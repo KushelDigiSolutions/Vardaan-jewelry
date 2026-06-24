@@ -14,7 +14,7 @@ export const metadata = {
   keywords: "about vardaan, who we are vardaan, vision mission vardaan, jewelry story, ethical diamonds, gold hallmarking, jewelry timeline, bespoke gold",
 };
 
-export default function AboutPage() {
+export default function AboutPage() { 
   return (
     <>
       <Navbar />

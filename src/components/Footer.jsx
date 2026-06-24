@@ -77,7 +77,7 @@ export default function Footer() {
                 {/* SVG Logo matching the branding */}
                 <div className="flex flex-col items-center gap-1 w-max">
                   <img
-                    src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781607744/Untitled_design_6_2_uirv47.png"
+                    src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781789797/vardan_logo_2_br1lkx.png"
                     alt="Vardaan Logo"
                     className="h-[90px] w-auto object-contain"
                   />
@@ -230,7 +230,7 @@ export default function Footer() {
                 href="https://kusheldigi.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:opacity-70 transition-opacity underline underline-offset-2 md:ml-1 mt-0.5 md:mt-0"
+                className=" md:ml-1 mt-0.5 md:mt-0"
               >
                 kusheldigi.com
               </a>
