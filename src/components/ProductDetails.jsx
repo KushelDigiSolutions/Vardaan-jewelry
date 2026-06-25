@@ -2,7 +2,14 @@
 
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import Link from "next/link";
-import { FiShare2, FiHome, FiHeart, FiCheck, FiAlertTriangle, FiStar } from "react-icons/fi";
+import {
+  FiShare2,
+  FiHome,
+  FiHeart,
+  FiCheck,
+  FiAlertTriangle,
+  FiStar,
+} from "react-icons/fi";
 import { TbTruckDelivery } from "react-icons/tb";
 import { LuShieldCheck } from "react-icons/lu";
 import { useCart } from "../context/CartContext";
@@ -21,21 +28,24 @@ export default function ProductDetails({ productId }) {
   const { token } = useAuth();
   const toast = useToast();
 
-  const [product, setProduct]           = useState(null);
-  const [loading, setLoading]           = useState(true);
-  const [quantity, setQuantity]         = useState(1);
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [quantity, setQuantity] = useState(1);
   const [selectedImageIdx, setSelectedImageIdx] = useState(0);
   const [selectedWearableIdx, setSelectedWearableIdx] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [addedFeedback, setAddedFeedback] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+  // const [showSizeInput, setShowSizeInput] = useState(false);
+  const [customSize, setCustomSize] = useState("");
 
   // Variant selection state
-  const [selectedKarat, setSelectedKarat]             = useState("");
-  const [selectedColor, setSelectedColor]             = useState("");
-  const [selectedSize, setSelectedSize]               = useState("");
-  const [selectedMetalType, setSelectedMetalType]     = useState("");
+  const [selectedKarat, setSelectedKarat] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedMetalType, setSelectedMetalType] = useState("");
   const [selectedGrossWeight, setSelectedGrossWeight] = useState("");
-  const [selectedNetWeight, setSelectedNetWeight]     = useState("");
+  const [selectedNetWeight, setSelectedNetWeight] = useState("");
 
   // Product reviews and rating states
   const [reviews, setReviews] = useState([]);
@@ -85,7 +95,9 @@ export default function ProductDetails({ productId }) {
         const res = await fetch(`${API_URL}/products/${productId}/reviews`);
         if (res.ok) {
           const json = await res.json();
-          const reviewsData = Array.isArray(json) ? json : (json.data || json.reviews || []);
+          const reviewsData = Array.isArray(json)
+            ? json
+            : json.data || json.reviews || [];
           setReviews(reviewsData);
         }
       } catch (err) {
@@ -103,12 +115,16 @@ export default function ProductDetails({ productId }) {
       if (!token || !productId) return;
       try {
         const res = await fetch(`${API_URL}/auth/wishlist`, {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` },
         });
         if (res.ok) {
           const json = await res.json();
-          const wishlistItems = Array.isArray(json) ? json : (json?.data || []);
-          setIsWishlisted(wishlistItems.some(item => (item.product?._id || item._id) === productId));
+          const wishlistItems = Array.isArray(json) ? json : json?.data || [];
+          setIsWishlisted(
+            wishlistItems.some(
+              (item) => (item.product?._id || item._id) === productId,
+            ),
+          );
         }
       } catch (err) {
         console.error("Wishlist check error:", err);
@@ -121,40 +137,47 @@ export default function ProductDetails({ productId }) {
   const hasVariants = product?.variants?.length > 0;
 
   /** All unique karats */
-  const allKarats = useMemo(() =>
-    hasVariants ? unique(product.variants.map(v => v.karat)) : [],
-    [product, hasVariants]
+  const allKarats = useMemo(
+    () => (hasVariants ? unique(product.variants.map((v) => v.karat)) : []),
+    [product, hasVariants],
   );
 
   /** All unique colors */
-  const allColors = useMemo(() =>
-    hasVariants ? unique(product.variants.map(v => v.metalColor)) : [],
-    [product, hasVariants]
+  const allColors = useMemo(
+    () =>
+      hasVariants ? unique(product.variants.map((v) => v.metalColor)) : [],
+    [product, hasVariants],
   );
 
   /** All unique metal types */
-  const allMetalTypes = useMemo(() =>
-    hasVariants ? unique(product.variants.map(v => v.metalType || "Gold")) : [],
-    [product, hasVariants]
+  const allMetalTypes = useMemo(
+    () =>
+      hasVariants
+        ? unique(product.variants.map((v) => v.metalType || "Gold"))
+        : [],
+    [product, hasVariants],
   );
 
   /** All unique gross weights */
-  const allGrossWeights = useMemo(() =>
-    hasVariants ? unique(product.variants.map(v => v.grossWeight)) : [],
-    [product, hasVariants]
+  const allGrossWeights = useMemo(
+    () =>
+      hasVariants ? unique(product.variants.map((v) => v.grossWeight)) : [],
+    [product, hasVariants],
   );
 
   /** All unique net weights */
-  const allNetWeights = useMemo(() =>
-    hasVariants ? unique(product.variants.map(v => v.netWeight)) : [],
-    [product, hasVariants]
+  const allNetWeights = useMemo(
+    () => (hasVariants ? unique(product.variants.map((v) => v.netWeight)) : []),
+    [product, hasVariants],
   );
 
   /** Metal colors available for the selected karat */
   const availableColors = useMemo(() => {
     if (!hasVariants) return [];
     return unique(
-      product.variants.filter(v => v.karat === selectedKarat).map(v => v.metalColor)
+      product.variants
+        .filter((v) => v.karat === selectedKarat)
+        .map((v) => v.metalColor),
     );
   }, [product, hasVariants, selectedKarat]);
 
@@ -163,30 +186,43 @@ export default function ProductDetails({ productId }) {
     if (!hasVariants) return [];
     return unique(
       product.variants
-        .filter(v => v.karat === selectedKarat && v.metalColor === selectedColor)
-        .map(v => v.size)
+        .filter(
+          (v) => v.karat === selectedKarat && v.metalColor === selectedColor,
+        )
+        .map((v) => v.size),
     );
   }, [product, hasVariants, selectedKarat, selectedColor]);
 
   /** The specific variant object matching current selection */
   const activeVariant = useMemo(() => {
     if (!hasVariants) return null;
-    return product.variants.find(
-      v => 
-        v.karat === selectedKarat && 
-        v.metalColor === selectedColor && 
-        v.size === selectedSize &&
-        (v.metalType || "Gold") === (selectedMetalType || "Gold") &&
-        (v.grossWeight || "") === (selectedGrossWeight || "") &&
-        (v.netWeight || "") === (selectedNetWeight || "")
-    ) || null;
-  }, [product, hasVariants, selectedKarat, selectedColor, selectedSize, selectedMetalType, selectedGrossWeight, selectedNetWeight]);
+    return (
+      product.variants.find(
+        (v) =>
+          v.karat === selectedKarat &&
+          v.metalColor === selectedColor &&
+          v.size === selectedSize &&
+          (v.metalType || "Gold") === (selectedMetalType || "Gold") &&
+          (v.grossWeight || "") === (selectedGrossWeight || "") &&
+          (v.netWeight || "") === (selectedNetWeight || ""),
+      ) || null
+    );
+  }, [
+    product,
+    hasVariants,
+    selectedKarat,
+    selectedColor,
+    selectedSize,
+    selectedMetalType,
+    selectedGrossWeight,
+    selectedNetWeight,
+  ]);
 
   /** Human-readable variant string */
   const variantStr = useMemo(() => {
     if (hasVariants && activeVariant) {
       const parts = [];
-      if (selectedSize)  parts.push(`Size: ${selectedSize}`);
+      if (selectedSize) parts.push(`Size: ${selectedSize}`);
       if (selectedKarat) parts.push(`Karat: ${selectedKarat}`);
       if (selectedColor) parts.push(`Color: ${selectedColor}`);
       if (selectedMetalType) parts.push(`Metal Type: ${selectedMetalType}`);
@@ -195,14 +231,25 @@ export default function ProductDetails({ productId }) {
       return parts.join(" | ") || "default";
     }
     return selectedSize || "default";
-  }, [hasVariants, activeVariant, selectedSize, selectedKarat, selectedColor, selectedMetalType, selectedGrossWeight, selectedNetWeight]);
+  }, [
+    hasVariants,
+    activeVariant,
+    selectedSize,
+    selectedKarat,
+    selectedColor,
+    selectedMetalType,
+    selectedGrossWeight,
+    selectedNetWeight,
+  ]);
 
   /** Is currently selected variant in cart */
   const cartItem = useMemo(() => {
     if (!product || !cartItems) return null;
-    return cartItems.find(
-      (item) => item.id === product._id && item.variant === variantStr
-    ) || null;
+    return (
+      cartItems.find(
+        (item) => item.id === product._id && item.variant === variantStr,
+      ) || null
+    );
   }, [product, cartItems, variantStr]);
 
   const isInCart = !!cartItem;
@@ -220,7 +267,9 @@ export default function ProductDetails({ productId }) {
 
   /** Current display price */
   const displayPrice = activeVariant
-    ? (activeVariant.salePrice > 0 ? activeVariant.salePrice : activeVariant.price)
+    ? activeVariant.salePrice > 0
+      ? activeVariant.salePrice
+      : activeVariant.price
     : (product?.salePrice > 0 ? product?.salePrice : product?.price) || 0;
 
   const originalPrice = activeVariant
@@ -228,7 +277,8 @@ export default function ProductDetails({ productId }) {
     : product?.price || 0;
 
   const hasDiscount = activeVariant
-    ? activeVariant.salePrice > 0 && activeVariant.salePrice < activeVariant.price
+    ? activeVariant.salePrice > 0 &&
+      activeVariant.salePrice < activeVariant.price
     : product?.salePrice > 0 && product?.salePrice < product?.price;
 
   // Compute average rating and count dynamically
@@ -240,14 +290,14 @@ export default function ProductDetails({ productId }) {
       totalScore = reviews.reduce((sum, r) => sum + (r.rating || 0), 0);
       return {
         averageRating: Number((totalScore / count).toFixed(1)),
-        totalRatingsCount: count
+        totalRatingsCount: count,
       };
     }
 
     // Fallback to product model stats if available
     return {
       averageRating: product?.averageRating || product?.rating || 0,
-      totalRatingsCount: product?.totalRatings || product?.numReviews || 0
+      totalRatingsCount: product?.totalRatings || product?.numReviews || 0,
     };
   }, [reviews, product]);
 
@@ -261,10 +311,12 @@ export default function ProductDetails({ productId }) {
     if (!hasVariants) {
       const inv = product?.inventory || 0;
       if (inv <= 0) return { text: "Out of Stock", color: "text-red-600" };
-      if (inv <= 5) return { text: `Only ${inv} left!`, color: "text-amber-700" };
+      if (inv <= 5)
+        return { text: `Only ${inv} left!`, color: "text-amber-700" };
       return { text: `${inv} in stock`, color: "text-green-700" };
     }
-    if (!activeVariant) return { text: "Select options above", color: "text-gray-400" };
+    if (!activeVariant)
+      return { text: "Select options above", color: "text-gray-400" };
     const inv = activeVariant.inventory || 0;
     if (inv <= 0) return { text: "Out of Stock", color: "text-red-600" };
     if (inv <= 5) return { text: `Only ${inv} left!`, color: "text-amber-700" };
@@ -272,51 +324,63 @@ export default function ProductDetails({ productId }) {
   }, [hasVariants, product, activeVariant]);
 
   // ── Selection Change Sync (Score-based Matching) ──────────────────────────
-  const handleSelectionChange = useCallback((field, value) => {
-    if (!product || !product.variants || product.variants.length === 0) return;
+  const handleSelectionChange = useCallback(
+    (field, value) => {
+      if (!product || !product.variants || product.variants.length === 0)
+        return;
 
-    // Target configuration we are looking for
-    const target = {
-      karat: field === 'karat' ? value : selectedKarat,
-      metalColor: field === 'metalColor' ? value : selectedColor,
-      metalType: field === 'metalType' ? value : selectedMetalType,
-      grossWeight: field === 'grossWeight' ? value : selectedGrossWeight,
-      netWeight: field === 'netWeight' ? value : selectedNetWeight,
-      size: field === 'size' ? value : selectedSize
-    };
+      // Target configuration we are looking for
+      const target = {
+        karat: field === "karat" ? value : selectedKarat,
+        metalColor: field === "metalColor" ? value : selectedColor,
+        metalType: field === "metalType" ? value : selectedMetalType,
+        grossWeight: field === "grossWeight" ? value : selectedGrossWeight,
+        netWeight: field === "netWeight" ? value : selectedNetWeight,
+        size: field === "size" ? value : selectedSize,
+      };
 
-    // Find closest matching variant
-    let bestVariant = null;
-    let bestScore = -1;
+      // Find closest matching variant
+      let bestVariant = null;
+      let bestScore = -1;
 
-    for (const v of product.variants) {
-      let score = 0;
-      if (v.karat === target.karat) score += 32;
-      if (v.metalColor === target.metalColor) score += 16;
-      if ((v.metalType || 'Gold') === target.metalType) score += 8;
-      if ((v.grossWeight || '') === target.grossWeight) score += 4;
-      if ((v.netWeight || '') === target.netWeight) score += 2;
-      if (v.size === target.size) score += 1;
+      for (const v of product.variants) {
+        let score = 0;
+        if (v.karat === target.karat) score += 32;
+        if (v.metalColor === target.metalColor) score += 16;
+        if ((v.metalType || "Gold") === target.metalType) score += 8;
+        if ((v.grossWeight || "") === target.grossWeight) score += 4;
+        if ((v.netWeight || "") === target.netWeight) score += 2;
+        if (v.size === target.size) score += 1;
 
-      if (score > bestScore) {
-        bestScore = score;
-        bestVariant = v;
+        if (score > bestScore) {
+          bestScore = score;
+          bestVariant = v;
+        }
       }
-    }
 
-    if (bestVariant) {
-      setSelectedKarat(bestVariant.karat || "");
-      setSelectedColor(bestVariant.metalColor || "");
-      setSelectedMetalType(bestVariant.metalType || "Gold");
-      setSelectedGrossWeight(bestVariant.grossWeight || "");
-      setSelectedNetWeight(bestVariant.netWeight || "");
-      if (field === 'size') {
-        setSelectedSize(value);
-      } else {
-        setSelectedSize(bestVariant.size || "");
+      if (bestVariant) {
+        setSelectedKarat(bestVariant.karat || "");
+        setSelectedColor(bestVariant.metalColor || "");
+        setSelectedMetalType(bestVariant.metalType || "Gold");
+        setSelectedGrossWeight(bestVariant.grossWeight || "");
+        setSelectedNetWeight(bestVariant.netWeight || "");
+        if (field === "size") {
+          setSelectedSize(value);
+        } else {
+          setSelectedSize(bestVariant.size || "");
+        }
       }
-    }
-  }, [product, selectedKarat, selectedColor, selectedMetalType, selectedGrossWeight, selectedNetWeight, selectedSize]);
+    },
+    [
+      product,
+      selectedKarat,
+      selectedColor,
+      selectedMetalType,
+      selectedGrossWeight,
+      selectedNetWeight,
+      selectedSize,
+    ],
+  );
 
   // ── Cart ──────────────────────────────────────────────────────────────────
   const handleAddToCart = () => {
@@ -335,15 +399,15 @@ export default function ProductDetails({ productId }) {
     let variantDetails = null;
     if (hasVariants && activeVariant) {
       variantDetails = {
-        karat:       selectedKarat,
-        metalColor:  selectedColor,
-        metalType:   selectedMetalType,
+        karat: selectedKarat,
+        metalColor: selectedColor,
+        metalType: selectedMetalType,
         grossWeight: selectedGrossWeight,
-        netWeight:   selectedNetWeight,
-        size:        selectedSize,
-        price:       activeVariant.price,
-        salePrice:   activeVariant.salePrice || 0,
-        inventory:   activeVariant.inventory
+        netWeight: selectedNetWeight,
+        size: selectedSize,
+        price: activeVariant.price,
+        salePrice: activeVariant.salePrice || 0,
+        inventory: activeVariant.inventory,
       };
     }
 
@@ -371,7 +435,7 @@ export default function ProductDetails({ productId }) {
       }
     } else {
       if (delta > 0 && isOutOfStock) return;
-      setQuantity(q => Math.max(1, q + delta));
+      setQuantity((q) => Math.max(1, q + delta));
     }
   };
 
@@ -388,11 +452,16 @@ export default function ProductDetails({ productId }) {
       const endpoint = nextState ? "add" : "remove";
       const res = await fetch(`${API_URL}/auth/wishlist/${endpoint}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ productId })
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ productId }),
       });
       if (res.ok) {
-        toast.success(nextState ? "Added to wishlist!" : "Removed from wishlist!");
+        toast.success(
+          nextState ? "Added to wishlist!" : "Removed from wishlist!",
+        );
       } else {
         throw new Error("Failed wishlist toggle");
       }
@@ -405,7 +474,12 @@ export default function ProductDetails({ productId }) {
 
   const handleShare = () => {
     if (navigator.share) {
-      navigator.share({ title: product?.name || "Vardaan Jewelry", url: window.location.href }).catch(console.error);
+      navigator
+        .share({
+          title: product?.name || "Vardaan Jewelry",
+          url: window.location.href,
+        })
+        .catch(console.error);
     } else {
       navigator.clipboard.writeText(window.location.href);
       toast.success("Product page link copied to clipboard!");
@@ -425,22 +499,30 @@ export default function ProductDetails({ productId }) {
   if (!product) {
     return (
       <div className="w-full max-w-[1192px] mx-auto px-4 py-20 text-center font-sans">
-        <h2 className="text-2xl font-serif text-gray-700 mb-2">Product Not Found</h2>
-        <p className="text-gray-500 mb-6">The requested jewelry piece could not be located in our catalog.</p>
-        <Link href="/shop" className="bg-[#07512E] text-white px-6 py-2.5 font-medium tracking-wide uppercase text-sm">
+        <h2 className="text-2xl font-serif text-gray-700 mb-2">
+          Product Not Found
+        </h2>
+        <p className="text-gray-500 mb-6">
+          The requested jewelry piece could not be located in our catalog.
+        </p>
+        <Link
+          href="/shop"
+          className="bg-[#07512E] text-white px-6 py-2.5 font-medium tracking-wide uppercase text-sm"
+        >
           Return to Shop
         </Link>
       </div>
     );
   }
 
-  const activeImage = product.images?.[selectedImageIdx] || "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png";
+  const activeImage =
+    product.images?.[selectedImageIdx] ||
+    "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png";
 
   // ── Render ────────────────────────────────────────────────────────────────
   return (
     <div className="w-full max-w-[1192px] lg:min-h-[808px] mx-auto px-4 lg:px-0 py-10 lg:py-16">
       <div className="flex flex-col lg:flex-row justify-between gap-8 lg:gap-6">
-
         {/* =========================================
             COLUMN 1: PRODUCT INFO & ACTIONS
             ========================================= */}
@@ -470,7 +552,7 @@ export default function ProductDetails({ productId }) {
 
               {/* Price Rating */}
               {totalRatingsCount > 0 && (
-                <div 
+                <div
                   onClick={() => {
                     const el = document.getElementById("reviews-section");
                     if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -480,16 +562,22 @@ export default function ProductDetails({ productId }) {
                 >
                   <div className="flex text-[#FFDE59]">
                     {Array.from({ length: 5 }).map((_, i) => (
-                      <FiStar 
-                        key={i} 
+                      <FiStar
+                        key={i}
                         className={`w-3.5 h-3.5 ${
-                          i < Math.round(averageRating) ? "fill-[#FFDE59]" : "text-gray-300"
-                        }`} 
+                          i < Math.round(averageRating)
+                            ? "fill-[#FFDE59]"
+                            : "text-gray-300"
+                        }`}
                       />
                     ))}
                   </div>
-                  <span className="text-xs font-semibold text-gray-700 ml-0.5">{averageRating}</span>
-                  <span className="text-[10px] text-gray-400">({totalRatingsCount})</span>
+                  <span className="text-xs font-semibold text-gray-700 ml-0.5">
+                    {averageRating}
+                  </span>
+                  <span className="text-[10px] text-gray-400">
+                    ({totalRatingsCount})
+                  </span>
                 </div>
               )}
             </div>
@@ -506,7 +594,6 @@ export default function ProductDetails({ productId }) {
           {/* ── Variant Selectors (only when variants exist) ── */}
           {hasVariants && (
             <div className="mb-6 space-y-5">
-
               {/* ─ Karat ─ */}
               {allKarats.length > 0 && (
                 <div>
@@ -522,7 +609,7 @@ export default function ProductDetails({ productId }) {
                     {allKarats.map((karat) => (
                       <button
                         key={karat}
-                        onClick={() => handleSelectionChange('karat', karat)}
+                        onClick={() => handleSelectionChange("karat", karat)}
                         className={`px-3 py-1.5 border text-[13px] font-sans rounded transition-all cursor-pointer ${
                           selectedKarat === karat
                             ? "bg-[#07512E] border-[#07512E] text-white font-medium shadow-sm"
@@ -535,7 +622,7 @@ export default function ProductDetails({ productId }) {
                   </div>
                 </div>
               )}
- 
+
               {/* ─ Metal Color ─ */}
               {availableColors.length > 0 && (
                 <div>
@@ -554,14 +641,17 @@ export default function ProductDetails({ productId }) {
                         "white gold": "#e8e8e8",
                         "yellow gold": "#FFD700",
                         "rose gold": "#E8A090",
-                        "platinum": "#E5E4E2",
-                        "silver": "#C0C0C0",
+                        platinum: "#E5E4E2",
+                        silver: "#C0C0C0",
                       };
-                      const swatchColor = swatchMap[color.toLowerCase()] || "#ccc";
+                      const swatchColor =
+                        swatchMap[color.toLowerCase()] || "#ccc";
                       return (
                         <button
                           key={color}
-                          onClick={() => handleSelectionChange('metalColor', color)}
+                          onClick={() =>
+                            handleSelectionChange("metalColor", color)
+                          }
                           title={color}
                           className={`flex items-center gap-1.5 px-3 py-1.5 border text-[13px] font-sans rounded transition-all cursor-pointer ${
                             selectedColor === color
@@ -580,7 +670,7 @@ export default function ProductDetails({ productId }) {
                   </div>
                 </div>
               )}
- 
+
               {/* ─ Size ─ */}
               {availableSizes.length > 0 && (
                 <div>
@@ -588,7 +678,10 @@ export default function ProductDetails({ productId }) {
                     <span className="text-[14px] font-semibold font-sans text-gray-700 uppercase tracking-wide">
                       Size
                     </span>
-                    <a href="#size-guide" className="text-[#07512E] text-[13px] underline underline-offset-4 decoration-1">
+                    <a
+                      href="#size-guide"
+                      className="text-[#07512E] text-[13px] underline underline-offset-4 decoration-1"
+                    >
                       Size guide
                     </a>
                   </div>
@@ -596,7 +689,7 @@ export default function ProductDetails({ productId }) {
                     {availableSizes.map((size) => (
                       <button
                         key={size}
-                        onClick={() => handleSelectionChange('size', size)}
+                        onClick={() => handleSelectionChange("size", size)}
                         className={`w-11 h-11 border flex items-center justify-center text-[15px] font-sans transition-all cursor-pointer rounded ${
                           selectedSize === size
                             ? "bg-[#07512E] border-[#07512E] text-white font-medium shadow-sm"
@@ -611,7 +704,9 @@ export default function ProductDetails({ productId }) {
               )}
 
               {/* ─ Stock Label ─ */}
-              <p className={`text-[13px] font-sans font-semibold ${stockLabel.color} flex items-center gap-1.5`}>
+              <p
+                className={`text-[13px] font-sans font-semibold ${stockLabel.color} flex items-center gap-1.5`}
+              >
                 {isOutOfStock && <FiAlertTriangle className="w-4 h-4" />}
                 {stockLabel.text}
               </p>
@@ -622,8 +717,15 @@ export default function ProductDetails({ productId }) {
           {!hasVariants && (
             <div className="mb-6">
               <div className="flex justify-between items-center mb-3">
-                <span className="text-[15px] font-sans text-gray-700">Size :</span>
-                <a href="#size-guide" className="text-[#07512E] text-[14px] underline underline-offset-4 decoration-1">
+                <span className="text-[15px] font-sans text-gray-700">
+                  Size :
+                </span>
+
+                <a
+                  href="#size-guide"
+                  onClick={() => setIsActive(true)}
+                  className="text-[#07512E] text-[14px] underline underline-offset-4 decoration-1"
+                >
                   Size guide
                 </a>
               </div>
@@ -642,7 +744,19 @@ export default function ProductDetails({ productId }) {
                   </button>
                 ))}
               </div>
-              <p className={`text-[13px] font-sans font-semibold ${stockLabel.color}`}>
+              {isActive && (
+                <div>
+                  <input
+                    type="number"
+                    value={selectedSize}
+                    onChange={(e) => setSelectedSize(e.target.value)}
+                    className="border border-gray-300 p-1 w-11"
+                  />
+                </div>
+              )}
+              <p
+                className={`text-[13px] font-sans font-semibold ${stockLabel.color}`}
+              >
                 {stockLabel.text}
               </p>
             </div>
@@ -650,7 +764,9 @@ export default function ProductDetails({ productId }) {
 
           {/* ── Quantity ── */}
           <div className="mb-8">
-            <p className="text-[15px] font-sans font-medium text-[#303030] mb-3">Quantity</p>
+            <p className="text-[15px] font-sans font-medium text-[#303030] mb-3">
+              Quantity
+            </p>
             <div className="flex border border-gray-300 w-fit">
               <button
                 onClick={() => handleQuantityChange(-1)}
@@ -706,7 +822,11 @@ export default function ProductDetails({ productId }) {
                     <span className="flex items-center justify-center gap-2">
                       <FiCheck className="stroke-[2.5]" /> Added
                     </span>
-                  ) : isOutOfStock ? "Unavailable" : "Add to Cart"}
+                  ) : isOutOfStock ? (
+                    "Unavailable"
+                  ) : (
+                    "Add to Cart"
+                  )}
                 </button>
               </>
             )}
@@ -743,7 +863,9 @@ export default function ProductDetails({ productId }) {
               onClick={handleToggleWishlist}
               className="flex items-center gap-2 text-[16px] font-sans hover:text-[#07512E] transition-colors cursor-pointer font-medium"
             >
-              <FiHeart className={`w-4.5 h-4.5 ${isWishlisted ? "fill-red-500 text-red-500" : ""}`} />
+              <FiHeart
+                className={`w-4.5 h-4.5 ${isWishlisted ? "fill-red-500 text-red-500" : ""}`}
+              />
               <span>{isWishlisted ? "In Wishlist" : "Add to Wishlist"}</span>
             </button>
             <button
@@ -761,10 +883,16 @@ export default function ProductDetails({ productId }) {
         <div className="w-full lg:w-[395px] flex flex-col gap-6 order-1 lg:order-2 shrink-0">
           {/* Top Section: Main product image */}
           <div>
-            <span className="text-[11px] uppercase font-bold text-amber-800 tracking-widest block mb-2 font-sans">Product Close-up</span>
+            <span className="text-[11px] uppercase font-bold text-amber-800 tracking-widest block mb-2 font-sans">
+              Product Close-up
+            </span>
             <div className="w-full aspect-square bg-[#F7F5F0] overflow-hidden relative border border-gray-100 rounded-lg shadow-sm">
               <img
-                src={product.mainImage || product.images?.[0] || "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png"}
+                src={
+                  product.mainImage ||
+                  product.images?.[0] ||
+                  "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png"
+                }
                 alt={product.name}
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 hover:scale-105"
               />
@@ -774,11 +902,14 @@ export default function ProductDetails({ productId }) {
           {/* Bottom Section: Wearable Media (Images & Videos showing the product being worn) */}
           {product.wearableMedia && product.wearableMedia.length > 0 && (
             <div className="flex flex-col gap-3 pt-4 border-t border-gray-200">
-              <span className="text-[11px] uppercase font-bold text-amber-800 tracking-widest block mb-1 font-sans">On Body & Details</span>
-              
+              <span className="text-[11px] uppercase font-bold text-amber-800 tracking-widest block mb-1 font-sans">
+                On Body & Details
+              </span>
+
               {/* Active Wearable Media Display Area */}
               <div className="w-full aspect-[4/5] bg-[#F7F5F0] overflow-hidden relative border border-gray-100 rounded-lg shadow-sm">
-                {product.wearableMedia[selectedWearableIdx]?.mediaType === 'video' ? (
+                {product.wearableMedia[selectedWearableIdx]?.mediaType ===
+                "video" ? (
                   <video
                     key={product.wearableMedia[selectedWearableIdx]?.url}
                     src={product.wearableMedia[selectedWearableIdx]?.url}
@@ -805,20 +936,33 @@ export default function ProductDetails({ productId }) {
                     key={idx}
                     onClick={() => setSelectedWearableIdx(idx)}
                     className={`w-16 h-16 bg-gray-50 border-2 cursor-pointer shrink-0 rounded overflow-hidden relative transition-all ${
-                      selectedWearableIdx === idx ? "border-[#07512E] scale-105 shadow-sm" : "border-transparent opacity-80 hover:opacity-100"
+                      selectedWearableIdx === idx
+                        ? "border-[#07512E] scale-105 shadow-sm"
+                        : "border-transparent opacity-80 hover:opacity-100"
                     }`}
                   >
-                    {media.mediaType === 'video' ? (
+                    {media.mediaType === "video" ? (
                       <div className="w-full h-full relative">
-                        <video src={media.url} muted className="w-full h-full object-cover" />
+                        <video
+                          src={media.url}
+                          muted
+                          className="w-full h-full object-cover"
+                        />
                         <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                          <svg className="w-6 h-6 text-white fill-white" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z"/>
+                          <svg
+                            className="w-6 h-6 text-white fill-white"
+                            viewBox="0 0 24 24"
+                          >
+                            <path d="M8 5v14l11-7z" />
                           </svg>
                         </div>
                       </div>
                     ) : (
-                      <img src={media.url} alt={`Wearable thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
+                      <img
+                        src={media.url}
+                        alt={`Wearable thumbnail ${idx + 1}`}
+                        className="w-full h-full object-cover"
+                      />
                     )}
                   </button>
                 ))}
@@ -827,31 +971,40 @@ export default function ProductDetails({ productId }) {
           )}
 
           {/* Fallback to traditional multiple images gallery if wearable media is not specified */}
-          {(!product.wearableMedia || product.wearableMedia.length === 0) && product.images && product.images.length > 1 && (
-            <div className="flex flex-col gap-2">
-              <span className="text-[11px] uppercase font-bold text-amber-800 tracking-widest block font-sans">Additional Views</span>
-              <div className="flex items-center justify-center gap-2 overflow-x-auto py-1">
-                {product.images.map((img, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setSelectedImageIdx(idx)}
-                    className={`w-16 h-14 bg-gray-50 border-2 cursor-pointer shrink-0 rounded overflow-hidden transition-all ${
-                      selectedImageIdx === idx ? "border-[#07512E]" : "border-transparent hover:border-gray-200"
-                    }`}
-                  >
-                    <img src={img} alt={`${product.name} view ${idx + 1}`} className="w-full h-full object-cover" />
-                  </button>
-                ))}
+          {(!product.wearableMedia || product.wearableMedia.length === 0) &&
+            product.images &&
+            product.images.length > 1 && (
+              <div className="flex flex-col gap-2">
+                <span className="text-[11px] uppercase font-bold text-amber-800 tracking-widest block font-sans">
+                  Additional Views
+                </span>
+                <div className="flex items-center justify-center gap-2 overflow-x-auto py-1">
+                  {product.images.map((img, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setSelectedImageIdx(idx)}
+                      className={`w-16 h-14 bg-gray-50 border-2 cursor-pointer shrink-0 rounded overflow-hidden transition-all ${
+                        selectedImageIdx === idx
+                          ? "border-[#07512E]"
+                          : "border-transparent hover:border-gray-200"
+                      }`}
+                    >
+                      <img
+                        src={img}
+                        alt={`${product.name} view ${idx + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
 
         {/* =========================================
             COLUMN 3: DESCRIPTION & TRUST
             ========================================= */}
         <div className="w-full lg:w-[384px] flex flex-col order-3 shrink-0 text-left">
-
           {/* Yellowish Description Box */}
           <div className="bg-[#FFFDF4] px-6 pt-4 pb-6 sm:px-8 sm:pt-5 sm:pb-8 border border-[#F5EEDC] mb-5">
             <h2 className="text-[28px] font-medium font-serif text-[#303030] mb-4">
@@ -863,7 +1016,9 @@ export default function ProductDetails({ productId }) {
               {product.description}
             </p>
 
-            <h3 className="text-xs font-sans font-bold tracking-widest text-amber-700 uppercase mb-3">Attributes</h3>
+            <h3 className="text-xs font-sans font-bold tracking-widest text-amber-700 uppercase mb-3">
+              Attributes
+            </h3>
             <ul className="text-[14px] text-[#303030] font-sans space-y-2 pl-0 list-none">
               <li className="flex justify-between py-1 border-b border-[#E5DCC5]/30">
                 <span className="font-semibold text-gray-500">SKU Code :</span>
@@ -882,87 +1037,142 @@ export default function ProductDetails({ productId }) {
                     <span className="font-semibold text-gray-500">Karat :</span>
                     <select
                       value={selectedKarat}
-                      onChange={(e) => handleSelectionChange('karat', e.target.value)}
+                      onChange={(e) =>
+                        handleSelectionChange("karat", e.target.value)
+                      }
                       className="bg-[#FFFDF4] border border-[#E5DCC5] rounded px-2 py-0.5 text-[13px] font-sans font-medium text-gray-900 focus:border-[#07512E] outline-none text-right cursor-pointer"
                     >
-                      {allKarats.map(k => <option key={k} value={k}>{k}</option>)}
+                      {allKarats.map((k) => (
+                        <option key={k} value={k}>
+                          {k}
+                        </option>
+                      ))}
                     </select>
                   </li>
                   <li className="flex justify-between items-center py-1.5 border-b border-[#E5DCC5]/30">
-                    <span className="font-semibold text-gray-500">Metal Color :</span>
+                    <span className="font-semibold text-gray-500">
+                      Metal Color :
+                    </span>
                     <select
                       value={selectedColor}
-                      onChange={(e) => handleSelectionChange('metalColor', e.target.value)}
+                      onChange={(e) =>
+                        handleSelectionChange("metalColor", e.target.value)
+                      }
                       className="bg-[#FFFDF4] border border-[#E5DCC5] rounded px-2 py-0.5 text-[13px] font-sans font-medium text-gray-900 focus:border-[#07512E] outline-none text-right cursor-pointer"
                     >
-                      {allColors.map(c => <option key={c} value={c}>{c}</option>)}
+                      {allColors.map((c) => (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      ))}
                     </select>
                   </li>
                   <li className="flex justify-between items-center py-1.5 border-b border-[#E5DCC5]/30">
-                    <span className="font-semibold text-gray-500">Metal Type :</span>
+                    <span className="font-semibold text-gray-500">
+                      Metal Type :
+                    </span>
                     <select
                       value={selectedMetalType}
-                      onChange={(e) => handleSelectionChange('metalType', e.target.value)}
+                      onChange={(e) =>
+                        handleSelectionChange("metalType", e.target.value)
+                      }
                       className="bg-[#FFFDF4] border border-[#E5DCC5] rounded px-2 py-0.5 text-[13px] font-sans font-medium text-gray-900 focus:border-[#07512E] outline-none text-right cursor-pointer"
                     >
-                      {allMetalTypes.map(m => <option key={m} value={m}>{m}</option>)}
+                      {allMetalTypes.map((m) => (
+                        <option key={m} value={m}>
+                          {m}
+                        </option>
+                      ))}
                     </select>
                   </li>
                   <li className="flex justify-between items-center py-1.5 border-b border-[#E5DCC5]/30">
-                    <span className="font-semibold text-gray-500">Gross Weight :</span>
+                    <span className="font-semibold text-gray-500">
+                      Gross Weight :
+                    </span>
                     <select
                       value={selectedGrossWeight}
-                      onChange={(e) => handleSelectionChange('grossWeight', e.target.value)}
+                      onChange={(e) =>
+                        handleSelectionChange("grossWeight", e.target.value)
+                      }
                       className="bg-[#FFFDF4] border border-[#E5DCC5] rounded px-2 py-0.5 text-[13px] font-sans font-medium text-gray-900 focus:border-[#07512E] outline-none text-right cursor-pointer"
                     >
-                      {allGrossWeights.map(w => <option key={w} value={w}>{w}</option>)}
+                      {allGrossWeights.map((w) => (
+                        <option key={w} value={w}>
+                          {w}
+                        </option>
+                      ))}
                     </select>
                   </li>
                   <li className="flex justify-between items-center py-1.5 border-b border-[#E5DCC5]/30">
-                    <span className="font-semibold text-gray-500">Net Weight :</span>
+                    <span className="font-semibold text-gray-500">
+                      Net Weight :
+                    </span>
                     <select
                       value={selectedNetWeight}
-                      onChange={(e) => handleSelectionChange('netWeight', e.target.value)}
+                      onChange={(e) =>
+                        handleSelectionChange("netWeight", e.target.value)
+                      }
                       className="bg-[#FFFDF4] border border-[#E5DCC5] rounded px-2 py-0.5 text-[13px] font-sans font-medium text-gray-900 focus:border-[#07512E] outline-none text-right cursor-pointer"
                     >
-                      {allNetWeights.map(w => <option key={w} value={w}>{w}</option>)}
+                      {allNetWeights.map((w) => (
+                        <option key={w} value={w}>
+                          {w}
+                        </option>
+                      ))}
                     </select>
                   </li>
                   {activeVariant && activeVariant.size && (
                     <li className="flex justify-between py-1 border-b border-[#E5DCC5]/30">
-                      <span className="font-semibold text-gray-500">Ring Size :</span>
-                      <span className="text-gray-900 font-medium">{activeVariant.size}</span>
+                      <span className="font-semibold text-gray-500">
+                        Ring Size :
+                      </span>
+                      <span className="text-gray-900 font-medium">
+                        {activeVariant.size}
+                      </span>
                     </li>
                   )}
                 </>
               )}
 
               {/* General attributes (filtered to prevent duplicates) */}
-              {product.attributes && product.attributes
-                .filter(attr => {
-                  const keyNorm = attr.key.trim().toLowerCase().replace(/\s+/g, '');
-                  return ![
-                    'karat',
-                    'metalcolor',
-                    'metaltype',
-                    'grossweight',
-                    'netweight'
-                  ].includes(keyNorm);
-                })
-                .map((attr, idx) => (
-                  <li key={idx} className="flex justify-between py-1 border-b border-[#E5DCC5]/30">
-                    <span className="font-semibold text-gray-500">{attr.key} :</span>
-                    <span className="text-gray-950 font-medium">{attr.value}</span>
-                  </li>
-                ))
-              }
+              {product.attributes &&
+                product.attributes
+                  .filter((attr) => {
+                    const keyNorm = attr.key
+                      .trim()
+                      .toLowerCase()
+                      .replace(/\s+/g, "");
+                    return ![
+                      "karat",
+                      "metalcolor",
+                      "metaltype",
+                      "grossweight",
+                      "netweight",
+                    ].includes(keyNorm);
+                  })
+                  .map((attr, idx) => (
+                    <li
+                      key={idx}
+                      className="flex justify-between py-1 border-b border-[#E5DCC5]/30"
+                    >
+                      <span className="font-semibold text-gray-500">
+                        {attr.key} :
+                      </span>
+                      <span className="text-gray-950 font-medium">
+                        {attr.value}
+                      </span>
+                    </li>
+                  ))}
             </ul>
           </div>
 
           {/* =========================================
               CUSTOMER REVIEWS SECTION
               ========================================= */}
-          <div id="reviews-section" className="bg-[#FFFDF4] px-6 pt-5 pb-6 sm:px-8 sm:pt-6 sm:pb-8 border border-[#F5EEDC] mb-5 text-left font-sans">
+          <div
+            id="reviews-section"
+            className="bg-[#FFFDF4] px-6 pt-5 pb-6 sm:px-8 sm:pt-6 sm:pb-8 border border-[#F5EEDC] mb-5 text-left font-sans"
+          >
             <h2 className="text-[28px] font-medium font-serif text-[#303030] mb-4">
               Customer Reviews
             </h2>
@@ -971,37 +1181,54 @@ export default function ProductDetails({ productId }) {
             {/* Overall Rating Stats */}
             <div className="flex flex-col sm:flex-row items-center gap-6 mb-8 bg-[#FAF9F5] p-5 border border-[#E5DCC5]/40 rounded">
               <div className="text-center shrink-0">
-                <p className="text-4xl font-serif font-bold text-[#07512E]">{averageRating}</p>
+                <p className="text-4xl font-serif font-bold text-[#07512E]">
+                  {averageRating}
+                </p>
                 <div className="flex justify-center text-[#FFDE59] my-2">
                   {Array.from({ length: 5 }).map((_, i) => (
-                    <FiStar 
-                      key={i} 
+                    <FiStar
+                      key={i}
                       className={`w-5 h-5 ${
-                        i < Math.round(averageRating) ? "fill-[#FFDE59]" : "text-gray-300"
-                      }`} 
+                        i < Math.round(averageRating)
+                          ? "fill-[#FFDE59]"
+                          : "text-gray-300"
+                      }`}
                     />
                   ))}
                 </div>
-                <p className="text-xs text-gray-500 font-medium">Based on {totalRatingsCount} ratings</p>
+                <p className="text-xs text-gray-500 font-medium">
+                  Based on {totalRatingsCount} ratings
+                </p>
               </div>
 
               {/* Star Progress Bars */}
               <div className="w-full space-y-1.5">
                 {[5, 4, 3, 2, 1].map((stars) => {
-                  const starCount = reviews.filter(r => r.rating === stars).length;
-                  const percent = totalRatingsCount > 0 ? (starCount / totalRatingsCount) * 100 : 0;
+                  const starCount = reviews.filter(
+                    (r) => r.rating === stars,
+                  ).length;
+                  const percent =
+                    totalRatingsCount > 0
+                      ? (starCount / totalRatingsCount) * 100
+                      : 0;
                   return (
-                    <div key={stars} className="flex items-center gap-3 text-xs">
+                    <div
+                      key={stars}
+                      className="flex items-center gap-3 text-xs"
+                    >
                       <span className="w-8 text-gray-500 font-semibold flex items-center justify-end gap-0.5">
-                        {stars} <FiStar className="w-3 h-3 text-[#FFDE59] fill-[#FFDE59]" />
+                        {stars}{" "}
+                        <FiStar className="w-3 h-3 text-[#FFDE59] fill-[#FFDE59]" />
                       </span>
                       <div className="flex-1 h-2 bg-gray-200/80 rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-[#07512E] transition-all duration-500" 
+                        <div
+                          className="h-full bg-[#07512E] transition-all duration-500"
                           style={{ width: `${percent}%` }}
                         />
                       </div>
-                      <span className="w-6 text-gray-400 text-right">{starCount}</span>
+                      <span className="w-6 text-gray-400 text-right">
+                        {starCount}
+                      </span>
                     </div>
                   );
                 })}
@@ -1017,41 +1244,54 @@ export default function ProductDetails({ productId }) {
             ) : reviews.length > 0 ? (
               <div className="space-y-4 max-h-[450px] overflow-y-auto pr-2 custom-scrollbar">
                 {reviews.map((review, idx) => {
-                  const reviewerName = review.name || review.user?.name || review.userName || "Verified Buyer";
+                  const reviewerName =
+                    review.name ||
+                    review.user?.name ||
+                    review.userName ||
+                    "Verified Buyer";
                   const initials = reviewerName
                     .split(" ")
-                    .map(n => n[0])
+                    .map((n) => n[0])
                     .join("")
                     .substring(0, 2)
                     .toUpperCase();
-                  
-                  const reviewDate = review.createdAt 
+
+                  const reviewDate = review.createdAt
                     ? new Date(review.createdAt).toLocaleDateString("en-IN", {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
                       })
                     : "Recently";
 
                   return (
-                    <div key={review._id || idx} className="border-b border-[#E5DCC5]/30 pb-4 last:border-0 last:pb-0">
+                    <div
+                      key={review._id || idx}
+                      className="border-b border-[#E5DCC5]/30 pb-4 last:border-0 last:pb-0"
+                    >
                       <div className="flex items-start gap-3">
                         <div className="w-9 h-9 rounded-full bg-[#07512E]/10 border border-[#07512E]/20 flex items-center justify-center text-xs font-bold text-[#07512E] shrink-0">
                           {initials}
                         </div>
                         <div className="flex-grow">
                           <div className="flex items-center justify-between flex-wrap gap-1 mb-1">
-                            <span className="text-[14px] font-bold text-gray-900">{reviewerName}</span>
-                            <span className="text-[11px] text-gray-400 font-sans">{reviewDate}</span>
+                            <span className="text-[14px] font-bold text-gray-900">
+                              {reviewerName}
+                            </span>
+                            <span className="text-[11px] text-gray-400 font-sans">
+                              {reviewDate}
+                            </span>
                           </div>
-                          
+
                           <div className="flex text-[#FFDE59] mb-1.5">
                             {Array.from({ length: 5 }).map((_, i) => (
-                              <FiStar 
-                                key={i} 
+                              <FiStar
+                                key={i}
                                 className={`w-3.5 h-3.5 ${
-                                  i < (review.rating || 0) ? "fill-[#FFDE59]" : "text-gray-300"
-                                }`} 
+                                  i < (review.rating || 0)
+                                    ? "fill-[#FFDE59]"
+                                    : "text-gray-300"
+                                }`}
                               />
                             ))}
                           </div>
@@ -1067,14 +1307,19 @@ export default function ProductDetails({ productId }) {
               </div>
             ) : (
               <div className="text-center py-8 text-gray-500 bg-[#FAF9F5]/40 border border-dashed border-[#E5DCC5]/40 rounded">
-                <p className="text-[14px] mb-1">No reviews yet for this product.</p>
-                <p className="text-xs text-gray-400">Purchased this item? You can leave a review from your Order History in your Profile dashboard.</p>
+                <p className="text-[14px] mb-1">
+                  No reviews yet for this product.
+                </p>
+                <p className="text-xs text-gray-400">
+                  Purchased this item? You can leave a review from your Order
+                  History in your Profile dashboard.
+                </p>
               </div>
             )}
           </div>
 
           {/* Safe Checkout & Logos */}
-          <div className="mb-8 pl-1">
+          {/* <div className="mb-8 pl-1">
             <div className="flex items-center gap-2 text-[#404040] text-[15px] font-medium font-sans mb-3">
               <LuShieldCheck className="w-[18px] h-[18px]" /> Safe Checkout
             </div>
@@ -1083,10 +1328,10 @@ export default function ProductDetails({ productId }) {
               alt="Safe Checkout Payment Methods"
               className="h-7 w-auto"
             />
-          </div>
+          </div> */}
 
           {/* Find in store box */}
-          <div className="border border-gray-200 p-5 flex items-center gap-4">
+          {/* <div className="border border-gray-200 p-5 flex items-center gap-4">
             <div className="w-6 h-6 flex items-center justify-center shrink-0">
               <div className="w-5 h-5 rounded-full border border-gray-300"></div>
             </div>
@@ -1097,12 +1342,13 @@ export default function ProductDetails({ productId }) {
                 Click & Collect: Check Availability
               </a>
             </div>
-          </div>
-
+          </div> */}
         </div>
-
       </div>
-      <YouMayAlsoLike categoryId={product?.category?._id} currentProductId={product?._id} />
+      <YouMayAlsoLike
+        categoryId={product?.category?._id}
+        currentProductId={product?._id}
+      />
     </div>
   );
 }

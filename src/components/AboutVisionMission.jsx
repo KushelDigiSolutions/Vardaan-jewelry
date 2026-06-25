@@ -6,7 +6,6 @@ export default function AboutVisionMission() {
   return (
     <section className="py-16 lg:py-32 lg:px-6 bg-[#FAF9F6] overflow-hidden">
       <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 grid  grid-cols-1 place-items-center lg:grid-cols-12 gap-12 items-center">
-        
         {/* Descriptive Section Heading */}
         <div className="lg:col-span-4  flex flex-col items-start gap-4">
           <span className="text-[18px] tracking-widest font-semibold text-amber-600 uppercase">
@@ -18,15 +17,15 @@ export default function AboutVisionMission() {
           </h2>
           <div className="w-12 h-[2px] bg-[#FFDE59] mt-1" />
           <p className="text-[18px] text-gray-500 font-light leading-relaxed max-w-xs mt-2">
-            Explore the dual forces driving our designs: a clear future vision combined with an unwavering daily mission.
+            Explore the dual forces driving our designs: a clear future vision
+            combined with an unwavering daily mission.
           </p>
         </div>
 
         {/* Offset Overlapping Cards Container */}
         <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-6 relative mt-12 lg:mt-0">
-          
           {/* Card 1: Our Vision (Offset Downwards) */}
-          <div className="bg-[#07512E] text-white p-8 md:p-10 rounded-lg shadow-xl hover:-translate-y-4 transition-all duration-500 relative border border-white/5 lg:translate-y-6 flex flex-col gap-4 group">
+          <div className="bg-[#07512E] text-white p-8 md:p-10 rounded-lg shadow-xl border border-white/5 flex flex-col gap-4 group transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-[0_20px_30px_-10px_rgba(7,81,46,0.5)] hover:border-white/20">
             <span className="text-[12px] md:text-[14px] tracking-widest text-[#FFDE59] uppercase font-semibold">
               01 • Future
             </span>
@@ -34,7 +33,9 @@ export default function AboutVisionMission() {
               Our Vision
             </h3>
             <p className="text-[18px] text-gray-200 font-light leading-relaxed">
-              To be a globally recognized boutique jeweler, where each creation is celebrated for its organic floral geometry and holds a legacy of blessings for the generations that inherit it.
+              To be a globally recognized boutique jeweler, where each creation
+              is celebrated for its organic floral geometry and holds a legacy
+              of blessings for the generations that inherit it.
             </p>
             {/* Elegant V watermark */}
             <div className="absolute right-4 bottom-4 text-white/5 font-serif text-8xl leading-none select-none font-bold">
@@ -43,7 +44,7 @@ export default function AboutVisionMission() {
           </div>
 
           {/* Card 2: Our Mission (Offset Upwards) */}
-          <div className="bg-white text-gray-900 p-8 md:p-10 rounded-lg shadow-xl hover:-translate-y-4 transition-all duration-500 relative border border-gray-100 lg:-translate-y-6 flex flex-col gap-4 group">
+          <div className="bg-white text-gray-900 p-8 md:p-10 rounded-lg shadow-xl relative border border-gray-100 flex flex-col gap-4 group transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-2xl  ">
             <span className="text-[12px] md:text-[14px] tracking-widest text-amber-600 uppercase font-semibold">
               02 • Execution
             </span>
@@ -51,16 +52,16 @@ export default function AboutVisionMission() {
               Our Mission
             </h3>
             <p className="text-[18px] text-gray-600 font-light leading-relaxed">
-              To keep the ancestral craft of fine handcrafting alive, enforce strict transparency with GIA gemstone grading, and provide direct atelier customization services for our patrons.
+              To keep the ancestral craft of fine handcrafting alive, enforce
+              strict transparency with GIA gemstone grading, and provide direct
+              atelier customization services for our patrons.
             </p>
             {/* Elegant M watermark */}
             <div className="absolute right-4 bottom-4 text-gray-100/50 font-serif text-8xl leading-none select-none font-bold">
               M
             </div>
           </div>
-
         </div>
-
       </div>
     </section>
   );
