@@ -243,7 +243,7 @@ export default function Navbar() {
 
       {/* --- Mobile Sidebar Navigation Drawer --- */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-[60] md:hidden flex justify-end animate-fade-in">
+        <div className="fixed inset-0 z-[60] lg:hidden flex justify-end animate-fade-in">
           {/* Overlay Background */}
           <div 
             onClick={() => setIsMobileMenuOpen(false)}

@@ -70,8 +70,8 @@ export default function HeroSlider() {
             <div className="absolute inset-0 max-w-[1440px] mx-auto z-20 pointer-events-none">
               <div className="pointer-events-auto flex flex-col items-start justify-between select-none
                 absolute 
-                bottom-12 left-6
-                lg:bottom-auto lg:right-auto lg:top-1/2 lg:-translate-y-1/2 lg:left-[1056px]
+                bottom-12 right-6 md:right-16
+                lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 lg:right-20 xl:right-32
                 w-[260px] sm:h-[272px] gap-4 sm:gap-0">
 
                 {/* Subtitle */}

@@ -43,6 +43,9 @@ export function CartProvider({ children }) {
             image: item.product.images?.[0] || "",
             quantity: item.quantity,
             variant: item.variant || "50",
+            variantDetails: item.variantDetails || null,
+            inventory: item.product.inventory,
+            product: item.product,
             desc: item.product.description || ""
           };
         }).filter(Boolean);
@@ -132,6 +135,8 @@ export function CartProvider({ children }) {
       quantity: qty,
       variant: size,
       variantDetails: variantDetails,
+      inventory: product.inventory,
+      product: product,
       desc: product.description || product.desc || "Fine Jewelry"
     };
 
@@ -215,6 +220,27 @@ export function CartProvider({ children }) {
   const updateQuantity = useCallback(async (id, delta, variant = "50") => {
     const item = cartItems.find(i => (i.id === id || i.productId === id) && i.variant === variant);
     if (!item) return;
+
+    if (delta > 0) {
+      let availableInventory = item.variantDetails?.inventory ?? item.inventory ?? item.product?.inventory ?? Infinity;
+      if (item.product?.variants?.length > 0) {
+        const matchedVariant = item.product.variants.find(v => {
+          if (item.variantDetails) {
+            return v.karat === item.variantDetails.karat && 
+                   v.metalColor === item.variantDetails.metalColor && 
+                   v.size === item.variantDetails.size;
+          }
+          return false;
+        });
+        if (matchedVariant && matchedVariant.inventory !== undefined) {
+          availableInventory = matchedVariant.inventory;
+        }
+      }
+      if (item.quantity + delta > availableInventory) {
+        toast.error(`Only ${availableInventory} items available in stock!`);
+        return;
+      }
+    }
 
     const newQty = Math.max(1, item.quantity + delta);
     if (newQty === item.quantity) return; // No change (e.g. trying to decrease below 1)
