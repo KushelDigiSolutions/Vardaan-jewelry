@@ -10,6 +10,7 @@ import {
   FiAlertTriangle,
   FiStar,
 } from "react-icons/fi";
+import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
 import { TbTruckDelivery } from "react-icons/tb";
 import { LuShieldCheck } from "react-icons/lu";
 import { useCart } from "../context/CartContext";
@@ -135,6 +136,43 @@ export default function ProductDetails({ productId }) {
 
   // ── Derived variant data ───────────────────────────────────────────────────
   const hasVariants = product?.variants?.length > 0;
+
+  const isRingProduct = useMemo(() => {
+    if (!product?.category) return false;
+
+    const categoryValue =
+      typeof product.category === "string"
+        ? product.category
+        : product.category.name || product.category.slug || "";
+    const parentValue =
+      typeof product.category !== "string" && product.category.parentCategory
+        ? product.category.parentCategory.name ||
+          product.category.parentCategory.slug ||
+          ""
+        : "";
+
+    const normalized = `${categoryValue} ${parentValue}`
+      .toString()
+      .toLowerCase();
+
+    return normalized.includes("ring");
+  }, [product]);
+
+  const renderAverageStars = (rating, sizeClass = "w-4 h-4") => {
+    const roundedRating = Math.round((rating || 0) * 2) / 2;
+    const fullStars = Math.floor(roundedRating);
+    const hasHalfStar = roundedRating - fullStars === 0.5;
+
+    return Array.from({ length: 5 }).map((_, i) => {
+      if (i < fullStars) {
+        return <BsStarFill key={i} className={`${sizeClass} text-[#FFDE59]`} />;
+      }
+      if (i === fullStars && hasHalfStar) {
+        return <BsStarHalf key={i} className={`${sizeClass} text-[#FFDE59]`} />;
+      }
+      return <BsStar key={i} className={`${sizeClass} text-gray-300`} />;
+    });
+  };
 
   /** All unique karats */
   const allKarats = useMemo(
@@ -386,7 +424,7 @@ export default function ProductDetails({ productId }) {
   const handleAddToCart = () => {
     if (!product) return;
 
-    if (!selectedSize) {
+    if (isRingProduct && !selectedSize) {
       toast.error("Please select a size first!");
       return;
     }
@@ -560,17 +598,8 @@ export default function ProductDetails({ productId }) {
                   className="flex items-center gap-1 cursor-pointer hover:opacity-80 transition-opacity bg-[#FFFDF4] px-2 py-0.5 border border-[#F5EEDC] rounded-full"
                   title="Click to view reviews"
                 >
-                  <div className="flex text-[#FFDE59]">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <FiStar
-                        key={i}
-                        className={`w-3.5 h-3.5 ${
-                          i < Math.round(averageRating)
-                            ? "fill-[#FFDE59]"
-                            : "text-gray-300"
-                        }`}
-                      />
-                    ))}
+                  <div className="flex">
+                    {renderAverageStars(averageRating, "w-3.5 h-3.5")}
                   </div>
                   <span className="text-xs font-semibold text-gray-700 ml-0.5">
                     {averageRating}
@@ -672,7 +701,7 @@ export default function ProductDetails({ productId }) {
               )}
 
               {/* ─ Size ─ */}
-              {availableSizes.length > 0 && (
+              {isRingProduct && availableSizes.length > 0 && (
                 <div>
                   <div className="flex justify-between items-center mb-2.5">
                     <span className="text-[14px] font-semibold font-sans text-gray-700 uppercase tracking-wide">
@@ -713,8 +742,8 @@ export default function ProductDetails({ productId }) {
             </div>
           )}
 
-          {/* ── Fallback: static size selector for products without variants ── */}
-          {!hasVariants && (
+          {/* ── Fallback: static size selector for ring products without variants ── */}
+          {!hasVariants && isRingProduct && (
             <div className="mb-6">
               <div className="flex justify-between items-center mb-3">
                 <span className="text-[15px] font-sans text-gray-700">
@@ -839,7 +868,7 @@ export default function ProductDetails({ productId }) {
           </div>
 
           {/* ── Delivery Estimate Box ── */}
-          <div className="border border-[#FBEF9A] rounded px-4 py-3 mb-8 bg-[#fffff8]">
+          {/* <div className="border border-[#FBEF9A] rounded px-4 py-3 mb-8 bg-[#fffff8]">
             <div className="flex justify-between items-center mb-2.5 text-[15px] text-[#333333] font-sans">
               <span>Delhi / NCR :</span>
               <span className="font-medium">2 - 4 Days</span>
@@ -855,7 +884,7 @@ export default function ProductDetails({ productId }) {
             <p className="text-red-500 text-[14px] font-light font-sans mt-1">
               COD available. Beware of fake websites.
             </p>
-          </div>
+          </div> */}
 
           {/* ── Action Links ── */}
           <div className="flex items-center gap-6 text-[#606060]">
@@ -1121,7 +1150,7 @@ export default function ProductDetails({ productId }) {
                       ))}
                     </select>
                   </li>
-                  {activeVariant && activeVariant.size && (
+                  {isRingProduct && activeVariant && activeVariant.size && (
                     <li className="flex justify-between py-1 border-b border-[#E5DCC5]/30">
                       <span className="font-semibold text-gray-500">
                         Ring Size :
@@ -1185,16 +1214,7 @@ export default function ProductDetails({ productId }) {
                   {averageRating}
                 </p>
                 <div className="flex justify-center text-[#FFDE59] my-2">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <FiStar
-                      key={i}
-                      className={`w-5 h-5 ${
-                        i < Math.round(averageRating)
-                          ? "fill-[#FFDE59]"
-                          : "text-gray-300"
-                      }`}
-                    />
-                  ))}
+                  {renderAverageStars(averageRating, "w-5 h-5")}
                 </div>
                 <p className="text-xs text-gray-500 font-medium">
                   Based on {totalRatingsCount} ratings

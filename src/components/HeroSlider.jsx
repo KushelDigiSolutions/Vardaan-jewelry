@@ -3,7 +3,9 @@
 import React, { useState, useEffect } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
-const slides = [
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+
+const defaultSlides = [
   {
     image: "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781603449/hero_banner_optimized_jkbhox.png",
     subtitle: "NEW LAUNCH",
@@ -17,7 +19,7 @@ const slides = [
     title: "THE HARMONY\nSERIES",
     ctaText: "Explore Collection",
     ctaLink: "/shop",
-    styleFilter: "hue-rotate-15 saturate-110", // Subtle visual distinction for slide 2
+    styleFilter: "hue-rotate-15 saturate-110",
   },
   {
     image: "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1782281607/home_page_banner_image_czgpzk.jpg",
@@ -25,19 +27,36 @@ const slides = [
     title: "BLESSINGS OF\nLIGHT",
     ctaText: "Book Appointment",
     ctaLink: "/contact",
-    styleFilter: "brightness-95 contrast-105", // Subtle visual distinction for slide 3
+    styleFilter: "brightness-95 contrast-105",
   },
 ];
 
 export default function HeroSlider() {
+  const [slides, setSlides] = useState(defaultSlides);
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
+    const fetchSlides = async () => {
+      try {
+        const res = await fetch(`${API_URL}/hero-slides?activeOnly=true`);
+        const data = await res.json();
+        if (data.success && data.data && data.data.length > 0) {
+          setSlides(data.data);
+        }
+      } catch (err) {
+        console.error("Error fetching hero slides, using defaults:", err);
+      }
+    };
+    fetchSlides();
+  }, []);
+
+  useEffect(() => {
+    if (slides.length <= 1) return;
     const timer = setInterval(() => {
-      setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+      setCurrent((prev) => (prev >= slides.length - 1 ? 0 : prev + 1));
     }, 6000); // 6 seconds slide time
     return () => clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
   const handlePrev = () => {
     setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
