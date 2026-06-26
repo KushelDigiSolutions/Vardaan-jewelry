@@ -3,6 +3,8 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 import { useToast } from "./ToastContext";
+import { useLoader } from "./LoaderContext";
+
 
 const CartContext = createContext();
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
@@ -12,6 +14,7 @@ export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
   const { token } = useAuth();
   const toast = useToast();
+  const {showLoader , hideLoader} = useLoader();
 
   // Helper to fetch options
   const getHeaders = useCallback(() => {
@@ -141,6 +144,7 @@ export function CartProvider({ children }) {
     };
 
     if (token) {
+      showLoader(true)
       // Backend request
       try {
         const res = await fetch(`${API_URL}/cart/add`, {
@@ -160,6 +164,9 @@ export function CartProvider({ children }) {
         }
       } catch (err) {
         console.error("Add to cart API error:", err);
+      }
+      finally {
+        hideLoader(false)
       }
     } else {
       // Local state update
@@ -189,6 +196,7 @@ export function CartProvider({ children }) {
     const itemName = item ? item.name : "Product";
 
     if (token) {
+      showLoader(true)
       try {
         const res = await fetch(`${API_URL}/cart/remove`, {
           method: "POST",
@@ -205,6 +213,9 @@ export function CartProvider({ children }) {
         }
       } catch (err) {
         console.error("Remove from cart API error:", err);
+      }
+      finally {
+        hideLoader(false)
       }
     } else {
       setCartItems((prev) => {

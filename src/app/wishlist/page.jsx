@@ -83,7 +83,11 @@ export default function WishlistPage() {
     
     // Add to cart
     addToCart(product, 1, "50");
-    toast.success(`${product.name} moved to cart successfully!`);
+    setTimeout(()=> {
+       toast.success(`${product.name} moved to cart successfully!`);
+    
+    },3000)
+    // toast.success(`${product.name} moved to cart successfully!`);
 
     // Remove from wishlist
     await handleRemove(id, true);

@@ -31,17 +31,18 @@ export default function AboutUs() {
             From the initial sketch in our atelier to the final hand-polished gold setting, each diamond, emerald, and sapphire is ethically sourced and hand-selected. We don't just create jewelry; we curate memories that pass down as modern family heirlooms.
           </p>
 
-          <div className="flex gap-4 sm:gap-8 mt-6">
-            <div ref={ref}>
-              <span className="block font-serif text-3xl text-[#07512E]"> {inView && <CountUp end={20} duration={2} />}+</span>
+          <div ref={ref} className="flex gap-4 sm:gap-8 mt-6">
+            <div >
+              <span className="block font-serif text-3xl text-[#07512E]"> {inView && <CountUp end={20} duration={2} useEasing={false} />}+</span>
               <span className="text-[12px] md:text-[14px] text-gray-400 font-medium tracking-widest uppercase">Years of Artistry</span>
             </div>
             <div className="border-l border-gray-200 pl-4 sm:pl-8">
-              <span className="block font-serif text-3xl text-[#07512E]">100%</span>
+              <span className="block font-serif text-3xl text-[#07512E]">{inView && <CountUp end={100} duration={2} useEasing={false} />}% 
+              </span>
               <span className="text-[12px] md:text-[14px] text-gray-400 font-medium tracking-widest uppercase">Certified Gold</span>
             </div>
             <div className="border-l border-gray-200 pl-4 sm:pl-8">
-              <span className="block font-serif text-3xl text-[#07512E]">10k+</span>
+              <span className="block font-serif text-3xl text-[#07512E]">{inView && <CountUp end={10} duration={2} useEasing={false} />}k+</span>
               <span className="text-[12px] md:text-[14px] text-gray-400 font-medium tracking-widest uppercase">Happy Patrons</span>
             </div>
           </div>

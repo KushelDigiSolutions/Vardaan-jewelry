@@ -32,9 +32,10 @@ export default function AboutValues() {
     <section className="py-16 lg:pt-20 bg-[#07512E] text-white relative overflow-hidden">
       {/* Background brand stamp watermark */}
       <div 
-        className="absolute inset-0 bg-no-repeat bg-center bg-contain pointer-events-none mix-blend-screen opacity-[0.08]"
-        style={{ backgroundImage: `url('https://res.cloudinary.com/dd9tagtiw/image/upload/v1781515128/a29bc3df60dd42fbfd5b10b5b93b4efd38995dd5_clck27.png')` }}
-      />
+  className="absolute inset-0 bg-no-repeat bg-center bg-cover pointer-events-none mix-blend-screen opacity-[0.3]"
+  style={{backgroundImage: `url('./promis.png')`}}
+  // style={{ backgroundImage: `url('https://res.cloudinary.com/dd9tagtiw/image/upload/v1781515128/a29bc3df60dd42fbfd5b10b5b93b4efd38995dd5_clck27.png')` }}
+/>
 
       <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 relative z-10">
         

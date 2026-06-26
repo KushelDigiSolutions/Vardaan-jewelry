@@ -324,7 +324,7 @@ export default function LoginPage() {
             </p>
             <p className="text-[15px] font-sans text-gray-600 font-light">
              
-              <Link href="/signup" className="text-blue-700 font-medium hover:underline underline-offset-4">
+              <Link href="/signup" className="text-[#07512E] font-medium hover:underline underline-offset-4">
               
                 Create an account
               </Link>

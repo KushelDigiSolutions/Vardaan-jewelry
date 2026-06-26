@@ -119,7 +119,7 @@ export default function ContactForm() {
               </li>
               <li className="flex items-center gap-2">
                 <FiCheck className="text-amber-600 shrink-0" />
-                <span className="whitespace-nowrap text-ellipsis overflow-hidden">Certified metal and gemstone assays.</span>
+                <span className=" text-ellipsis overflow-hidden">Certified metal and gemstone assays.</span>
               </li>
               <li className="flex items-center gap-2">
                 <FiCheck className="text-amber-600 shrink-0" />
@@ -132,10 +132,12 @@ export default function ContactForm() {
         {/* Right Column: Flat-Line Luxury Form Card */}
         <div className="lg:col-span-8 bg-[#07512E] rounded-xl shadow-[0_20px_50px_rgba(7,81,78,0.15)] p-8 md:p-10 relative overflow-hidden w-full text-white border border-white/5">
           {/* Subtle Watermark overlay */}
-          <div 
-            className="absolute inset-0 bg-no-repeat bg-left-bottom bg-contain pointer-events-none mix-blend-screen opacity-[0.06]"
-            style={{ backgroundImage: `url('https://res.cloudinary.com/dd9tagtiw/image/upload/v1781515128/a29bc3df60dd42fbfd5b10b5b93b4efd38995dd5_clck27.png')` }}
-          />
+         <div 
+  className="absolute inset-0 bg-no-repeat bg-center bg-cover pointer-events-none mix-blend-screen opacity-[0.1]"
+  style={{ 
+    backgroundImage: `url('https://res.cloudinary.com/dd9tagtiw/image/upload/v1781515128/a29bc3df60dd42fbfd5b10b5b93b4efd38995dd5_clck27.png')`
+  }}
+/>
 
           {isSubmitted ? (
             <div className="flex flex-col items-center justify-center py-20 text-center animate-fade-in gap-6">

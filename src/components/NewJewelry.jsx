@@ -189,7 +189,7 @@ export default function NewJewelry() {
                           </Link>
                           <button
                             onClick={() => addToCart(item)}
-                            className="flex-1 h-[48px] flex items-center justify-center bg-white border border-[#07512E] text-[#07512E] font-sans font-medium text-[20px] hover:bg-[#07512E] hover:text-white transition-colors duration-300"
+                            className="flex-1 h-[48px] flex items-center cursor-pointer justify-center bg-white border border-[#07512E] text-[#07512E] font-sans font-medium text-[20px] hover:bg-[#07512E] hover:text-white transition-colors duration-300"
                           >
                             Add to Cart
                           </button>

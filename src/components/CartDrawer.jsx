@@ -99,7 +99,7 @@ export default function CartDrawer() {
     <>
       {/* Backdrop overlay */}
       <div
-        className={`fixed inset-0 bg-black/40 z-[55] transition-opacity duration-300 ${isCartOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        className={`fixed inset-0 bg-black/40 z-[55] transition-opacity  duration-300 ${isCartOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
           }`}
         style={{ top: `${navHeight}px` }}
         onClick={closeCart}
@@ -123,7 +123,7 @@ export default function CartDrawer() {
           </div>
           <button
             onClick={closeCart}
-            className="p-1 hover:bg-gray-100 rounded-full transition-colors text-gray-400"
+            className="p-1 hover:bg-gray-100 rounded-full transition-colors text-gray-400 cursor-pointer"
           >
             <FiX className="w-5 h-5" />
           </button>
