@@ -5,11 +5,11 @@ import React from "react";
 export default function AboutHero() {
   return (
     <section className="relative w-full min-h-[650px] lg:h-[80vh] flex flex-col lg:grid lg:grid-cols-12 bg-[#04361E] overflow-hidden">
-      
+
       {/* Left Column: Dark Editorial Brand block */}
       <div className="lg:col-span-7 flex flex-col justify-center px-4 lg:pl-[max(1rem,calc(50vw-596px))] lg:pr-16 py-16 lg:py-0 relative z-10 bg-[#04361E] text-white">
         {/* Subtle Watermark overlay */}
-        <div 
+        <div
           className="absolute inset-0 bg-no-repeat bg-left-top bg-contain pointer-events-none mix-blend-screen opacity-15"
           style={{ backgroundImage: `url('https://res.cloudinary.com/dd9tagtiw/image/upload/v1781515128/a29bc3df60dd42fbfd5b10b5b93b4efd38995dd5_clck27.png')` }}
         />
@@ -36,7 +36,7 @@ export default function AboutHero() {
 
           {/* Luxury Monogram stamp */}
           <div className="flex items-center gap-4 mt-4 pt-6 border-t border-white/10 w-full max-w-sm">
-          <img src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781789797/vardan_logo_2_br1lkx.png" alt="" className="w-45" />
+            <img src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781789797/vardan_logo_2_br1lkx.png" alt="" className="w-45" />
             {/* <svg 
               className="w-10 h-10 text-[#FFDE59] shrink-0"
               viewBox="0 0 100 100" 
@@ -56,12 +56,12 @@ export default function AboutHero() {
       </div>
 
       {/* Right Column: Immersive Graphic Block */}
-      <div className="lg:col-span-5 relative w-full h-[350px] lg:h-full overflow-hidden bg-[#07512E]">
+      <div className="lg:col-span-5 relative w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-full overflow-hidden bg-[#07512E]">
         {/* Full Image */}
         <img
           src="https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?q=80&w=1200&auto=format&fit=crop"
           alt="Luxury Jewelry Atelier"
-          className="w-full h-full object-cover scale-100 animate-scale-up hover:scale-105 transition-transform duration-[10s] ease-out opacity-80"
+          className="w-full h-full object-cover object-center scale-100 animate-scale-up hover:scale-105 transition-transform duration-[10s] ease-out opacity-80"
         />
 
         {/* Soft Gold/Emerald overlay gradients */}
@@ -69,9 +69,9 @@ export default function AboutHero() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#04361E] via-transparent to-transparent hidden lg:block pointer-events-none" />
 
         {/* Dynamic bottom badge */}
-        <div className="absolute bottom-8 right-4 lg:right-[max(1rem,calc(50vw-596px))] z-20 bg-white/95 text-[#07512E] py-3 px-6 rounded shadow-2xl border border-gray-100 flex items-center gap-3 backdrop-blur-md">
-          <span className="text-[18px] tracking-widest font-serif uppercase font-semibold text-amber-600">Pure Gold Covenant</span>
-          <span className="w-1.5 h-1.5 rounded-full bg-[#07512E]" />
+        <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 lg:left-auto lg:bottom-8 lg:right-[max(1rem,calc(50vw-596px))] z-20 bg-white/95 text-[#07512E] py-2.5 sm:py-3 px-4 sm:px-6 rounded shadow-2xl border border-gray-100 flex items-center gap-2 sm:gap-3 backdrop-blur-md w-fit max-w-[calc(100%-2rem)]">
+          <span className="text-[14px] sm:text-[18px] tracking-wider sm:tracking-widest font-serif uppercase font-semibold text-amber-600 truncate sm:overflow-visible">Pure Gold Covenant</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-[#07512E] shrink-0" />
         </div>
       </div>
 
