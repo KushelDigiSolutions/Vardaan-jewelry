@@ -125,7 +125,7 @@ export default function LoginPage() {
       <Navbar />
       
       <div className="flex-1 flex items-center justify-center py-16 px-4">
-        <div className="bg-white border border-[#F0ECE3] rounded-xl shadow-lg p-8 sm:p-10 w-full max-w-[440px] luxury-card-hover transition-all">
+        <div className="bg-white border border-[#F0ECE3] rounded-xl shadow-lg p-8 sm:p-10 w-full max-w-[440px]  transition-all">
           
           {/* Render Mode Titles */}
           <div className="text-center mb-8">
@@ -317,11 +317,16 @@ export default function LoginPage() {
           )}
 
           {/* Under Footer Links */}
-          <div className="mt-8 text-center border-t border-gray-100 pt-6">
+          <div className="mt-0 md:mt-8  flex justify-between flex-col md:flex-row  border-t border-gray-100 pt-6">
             <p className="text-[15px] font-sans text-gray-600 font-light">
               Don't have an account?{" "}
-              <Link href="/signup" className="text-[#07512E] font-medium hover:underline underline-offset-4">
-                Create one now
+              
+            </p>
+            <p className="text-[15px] font-sans text-gray-600 font-light">
+             
+              <Link href="/signup" className="text-blue-700 font-medium hover:underline underline-offset-4">
+              
+                Create an account
               </Link>
             </p>
           </div>

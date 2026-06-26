@@ -20,17 +20,17 @@ export default function ContactHero() {
       <div className="relative z-10 max-w-3xl mx-auto text-center flex flex-col items-center gap-5 animate-slide-up text-white">
         
         {/* Exhibition Gold Medallion Badge */}
-        <div className="relative w-20 h-20 flex items-center justify-center mb-2">
-          {/* Rotating outer gold dotted ring */}
+        {/* <div className="relative w-20 h-20 flex items-center justify-center mb-2">
+         
           <div className="absolute inset-0 border border-dashed border-[#FFDE59]/40 rounded-full animate-[spin_20s_linear_infinite]" />
-          {/* Core gold emblem */}
+          
           <div className="w-14 h-14 rounded-full bg-[#07512E] border border-[#FFDE59]/45 flex items-center justify-center shadow-xl text-[#FFDE59]">
             <svg className="w-6 h-6" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M20 20C30 20 40 30 46 50L50 70L54 50C60 30 70 20 80 20" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
               <circle cx="50" cy="76" r="2.5" fill="currentColor"/>
             </svg>
           </div>
-        </div>
+        </div> */}
 
         <div className="flex items-center gap-2.5">
           <span className="w-8 h-[1px] bg-[#FFDE59]" />

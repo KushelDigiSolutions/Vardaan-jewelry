@@ -616,10 +616,10 @@ export default function ProfilePage() {
 
         <div className="flex flex-col lg:flex-row gap-8 items-start">
           {/* Tab Navigation Menu (Left Sidebar) */}
-          <div className="w-full lg:w-60 bg-white border border-[#F0ECE3] rounded-lg p-4 flex flex-col gap-1 shrink-0  shadow-sm">
+          <div className="w-full lg:w-70 bg-white border border-[#F0ECE3] rounded-lg p-4 flex flex-col gap-1 shrink-0  shadow-sm">
             <button
               onClick={() => { setActiveTab("info"); setMsg({ type: "", text: "" }); }}
-              className={`flex items-center gap-2.5 px-4 py-3 rounded text-left text-sm font-semibold transition-colors cursor-pointer ${
+              className={`flex items-center gap-2.5 px-4 py-3 rounded text-left text-[18px] font-semibold transition-colors cursor-pointer ${
                 activeTab === "info" ? "bg-[#07512E] text-white" : "text-gray-600 hover:bg-gray-50"
               }`}
             >
@@ -627,7 +627,7 @@ export default function ProfilePage() {
             </button>
             <button
               onClick={() => { setActiveTab("addresses"); setMsg({ type: "", text: "" }); }}
-              className={`flex items-center gap-2.5 px-4 py-3 rounded text-left text-sm font-semibold transition-colors cursor-pointer ${
+              className={`flex items-center gap-2.5 px-4 py-3 rounded text-left text-[18px] font-semibold transition-colors cursor-pointer ${
                 activeTab === "addresses" ? "bg-[#07512E] text-white" : "text-gray-600 hover:bg-gray-50"
               }`}
             >
@@ -635,7 +635,7 @@ export default function ProfilePage() {
             </button>
             <button
               onClick={() => { setActiveTab("orders"); setMsg({ type: "", text: "" }); }}
-              className={`flex items-center gap-2.5 px-4 py-3 rounded text-left text-sm font-semibold transition-colors cursor-pointer ${
+              className={`flex items-center gap-2.5 px-4 py-3 rounded text-left text-[18px] font-semibold transition-colors cursor-pointer ${
                 activeTab === "orders" ? "bg-[#07512E] text-white" : "text-gray-600 hover:bg-gray-50"
               }`}
             >
@@ -643,7 +643,7 @@ export default function ProfilePage() {
             </button>
             <button
               onClick={() => { setActiveTab("returns"); setMsg({ type: "", text: "" }); }}
-              className={`flex items-center gap-2.5 px-4 py-3 rounded text-left text-sm font-semibold transition-colors cursor-pointer ${
+              className={`flex items-center gap-2.5 px-4 py-3 rounded text-left text-[18px] font-semibold transition-colors cursor-pointer ${
                 activeTab === "returns" ? "bg-[#07512E] text-white" : "text-gray-600 hover:bg-gray-50"
               }`}
             >
@@ -651,7 +651,7 @@ export default function ProfilePage() {
             </button>
             <button
               onClick={() => { setActiveTab("password"); setMsg({ type: "", text: "" }); }}
-              className={`flex items-center gap-2.5 px-4 py-3 rounded text-left text-sm font-semibold transition-colors cursor-pointer ${
+              className={`flex items-center gap-2.5 px-4 py-3 rounded text-left text-[18px] font-semibold transition-colors cursor-pointer ${
                 activeTab === "password" ? "bg-[#07512E] text-white" : "text-gray-600 hover:bg-gray-50"
               }`}
             >
@@ -688,7 +688,7 @@ export default function ProfilePage() {
 
                   <div className="text-center sm:text-left">
                     <h3 className="text-xl font-bold text-gray-900">{user.name}</h3>
-                    <p className="text-sm text-gray-500 mb-2">{user.email}</p>
+                    <p className="text-[18px] text-gray-500 mb-2">{user.email}</p>
                     <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
                       {user.avatar && (
                         <button 
@@ -707,27 +707,27 @@ export default function ProfilePage() {
                 {!isEditingProfile ? (
                   <div className="bg-[#FAF9F6] border border-[#F0ECE3] rounded-lg p-6 font-sans text-sm space-y-4">
                     <div className="flex justify-between items-center pb-3 border-b border-gray-100">
-                      <h4 className="text-base font-bold text-gray-900">Personal Details</h4>
+                      <h4 className="text-[26px] font-bold text-gray-900">Personal Details</h4>
                       <button 
                         type="button" 
                         onClick={() => setIsEditingProfile(true)}
-                        className="text-[#07512E] hover:text-[#054024] font-semibold text-xs tracking-wider flex items-center gap-1.5 cursor-pointer bg-transparent border-none"
+                        className="text-[#07512E] hover:text-[#054024] font-semibold text-sm tracking-wider flex items-center gap-1.5 cursor-pointer bg-transparent border-none"
                       >
-                        <FiEdit2 className="w-3.5 h-3.5" /> EDIT DETAILS
+                        <FiEdit2 className="w-3.5 h-3.5 " /> EDIT DETAILS
                       </button>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 text-left">
-                      <div>
-                        <p className="text-gray-500 text-xs font-semibold uppercase tracking-wider">Full Name</p>
-                        <p className="text-gray-900 font-semibold text-[15px] mt-0.5">{user.name}</p>
+                      <div className="flex   sm: flex-col xl:flex-row   gap-0 xl:gap-4">
+                        <p className="text-gray-800 text-[18px] font-[500]  tracking-wider">Full Name -</p>
+                        <p className="text-gray-500 font-[500] text-[18px] mt-0.5">{user.name}</p>
                       </div>
-                      <div>
-                        <p className="text-gray-500 text-xs font-semibold uppercase tracking-wider">Mobile Phone</p>
-                        <p className="text-gray-900 font-semibold text-[15px] mt-0.5">{user.mobile || "Not Provided"}</p>
+                      <div className="flex gap-0 flex-col  md: flex-col xl:flex-row    xl:gap-4">
+                        <p className="text-gray-800 text-[18px] font-[500]  tracking-wider">Mobile Number -</p>
+                        <p className="text-gray-500 font-[500] text-[18px] mt-0.5">{user.mobile || "Not Provided"}</p>
                       </div>
-                      <div className="sm:col-span-2">
-                        <p className="text-gray-500 text-xs font-semibold uppercase tracking-wider">Email Address</p>
-                        <p className="text-gray-900 font-semibold text-[15px] mt-0.5">{user.email}</p>
+                      <div className="sm:col-span-2 flex gap-0 flex-col  md: flex-col xl:flex-row    xl:gap-4">
+                        <p className="text-gray-800 text-[18px] font-[500]  tracking-wider">Email Address -</p>
+                        <p className="text-gray-500 font-[500] text-[18px] mt-0.5">{user.email}</p>
                       </div>
                     </div>
                   </div>
@@ -790,8 +790,8 @@ export default function ProfilePage() {
 
                 {/* Danger zone */}
                 <div className="bg-red-50 border border-red-200 rounded-lg p-6 font-sans text-sm text-left">
-                  <h4 className="text-base font-bold text-red-800 mb-1">Danger Zone</h4>
-                  <p className="text-xs text-red-700 mb-4">Deletes all profile files, address entries, and user accounts. This action is permanent.</p>
+                  <h4 className="text-lg font-bold text-red-800 mb-1">Danger Zone</h4>
+                  <p className="text-sm text-red-700 mb-4">Deletes all profile files, address entries, and user accounts. This action is permanent.</p>
                   <button 
                     onClick={handleDeleteAccount} 
                     disabled={loading}
@@ -1051,14 +1051,14 @@ export default function ProfilePage() {
                   // Inline Return Request Form Panel
                   <form onSubmit={handleSubmitReturnRequest} className="bg-gray-50 border border-gray-200 rounded-lg p-6 font-sans text-sm space-y-6 text-left">
                     <div className="flex justify-between items-center pb-3 border-b">
-                      <h4 className="text-lg font-bold text-gray-900">
-                        {editingReturn ? "Edit Return Request" : "Request Product Return"}: Order #{activeReturnOrder._id.substring(18)}
+                      <h4 className="text-[24px] font-bold text-gray-900">
+                        {editingReturn ? "Edit Return Request" : "Request Product Return"}: <span className="text-gray-600"> Order ID - #{activeReturnOrder._id.substring(18)}</span> 
                       </h4>
-                      <button type="button" onClick={() => { setActiveReturnOrder(null); setEditingReturn(null); }} className="text-gray-500 hover:text-black">Cancel</button>
+                      <button type="button" onClick={() => { setActiveReturnOrder(null); setEditingReturn(null); }} className="text-gray-500 text-[18px] cursor-pointer hover:text-black">Cancel</button>
                     </div>
 
                     <div className="space-y-4">
-                      <p className="font-semibold text-gray-700">Select items to return & specify quantities:</p>
+                      <p className="font-semibold text-[18px] text-gray-700">Select items to return & specify quantities:</p>
                       
                       {activeReturnOrder.items.map((item) => {
                         const prodId = item.product?._id || item.product;
@@ -1072,13 +1072,13 @@ export default function ProfilePage() {
                                 onChange={(e) => handleReturnItemChange(prodId, "selected", e.target.checked)}
                                 className="accent-[#07512E] w-4.5 h-4.5"
                               />
-                              <span className="font-bold text-gray-900">{item.name}</span>
+                              <span className="font-normal text-[17px] text-gray-900">{item.name}</span>
                             </label>
                             
                             {state.selected && (
                               <div className="flex-1 flex flex-col sm:flex-row gap-4 w-full sm:w-auto text-xs sm:text-sm">
-                                <div className="flex items-center gap-2">
-                                  <span>Quantity:</span>
+                                <div className="flex  items-center gap-2">
+                                  <span className="text-[17px]">Quantity:</span>
                                   <input 
                                     type="number" 
                                     min="1" 
@@ -1094,7 +1094,7 @@ export default function ProfilePage() {
                                   placeholder="Reason for return..." 
                                   value={state.reason}
                                   onChange={(e) => handleReturnItemChange(prodId, "reason", e.target.value)}
-                                  className="flex-grow p-2 border border-gray-300 rounded bg-[#FAF9F6] outline-none"
+                                  className="flex-grow p-2 border border-gray-300 text-[17px] rounded bg-[#FAF9F6] outline-none"
                                 />
                               </div>
                             )}
@@ -1104,16 +1104,16 @@ export default function ProfilePage() {
                     </div>
 
                     <div className="border-t pt-4 space-y-4">
-                      <p className="font-semibold text-gray-700">Refund Routing Details</p>
+                      <p className="font-semibold text-[18px] text-gray-700">Refund Routing Details</p>
                       
                       <div className="flex gap-4">
                         <label className="flex items-center gap-1.5 cursor-pointer">
                           <input type="radio" checked={refundMethod === "upi"} onChange={() => setRefundMethod("upi")} className="accent-[#07512E]" />
-                          <span>UPI Transfer</span>
+                          <span className="text-[16px]">UPI Transfer</span>
                         </label>
                         <label className="flex items-center gap-1.5 cursor-pointer">
                           <input type="radio" checked={refundMethod === "bank"} onChange={() => setRefundMethod("bank")} className="accent-[#07512E]" />
-                          <span>Bank Account Details</span>
+                          <span className="text-[16px]">Bank Account Details</span>
                         </label>
                       </div>
 
@@ -1145,9 +1145,9 @@ export default function ProfilePage() {
                     </div>
 
                     <div className="flex gap-3 justify-end pt-4 border-t">
-                      <button type="button" onClick={() => { setActiveReturnOrder(null); setEditingReturn(null); }} className="border border-gray-300 px-6 py-2.5 rounded">CANCEL</button>
-                      <button type="submit" disabled={loading} className="bg-[#07512E] text-white px-6 py-2.5 rounded font-bold">
-                        {loading ? "SUBMITTING..." : editingReturn ? "UPDATE RETURN" : "SUBMIT RETURN"}
+                      <button type="button" onClick={() => { setActiveReturnOrder(null); setEditingReturn(null); }} className="border border-gray-300 px-6 py-2.5 rounded cursor-pointer">Cancel</button>
+                      <button type="submit" disabled={loading} className="bg-[#07512E] text-white px-6 py-2.5 rounded font-bold cursor-pointer">
+                        {loading ? "Submiting..." : editingReturn ? "Update Return" : "Submit Return"}
                       </button>
                     </div>
                   </form>

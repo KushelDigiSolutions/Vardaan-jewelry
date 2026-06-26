@@ -5,7 +5,9 @@ import Link from "next/link";
 import { FiX, FiCheckCircle } from "react-icons/fi";
 import { useCart } from "../context/CartContext";
 
-const RECOMMENDED_ITEMS = [
+const RECOMMENDED_ITEMS = [];
+/*
+[
   {
     id: 101,
     name: "Lucy Williams Engravable Arco Cord Necklace",
@@ -35,10 +37,16 @@ const RECOMMENDED_ITEMS = [
     bg: "bg-[#0A1A3A]" // Dark blue background like screenshot
   }
 ];
+*/
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+const PLACEHOLDER_IMAGE = "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png";
 
 export default function CartDrawer() {
   const { isCartOpen, closeCart, cartItems, addToCart } = useCart();
   const [navHeight, setNavHeight] = useState(180);
+  const [recommendedItems, setRecommendedItems] = useState(RECOMMENDED_ITEMS.slice(0, 0));
+  const [isRecommendedLoading, setIsRecommendedLoading] = useState(false);
 
   // Prevent background scrolling when cart is open and calculate exact navbar offset
   useEffect(() => {
@@ -66,6 +74,26 @@ export default function CartDrawer() {
       document.body.style.overflow = 'unset';
     };
   }, [isCartOpen]);
+  useEffect(() => {
+    if (!isCartOpen || recommendedItems.length > 0) return;
+
+    const fetchRecommendedProducts = async () => {
+      setIsRecommendedLoading(true);
+      try {
+        const res = await fetch(`${API_URL}/products?sort=newest&limit=6`);
+        if (res.ok) {
+          const json = await res.json();
+          setRecommendedItems(json.data?.products || json.data || []);
+        }
+      } catch (err) {
+        console.error("Error fetching recommended products:", err);
+      } finally {
+        setIsRecommendedLoading(false);
+      }
+    };
+
+    fetchRecommendedProducts();
+  }, [isCartOpen, recommendedItems.length]);
 
   return (
     <>
@@ -163,20 +191,23 @@ export default function CartDrawer() {
 
             {/* Recommended Items */}
             <div className="flex flex-col gap-3">
-              {RECOMMENDED_ITEMS.map((item, index) => (
-                <div key={index} className="flex flex-col sm:flex-row gap-4 p-3 border border-gray-100 hover:border-gray-200 transition-colors bg-white group cursor-pointer">
-                  <Link href={`/product/${item.id}`} className={`w-full sm:w-[190px] h-[160px] ${item.bg} shrink-0`}>
-                    <img src={item.image} alt={item.name} className="w-full h-full object-cover mix-blend-multiply" />
+              {isRecommendedLoading ? (
+                <p className="text-center text-gray-400 font-sans py-6">Loading recommendations...</p>
+              ) : recommendedItems.length > 0 ? (
+              recommendedItems.map((item) => (
+                <div key={item._id} className="flex flex-col sm:flex-row gap-4 p-3 border border-gray-100 hover:border-gray-200 transition-colors bg-white group cursor-pointer">
+                  <Link href={`/product/${item._id}`} onClick={closeCart} className="w-full sm:w-[190px] h-[140px] bg-[#F7F5F0] shrink-0">
+                    <img src={item.images?.[0] || PLACEHOLDER_IMAGE} alt={item.name} className="w-full h-full object-cover mix-blend-multiply" />
                   </Link>
                   <div className="flex flex-col justify-center py-1 w-full gap-3 text-center sm:text-left">
-                    <Link href={`/product/${item.id}`}>
+                    <Link href={`/product/${item._id}`} onClick={closeCart}>
                       <h4 className="text-[18px] sm:text-[24px] font-medium font-serif text-[#303030] leading-snug group-hover:text-[#07512E] transition-colors">
                         {item.name}
                       </h4>
                     </Link>
                     <div className="flex items-center justify-between px-2 sm:px-0">
                       <p className="text-[18px] sm:text-[20px] text-[#07512E] font-medium font-sans">
-                        {item.price}
+                        Rs. {(item.salePrice || item.price || 0).toLocaleString("en-IN")}
                       </p>
                       <button 
                         onClick={() => addToCart(item)}
@@ -187,7 +218,10 @@ export default function CartDrawer() {
                     </div>
                   </div>
                 </div>
-              ))}
+              ))
+              ) : (
+                <p className="text-center text-gray-400 font-sans py-6">No recommendations found.</p>
+              )}
             </div>
 
           </div>

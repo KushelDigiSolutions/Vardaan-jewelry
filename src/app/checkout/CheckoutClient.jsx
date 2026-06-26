@@ -36,6 +36,9 @@ export default function CheckoutClient() {
   const [couponInput, setCouponInput] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState(null); // { code, discount }
   const [couponError, setCouponError] = useState("");
+  const [availableCoupons, setAvailableCoupons] = useState([]);
+  const [showCouponDropdown, setShowCouponDropdown] = useState(false);
+  const [fetchingCoupons, setFetchingCoupons] = useState(false);
 
   // Process / Result states
   const [orderData, setOrderData] = useState(null);
@@ -82,15 +85,39 @@ export default function CheckoutClient() {
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
+  // Fetch available coupons for suggestions
+  const fetchAvailableCoupons = async () => {
+    if (availableCoupons.length > 0) return; // already fetched
+    setFetchingCoupons(true);
+    try {
+      const res = await fetch(`${API_URL}/coupons`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const json = await res.json();
+      if (json.success) {
+        // Only show active coupons
+        setAvailableCoupons(json.data.filter(c => c.isActive));
+      }
+    } catch (err) {
+      console.error("Failed to fetch coupons", err);
+    } finally {
+      setFetchingCoupons(false);
+    }
+  };
+
   // Apply Coupon code
-  const handleApplyCoupon = async () => {
+  const handleApplyCoupon = async (codeOverride) => {
     setCouponError("");
-    if (!couponInput.trim()) return;
+    const code = (codeOverride || couponInput).trim();
+    if (!code) return;
     try {
       const res = await fetch(`${API_URL}/coupons/apply`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: couponInput.trim(), orderAmount: subtotal })
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ code, orderAmount: subtotal })
       });
       const json = await res.json();
       if (!res.ok) {
@@ -100,8 +127,10 @@ export default function CheckoutClient() {
         code: json.data.code,
         discount: json.data.discount
       });
+      setCouponInput(json.data.code);
+      setShowCouponDropdown(false);
     } catch (err) {
-      setCouponError(err.message || "Coupon is invalid");
+      setCouponError(err.message || "Coupon is invalid or expired");
       setAppliedCoupon(null);
     }
   };
@@ -264,7 +293,7 @@ export default function CheckoutClient() {
 
   return (
     <section className="flex-1 flex justify-center py-10 px-5 bg-[#fdfbf6] text-left">
-      <div className="w-full max-w-[1280px] flex flex-col lg:flex-row gap-8 items-start">
+      <div className="w-full max-w-[1280px] flex flex-col xl:flex-row gap-8 items-start">
         
         {/* Left Column: Wizard Forms */}
         <div className="flex-[2] bg-white p-6 sm:p-8 rounded-lg shadow-sm w-full border border-[#F0ECE3]">
@@ -276,20 +305,21 @@ export default function CheckoutClient() {
           )}
 
           {/* Wizard step Indicators */}
-          <div className="flex justify-between items-center mb-8 pb-4 border-b border-gray-150 font-sans text-xs sm:text-sm text-gray-400 font-medium">
-            <span className={step === 1 ? "text-[#07512E] font-bold" : step > 1 ? "text-gray-900" : ""}>1. Delivery Address</span>
+          <div className="flex  justify-between flex-wrap gap-4 xl:gap-0 lg:flex-nowrap items-center mb-8 pb-4 border-b border-gray-150 font-sans text-xs sm:text-sm text-gray-400 font-medium">
+           
+            <span className={`text-[18px] ${step === 1 ? "text-[#07512E]   font-semibold" : step > 1 ? "text-gray-900 " : ""}`}>1. Delivery Address</span>
             <span className="text-gray-300">→</span>
-            <span className={step === 2 ? "text-[#07512E] font-bold" : step > 2 ? "text-gray-900" : ""}>2. Payment & Promos</span>
+            <span className={`text-[18px] ${step === 2 ? "text-[#07512E]  font-semibold" : step > 2 ? "text-gray-900" : ""}`}>2. Payment & Promos</span>
             <span className="text-gray-300">→</span>
-            <span className={step === 3 ? "text-[#07512E] font-bold" : ""}>3. Payment Capture</span>
+            <span className={`text-[18px] ${step === 3 ? "text-[#07512E] font-semibold" : ""}`}>3. Payment Capture</span>
             <span className="text-gray-300">→</span>
-            <span className={step === 4 ? "text-green-700 font-bold" : ""}>4. Confirmation</span>
+            <span className={`text-[18px] ${step === 4 ? "text-green-700 font-semibold" : ""}`}>4. Confirmation</span>
           </div>
 
           {/* STEP 1: Address Selection */}
           {step === 1 && (
             <div className="animate-fade-in">
-              <h3 className="text-2xl font-serif text-[#07512E] mb-6 font-normal">Select Shipping Address</h3>
+              <h3 className="text-[26px] font-serif text-[#07512E] mb-6 font-normal">Select Shipping Address</h3>
               
               {!isAddingNewAddress ? (
                 <div className="flex flex-col gap-4">
@@ -325,12 +355,12 @@ export default function CheckoutClient() {
 
                   <button
                     onClick={() => setIsAddingNewAddress(true)}
-                    className="flex items-center gap-2 border border-dashed border-[#07512E] text-[#07512E] py-4 rounded justify-center font-sans font-semibold text-sm hover:bg-green-50/10 transition-colors cursor-pointer"
+                    className="flex items-center gap-2 border border-dashed border-[#07512E] text-[#07512E] py-2 md: py-4 rounded justify-center font-sans font-semibold text-[16px] hover:bg-green-50/10 transition-colors cursor-pointer"
                   >
-                    <FiPlus /> ADD NEW SHIPPING ADDRESS
+                    <FiPlus /> Add New Shiping Address
                   </button>
 
-                  <div className="flex justify-between border-t border-gray-100 pt-6 mt-6">
+                  <div className="flex justify-between flex-col md:flex-row  gap-4 border-t border-gray-100 pt-6 mt-6">
                     <Link href="/cart" className="flex items-center gap-1.5 text-gray-500 hover:text-gray-900 text-sm font-semibold font-sans">
                       <FiChevronLeft /> Back to Cart
                     </Link>
@@ -343,9 +373,9 @@ export default function CheckoutClient() {
                         setStep(2);
                         setErrorMsg("");
                       }}
-                      className="bg-[#07512E] text-white px-8 py-3 rounded font-sans font-semibold text-sm hover:bg-[#054024] cursor-pointer"
+                      className="bg-[#07512E] text-white px-4 md:px-8 py-3 rounded font-sans font-semibold text-[14px] md:text-sm  hover:bg-[#054024] cursor-pointer"
                     >
-                      CONTINUE TO PAYMENT
+                      Continue to Payment
                     </button>
                   </div>
                 </div>
@@ -475,7 +505,7 @@ export default function CheckoutClient() {
                   disabled={loading}
                   className="bg-[#07512E] text-white px-8 py-3 rounded font-sans font-semibold text-sm hover:bg-[#054024] cursor-pointer flex items-center justify-center"
                 >
-                  {loading ? "PROCESSING ORDER..." : "PLACE ORDER & CHECKOUT"}
+                  {loading ? "PROCESSING ORDER..." : "Place order & Checkout"}
                 </button>
               </div>
             </div>
@@ -546,15 +576,15 @@ export default function CheckoutClient() {
             {/* List products */}
             <div className="max-h-72 overflow-y-auto mb-6 pr-1 space-y-4">
               {cartItems.map((item) => (
-                <div key={`${item.id}-${item.variant}`} className="flex gap-3 items-center">
-                  <div className="w-12 h-12 bg-gray-50 rounded overflow-hidden shrink-0 border">
+                <div key={`${item.id}-${item.variant}`} className="flex gap-3 flex-col md:flex-row items-start">
+                  <div className="w-20 h-20 bg-gray-50 rounded overflow-hidden shrink-0 border">
                     <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                   </div>
-                  <div className="flex-grow min-w-0 text-xs">
-                    <p className="font-semibold text-gray-900 truncate">{item.name}</p>
-                    <p className="text-gray-500">Qty: {item.quantity} | Size: {item.variant}</p>
+                  <div className="flex-grow min-w-0 text-md">
+                    <p className="font-semibold text-gray-900  text-[16px]">{item.name}</p>
+                    <p className="text-gray-500 text-[16px]">Qty: {item.quantity} | Size: {item.variant}</p>
                   </div>
-                  <span className="font-semibold text-gray-900 text-xs shrink-0">
+                  <span className="font-semibold text-gray-900 text-xs text-[16px] mt-1 shrink-0">
                     ₹ {(item.price * item.quantity).toLocaleString("en-IN")}
                   </span>
                 </div>
@@ -565,30 +595,79 @@ export default function CheckoutClient() {
             {step === 2 && (
               <div className="border border-[#E5E7EB] p-4 mb-6 bg-gray-50/35 rounded">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Apply Promo Code</h4>
-                <div className="flex">
-                  <input
-                    type="text"
-                    value={couponInput}
-                    onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
-                    placeholder="e.g. VARDAAN50"
-                    disabled={appliedCoupon}
-                    className="flex-1 min-w-0 py-2 px-3 border border-[#E5E7EB] border-r-0 rounded-l outline-none text-xs bg-white uppercase font-semibold"
-                  />
-                  <button
-                    onClick={handleApplyCoupon}
-                    disabled={appliedCoupon}
-                    className="py-2 px-4 bg-[#07512E] hover:bg-[#054024] text-white border-none rounded-r cursor-pointer font-bold text-xs"
-                  >
-                    Apply
-                  </button>
+                
+                {/* Input + Apply button */}
+                <div className="relative">
+                  <div className="flex">
+                    <input
+                      type="text"
+                      value={couponInput}
+                      onChange={(e) => {
+                        setCouponInput(e.target.value.toUpperCase());
+                        setCouponError("");
+                      }}
+                      onFocus={() => {
+                        setShowCouponDropdown(true);
+                        fetchAvailableCoupons();
+                      }}
+                      onBlur={() => setTimeout(() => setShowCouponDropdown(false), 180)}
+                      placeholder="e.g. VARDAAN50"
+                      disabled={!!appliedCoupon}
+                      className="flex-1 min-w-0 py-2 px-3 border border-[#E5E7EB] border-r-0 rounded-l outline-none text-xs bg-white uppercase font-semibold focus:border-[#07512E] transition-colors"
+                    />
+                    <button
+                      onClick={() => handleApplyCoupon()}
+                      disabled={!!appliedCoupon || !couponInput.trim()}
+                      className="py-2 px-4 bg-[#07512E] hover:bg-[#054024] disabled:opacity-50 disabled:cursor-not-allowed text-white border-none rounded-r cursor-pointer font-bold text-xs transition-colors"
+                    >
+                      Apply
+                    </button>
+                  </div>
+
+                  {/* Coupon Suggestions Dropdown */}
+                  {showCouponDropdown && !appliedCoupon && (
+                    <div className="absolute left-0 right-0 top-full mt-1 bg-white border border-[#E5E7EB] rounded shadow-lg z-50 max-h-48 overflow-y-auto">
+                      {fetchingCoupons ? (
+                        <div className="px-3 py-3 text-xs text-gray-400 text-center">Loading available coupons...</div>
+                      ) : availableCoupons.length === 0 ? (
+                        <div className="px-3 py-3 text-xs text-gray-400 text-center">No active coupons available</div>
+                      ) : (
+                        availableCoupons
+                          .filter(c =>
+                            !couponInput || c.code.includes(couponInput.toUpperCase())
+                          )
+                          .map((coupon) => (
+                            <button
+                              key={coupon._id}
+                              onMouseDown={() => handleApplyCoupon(coupon.code)}
+                              className="w-full text-left px-3 py-2.5 hover:bg-green-50 border-b border-gray-50 last:border-0 cursor-pointer transition-colors"
+                            >
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="font-bold text-[#07512E] text-xs tracking-wide font-mono">{coupon.code}</span>
+                                <span className="text-[10px] bg-[#07512E] text-white px-1.5 py-0.5 rounded font-semibold whitespace-nowrap">
+                                  {coupon.discountType === "percentage"
+                                    ? `${coupon.discountValue}% OFF`
+                                    : `₹${coupon.discountValue} OFF`
+                                  }
+                                </span>
+                              </div>
+                              {coupon.minOrderAmount > 0 && (
+                                <p className="text-[10px] text-gray-400 mt-0.5">Min order: ₹{coupon.minOrderAmount}</p>
+                              )}
+                            </button>
+                          ))
+                      )}
+                    </div>
+                  )}
                 </div>
+
                 {couponError && <p className="text-red-500 text-xs mt-1.5">{couponError}</p>}
                 {appliedCoupon && (
                   <div className="mt-2 text-green-700 text-xs font-semibold flex items-center justify-between">
-                    <span>Applied: {appliedCoupon.code}</span>
-                    <button 
-                      onClick={() => setAppliedCoupon(null)}
-                      className="bg-transparent border-none text-xs text-red-500 cursor-pointer hover:underline"
+                    <span>✓ Applied: <span className="font-mono">{appliedCoupon.code}</span> — Saved ₹{appliedCoupon.discount.toLocaleString("en-IN")}</span>
+                    <button
+                      onClick={() => { setAppliedCoupon(null); setCouponInput(""); }}
+                      className="bg-transparent border-none text-xs text-red-500 cursor-pointer hover:underline ml-2"
                     >
                       Remove
                     </button>
@@ -597,17 +676,17 @@ export default function CheckoutClient() {
               </div>
             )}
 
-            <div className="flex justify-between mb-3 text-[14px] text-gray-600">
+            <div className="flex justify-between mb-3 text-[16px] text-gray-600">
               <span>Subtotal</span>
               <span className="font-semibold text-gray-900">₹ {subtotal.toLocaleString("en-IN")}</span>
             </div>
             {discountVal > 0 && (
-              <div className="flex justify-between mb-3 text-[14px] text-green-700 font-semibold">
+              <div className="flex justify-between mb-3 text-[16px] text-green-700 font-semibold">
                 <span>Promo Discount</span>
                 <span>- ₹ {discountVal.toLocaleString("en-IN")}</span>
               </div>
             )}
-            <div className="flex justify-between mb-3 text-[14px] text-gray-600">
+            <div className="flex justify-between mb-3 text-[16px] text-gray-600">
               <span>Shipping cost</span>
               <span>{shippingCost > 0 ? `₹ ${shippingCost.toFixed(2)}` : "Free"}</span>
             </div>
@@ -618,8 +697,8 @@ export default function CheckoutClient() {
             </div>
 
             <div className="border-t border-gray-100 pt-4 mt-6">
-              <div className="flex items-center font-medium gap-2 text-[14px] text-gray-600 mb-3">
-                <LuShieldCheck className="w-4.5 h-4.5 stroke-[2]" />
+              <div className="flex items-center font-medium gap-2 text-[16px] text-gray-600 mb-3">
+                <LuShieldCheck className="w-5 h-5 stroke-[2]" />
                 Safe Checkout Covenant
               </div>
               <img

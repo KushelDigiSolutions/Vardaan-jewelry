@@ -526,71 +526,90 @@ export default function ShopProducts() {
                   >
                     All Items
                   </button>
-                  {categories
-                    .filter((cat) => !cat.parentCategory)
-                    .map((cat) => {
-                      const children = categories.filter(
-                        (item) => item.parentCategory?._id === cat._id,
-                      );
+                 {categories
+  .filter((cat) => !cat.parentCategory)
+  .map((cat) => {
+    const children = categories.filter(
+      (item) => item.parentCategory?._id === cat._id
+    );
 
-                      return (
-                        <div key={cat._id}>
-                          {cat?.name?.trim() === "Sets" ? (
-                            <details>
-                              <summary className={`cursor-pointer py-2 px-3  ${selectedCategory === cat._id ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]" : "text-gray-600 hover:text-[#07512E]"}`}  onClick={() => {
-                                    setSelectedCategory(cat._id);
-                                    setCurrentPage(1);
-                                     setIsActive(true)
-                                  }}
-                                 
-                                  >
-                                Sets
-                              </summary>
+    const hasChildren = children.length > 0;
 
-                              <div className="ml-4">
-                              
-                                {/* <button
-                                  onClick={() => {
-                                    setSelectedCategory(cat._id);
-                                    setCurrentPage(1);
-                                  }}
-                                  className="block w-full text-left py-2 px-3 cursor-pointer"
-                                >
-                                  Set All
-                                </button> */}
+    return (
+      <div key={cat._id}>
+        {hasChildren ? (
+          <details>
+            <summary
+              className={`cursor-pointer py-2 px-3 ${
+                selectedCategory === cat._id
+                  ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]"
+                  : "text-gray-600 hover:text-[#07512E]"
+              }`}
+              onClick={() => {
+                setSelectedCategory(cat._id);
+                setCurrentPage(1);
+                setIsActive(true);
+              }}
+            >
+              {cat.name}
+            </summary>
 
-                                {children.map((child) => (
-                                  <button
-                                    key={child._id}
-                                    onClick={() => {
-                                      setSelectedCategory(child._id);
-                                      setCurrentPage(1);
-                                      setIsActive(true)
-                                    }}
-                                         className={`text-left w-full text-sm py-1.5 px-3 transition-colors cursor-pointer  ${selectedCategory === child._id ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]" : "text-gray-600 hover:text-[#07512E]"}`}
-                                    // className="block w-full text-left py-2 px-3 cursor-pointer"
-                                  >
-                                    {child.name}
-                                  </button>
-                                ))}
-                              </div>
-                            </details>
-                          ) : (
-                            <button
-                              onClick={() => {
-                                setSelectedCategory(cat._id);
-                                setCurrentPage(1);
-                                setIsActive(true)
-                              }}
-                              className={`text-left w-full text-sm py-1.5 px-3 transition-colors cursor-pointer  ${selectedCategory === cat._id ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]" : "text-gray-600 hover:text-[#07512E]"}`}
-                              // className="block w-full text-left py-2 px-3"
-                            >
-                              {cat.name}
-                            </button>
-                          )}
-                        </div>
-                      );
-                    })}
+            <div className="ml-4">
+              {/* Parent Category */}
+              {/* <button
+                onClick={() => {
+                  setSelectedCategory(cat._id);
+                  setCurrentPage(1);
+                  setIsActive(true);
+                }}
+                className={`block w-full text-left py-2 px-3 cursor-pointer ${
+                  selectedCategory === cat._id
+                    ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]"
+                    : "text-gray-600 hover:text-[#07512E]"
+                }`}
+              >
+                All {cat.name}
+              </button> */}
+
+              {/* Child Categories */}
+              {children.map((child) => (
+                <button
+                  key={child._id}
+                  onClick={() => {
+                    setSelectedCategory(child._id);
+                    setCurrentPage(1);
+                    setIsActive(true);
+                  }}
+                  className={`block w-full text-left py-2 px-3 cursor-pointer ${
+                    selectedCategory === child._id
+                      ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]"
+                      : "text-gray-600 hover:text-[#07512E]"
+                  }`}
+                >
+                  {child.name}
+                </button>
+              ))}
+            </div>
+          </details>
+        ) : (
+          <button
+            onClick={() => {
+              setSelectedCategory(cat._id);
+              setCurrentPage(1);
+              setIsActive(true);
+            }}
+            className={`block w-full text-left py-2 px-3 cursor-pointer ${
+              selectedCategory === cat._id
+                ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]"
+                : "text-gray-600 hover:text-[#07512E]"
+            }`}
+          >
+            {cat.name}
+          </button>
+        )}
+      </div>
+    );
+  })}
                   {/* {categories.map((cat) => (
                     
                     <button

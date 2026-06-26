@@ -2,12 +2,22 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FiInstagram, FiYoutube, FiRefreshCw } from "react-icons/fi";
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import { HiOutlineShieldCheck, HiOutlineTruck } from "react-icons/hi";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
+  const pathname = usePathname();
+
+  const scrollShopToTop = () => {
+    if (pathname === "/shop") {
+      window.requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -44,19 +54,19 @@ export default function Footer() {
           {/* Newsletter Input/Button */}
           <form
             onSubmit={handleSubmit}
-            className="relative z-10 flex w-full lg:max-w-[502px] h-[50px] bg-white rounded-none overflow-hidden shrink-0"
+            className="relative z-10 flex w-full flex flex-col sm:flex-row  lg:max-w-[502px] min-h-[50px]  gap-4 md: gap-0 md:bg-white rounded-none overflow-hidden shrink-0"
           >
             <input
               type="email"
               placeholder="Enter your email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="flex-grow px-4 h-full text-[16px] text-gray-800 focus:outline-none placeholder-gray-400 font-medium"
+              className="flex-grow px-4 h-[50px] sm:h-auto w-full sm:w-auto bg-white text-[16px] text-gray-800 focus:outline-none placeholder-gray-400 font-medium"
               required
             />
             <button
               type="submit"
-              className="bg-[#FFDE59] hover:bg-[#e6c543] text-[#07512E] sm: font-semibold text-[16px] tracking-widest px-8 h-full uppercase transition-colors duration-200 cursor-pointer shrink-0"
+              className="bg-[#FFDE59] hover:bg-[#e6c543] text-[#07512E] sm: font-semibold text-[14px] md:text-[16px]  tracking-widest px-2 md:px-8 h-[50px] sm:h-auto w-full sm:w-auto flex items-center justify-center uppercase transition-colors duration-200 cursor-pointer shrink-0"
             >
               Subscribe
             </button>
@@ -125,9 +135,9 @@ export default function Footer() {
               </h4>
               <ul className="flex flex-col gap-5 text-[16px] text-[#FFFFFF] font-normal">
                 <li><Link href="/contact" className="hover:text-[#FFDE59] transition-colors">Contact Us</Link></li>
-                <li><Link href="#shipping" className="hover:text-[#FFDE59] transition-colors">Shipping Policy</Link></li>
-                <li><Link href="#returns" className="hover:text-[#FFDE59] transition-colors">Return & Refund Policy</Link></li>
-                <li><Link href="#track" className="hover:text-[#FFDE59] transition-colors">Track Order</Link></li>
+                <li><Link href="/shipping-policy" className="hover:text-[#FFDE59] transition-colors">Shipping Policy</Link></li>
+                <li><Link href="/return-refund-policy" className="hover:text-[#FFDE59] transition-colors">Return & Refund Policy</Link></li>
+                {/* <li><Link href="#track" className="hover:text-[#FFDE59] transition-colors">Track Order</Link></li> */}
               </ul>
             </div>
           </div>
@@ -150,12 +160,13 @@ export default function Footer() {
 
             <div className="w-full lg:max-w-[198px] h-auto flex flex-col gap-6 relative z-10">
               <h4 className="font-sans text-[#FFFFFF] text-[18px] font-medium tracking-wide ">
-                About Us
+                Categories
               </h4>
               <ul className="flex flex-col gap-5 text-[16px] text-[#FFFFFF] font-normal">
-                <li><Link href="/about" className="hover:text-[#FFDE59] transition-colors">Our Story</Link></li>
-                <li><Link href="#blogs" className="hover:text-[#FFDE59] transition-colors">Blogs</Link></li>
-                <li><Link href="#careers" className="hover:text-[#FFDE59] transition-colors">Careers</Link></li>
+                <li><Link href="/shop?category=latest" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Ring</Link></li>
+                <li><Link href="/shop?category=latest" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Bridal</Link></li>
+                <li><Link href="/shop?category=latest" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Sets</Link></li>
+                <li><Link href="/shop?category=latest" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Necklaces</Link></li>
               </ul>
             </div>
           </div>
@@ -172,9 +183,9 @@ export default function Footer() {
                 Information
               </h4>
               <ul className="flex flex-col gap-5 text-[16px] text-[#FFFFFF] font-normal">
-                <li><Link href="#privacy" className="hover:text-[#FFDE59] transition-colors">Privacy Policy</Link></li>
-                <li><Link href="#terms" className="hover:text-[#FFDE59] transition-colors">Terms & Conditions</Link></li>
-                <li><Link href="#cancellation" className="hover:text-[#FFDE59] transition-colors">Cancellation Policy</Link></li>
+                <li><Link href="/privacy-policy" className="hover:text-[#FFDE59] transition-colors"  onClick={scrollShopToTop} >Privacy Policy</Link></li>
+                <li><Link href="/terms-and-conditions" className="hover:text-[#FFDE59] transition-colors"  onClick={scrollShopToTop} >Terms & Conditions</Link></li>
+                <li><Link href="/cancellation-policy" className="hover:text-[#FFDE59] transition-colors"  onClick={scrollShopToTop} >Cancellation Policy</Link></li>
               </ul>
               
               {/* Mobile-only Trust Badges (below Cancellation Policy) */}
@@ -241,4 +252,3 @@ export default function Footer() {
     </footer>
   );
 }
-
