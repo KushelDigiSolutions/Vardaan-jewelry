@@ -29,17 +29,17 @@ export default function Footer() {
   return (
     <footer className="bg-[#07512E] text-white select-none h-auto">
       {/* 1. Newsletter Segment */}
-      <div className="relative overflow-hidden border-b border-white/5 min-h-[220px] py-10 lg:py-0  lg:px-10 flex items-center">
-        {/* Left Side decorative triangle overlay */}
+      {/* <div className="relative overflow-hidden border-b border-white/5 min-h-[220px] py-10 lg:py-0  lg:px-10 flex items-center">
+      
         <div className="absolute left-0 bottom-0 w-[120px] h-[120px] bg-[#FFDE59] opacity-20 pointer-events-none [clip-path:polygon(0_0,0_100%,100%_100%)]" />
-        {/* Right Side decorative triangle overlay */}
+        
         <div className="absolute right-0 bottom-0 w-[120px] h-[120px] bg-[#FFDE59] opacity-20 pointer-events-none [clip-path:polygon(100%_0,100%_100%,0_100%)]" />
 
         <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 relative z-10">
 
-          {/* Newsletter Text */}
+        
           <div className="relative z-10 flex items-start gap-4 w-full lg:max-w-[596px] h-auto">
-            {/* Vertical yellow accent line */}
+            
             <div className="w-[3px] h-[60px] bg-[#FFDE59] shrink-0 mt-1" />
             <div className="flex flex-col h-full justify-start pt-0.5">
               <h3 className="font-serif text-[#FFFFFF] text-[28px] font-bold uppercase leading-[1.2]">
@@ -51,7 +51,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Newsletter Input/Button */}
+     
           <form
             onSubmit={handleSubmit}
             className="relative z-10 flex w-full flex flex-col sm:flex-row  lg:max-w-[502px] min-h-[50px]  gap-4 md: gap-0 md:bg-white rounded-none overflow-hidden shrink-0"
@@ -73,7 +73,7 @@ export default function Footer() {
           </form>
 
         </div>
-      </div>
+      </div> */}
 
       {/* Bottom Footer Sections Wrapper */}
       <div className="flex flex-col bg-[#07512E]">
