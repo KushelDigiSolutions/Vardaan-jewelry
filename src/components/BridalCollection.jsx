@@ -16,7 +16,7 @@ export default function BridalCollection() {
       <div className="absolute inset-0 bg-gradient-to-r from-[#07512E]/90 via-[#07512E]/60 to-transparent md:w-3/4 lg:w-2/3 xl:w-1/2" />
 
       {/* Content */}
-      <div className="relative z-10 w-full max-w-[1192px] mx-auto px-4 lg:px-0">
+      <div className="relative z-10 w-full max-w-[1192px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0">
         <div className="max-w-lg">
           <h2 className="text-[36px] sm:text-[48px] font-serif font-medium text-[#FFFFFF] mb-4 sm:mb-6 leading-tight">
             Bridal Collection

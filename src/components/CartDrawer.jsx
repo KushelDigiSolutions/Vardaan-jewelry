@@ -113,8 +113,8 @@ export default function CartDrawer() {
       >
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-gray-100">
-          <div className="flex items-center gap-2 text-sm text-[#404040] font-sans">
-            <FiCheckCircle className="w-5 h-5 text-green-600 stroke-[2]" />
+          <div className="flex items-center gap-2.5 text-[18px] sm:text-[20px] font-medium text-[#202020] font-sans">
+            <FiCheckCircle className="w-6 h-6 text-green-600 stroke-[2.2]" />
             <span>
               {cartItems.length === 0
                 ? "Your bag is empty"
@@ -125,7 +125,7 @@ export default function CartDrawer() {
             onClick={closeCart}
             className="p-1 hover:bg-gray-100 rounded-full transition-colors text-gray-400 cursor-pointer"
           >
-            <FiX className="w-5 h-5" />
+            <FiX className="w-6 h-6" />
           </button>
         </div>
 

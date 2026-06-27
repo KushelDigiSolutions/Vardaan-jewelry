@@ -71,3 +71,19 @@ body {
   box-shadow: 0 20px 40px rgba(7, 81, 46, 0.08);
 }
 
+/* Override webkit autofill styles to keep background completely transparent */
+#contact-form-section input:-webkit-autofill,
+#contact-form-section input:-webkit-autofill:hover,
+#contact-form-section input:-webkit-autofill:focus,
+#contact-form-section input:-webkit-autofill:active,
+#contact-form-section textarea:-webkit-autofill,
+#contact-form-section textarea:-webkit-autofill:hover,
+#contact-form-section textarea:-webkit-autofill:focus,
+#contact-form-section textarea:-webkit-autofill:active {
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: #ffffff !important;
+  transition: background-color 5000s ease-in-out 0s;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+

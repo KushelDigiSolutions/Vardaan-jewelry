@@ -26,7 +26,7 @@ export default function ShopHero() {
       </div>
 
       {/* Content Container (Standard 1192px max-width layout aligned with the rest of the site) */}
-      <div className="w-full max-w-[1220px] mx-auto px-6 xl:px-0 relative z-30 flex flex-col justify-center h-full text-white">
+      <div className="w-full max-w-[1220px] mx-auto px-6 md:px-8 lg:px-12 xl:px-0 relative z-30 flex flex-col justify-center h-full text-white">
         <div className="max-w-xl md:max-w-2xl flex flex-col items-start gap-3.5 animate-slide-up">
           
           {/* Breadcrumb Navigation */}

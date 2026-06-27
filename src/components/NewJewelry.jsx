@@ -109,7 +109,7 @@ export default function NewJewelry() {
 
   return (
     <section className="py-10 md:py-16 bg-[#F5F5F7]">
-      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col">
+      <div className="w-full max-w-[1192px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0 flex flex-col">
 
         {/* Header Section */}
         <div className="flex justify-between flex-col md:flex-row sm: gap-4 items-start md:items-center mb-10">
@@ -160,12 +160,12 @@ export default function NewJewelry() {
                 {[...productItems, ...productItems, ...productItems].map((item, idx) => (
                   <div
                     key={idx}
-                    className="flex-shrink-0 h-full text-left"
+                    className="flex-shrink-0 h-full text-left flex flex-col"
                     style={{ width: `${slideWidth}px` }}
                   >
-                    <div className="h-full flex flex-col bg-white  border border-gray-100 mx-auto">
+                    <div className="h-full flex flex-col flex-grow bg-white border border-gray-100 mx-auto w-full">
                       {/* Product Image */}
-                      <Link href={`/product/${item._id}`} className="relative aspect-square w-full mb-4 bg-gray-50 overflow-hidden group block">
+                      <Link href={`/product/${item._id}`} className="relative aspect-square w-full mb-4 bg-gray-50 overflow-hidden group block shrink-0">
                         <img
                           src={item.images?.[0] || "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png"}
                           alt={item.name}
@@ -174,16 +174,18 @@ export default function NewJewelry() {
                       </Link>
 
                       {/* Product Details */}
-                      <div className="flex flex-col flex-grow">
-                        <Link href={`/product/${item._id}`}>
-                          <h3 className="font-serif text-[#303030] text-[20px] sm:text-[24px] font-medium leading-snug mb-2 line-clamp-2 hover:text-[#07512E] transition-colors">
-                            {item.name}
-                          </h3>
-                        </Link>
-                        <p className="text-[#07512E] font-medium mb-4">
-                          ₹ {(item.salePrice || item.price).toLocaleString("en-IN")}
-                        </p>
-                        <div className="mt-auto flex gap-4">
+                      <div className="flex flex-col flex-grow justify-between">
+                        <div>
+                          <Link href={`/product/${item._id}`}>
+                            <h3 className="font-serif text-[#303030] text-[20px] sm:text-[24px] font-medium leading-snug mb-2 line-clamp-2 hover:text-[#07512E] transition-colors min-h-[56px] sm:min-h-[64px] flex items-start">
+                              {item.name}
+                            </h3>
+                          </Link>
+                          <p className="text-[#07512E] font-medium mb-4">
+                            ₹ {(item.salePrice || item.price).toLocaleString("en-IN")}
+                          </p>
+                        </div>
+                        <div className="mt-auto flex gap-4 w-full">
                           <Link href={`/product/${item._id}`} className="flex-1 h-[48px] flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] hover:bg-[#e6c543] transition-colors duration-300">
                             Shop Now
                           </Link>

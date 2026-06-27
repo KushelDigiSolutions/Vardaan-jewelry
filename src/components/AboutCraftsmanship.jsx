@@ -1,8 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 export default function AboutCraftsmanship() {
+  const [activeIndex, setActiveIndex] = useState(null);
+
   const steps = [
     {
       num: "I",
@@ -32,7 +34,7 @@ export default function AboutCraftsmanship() {
 
   return (
     <section className="py-16 lg:py-28 lg:px-6 bg-[#FCFCF9] border-y border-gray-100">
-      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0">
+      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-12 xl:px-0">
         
         {/* Section Title */}
         <div className="flex flex-col items-center text-center gap-4 mb-16">
@@ -47,37 +49,41 @@ export default function AboutCraftsmanship() {
 
         {/* Dynamic Panels Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((step, idx) => (
-            <div 
-              key={idx}
-              className="relative aspect-[3/4] rounded-lg overflow-hidden group shadow-lg cursor-pointer"
-            >
-              {/* Background Image with Scale effect */}
-              <img 
-                src={step.img} 
-                alt={step.title}
-                className="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out"
-              />
+          {steps.map((step, idx) => {
+            const isActive = activeIndex === idx;
+            return (
+              <div 
+                key={idx}
+                onClick={() => setActiveIndex(isActive ? null : idx)}
+                className="relative w-full aspect-[3/4] lg:aspect-auto lg:h-[360px] xl:h-auto xl:aspect-[3/4] rounded-lg overflow-hidden group shadow-lg cursor-pointer"
+              >
+                {/* Background Image with Scale effect */}
+                <img 
+                  src={step.img} 
+                  alt={step.title}
+                  className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out ${isActive ? 'scale-110' : 'scale-100 group-hover:scale-110'}`}
+                />
 
-              {/* Solid color filter overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#04361E] via-[#04361E]/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
+                {/* Solid color filter overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-t from-[#04361E] via-[#04361E]/40 to-transparent transition-opacity duration-500 ${isActive ? 'opacity-90' : 'opacity-80 group-hover:opacity-90'}`} />
 
-              {/* Fixed top stamp */}
-              <div className="absolute top-6 left-6 text-[#FFDE59] font-serif text-lg font-light italic">
-                {step.num}
+                {/* Fixed top stamp */}
+                <div className="absolute top-6 left-6 lg:top-4 lg:left-4 xl:top-6 xl:left-6 text-[#FFDE59] font-serif text-lg font-light italic">
+                  {step.num}
+                </div>
+
+                {/* Slide Up Content Container */}
+                <div className={`absolute inset-x-0 bottom-0 p-6 lg:p-4 xl:p-6 flex flex-col justify-end transition-transform duration-500 ease-out h-[60%] lg:h-[75%] xl:h-[60%] bg-gradient-to-t from-[#04361E] to-transparent ${isActive ? 'translate-y-0' : 'translate-y-16 group-hover:translate-y-0'}`}>
+                  <h3 className="font-serif text-[20px] md:text-[24px] lg:text-[17px] xl:text-[24px] text-[#FFDE59] uppercase tracking-wide mb-2 lg:mb-1 xl:mb-2 font-normal">
+                    {step.title}
+                  </h3>
+                  <p className={`text-[18px] lg:text-[13px] xl:text-[18px] text-gray-300 font-light leading-relaxed lg:leading-normal xl:leading-relaxed transition-opacity duration-500 delay-100 ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+                    {step.desc}
+                  </p>
+                </div>
               </div>
-
-              {/* Slide Up Content Container */}
-              <div className="absolute inset-x-0 bottom-0 p-6 flex flex-col justify-end translate-y-16 group-hover:translate-y-0 transition-transform duration-500 ease-out h-[60%] bg-gradient-to-t from-[#04361E] to-transparent">
-                <h3 className="font-serif text-[20px] md:text-[24px] text-[#FFDE59] uppercase tracking-wide mb-2 font-normal">
-                  {step.title}
-                </h3>
-                <p className="text-[18px] text-gray-300 font-light leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                  {step.desc}
-                </p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
       </div>

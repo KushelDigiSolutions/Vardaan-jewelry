@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import ShopHero from "@/components/ShopHero";
 import ShopProducts from "@/components/ShopProducts";
+import FAQ from "@/components/FAQ";
 
 export const metadata = {
   title: "Shop Collection | Vardaan - Fine Handcrafted Jewelry",
@@ -28,6 +29,7 @@ export default function ShopPage() {
         <Suspense fallback={<ShopProductsFallback />}>
           <ShopProducts />
         </Suspense>
+        <FAQ />
       </main>
       <Footer />
     </>

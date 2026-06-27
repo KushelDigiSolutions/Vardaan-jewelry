@@ -5,20 +5,24 @@ import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
 const faqItems = [
   {
-    question: "What is your design process like?",
-    answer: "Our design process begins with a deep understanding of traditional aesthetics and modern craftsmanship. We sketch initial concepts, select premium fabrics, and then our master artisans execute the intricate hand-embroidery to create a unique piece.",
+    question: "Are your jewelry pieces certified and hallmarked?",
+    answer: "Yes, absolutely. Every gold jewelry piece at Vardaan carries the official BIS Hallmark certification guaranteeing exact purity (18K or 22K gold). Furthermore, all our diamonds and gemstones come with authentic certification from internationally recognized laboratories like IGI and GIA.",
   },
   {
-    question: "How long does shipping take?",
-    answer: "Standard shipping typically takes 5-7 business days within India. International shipping can take 10-15 business days depending on the destination and customs processing.",
+    question: "Can I request custom designs or bespoke bridal jewelry?",
+    answer: "Yes, we specialize in bespoke sculpting and custom bridal suites. You can book a private consultation with our expert designers in our Delhi atelier or via a virtual session. We work closely with you to select the desired gold karat, diamond specifications, and design motifs to bring your dream jewelry to life.",
   },
   {
-    question: "Do you offer custom sizing?",
-    answer: "Yes, we specialize in custom sizing for all our deity dresses. You can provide specific measurements of your idol, and we will tailor the dress to ensure a perfect fit.",
+    question: "How is your fine jewelry packaged and shipped securely?",
+    answer: "Every piece of Vardaan jewelry is meticulously packaged in our luxury, tamper-proof branded boxes. We offer fully insured, secure shipping across India and worldwide, ensuring your precious pieces arrive safely at your doorstep.",
   },
   {
-    question: "What materials do you use for the dresses?",
-    answer: "We use only the finest materials including pure silk, velvet, organza, and high-quality cotton. All our embellishments like Gota Patti and Zardosi are made with premium threads and stones.",
+    question: "What materials and gemstones do you use in your creations?",
+    answer: "We craft our timeless pieces using premium 18K and 22K BIS certified gold. Our masterful settings feature conflict-free, ethically sourced VVS/VS clarity diamonds, lush Zambian emeralds, rich rubies, and premium South Sea pearls, created by expert traditional artisans.",
+  },
+  {
+    question: "Do you offer maintenance, cleaning, or restoration services?",
+    answer: "Vardaan provides a lifetime maintenance covenant for all our clients. We offer professional inspection, ultrasonic cleaning, prong tightening, and restoration services to ensure your heirloom jewelry maintains its pristine brilliance across generations.",
   },
 ];
 
@@ -31,7 +35,7 @@ export default function FAQ() {
 
   return (
     <section className="py-10 md:pt-6 md:pb-16 lg:pt-16 lg:px-6 bg-[#FFFFFF] overflow-hidden">
-      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col">
+      <div className="w-full max-w-[1192px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0 flex flex-col">
         {/* Header */}
         <div className="mb-10 ">
           <p className="text-[20px] md:text-[32px] font-medium tracking-wider text-[#07512E] uppercase">

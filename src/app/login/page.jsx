@@ -25,7 +25,9 @@ export default function LoginPage() {
   const [forgotEmail, setForgotEmail] = useState("");
   const [resetOtp, setResetOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showResetPassword, setShowResetPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -72,6 +74,11 @@ export default function LoginPage() {
   const handleResetPassword = async (e) => {
     e.preventDefault();
 
+    if (newPassword !== confirmPassword) {
+      toast.error("New password and confirm password do not match!");
+      return;
+    }
+
     // Password Complexity Validation
     const pwd = newPassword;
     const minLength = 8;
@@ -104,6 +111,23 @@ export default function LoginPage() {
     setLoading(true);
     try {
       const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+
+      // Check if the dinew password matches the current password
+      try {
+        const checkRes = await fetch(`${API_URL}/auth/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: forgotEmail, password: newPassword }),
+        });
+        if (checkRes.ok) {
+          toast.error("New password cannot be the same as your current password. Please choose a different password.");
+          setLoading(false);
+          return;
+        }
+      } catch (checkErr) {
+        // Proceed if login check encounters an issue
+      }
+
       const res = await fetch(`${API_URL}/auth/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -112,6 +136,8 @@ export default function LoginPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Reset failed");
       setMode("email");
+      setNewPassword("");
+      setConfirmPassword("");
       toast.success("Password updated successfully! Please sign in.");
     } catch (err) {
       toast.error(err.message || "Failed to reset password");
@@ -123,10 +149,10 @@ export default function LoginPage() {
   return (
     <main className="min-h-screen flex flex-col bg-[#FCFCF9]">
       <Navbar />
-      
+
       <div className="flex-1 flex items-center justify-center py-16 px-4">
         <div className="bg-white border border-[#F0ECE3] rounded-xl shadow-lg p-8 sm:p-10 w-full max-w-[440px]  transition-all">
-          
+
           {/* Render Mode Titles */}
           <div className="text-center mb-8">
             {mode === "email" && (
@@ -167,7 +193,7 @@ export default function LoginPage() {
                   disabled={loading}
                 />
               </div>
-              
+
               <div>
                 <div className="flex justify-between items-center mb-2">
                   <label className="block text-[14px] font-sans font-medium text-[#303030]" htmlFor="password">
@@ -201,7 +227,7 @@ export default function LoginPage() {
                   </button>
                 </div>
               </div>
-              
+
               <button
                 type="submit"
                 disabled={loading}
@@ -299,6 +325,31 @@ export default function LoginPage() {
                 </div>
               </div>
 
+              <div>
+                <label className="block text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="confirmPassword">
+                  Confirm Account Password
+                </label>
+                <div className="relative">
+                  <input
+                    id="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full pl-4 pr-12 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[15px]"
+                    placeholder="••••••••"
+                    disabled={loading}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none cursor-pointer flex items-center justify-center"
+                  >
+                    {showConfirmPassword ? <FiEyeOff className="w-5 h-5" /> : <FiEye className="w-5 h-5" />}
+                  </button>
+                </div>
+              </div>
+
               <button
                 type="submit"
                 disabled={loading}
@@ -320,19 +371,19 @@ export default function LoginPage() {
           <div className="mt-0 md:mt-8  flex justify-between flex-col md:flex-row  border-t border-gray-100 pt-6">
             <p className="text-[15px] font-sans text-gray-600 font-light">
               Don't have an account?{" "}
-              
+
             </p>
             <p className="text-[15px] font-sans text-gray-600 font-light">
-             
+
               <Link href="/signup" className="text-[#07512E] font-medium hover:underline underline-offset-4">
-              
+
                 Create an account
               </Link>
             </p>
           </div>
         </div>
       </div>
-      
+
       <Footer />
     </main>
   );

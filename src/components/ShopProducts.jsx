@@ -232,7 +232,7 @@ export default function ShopProducts() {
 
   return (
     <section className="py-8 bg-[#FFFDF9] ">
-      <div className="w-full max-w-[1192px] mx-auto px-4 xl:px-0">
+      <div className="w-full max-w-[1192px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0">
         {/* Dynamic Search Bar */}
         <div className="mb-6 flex justify-center">
           <form
@@ -244,13 +244,17 @@ export default function ShopProducts() {
               placeholder="Search fine jewelry products..."
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              className="flex-grow px-4 py-2.5  text-[16px] text-gray-800 focus:outline-none placeholder-gray-400 bg-transparent font-sans"
+              className="flex-grow px-4 py-2.5 text-[16px] text-gray-800 focus:outline-none placeholder-gray-400 bg-transparent font-sans"
             />
             {searchInput.length >= 1 && (
-              <FiX
-                className="w-4 h-4  cursor-pointer me-4"
+              <button
+                type="button"
+                className="p-2 text-gray-500 hover:text-gray-800 flex items-center justify-center cursor-pointer mr-2 shrink-0 bg-transparent border-none outline-none"
                 onClick={() => setSearchInput("")}
-              />
+                aria-label="Clear search"
+              >
+                <FiX className="w-5 h-5 stroke-[2.5]" />
+              </button>
             )}
 
             <button
@@ -264,7 +268,7 @@ export default function ShopProducts() {
 
         {/* Filter Controls Banner */}
         <div className="bg-[#0A5230] text-white py-3 px-4 md:px-6 flex sm:flex-row flex-col items-start sm:items-center justify-between shadow-md mb-8 relative z-20 gap-4">
-          <div className="flex gap-4">
+          <div className="flex gap-4 flex-wrap items-center">
             <button
               onClick={() => setIsFilterDrawerOpen(true)}
               className="border border-white rounded px-4 py-2 hover:bg-white/10 transition-colors flex items-center gap-2 text-sm sm:text-[17px] font-sans tracking-wider font-medium cursor-pointer"
@@ -291,71 +295,150 @@ export default function ShopProducts() {
                 </span>
               </button>
             )}
+            {search.trim() && (
+              <button
+                onClick={() => {
+                  setSearch("");
+                  setSearchInput("");
+                  setCurrentPage(1);
+                }}
+                className="border border-white rounded px-4 py-2 hover:bg-white/10 transition-colors flex items-center gap-2 text-sm sm:text-[17px] font-sans tracking-wider font-medium cursor-pointer bg-white/10"
+                title="Clear search text"
+              >
+                <span>{search}</span>
+                <span>
+                  <FiX className="w-5 h-5" />
+                </span>
+              </button>
+            )}
+
+            {/* If no filter is selected, show Price Sort Dropdown next to Filters button */}
+            {!isActive && !search.trim() && (
+              <div className="relative">
+                <button
+                  onClick={() => setIsSortOpen(!isSortOpen)}
+                  className="flex items-center gap-1.5 border border-white rounded px-3.5 py-2 text-sm sm:text-[17px] bg-[#07512E] hover:bg-white/10 transition-colors cursor-pointer font-sans font-medium text-white"
+                >
+                  <span className="text-white/80 font-light hidden sm:inline">
+                    Sort by:{" "}
+                  </span>
+                  <span>
+                    {sortOrder === "newest" && "Newest"}
+                    {sortOrder === "price_asc" && "Price: Low to High"}
+                    {sortOrder === "price_desc" && "Price: High to Low"}
+                  </span>
+                  <svg
+                    className={`fill-current h-3.5 w-3.5 transition-transform duration-300 ${isSortOpen ? "rotate-180" : ""}`}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                  </svg>
+                </button>
+
+                {isSortOpen && (
+                  <>
+                    <div
+                      className="fixed inset-0 z-30 cursor-default"
+                      onClick={() => setIsSortOpen(false)}
+                    />
+                    <div className="absolute left-0 sm:left-auto sm:right-0 mt-2 w-56 bg-white border border-[#F0ECE3] shadow-2xl rounded-md z-40 overflow-hidden text-left py-1 text-gray-800">
+                      {[
+                        { id: "newest", label: "Newest" },
+                        { id: "price_asc", label: "Price: Low to High" },
+                        { id: "price_desc", label: "Price: High to Low" },
+                      ].map((opt) => (
+                        <button
+                          key={opt.id}
+                          onClick={() => {
+                            setSortOrder(opt.id);
+                            setCurrentPage(1);
+                            setIsSortOpen(false);
+                          }}
+                          className={`w-full text-left px-4 py-3 text-sm transition-colors cursor-pointer flex items-center justify-between ${
+                            sortOrder === opt.id
+                              ? "bg-[#07512E]/10 text-[#07512E] font-semibold"
+                              : "hover:bg-gray-50 text-gray-700"
+                          }`}
+                        >
+                          <span>{opt.label}</span>
+                          {sortOrder === opt.id && (
+                            <FiCheck className="text-[#07512E] w-4 h-4 stroke-[2.5]" />
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 justify-between w-full sm:w-auto">
             <span className="text-sm md:text-[17px] tracking-wide text-white/90 font-serif font-light">
               ({totalResults} total results)
             </span>
 
-            {/* Custom Sort Dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setIsSortOpen(!isSortOpen)}
-                className="flex items-center gap-1.5 border border-white rounded px-3.5 py-2 text-sm sm:text-[17px] bg-[#07512E] hover:bg-white/10 transition-colors cursor-pointer font-sans font-medium text-white"
-              >
-                <span className="text-white/80 font-light hidden sm:inline">
-                  Sort by:{" "}
-                </span>
-                <span>
-                  {sortOrder === "newest" && "Newest"}
-                  {sortOrder === "price_asc" && "Price: Low to High"}
-                  {sortOrder === "price_desc" && "Price: High to Low"}
-                </span>
-                <svg
-                  className={`fill-current h-3.5 w-3.5 transition-transform duration-300 ${isSortOpen ? "rotate-180" : ""}`}
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
+            {/* Custom Sort Dropdown (shown here when a filter IS selected) */}
+            {(isActive || search.trim()) && (
+              <div className="relative">
+                <button
+                  onClick={() => setIsSortOpen(!isSortOpen)}
+                  className="flex items-center gap-1.5 border border-white rounded px-3.5 py-2 text-sm sm:text-[17px] bg-[#07512E] hover:bg-white/10 transition-colors cursor-pointer font-sans font-medium text-white"
                 >
-                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                </svg>
-              </button>
+                  <span className="text-white/80 font-light hidden sm:inline">
+                    Sort by:{" "}
+                  </span>
+                  <span>
+                    {sortOrder === "newest" && "Newest"}
+                    {sortOrder === "price_asc" && "Price: Low to High"}
+                    {sortOrder === "price_desc" && "Price: High to Low"}
+                  </span>
+                  <svg
+                    className={`fill-current h-3.5 w-3.5 transition-transform duration-300 ${isSortOpen ? "rotate-180" : ""}`}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                  </svg>
+                </button>
 
-              {isSortOpen && (
-                <>
-                  <div
-                    className="fixed inset-0 z-30 cursor-default"
-                    onClick={() => setIsSortOpen(false)}
-                  />
-                  <div className="absolute right-0 mt-2 w-56 bg-white border border-[#F0ECE3] shadow-2xl rounded-md z-40 overflow-hidden text-left py-1 text-gray-800">
-                    {[
-                      { id: "newest", label: "Newest" },
-                      { id: "price_asc", label: "Price: Low to High" },
-                      { id: "price_desc", label: "Price: High to Low" },
-                    ].map((opt) => (
-                      <button
-                        key={opt.id}
-                        onClick={() => {
-                          setSortOrder(opt.id);
-                          setCurrentPage(1);
-                          setIsSortOpen(false);
-                        }}
-                        className={`w-full text-left px-4 py-3 text-sm transition-colors cursor-pointer flex items-center justify-between ${
-                          sortOrder === opt.id
-                            ? "bg-[#07512E]/10 text-[#07512E] font-semibold"
-                            : "hover:bg-gray-50 text-gray-700"
-                        }`}
-                      >
-                        <span>{opt.label}</span>
-                        {sortOrder === opt.id && (
-                          <FiCheck className="text-[#07512E] w-4 h-4 stroke-[2.5]" />
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
+                {isSortOpen && (
+                  <>
+                    <div
+                      className="fixed inset-0 z-30 cursor-default"
+                      onClick={() => setIsSortOpen(false)}
+                    />
+                    <div className="absolute right-0 mt-2 w-56 bg-white border border-[#F0ECE3] shadow-2xl rounded-md z-40 overflow-hidden text-left py-1 text-gray-800">
+                      {[
+                        { id: "newest", label: "Newest" },
+                        { id: "price_asc", label: "Price: Low to High" },
+                        { id: "price_desc", label: "Price: High to Low" },
+                      ].map((opt) => (
+                        <button
+                          key={opt.id}
+                          onClick={() => {
+                            setSortOrder(opt.id);
+                            setCurrentPage(1);
+                            setIsSortOpen(false);
+                          }}
+                          className={`w-full text-left px-4 py-3 text-sm transition-colors cursor-pointer flex items-center justify-between ${
+                            sortOrder === opt.id
+                              ? "bg-[#07512E]/10 text-[#07512E] font-semibold"
+                              : "hover:bg-gray-50 text-gray-700"
+                          }`}
+                        >
+                          <span>{opt.label}</span>
+                          {sortOrder === opt.id && (
+                            <FiCheck className="text-[#07512E] w-4 h-4 stroke-[2.5]" />
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
           </div>
         </div>
 

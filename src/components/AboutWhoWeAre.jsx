@@ -5,7 +5,7 @@ import React from "react";
 export default function AboutWhoWeAre() {
   return (
     <section className="py-16 lg:py-28 lg:px-6  bg-[#FCFCF9]">
-      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 grid grid-cols-1 xl:grid-cols-12 gap-16 items-center">
+      <div className="w-full max-w-[1192px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0 grid grid-cols-1 xl:grid-cols-12 gap-16 items-center">
         
         {/* Left Side: Drop-Cap & Narrative */}
         <div className="lg:col-span-5 flex flex-col items-start gap-6 relative">

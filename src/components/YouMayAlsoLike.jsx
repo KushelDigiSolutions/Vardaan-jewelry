@@ -51,7 +51,7 @@ export default function YouMayAlsoLike({ categoryId, currentProductId }) {
 
   return (
     <section className="w-full bg-[#FFFDF4] py-16">
-      <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 xl:px-8">
         
         {/* Section Heading */}
         <h2 className="text-center text-[32px] sm:text-[40px] font-serif text-[#303030] mb-12">

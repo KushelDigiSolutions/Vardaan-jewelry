@@ -5,7 +5,7 @@ const promises = [
   {
     icon: FiAward,
     title: "100% Certified",
-    description: "Every diamond and gemstone is certified by leading international labs (GIA, IGI).",
+    description: "Every piece of rolled gold jewellery is certified for premium finish, exceptional durability, and authentic quality.",
   },
   {
     icon: FiShield,

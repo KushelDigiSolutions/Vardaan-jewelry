@@ -125,7 +125,7 @@ export default function ShopByCategories() {
   if (loading) {
     return (
       <section className="py-10 md:py-16 bg-[#FFF6E8] overflow-hidden">
-        <div className="w-full max-w-[1172px] mx-auto px-4 xl:px-0">
+        <div className="w-full max-w-[1172px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0">
           {/* Header Section */}
           <div className="flex justify-between items-center mb-10">
             <h2 className="text-[32px] font-medium font-serif text-[#07512E] ">
@@ -146,7 +146,7 @@ export default function ShopByCategories() {
 
   return (
     <section className="py-10 md:py-16 bg-[#FFF6E8] overflow-hidden">
-      <div className="w-full max-w-[1172px] mx-auto px-4 xl:px-0">
+      <div className="w-full max-w-[1172px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0">
         {/* Header Section */}
         <div className="flex justify-between sm: flex-wrap sm: gap-4 items-center mb-10">
           <h2 className="text-[32px] font-medium font-serif text-[#07512E] ">

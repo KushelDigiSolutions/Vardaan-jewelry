@@ -128,7 +128,7 @@ export default function RoyallyCrafted() {
 
   return (
     <section className="py-10 md:py-16 bg-[#FEF5E6]">
-      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col">
+      <div className="w-full max-w-[1192px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0 flex flex-col">
         {/* Header Section */}
         <div className="flex justify-between sm: flex-wrap sm: gap-4 items-center mb-10">
           <h2 className="text-3xl md:text-4xl font-serif text-[#1e2a24] font-medium tracking-wide">
@@ -224,12 +224,12 @@ export default function RoyallyCrafted() {
                 return (
                   <div
                     key={`${productId || idx}-${idx}`}
-                    className="flex-shrink-0 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.3333%-16px)] h-full flex flex-col bg-white p-4 shadow-sm border border-gray-100 mx-auto"
+                    className="flex-shrink-0 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.3333%-16px)] min-h-0 md:min-h-[540px] h-auto flex flex-col bg-white p-4 shadow-sm border border-gray-100 mx-auto justify-between"
                   >
                     {/* Product Image */}
                     <Link
                       href={`/product/${productId}`}
-                      className="relative aspect-square w-full mb-4 bg-gray-100 overflow-hidden group block"
+                      className="relative aspect-square w-full mb-4 bg-gray-100 overflow-hidden group block shrink-0"
                     >
                       <img
                         src={productImage}
@@ -261,27 +261,29 @@ export default function RoyallyCrafted() {
                     </Link>
 
                     {/* Product Details */}
-                    <div className="flex flex-col flex-grow">
-                      <Link href={`/product/${productId}`}>
-                        <h3 className="font-serif text-[#303030] text-[20px] sm:text-[24px] font-medium leading-snug mb-2 line-clamp-2 hover:text-[#07512E] transition-colors">
-                          {product.name}
-                        </h3>
-                      </Link>
-                      <p className="text-[#07512E] font-medium mb-4">
-                        {typeof productPrice === "number"
-                          ? `₹ ${productPrice.toLocaleString("en-IN")}`
-                          : productPrice}
-                      </p>
-                      <div className="mt-auto flex gap-4">
+                    <div className="flex flex-col flex-grow justify-between">
+                      <div>
+                        <Link href={`/product/${productId}`}>
+                          <h3 className="font-serif text-[#303030] text-[20px] sm:text-[24px] font-medium leading-snug mb-2 line-clamp-2 hover:text-[#07512E] transition-colors min-h-0 md:min-h-[64px] flex items-start">
+                            {product.name}
+                          </h3>
+                        </Link>
+                        <p className="text-[#07512E] font-medium mb-3 md:mb-4">
+                          {typeof productPrice === "number"
+                            ? `₹ ${productPrice.toLocaleString("en-IN")}`
+                            : productPrice}
+                        </p>
+                      </div>
+                      <div className="mt-auto flex gap-4 w-full">
                         <Link
                           href={`/product/${productId}`}
-                          className="flex-1 h-[48px] flex items-center justify-center cursor-pointer bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] hover:bg-[#e6c543] transition-colors duration-300"
+                          className="flex-1 h-[48px] flex items-center justify-center cursor-pointer bg-[#FFDE59] text-[#101010] font-sans font-medium text-[16px] sm:text-[20px] hover:bg-[#e6c543] transition-colors duration-300"
                         >
                           Shop Now
                         </Link>
                         <button
                           onClick={() => addToCart(product)}
-                          className="flex-1 h-[48px] flex items-center justify-center cursor-pointer bg-white border border-[#07512E] text-[#07512E] font-sans font-medium text-[20px] hover:bg-[#07512E] hover:text-white transition-colors duration-300"
+                          className="flex-1 h-[48px] flex items-center justify-center cursor-pointer bg-white border border-[#07512E] text-[#07512E] font-sans font-medium text-[16px] sm:text-[20px] hover:bg-[#07512E] hover:text-white transition-colors duration-300"
                         >
                           Add to Cart
                         </button>
@@ -346,10 +348,10 @@ export default function RoyallyCrafted() {
 
           <Link
             href="/shop?category=premium"
-            className="text-[#101010] hover:text-[#07512E] flex items-center gap-2 font-serif font-medium text-[20px]"
+            className="text-[#101010] hover:text-[#07512E] active:text-[#07512E] focus:text-[#07512E] no-underline hover:no-underline active:no-underline focus:no-underline flex items-center gap-2 font-serif font-medium text-[20px] group"
           >
             View All{" "}
-            <span aria-hidden="true" className="text-gray-400 font-sans">
+            <span aria-hidden="true" className="text-gray-400 group-hover:text-[#07512E] group-active:text-[#07512E] group-focus:text-[#07512E] font-sans no-underline">
               &rarr;
             </span>
           </Link>

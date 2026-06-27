@@ -49,8 +49,8 @@ export default function ContactHero() {
         
         <div className="w-12 h-[2px] bg-[#FFDE59]/30 my-2" />
         
-        <p className="text-[18px] text-gray-300 font-light max-w-lg leading-relaxed tracking-wide mt-2">
-          Our design curators are available to guide you through bespoke custom selections, GIA certification inquiries, or private suite reservations.
+        <p className="text-[18px] text-gray-300 font-light max-w-lg leading-relaxed tracking-wide mt-2 text-center mx-auto">
+          Our design curators are available to guide you through bespoke Rolled Gold selections, premium gold jewelry inquiries, or private suite reservations.
         </p>
       </div>
 
