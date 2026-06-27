@@ -557,10 +557,10 @@ export default function CheckoutClient() {
                   CONTINUE SHOPPING
                 </Link>
                 <Link
-                  href="/profile"
+                  href="/profile?tab=orders"
                   className="border border-[#07512E] text-[#07512E] px-6 py-2.5 rounded font-semibold text-sm hover:bg-green-50/10"
                 >
-                  VIEW ACCOUNT HISTORY
+                  VIEW ORDER HISTORY
                 </Link>
               </div>
             </div>

@@ -29,60 +29,62 @@ export default function AboutValues() {
   ];
 
   return (
-    <section className="py-16 lg:pt-20 bg-[#07512E] text-white relative overflow-hidden">
-      {/* Background brand stamp watermark */}
-      <div 
-  className="absolute inset-0 bg-no-repeat bg-center bg-cover pointer-events-none mix-blend-screen opacity-[0.3]"
-  style={{backgroundImage: `url('./promis.png')`}}
-  // style={{ backgroundImage: `url('https://res.cloudinary.com/dd9tagtiw/image/upload/v1781515128/a29bc3df60dd42fbfd5b10b5b93b4efd38995dd5_clck27.png')` }}
-/>
+    <>
+      <section className="py-16 lg:py-20 bg-[#07512E] text-white relative overflow-hidden isolate">
+        {/* Background brand stamp watermark */}
+        <div 
+          className="absolute inset-0 bg-no-repeat bg-center bg-cover pointer-events-none mix-blend-screen opacity-[0.3] z-0"
+          style={{backgroundImage: `url('./promis.png')`}}
+          // style={{ backgroundImage: `url('https://res.cloudinary.com/dd9tagtiw/image/upload/v1781515128/a29bc3df60dd42fbfd5b10b5b93b4efd38995dd5_clck27.png')` }}
+        />
 
-      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 relative z-10">
-        
-        {/* Title */}
-        <div className="flex flex-col items-center text-center gap-4 mb-20">
-          <span className="text-[18px] tracking-widest text-[#FFDE59] uppercase font-semibold">
-            Brand Promises
-          </span>
-          <h2 className="text-[32px] md:text-[48px] font-serif text-white font-light uppercase tracking-wide">
-            Covenants of <span className="font-normal text-[#FFDE59]">Purity</span>
-          </h2>
-          <div className="w-12 h-[2px] bg-[#FFDE59] mt-2" />
-        </div>
+        <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-12 xl:px-0 relative z-10 isolate">
+          
+          {/* Title */}
+          <div className="flex flex-col items-center text-center gap-4 mb-20">
+            <span className="text-[18px] tracking-widest text-[#FFDE59] uppercase font-semibold">
+              Brand Promises
+            </span>
+            <h2 className="text-[32px] md:text-[48px] font-serif text-white font-light uppercase tracking-wide">
+              Covenants of <span className="font-normal text-[#FFDE59]">Purity</span>
+            </h2>
+            <div className="w-12 h-[2px] bg-[#FFDE59] mt-2" />
+          </div>
 
-        {/* Glassmorphic Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 pb-8 lg:px-6">
-          {values.map((val, idx) => {
-            const Icon = val.icon;
-            return (
-              <div 
-                key={idx}
-                className="relative bg-white/[0.03] backdrop-blur-md border border-white/10 hover:border-[#FFDE59]/40 p-8 rounded-lg shadow-2xl transition-all duration-500 hover:-translate-y-2 group"
-              >
-                {/* Concentric Gold Ring Icon */}
-                <div className="relative w-14 h-14 rounded-full border border-[#FFDE59]/25 flex items-center justify-center mb-6 group-hover:border-[#FFDE59] transition-colors duration-500">
-                  <div className="w-10 h-10 rounded-full bg-[#053D22] text-[#FFDE59] flex items-center justify-center border border-white/5">
-                    <Icon className="w-5 h-5 stroke-[1.5]" />
+          {/* Glassmorphic Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 pb-8 lg:px-6">
+            {values.map((val, idx) => {
+              const Icon = val.icon;
+              return (
+                <div 
+                  key={idx}
+                  className="relative z-20 isolate transform-gpu bg-white/[0.03] backdrop-blur-md border border-white/10 hover:border-[#FFDE59]/40 p-8 rounded-lg shadow-2xl transition-all duration-500 hover:-translate-y-2 group"
+                >
+                  {/* Concentric Gold Ring Icon */}
+                  <div className="relative z-30 w-14 h-14 rounded-full border border-[#FFDE59]/25 flex items-center justify-center mb-6 group-hover:border-[#FFDE59] transition-colors duration-500">
+                    <div className="w-10 h-10 rounded-full bg-[#053D22] text-[#FFDE59] flex items-center justify-center border border-white/5">
+                      <Icon className="w-5 h-5 stroke-[1.5]" />
+                    </div>
                   </div>
+
+                  {/* Text */}
+                  <h3 className="relative z-30 font-serif text-[20px] md:text-[24px] text-[#FFDE59] uppercase tracking-wide mb-3 font-normal">
+                    {val.title}
+                  </h3>
+                  <p className="relative z-30 text-[18px] text-gray-300 font-light leading-relaxed">
+                    {val.desc}
+                  </p>
                 </div>
+              );
+            })}
+          </div>
+          
 
-                {/* Text */}
-                <h3 className="font-serif text-[20px] md:text-[24px] text-[#FFDE59] uppercase tracking-wide mb-3 font-normal">
-                  {val.title}
-                </h3>
-                <p className="text-[18px] text-gray-300 font-light leading-relaxed">
-                  {val.desc}
-                </p>
-              </div>
-            );
-          })}
         </div>
-        
-
-      </div>
+      </section>
       <div>
-          <FAQ/>
-        </div>
-    </section>
+        <FAQ/>
+      </div>
+    </>
   );
 }

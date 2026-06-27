@@ -89,37 +89,54 @@ export default function ContactForm() {
 
   return (
     <section className="py-16 lg:py-28 lg:px-6 bg-[#FAF9F6] border-t border-gray-100 relative" id="contact-form-section">
-      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 grid grid-cols-1 xl:grid-cols-12   gap-12 lg:gap-16 items-start">
+      <style jsx global>{`
+        #contact-form-section input:-webkit-autofill,
+        #contact-form-section input:-webkit-autofill:hover,
+        #contact-form-section input:-webkit-autofill:focus,
+        #contact-form-section input:-webkit-autofill:active,
+        #contact-form-section textarea:-webkit-autofill,
+        #contact-form-section textarea:-webkit-autofill:hover,
+        #contact-form-section textarea:-webkit-autofill:focus,
+        #contact-form-section textarea:-webkit-autofill:active {
+          -webkit-background-clip: text !important;
+          -webkit-text-fill-color: #ffffff !important;
+          transition: background-color 5000s ease-in-out 0s !important;
+          background-color: transparent !important;
+          box-shadow: none !important;
+        }
+      `}</style>
+      <div className="w-full max-w-[1192px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 xl:gap-16 items-start">
         
         {/* Left Column: Asymmetric Guide sidebar */}
-        <div className="lg:col-span-4 flex  flex-col gap-6 lg:sticky lg:top-8">
-          <span className="text-[12px] md:text-[14px] tracking-[0.3em] font-semibold text-amber-600 uppercase">
-            Private Commissions
-          </span>
+        <div className="lg:col-span-4 flex flex-col gap-6 lg:gap-0 xl:gap-6 lg:justify-between lg:h-[540px] xl:h-auto lg:sticky lg:top-8 w-full">
+          <div className="flex flex-col gap-1 w-full">
+            <span className="text-[12px] md:text-[14px] lg:text-[12px] xl:text-[14px] tracking-[0.3em] font-semibold text-amber-600 uppercase">
+              Private Commissions
+            </span>
+            <h2 className="text-[32px] md:text-[48px] lg:text-[34px] xl:text-[48px] font-serif text-[#07512E] font-normal uppercase tracking-wide leading-[1.1]">
+              Concierge <br />
+              <span className="font-normal text-amber-600">Private Suite</span>
+            </h2>
+          </div>
           
-          <h2 className="text-[32px] md:text-[48px] font-serif text-[#07512E] font-normal uppercase tracking-wide leading-[1.1]">
-            Concierge <br />
-            <span className="font-normal text-amber-600">Private Suite</span>
-          </h2>
-          
-          <div className="w-12 h-[2px] bg-[#FFDE59] mt-1" />
+          <div className="w-12 h-[2px] bg-[#FFDE59] mt-1 lg:mt-0 xl:mt-1" />
 
-          <p className="text-[18px] text-gray-500 font-light leading-relaxed">
-            For custom creations and private viewing slots, please outline your design ideas, target materials (gold karat, diamond specifications), and date preferences.
+          <p className="text-[18px] lg:text-[14px] xl:text-[18px] text-gray-500 font-light leading-relaxed lg:leading-normal xl:leading-relaxed">
+            For custom creations and private viewing slots, please outline your design ideas, target materials (rolled gold specifications, custom plating preferences), and date preferences.
           </p>
 
-          <div className="flex flex-col gap-4 mt-4 bg-white p-8 rounded-lg border border-gray-100 shadow-sm relative overflow-hidden">
-            <span className="text-[12px] md:text-[14px] tracking-widest font-semibold text-[#07512E] uppercase">
+          <div className="flex flex-col gap-4 lg:gap-3 xl:gap-4 mt-4 lg:mt-0 xl:mt-4 bg-white p-8 lg:p-6 xl:p-8 rounded-lg border border-gray-100 shadow-sm relative overflow-hidden w-full">
+            <span className="text-[12px] md:text-[14px] lg:text-[13px] xl:text-[14px] tracking-widest font-semibold text-[#07512E] uppercase">
               Our Security Covenant
             </span>
-            <ul className="flex flex-col gap-3 text-[14px] md:text-[16px] text-gray-500 font-light">
+            <ul className="flex flex-col gap-3 lg:gap-2.5 xl:gap-3 text-[14px] md:text-[16px] lg:text-[13px] xl:text-[16px] text-gray-500 font-light">
               <li className="flex items-center gap-2">
                 <FiCheck className="text-amber-600 shrink-0" />
-                <span>NDA custom blueprints on request.</span>
+                <span>Custom rolled gold blueprints on request.</span>
               </li>
               <li className="flex items-center gap-2">
                 <FiCheck className="text-amber-600 shrink-0" />
-                <span className=" text-ellipsis overflow-hidden">Certified metal and gemstone assays.</span>
+                <span className="text-ellipsis overflow-hidden">Certified rolled gold purity & premium finish.</span>
               </li>
               <li className="flex items-center gap-2">
                 <FiCheck className="text-amber-600 shrink-0" />
@@ -130,7 +147,7 @@ export default function ContactForm() {
         </div>
 
         {/* Right Column: Flat-Line Luxury Form Card */}
-        <div className="lg:col-span-8 bg-[#07512E] rounded-xl shadow-[0_20px_50px_rgba(7,81,78,0.15)] p-8 md:p-10 relative overflow-hidden w-full text-white border border-white/5">
+        <div className="lg:col-span-8 bg-[#07512E] rounded-xl shadow-[0_20px_50px_rgba(7,81,78,0.15)] p-8 md:p-10 lg:p-8 xl:p-10 relative overflow-hidden w-full text-white border border-white/5 lg:h-[540px] xl:h-auto flex flex-col lg:justify-between">
           {/* Subtle Watermark overlay */}
          <div 
   className="absolute inset-0 bg-no-repeat bg-center bg-cover pointer-events-none mix-blend-screen opacity-[0.1]"
@@ -163,21 +180,21 @@ export default function ContactForm() {
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col gap-10">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-10 lg:gap-0 xl:gap-10 lg:h-full lg:justify-between">
               
               {/* Form Title */}
-              <div className="flex flex-col gap-2.5">
-                <span className="text-[12px] md:text-[14px] tracking-widest font-semibold text-[#FFDE59] uppercase">
+              <div className="flex flex-col gap-2.5 lg:gap-1 xl:gap-2.5">
+                <span className="text-[12px] md:text-[14px] lg:text-[12px] xl:text-[14px] tracking-widest font-semibold text-[#FFDE59] uppercase">
                   Write to us
                 </span>
-                <h2 className="text-[28px] md:text-[40px] font-serif text-[#FFDE59] font-normal uppercase tracking-wide leading-[1.1]">
+                <h2 className="text-[28px] md:text-[40px] lg:text-[30px] xl:text-[40px] font-serif text-[#FFDE59] font-normal uppercase tracking-wide leading-[1.1]">
                   Private Inquiry Form
                 </h2>
-                <div className="w-10 h-[2px] bg-[#FFDE59] mt-1" />
+                <div className="w-10 h-[2px] bg-[#FFDE59] mt-1 lg:mt-0 xl:mt-1" />
               </div>
 
               {/* Flat-Line Inputs Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10 lg:gap-y-6 xl:gap-y-10">
                 
                 {/* Full Name */}
                 <div className="relative flex flex-col pt-4">
@@ -282,7 +299,7 @@ export default function ContactForm() {
               </div>
 
               {/* Submit Action */}
-              <div className="flex justify-end mt-4">
+              <div className="flex justify-center md:justify-end mt-4">
                 <button
                   type="submit"
                   disabled={isSubmitting}

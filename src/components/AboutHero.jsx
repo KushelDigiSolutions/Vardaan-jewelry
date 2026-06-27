@@ -15,7 +15,7 @@ export default function AboutHero() {
       <div className="absolute inset-0 bg-[#04361E]/75"></div>
 
       {/* Content */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 lg:px-8">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 lg:px-12 xl:px-8">
         <div className="max-w-2xl text-white">
           <div className="flex items-center gap-3 mb-6">
             <span className="w-8 h-[1px] bg-[#FFDE59]" />

@@ -6,7 +6,7 @@ export default function TrustFeatures() {
     {
       icon: <FiAward className="w-7 h-7 text-[#07512E] stroke-[1.5]" />,
       title: "100% CERTIFIED",
-      description: "Every diamond and gemstone is certified by leading international labs (GIA, IGI)."
+      description: "Every piece of rolled gold jewellery is certified for premium finish, exceptional durability, and authentic quality."
     },
     {
       icon: <FiShield className="w-7 h-7 text-[#07512E] stroke-[1.5]" />,
@@ -27,7 +27,7 @@ export default function TrustFeatures() {
 
   return (
     <section className="py-12 md:py-20 lg:px-6 bg-white">
-      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0">
+      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-12 xl:px-0">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-8">
           {features.map((feature, index) => (
             <div key={index} className="flex flex-col items-center text-center">

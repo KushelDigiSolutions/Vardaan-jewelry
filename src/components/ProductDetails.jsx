@@ -147,8 +147,8 @@ export default function ProductDetails({ productId }) {
     const parentValue =
       typeof product.category !== "string" && product.category.parentCategory
         ? product.category.parentCategory.name ||
-          product.category.parentCategory.slug ||
-          ""
+        product.category.parentCategory.slug ||
+        ""
         : "";
 
     const normalized = `${categoryValue} ${parentValue}`
@@ -316,7 +316,7 @@ export default function ProductDetails({ productId }) {
 
   const hasDiscount = activeVariant
     ? activeVariant.salePrice > 0 &&
-      activeVariant.salePrice < activeVariant.price
+    activeVariant.salePrice < activeVariant.price
     : product?.salePrice > 0 && product?.salePrice < product?.price;
 
   // Compute average rating and count dynamically
@@ -559,7 +559,7 @@ export default function ProductDetails({ productId }) {
 
   // ── Render ────────────────────────────────────────────────────────────────
   return (
-    <div className="w-full max-w-[1192px] lg:min-h-[808px] mx-auto px-4 lg:px-0 py-10 lg:py-16">
+    <div className="w-full max-w-[1192px] lg:min-h-[808px] mx-auto px-4 lg:px-12 xl:px-0 py-10 lg:py-16">
       <div className="flex flex-col lg:flex-row justify-between gap-8 lg:gap-6">
         {/* =========================================
             COLUMN 1: PRODUCT INFO & ACTIONS
@@ -639,11 +639,10 @@ export default function ProductDetails({ productId }) {
                       <button
                         key={karat}
                         onClick={() => handleSelectionChange("karat", karat)}
-                        className={`px-3 py-1.5 border text-[13px] font-sans rounded transition-all cursor-pointer ${
-                          selectedKarat === karat
-                            ? "bg-[#07512E] border-[#07512E] text-white font-medium shadow-sm"
-                            : "bg-white border-gray-300 text-gray-700 hover:border-[#07512E] hover:text-[#07512E]"
-                        }`}
+                        className={`px-3 py-1.5 border text-[13px] font-sans rounded transition-all cursor-pointer ${selectedKarat === karat
+                          ? "bg-[#07512E] border-[#07512E] text-white font-medium shadow-sm"
+                          : "bg-white border-gray-300 text-gray-700 hover:border-[#07512E] hover:text-[#07512E]"
+                          }`}
                       >
                         {karat}
                       </button>
@@ -682,11 +681,10 @@ export default function ProductDetails({ productId }) {
                             handleSelectionChange("metalColor", color)
                           }
                           title={color}
-                          className={`flex items-center gap-1.5 px-3 py-1.5 border text-[13px] font-sans rounded transition-all cursor-pointer ${
-                            selectedColor === color
-                              ? "border-[#07512E] bg-[#07512E]/5 text-[#07512E] font-medium"
-                              : "border-gray-300 text-gray-700 hover:border-[#07512E]"
-                          }`}
+                          className={`flex items-center gap-1.5 px-3 py-1.5 border text-[13px] font-sans rounded transition-all cursor-pointer ${selectedColor === color
+                            ? "border-[#07512E] bg-[#07512E]/5 text-[#07512E] font-medium"
+                            : "border-gray-300 text-gray-700 hover:border-[#07512E]"
+                            }`}
                         >
                           <span
                             className="w-3.5 h-3.5 rounded-full inline-block border border-gray-300 shrink-0"
@@ -719,11 +717,10 @@ export default function ProductDetails({ productId }) {
                       <button
                         key={size}
                         onClick={() => handleSelectionChange("size", size)}
-                        className={`w-11 h-11 border flex items-center justify-center text-[15px] font-sans transition-all cursor-pointer rounded ${
-                          selectedSize === size
-                            ? "bg-[#07512E] border-[#07512E] text-white font-medium shadow-sm"
-                            : "bg-white border-gray-300 text-gray-700 hover:border-[#07512E] hover:text-[#07512E]"
-                        }`}
+                        className={`w-11 h-11 border flex items-center justify-center text-[15px] font-sans transition-all cursor-pointer rounded ${selectedSize === size
+                          ? "bg-[#07512E] border-[#07512E] text-white font-medium shadow-sm"
+                          : "bg-white border-gray-300 text-gray-700 hover:border-[#07512E] hover:text-[#07512E]"
+                          }`}
                       >
                         {size}
                       </button>
@@ -763,11 +760,10 @@ export default function ProductDetails({ productId }) {
                   <button
                     key={size}
                     onClick={() => setSelectedSize(size)}
-                    className={`w-11 h-11 border flex items-center justify-center text-[15px] font-sans transition-colors cursor-pointer ${
-                      selectedSize === size
-                        ? "bg-[#07512E] border-[#07512E] text-white"
-                        : "bg-white border-gray-300 text-gray-700 hover:border-gray-400"
-                    }`}
+                    className={`w-11 h-11 border flex items-center justify-center text-[15px] font-sans transition-colors cursor-pointer ${selectedSize === size
+                      ? "bg-[#07512E] border-[#07512E] text-white"
+                      : "bg-white border-gray-300 text-gray-700 hover:border-gray-400"
+                      }`}
                   >
                     {size}
                   </button>
@@ -806,9 +802,15 @@ export default function ProductDetails({ productId }) {
               <div className="w-10 h-10 flex items-center justify-center text-[16px] font-sans border-x border-gray-300">
                 {quantity}
               </div>
-              <button
+             <button
                 onClick={() => handleQuantityChange(1)}
-                disabled={isOutOfStock}
+                disabled={
+                  isOutOfStock ||
+                  quantity >=
+                    (hasVariants && activeVariant
+                      ? activeVariant.inventory
+                      : product?.inventory || 0)
+                }
                 className="w-10 h-10 flex items-center justify-center text-[#333333] hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 +
@@ -830,22 +832,10 @@ export default function ProductDetails({ productId }) {
                 <button
                   onClick={handleAddToCart}
                   disabled={isOutOfStock}
-                  className={`w-full lg:w-[344px] h-[56px] font-sans font-medium text-[20px] py-3 transition-colors cursor-pointer ${
-                    isOutOfStock
-                      ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                      : "bg-[#FFDE59] text-[#101010] hover:bg-[#e6c543]"
-                  }`}
-                >
-                  {isOutOfStock ? "Out of Stock" : "Shop Now"}
-                </button>
-                <button
-                  onClick={handleAddToCart}
-                  disabled={isOutOfStock}
-                  className={`w-full lg:w-[344px] h-[56px] border font-sans font-medium text-[20px] py-3 transition-colors cursor-pointer ${
-                    isOutOfStock
-                      ? "border-gray-300 text-gray-400 cursor-not-allowed bg-gray-50"
-                      : "border-[#07512E] text-[#07512E] bg-white hover:bg-[#07512E] hover:text-white"
-                  }`}
+                  className={`w-full lg:w-[344px] h-[56px] border font-sans font-medium text-[20px] py-3 transition-colors cursor-pointer ${isOutOfStock
+                    ? "border-gray-300 text-gray-400 cursor-not-allowed bg-gray-50"
+                    : "border-[#07512E] text-[#07512E] bg-white hover:bg-[#07512E] hover:text-white"
+                    }`}
                 >
                   {addedFeedback ? (
                     <span className="flex items-center justify-center gap-2">
@@ -909,13 +899,11 @@ export default function ProductDetails({ productId }) {
         {/* =========================================
             COLUMN 2: IMAGE GALLERY
             ========================================= */}
-        <div className="w-full lg:w-[395px] flex flex-col gap-6 order-1 lg:order-2 shrink-0">
+        <div className="w-full md:max-w-[400px] lg:max-w-none lg:w-[395px] mx-auto lg:mx-0 flex flex-col gap-6 order-1 lg:order-2 shrink-0">
           {/* Top Section: Main product image */}
           <div>
-            <span className="text-[11px] uppercase font-bold text-amber-800 tracking-widest block mb-2 font-sans">
-              Product Close-up
-            </span>
-            <div className="w-full aspect-square bg-[#F7F5F0] overflow-hidden relative border border-gray-100 rounded-lg shadow-sm">
+
+            <div className="w-full aspect-square bg-white overflow-hidden relative border border-gray-100 rounded-lg shadow-sm">
               <img
                 src={
                   product.mainImage ||
@@ -923,7 +911,7 @@ export default function ProductDetails({ productId }) {
                   "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png"
                 }
                 alt={product.name}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                className="absolute inset-0 w-full h-full object-contain object-center transition-transform duration-300 hover:scale-105"
               />
             </div>
           </div>
@@ -931,14 +919,11 @@ export default function ProductDetails({ productId }) {
           {/* Bottom Section: Wearable Media (Images & Videos showing the product being worn) */}
           {product.wearableMedia && product.wearableMedia.length > 0 && (
             <div className="flex flex-col gap-3 pt-4 border-t border-gray-200">
-              <span className="text-[11px] uppercase font-bold text-amber-800 tracking-widest block mb-1 font-sans">
-                On Body & Details
-              </span>
 
               {/* Active Wearable Media Display Area */}
-              <div className="w-full aspect-[4/5] bg-[#F7F5F0] overflow-hidden relative border border-gray-100 rounded-lg shadow-sm">
+              <div className="w-full aspect-[4/5] bg-white overflow-hidden relative border border-gray-100 rounded-lg shadow-sm">
                 {product.wearableMedia[selectedWearableIdx]?.mediaType ===
-                "video" ? (
+                  "video" ? (
                   <video
                     key={product.wearableMedia[selectedWearableIdx]?.url}
                     src={product.wearableMedia[selectedWearableIdx]?.url}
@@ -947,13 +932,13 @@ export default function ProductDetails({ productId }) {
                     muted
                     controls
                     playsInline
-                    className="absolute inset-0 w-full h-full object-cover"
+                    className="absolute inset-0 w-full h-full object-contain object-center"
                   />
                 ) : (
                   <img
                     src={product.wearableMedia[selectedWearableIdx]?.url}
                     alt={`${product.name} on body`}
-                    className="absolute inset-0 w-full h-full object-cover"
+                    className="absolute inset-0 w-full h-full object-contain object-center"
                   />
                 )}
               </div>
@@ -964,11 +949,10 @@ export default function ProductDetails({ productId }) {
                   <button
                     key={idx}
                     onClick={() => setSelectedWearableIdx(idx)}
-                    className={`w-16 h-16 bg-gray-50 border-2 cursor-pointer shrink-0 rounded overflow-hidden relative transition-all ${
-                      selectedWearableIdx === idx
-                        ? "border-[#07512E] scale-105 shadow-sm"
-                        : "border-transparent opacity-80 hover:opacity-100"
-                    }`}
+                    className={`w-16 h-16 bg-gray-50 border-2 cursor-pointer shrink-0 rounded overflow-hidden relative transition-all ${selectedWearableIdx === idx
+                      ? "border-[#07512E] scale-105 shadow-sm"
+                      : "border-transparent opacity-80 hover:opacity-100"
+                      }`}
                   >
                     {media.mediaType === "video" ? (
                       <div className="w-full h-full relative">
@@ -1012,11 +996,10 @@ export default function ProductDetails({ productId }) {
                     <button
                       key={idx}
                       onClick={() => setSelectedImageIdx(idx)}
-                      className={`w-16 h-14 bg-gray-50 border-2 cursor-pointer shrink-0 rounded overflow-hidden transition-all ${
-                        selectedImageIdx === idx
-                          ? "border-[#07512E]"
-                          : "border-transparent hover:border-gray-200"
-                      }`}
+                      className={`w-16 h-14 bg-gray-50 border-2 cursor-pointer shrink-0 rounded overflow-hidden transition-all ${selectedImageIdx === idx
+                        ? "border-[#07512E]"
+                        : "border-transparent hover:border-gray-200"
+                        }`}
                     >
                       <img
                         src={img}
@@ -1278,10 +1261,10 @@ export default function ProductDetails({ productId }) {
 
                   const reviewDate = review.createdAt
                     ? new Date(review.createdAt).toLocaleDateString("en-IN", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })
                     : "Recently";
 
                   return (
@@ -1307,11 +1290,10 @@ export default function ProductDetails({ productId }) {
                             {Array.from({ length: 5 }).map((_, i) => (
                               <FiStar
                                 key={i}
-                                className={`w-3.5 h-3.5 ${
-                                  i < (review.rating || 0)
-                                    ? "fill-[#FFDE59]"
-                                    : "text-gray-300"
-                                }`}
+                                className={`w-3.5 h-3.5 ${i < (review.rating || 0)
+                                  ? "fill-[#FFDE59]"
+                                  : "text-gray-300"
+                                  }`}
                               />
                             ))}
                           </div>

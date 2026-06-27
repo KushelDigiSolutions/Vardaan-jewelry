@@ -5,7 +5,7 @@ import React from "react";
 export default function AboutVisionMission() {
   return (
     <section className="py-16 lg:py-32 lg:px-6 bg-[#FAF9F6] overflow-hidden">
-      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 grid  grid-cols-1 place-items-center lg:grid-cols-12 gap-12 items-center">
+      <div className="w-full max-w-[1192px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0 grid  grid-cols-1 place-items-center lg:grid-cols-12 gap-12 items-center">
         {/* Descriptive Section Heading */}
         <div className="lg:col-span-4  flex flex-col items-start gap-4">
           <span className="text-[18px] tracking-widest font-semibold text-amber-600 uppercase">
@@ -37,10 +37,6 @@ export default function AboutVisionMission() {
               is celebrated for its organic floral geometry and holds a legacy
               of blessings for the generations that inherit it.
             </p>
-            {/* Elegant V watermark */}
-            <div className="absolute right-4 bottom-4 text-white/5 font-serif text-8xl leading-none select-none font-bold">
-              V
-            </div>
           </div>
 
           {/* Card 2: Our Mission (Offset Upwards) */}
@@ -56,10 +52,6 @@ export default function AboutVisionMission() {
               strict transparency with GIA gemstone grading, and provide direct
               atelier customization services for our patrons.
             </p>
-            {/* Elegant M watermark */}
-            <div className="absolute right-4 bottom-4 text-gray-100/50 font-serif text-8xl leading-none select-none font-bold">
-              M
-            </div>
           </div>
         </div>
       </div>

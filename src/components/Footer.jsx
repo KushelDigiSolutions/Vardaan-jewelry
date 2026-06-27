@@ -35,7 +35,7 @@ export default function Footer() {
         
         <div className="absolute right-0 bottom-0 w-[120px] h-[120px] bg-[#FFDE59] opacity-20 pointer-events-none [clip-path:polygon(100%_0,100%_100%,0_100%)]" />
 
-        <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 relative z-10">
+        <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-12 xl:px-0 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 relative z-10">
 
         
           <div className="relative z-10 flex items-start gap-4 w-full lg:max-w-[596px] h-auto">
@@ -78,29 +78,29 @@ export default function Footer() {
       {/* Bottom Footer Sections Wrapper */}
       <div className="flex flex-col bg-[#07512E]">
         {/* 2. Middle Columns Section */}
-        <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 py-10 lg:py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-0 text-sm">
+        <div className="w-full max-w-[1192px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0 py-12 lg:py-16 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-12 gap-12 md:gap-8 lg:gap-0 text-sm">
 
           {/* Col 1: Logo, text, social links */}
-          <div className="lg:col-span-3 flex flex-col gap-6 justify-start ">
-            <div className="w-full lg:max-w-[334px] h-auto  flex flex-col justify-between gap-6 lg:ps-6 xl:ps-0 ">
+          <div className="md:col-span-3 lg:col-span-3 flex flex-col gap-6 justify-start w-full md:mb-6 lg:mb-0">
+            <div className="w-full flex flex-col gap-6">
               <div className="flex flex-col items-start">
                 {/* SVG Logo matching the branding */}
                 <div className="flex flex-col items-center gap-1 w-max">
                   <img
                     src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781789797/vardan_logo_2_br1lkx.png"
                     alt="Vardaan Logo"
-                    className="h-[90px] w-auto object-contain"
+                    className="h-[80px] md:h-[90px] w-auto object-contain"
                   />
                 </div>
               </div>
 
-              <p className="text-[15px] text-[#E2E8F0] font-normal leading-[1.6]">
+              <p className="text-[15px] text-[#E2E8F0] font-normal leading-[1.6] max-w-2xl lg:max-w-none">
                 Discover timeless elegance with beautifully crafted jewellery designed to celebrate every moment. Our collections blend exquisite artistry, premium quality, and modern sophistication to create pieces you&apos;ll cherish forever.
               </p>
             </div>
 
             {/* Circle Social Links */}
-            <div className="flex items-center gap-4 mt-2 lg:ps-6 xl:ps-0">
+            <div className="flex items-center gap-4 mt-2 w-full justify-start">
               {[
                 { icon: FaFacebookF, label: "Facebook" },
                 { icon: FiInstagram, label: "Instagram" },
@@ -124,31 +124,30 @@ export default function Footer() {
 
           {/* Separator Line 1 */}
           <div className="hidden lg:flex lg:col-span-1 justify-center">
-            <div className="w-[1px] h-[100%] bg-white/10 self-center" />
+            <div className="w-[1px] h-full bg-white/10 self-center" />
           </div>
 
           {/* Col 2: Customer Service */}
-          <div className="lg:col-span-2 flex justify-start lg:pt-6">
-            <div className="w-full lg:max-w-[198px] h-auto flex flex-col gap-6">
-              <h4 className="font-sans text-[#FFFFFF] text-[18px] font-medium tracking-wide ">
+          <div className="md:col-span-1 lg:col-span-2 flex justify-start lg:pt-6 w-full">
+            <div className="w-full flex flex-col gap-6">
+              <h4 className="font-sans text-[#FFFFFF] text-[18px] font-medium tracking-wide">
                 Customer Service
               </h4>
               <ul className="flex flex-col gap-5 text-[16px] text-[#FFFFFF] font-normal">
                 <li><Link href="/contact" className="hover:text-[#FFDE59] transition-colors">Contact Us</Link></li>
                 <li><Link href="/shipping-policy" className="hover:text-[#FFDE59] transition-colors">Shipping Policy</Link></li>
                 <li><Link href="/return-refund-policy" className="hover:text-[#FFDE59] transition-colors">Return & Refund Policy</Link></li>
-                {/* <li><Link href="#track" className="hover:text-[#FFDE59] transition-colors">Track Order</Link></li> */}
               </ul>
             </div>
           </div>
 
           {/* Separator Line 2 */}
           <div className="hidden lg:flex lg:col-span-1 justify-center">
-            <div className="w-[1px] h-[100%] bg-white/10 self-center" />
+            <div className="w-[1px] h-full bg-white/10 self-center" />
           </div>
 
           {/* Col 3: About Us (with watermark) */}
-          <div className="lg:col-span-2 flex relative justify-start lg:pt-6">
+          <div className="md:col-span-1 lg:col-span-2 flex relative justify-start lg:pt-6 w-full">
             {/* Logo watermark overlay behind links */}
             <div className="absolute -left-4 top-2 md:left-6 md:top-[52px] pointer-events-none select-none z-0">
               <img
@@ -158,8 +157,8 @@ export default function Footer() {
               />
             </div>
 
-            <div className="w-full lg:max-w-[198px] h-auto flex flex-col gap-6 relative z-10">
-              <h4 className="font-sans text-[#FFFFFF] text-[18px] font-medium tracking-wide ">
+            <div className="w-full flex flex-col gap-6 relative z-10">
+              <h4 className="font-sans text-[#FFFFFF] text-[18px] font-medium tracking-wide">
                 Categories
               </h4>
               <ul className="flex flex-col gap-5 text-[16px] text-[#FFFFFF] font-normal">
@@ -173,19 +172,19 @@ export default function Footer() {
 
           {/* Separator Line 3 */}
           <div className="hidden lg:flex lg:col-span-1 justify-center">
-            <div className="w-[1px] h-[100%] bg-white/10 self-center" />
+            <div className="w-[1px] h-full bg-white/10 self-center" />
           </div>
 
           {/* Col 4: Information */}
-          <div className="lg:col-span-2 flex justify-start lg:pt-6">
-            <div className="w-full lg:max-w-[198px] h-auto flex flex-col gap-6">
+          <div className="md:col-span-1 lg:col-span-2 flex justify-start lg:pt-6 w-full">
+            <div className="w-full flex flex-col gap-6">
               <h4 className="font-sans text-[#FFFFFF] text-[18px] font-medium tracking-wide">
                 Information
               </h4>
               <ul className="flex flex-col gap-5 text-[16px] text-[#FFFFFF] font-normal">
-                <li><Link href="/privacy-policy" className="hover:text-[#FFDE59] transition-colors"  onClick={scrollShopToTop} >Privacy Policy</Link></li>
-                <li><Link href="/terms-and-conditions" className="hover:text-[#FFDE59] transition-colors"  onClick={scrollShopToTop} >Terms & Conditions</Link></li>
-                <li><Link href="/cancellation-policy" className="hover:text-[#FFDE59] transition-colors"  onClick={scrollShopToTop} >Cancellation Policy</Link></li>
+                <li><Link href="/privacy-policy" className="hover:text-[#FFDE59] transition-colors" onClick={scrollShopToTop}>Privacy Policy</Link></li>
+                <li><Link href="/terms-and-conditions" className="hover:text-[#FFDE59] transition-colors" onClick={scrollShopToTop}>Terms & Conditions</Link></li>
+                <li><Link href="/cancellation-policy" className="hover:text-[#FFDE59] transition-colors" onClick={scrollShopToTop}>Cancellation Policy</Link></li>
               </ul>
               
               {/* Mobile-only Trust Badges (below Cancellation Policy) */}
@@ -228,7 +227,7 @@ export default function Footer() {
 
         {/* 4. Yellow Footer Bottom Bar */}
         <div className="bg-[#FFDE59] text-[#07512E] py-4 border-t border-[#ffd738]">
-          <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col md:flex-row items-center md:justify-between gap-5 md:gap-3 text-[13px] font-semibold">
+          <div className="w-full max-w-[1192px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0 flex flex-col md:flex-row items-center md:justify-between gap-5 md:gap-3 text-[13px] font-semibold">
             <div className="text-center md:text-left flex flex-col md:flex-row md:items-center">
               <span className="flex items-center justify-center md:justify-start gap-1 text-[16px] font-normal">
                 <span className="text-[24px]  leading-none">©</span> Copyright 2026 Vardaan

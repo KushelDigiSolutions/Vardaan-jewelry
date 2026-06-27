@@ -30,28 +30,28 @@ function QuoteIcon() {
 const testimonials = [
   {
     id: 1,
-    quote: '"Supporting vardaan has been a truly uplifting experience. Knowing that my contribution helps feed the needy and spread devotion brings deep satisfaction to my heart."',
-    name: "Jerome Bell",
-    location: "Inidia",
+    quote: '"Vardaan’s Rolled Gold jewellery is an absolute masterpiece. The craftsmanship, texture, and brilliant finish look exactly like pure 24K gold. It feels incredibly luxurious to wear!"',
+    name: "Ananya Sharma",
+    location: "India",
   },
   {
     id: 2,
-    quote: '"Supporting vardaan has been a truly uplifting experience. Knowing that my contribution helps feed the needy and spread devotion brings deep satisfaction to my heart."',
-    name: "Jerome Bell",
-    location: "Inidia",
+    quote: '"I purchased a stunning rolled gold bridal set for a family wedding, and the quality is exceptional. It maintains its radiant golden luster perfectly. Highly recommended!"',
+    name: "Rajeshwari Patel",
+    location: "India",
   },
   {
     id: 3,
-    quote: '"Supporting vardaan has been a truly uplifting experience. Knowing that my contribution helps feed the needy and spread devotion brings deep satisfaction to my heart."',
-    name: "Jerome Bell",
-    location: "Inidia",
+    quote: '"The elegant designs and durable rolled gold finishing are unmatched. Vardaan offers the true essence of traditional gold jewellery with modern sophistication and premium feel."',
+    name: "Priya Mehta",
+    location: "India",
   },
 ];
 
 export default function CustomerFeedback() {
   return (
     <section className="min-h-[520px] py-12 md:pt-16 md:pb-6 lg:pb-16 bg-[#FFFFFF] overflow-hidden flex flex-col justify-center">
-      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col">
+      <div className="w-full max-w-[1192px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0 flex flex-col">
         <div className="mb-12 text-center">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif text-[#2d3732] font-medium tracking-wide">
             Customer Feedback

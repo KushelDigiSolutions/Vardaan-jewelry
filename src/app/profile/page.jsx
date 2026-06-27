@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -37,6 +37,7 @@ const getImageUrl = (imagePath) => {
 
 export default function ProfilePage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const {
     user,
     token,
@@ -57,6 +58,13 @@ export default function ProfilePage() {
 
   // Active Tab: 'info' | 'addresses' | 'orders' | 'returns' | 'password'
   const [activeTab, setActiveTab] = useState("info");
+
+  useEffect(() => {
+    const tab = searchParams ? searchParams.get("tab") : null;
+    if (tab) {
+      setActiveTab(tab);
+    }
+  }, [searchParams]);
 
   // Profile forms states
   const [name, setName] = useState("");
@@ -80,7 +88,7 @@ export default function ProfilePage() {
   const [isEditingAddress, setIsEditingAddress] = useState(null); // address object being edited
   const [isAddingAddress, setIsAddingAddress] = useState(false);
   const [addrForm, setAddrForm] = useState({
-    title: "Home",
+    title: "",
     street: "",
     city: "",
     state: "",
@@ -387,9 +395,9 @@ export default function ProfilePage() {
 
     try {
       await uploadAvatar(formData);
-      setMsg({ type: "success", text: "Avatar image uploaded successfully!" });
+      setMsg({ type: "success", text: "Your profile photo has been updated successfully!" });
     } catch (err) {
-      setMsg({ type: "error", text: err.message || "Failed to upload avatar" });
+      setMsg({ type: "error", text: err.message || "Could not update profile photo. Please try again." });
     } finally {
       setLoading(false);
     }
@@ -402,9 +410,9 @@ export default function ProfilePage() {
     setMsg({ type: "", text: "" });
     try {
       await removeAvatar();
-      setMsg({ type: "success", text: "Avatar photo removed successfully!" });
+      setMsg({ type: "success", text: "Your profile photo has been removed successfully." });
     } catch (err) {
-      setMsg({ type: "error", text: err.message || "Failed to remove avatar" });
+      setMsg({ type: "error", text: err.message || "Could not remove profile photo. Please try again." });
     } finally {
       setLoading(false);
     }
@@ -443,7 +451,7 @@ export default function ProfilePage() {
       await addAddress(addrForm);
       setIsAddingAddress(false);
       setAddrForm({
-        title: "Home",
+        title: "",
         street: "",
         city: "",
         state: "",
@@ -823,7 +831,7 @@ export default function ProfilePage() {
                           disabled={loading}
                           className="bg-transparent border-none text-red-500 hover:underline text-[18px] font-normal cursor-pointer"
                         >
-                          Remove photo
+                          Remove Profile Photo
                         </button>
                       )}
                     </div>
@@ -995,6 +1003,7 @@ export default function ProfilePage() {
                         value={addrForm.title}
                         onChange={handleAddrFormChange}
                         className="w-full p-2 border border-gray-300 rounded outline-none bg-white focus:border-[#07512E]"
+                        placeholder="e.g. Home, Office, Work"
                       />
                     </div>
                     <div>
@@ -1063,6 +1072,19 @@ export default function ProfilePage() {
                         placeholder="e.g. 9818719997"
                       />
                     </div>
+                    <div>
+                      <label className="block text-[18px] text-gray-600 mb-1">
+                        Country
+                      </label>
+                      <input
+                        type="text"
+                        name="country"
+                        required
+                        value={addrForm.country}
+                        onChange={handleAddrFormChange}
+                        className="w-full p-2 border border-gray-300 rounded outline-none bg-white focus:border-[#07512E]"
+                      />
+                    </div>
                     <div className="col-span-2 flex gap-3 justify-end mt-2">
                       <button
                         type="button"
@@ -1106,6 +1128,7 @@ export default function ProfilePage() {
                           })
                         }
                         className="w-full p-2 border border-gray-300 rounded bg-white outline-none focus:border-[#07512E]"
+                        placeholder="e.g. Home, Office, Work"
                       />
                     </div>
                     <div>
@@ -1188,6 +1211,23 @@ export default function ProfilePage() {
                         }
                         className="w-full p-2 border border-gray-300 rounded bg-white outline-none focus:border-[#07512E]"
                         placeholder="e.g. 9818719997"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-gray-600 mb-1">
+                        Country
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={isEditingAddress.country || "India"}
+                        onChange={(e) =>
+                          setIsEditingAddress({
+                            ...isEditingAddress,
+                            country: e.target.value,
+                          })
+                        }
+                        className="w-full p-2 border border-gray-300 rounded bg-white outline-none focus:border-[#07512E]"
                       />
                     </div>
                     <div className="col-span-2 flex gap-3 justify-end mt-2">

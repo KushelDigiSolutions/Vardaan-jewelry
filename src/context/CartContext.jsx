@@ -272,7 +272,6 @@ export function CartProvider({ children }) {
         });
         if (res.ok) {
           await fetchCart();
-          toast.success(`${actionText} "${item.name}" quantity to ${newQty}`);
         }
       } catch (err) {
         console.error("Update quantity API error:", err);
@@ -285,7 +284,6 @@ export function CartProvider({ children }) {
             : item
         );
         saveToLocal(updated);
-        toast.success(`${actionText} "${item.name}" quantity to ${newQty}`);
         return updated;
       });
     }

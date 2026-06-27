@@ -10,7 +10,7 @@ export default function AboutUs() {
   });
   return (
     <section className="py-10 md:py-16 lg:px-6  bg-[#FAF9F6]" id="about">
-      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 grid grid-cols-1 xl:grid-cols-12 gap-16 items-center">
+      <div className="w-full max-w-[1192px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0 grid grid-cols-1 xl:grid-cols-12 gap-16 items-center">
         
         {/* Story Text */}
         <div className="lg:col-span-6 flex flex-col items-start gap-4">

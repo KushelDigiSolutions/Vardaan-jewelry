@@ -102,7 +102,7 @@ export default function LatestCollection() {
 
   return (
     <section className="py-10 md:py-16 bg-[#F5F5F7] overflow-hidden">
-      <div className="w-full max-w-[1192px] mx-auto px-4 xl:px-0 flex flex-col xl:flex-row gap-8 xl:gap-[24px]">
+      <div className="w-full max-w-[1192px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0 flex flex-col xl:flex-row gap-8 xl:gap-[24px]">
 
         {/* Left Side: Large Promotional Banner */}
         <div className="w-full xl:w-[584px] relative h-[400px] xl:h-[600px] flex-shrink-0 overflow-hidden group">
@@ -141,8 +141,8 @@ export default function LatestCollection() {
               <h2 className="text-[28px] sm:text-[32px] text-[#303030] font-medium tracking-wide leading-none">
                 Latest Collection
               </h2>
-              <Link href="/shop?category=latest" className="text-[20px] text-[#101010] font-medium hover:underline flex items-center gap-1 leading-none">
-                View All <span aria-hidden="true">&rarr;</span>
+              <Link href="/shop?category=latest" className="text-[20px] text-[#101010] font-medium hover:text-[#07512E] active:text-[#07512E] focus:text-[#07512E] no-underline hover:no-underline active:no-underline focus:no-underline flex items-center gap-1 leading-none group">
+                View All <span aria-hidden="true" className="text-gray-400 group-hover:text-[#07512E] group-active:text-[#07512E] group-focus:text-[#07512E] font-sans no-underline">&rarr;</span>
               </Link>
             </div>
 

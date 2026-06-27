@@ -31,7 +31,7 @@ export default function CosmicCreations() {
       />
 
       {/* Main Alignment Container (to match other sections) */}
-      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 flex flex-col md:flex-row min-h-[500px] lg:min-h-[700px] relative z-10">
+      <div className="w-full max-w-[1192px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0 flex flex-col md:flex-row min-h-[500px] lg:min-h-[700px] relative z-10">
         
         {/* Left side content area */}
         <div className="relative w-full md:w-1/2 flex flex-col justify-center py-10 md:py-16 overflow-hidden">

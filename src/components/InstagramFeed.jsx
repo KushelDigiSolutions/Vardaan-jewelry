@@ -21,7 +21,7 @@ export default function InstagramFeed() {
   return (
     <section className="py-10 md:py-16 bg-[#07512E]">
       {/* Header Area in container */}
-      <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-0 mb-10">
+      <div className="w-full max-w-[1192px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0 mb-10">
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif text-white text-center md:text-left">
             Explore latest <span className="text-[#FDE066]">Instagram Posts</span>
