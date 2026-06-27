@@ -436,28 +436,28 @@ export default function CheckoutClient() {
               
               {/* Shipping Method Selector */}
               <div className="mb-8 font-sans">
-                <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-3">Select Shipping Method</h4>
+                <h4 className="text-[18px] font-medium  tracking-wider text-gray-400 mb-3">Select Shipping Method</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <label className={`flex justify-between items-center p-4 border rounded cursor-pointer ${shippingMethod === "Standard Delivery" ? "border-[#07512E] bg-green-50/20" : "border-gray-200"}`}>
-                    <div className="flex items-center gap-2">
-                      <input type="radio" checked={shippingMethod === "Standard Delivery"} onChange={() => setShippingMethod("Standard Delivery")} className="accent-[#07512E]" />
-                      <div>
-                        <p className="font-bold text-gray-900">Standard Shipping</p>
-                        <p className="text-xs text-gray-500">3 - 6 business days</p>
+                    <div className="flex items-center justify-start gap-2">
+                      <input type="radio" checked={shippingMethod === "Standard Delivery"} onChange={() => setShippingMethod("Standard Delivery")} className="accent-[#07512E] " />
+                      <div className="flex flex-col ">
+                        <p className="font-medium text-[18px] text-gray-900">Standard Shipping</p>
+                        <p className="text-sm text-gray-500">3 - 6 business days</p>
                       </div>
                     </div>
-                    <span className="font-bold text-[#2e8b57]">Free</span>
+                    <span className="font-medium text-[18px] text-[#2e8b57]">Free</span>
                   </label>
                   
                   <label className={`flex justify-between items-center p-4 border rounded cursor-pointer ${shippingMethod === "Express Delivery" ? "border-[#07512E] bg-green-50/20" : "border-gray-200"}`}>
                     <div className="flex items-center gap-2">
                       <input type="radio" checked={shippingMethod === "Express Delivery"} onChange={() => setShippingMethod("Express Delivery")} className="accent-[#07512E]" />
                       <div>
-                        <p className="font-bold text-gray-900">Express Shipping</p>
-                        <p className="text-xs text-gray-500">1 - 2 business days</p>
+                        <p className="font-medium text-[18px] text-gray-900">Express Shipping</p>
+                        <p className="text-sm text-gray-500">1 - 2 business days</p>
                       </div>
                     </div>
-                    <span className="font-bold text-gray-900">₹ 150.00</span>
+                    <span className="font-medium text-[18px] text-gray-900">₹ 150.00</span>
                   </label>
                 </div>
               </div>
@@ -469,24 +469,24 @@ export default function CheckoutClient() {
                   <label className={`flex flex-col p-4 border rounded cursor-pointer gap-2 ${paymentMethod === "Razorpay" ? "border-[#07512E] bg-green-50/20" : "border-gray-200"}`}>
                     <input type="radio" checked={paymentMethod === "Razorpay"} onChange={() => setPaymentMethod("Razorpay")} className="accent-[#07512E] self-start" />
                     <div>
-                      <p className="font-bold text-gray-900">Razorpay / UPI</p>
-                      <p className="text-xs text-gray-500">Simulate UPI/Gateway</p>
+                      <p className="font-medium text-[18px] text-gray-900">Razorpay / UPI</p>
+                      <p className="text-sm text-gray-500">Simulate UPI/Gateway</p>
                     </div>
                   </label>
 
                   <label className={`flex flex-col p-4 border rounded cursor-pointer gap-2 ${paymentMethod === "Card" ? "border-[#07512E] bg-green-50/20" : "border-gray-200"}`}>
                     <input type="radio" checked={paymentMethod === "Card"} onChange={() => setPaymentMethod("Card")} className="accent-[#07512E] self-start" />
                     <div>
-                      <p className="font-bold text-gray-900">Credit / Debit Card</p>
-                      <p className="text-xs text-gray-500">Simulate Visa/Mastercard</p>
+                      <p className="font-medium text-[18px] text-gray-900">Credit / Debit Card</p>
+                      <p className="text-sm text-gray-500">Simulate Visa/Mastercard</p>
                     </div>
                   </label>
                   
                   <label className={`flex flex-col p-4 border rounded cursor-pointer gap-2 ${paymentMethod === "COD" ? "border-[#07512E] bg-green-50/20" : "border-gray-200"}`}>
                     <input type="radio" checked={paymentMethod === "COD"} onChange={() => setPaymentMethod("COD")} className="accent-[#07512E] self-start" />
                     <div>
-                      <p className="font-bold text-gray-900">Cash on Delivery</p>
-                      <p className="text-xs text-gray-500">Pay on parcel arrival</p>
+                      <p className="font-medium text-[18px] text-gray-900">Cash on Delivery</p>
+                      <p className="text-sm text-gray-500">Pay on parcel arrival</p>
                     </div>
                   </label>
                 </div>
@@ -505,7 +505,7 @@ export default function CheckoutClient() {
                   disabled={loading}
                   className="bg-[#07512E] text-white px-8 py-3 rounded font-sans font-semibold text-sm hover:bg-[#054024] cursor-pointer flex items-center justify-center"
                 >
-                  {loading ? "PROCESSING ORDER..." : "Place order & Checkout"}
+                  {loading ? "Processing Order..." : "Place order & Checkout"}
                 </button>
               </div>
             </div>

@@ -38,9 +38,10 @@ export default function ContactInfo() {
           <div className="absolute inset-4 border border-[#FFDE59]/25 rounded-xl translate-x-4 -translate-y-4 hidden sm:block pointer-events-none z-0" />
           
           {/* Showroom Image */}
-          <div className="relative w-11/12 aspect-[3/4] rounded-xl overflow-hidden shadow-2xl border border-gray-100 z-10 hover:scale-[1.01] transition-transform duration-500">
+          <div className="relative w-12/12 aspect-[3/4] rounded-xl overflow-hidden shadow-2xl border border-gray-100 z-10 hover:scale-[1.01] transition-transform duration-500">
             <img 
-              src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=600&auto=format&fit=crop" 
+            src="./talkimg.png"
+              // src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=600&auto=format&fit=crop" 
               alt="Boutique Private Suite" 
               className="w-full h-full object-cover"
             />
@@ -97,7 +98,7 @@ export default function ContactInfo() {
           <div className="flex gap-4 items-start w-full bg-[#FAF9F6] border border-gray-150/80 p-6 rounded-lg mt-2">
             <FiClock className="text-amber-600 w-6 h-6 shrink-0 mt-0.5" />
             <div className="flex flex-col">
-              <span className="text-[18px] font-semibold text-[#07512E] uppercase tracking-wider">Atelier Hours</span>
+              <span className="text-[20px] font-semibold text-[#07512E]  tracking-wider">Atelier Hours</span>
               <span className="text-[18px] text-gray-600 font-light mt-1">Mon - Sat: 11:00 AM - 7:30 PM</span>
               <span className="text-[12px] text-gray-400 font-light italic mt-1">Sundays Closed</span>
             </div>
@@ -109,7 +110,7 @@ export default function ContactInfo() {
 
           <a 
             href="#contact-form-section"
-            className="flex items-center gap-2 text-[14px] font-serif font-semibold text-[#07512E] hover:text-amber-600 transition-colors uppercase group mt-2"
+            className="flex items-center gap-2 text-[14px] font-serif font-semibold text-[#07512E] hover:text-amber-600 transition-colors  group mt-2"
           >
             <span>Book Private Consultation Suite</span>
             <FiChevronRight className="w-4 h-4 translate-x-0 group-hover:translate-x-1 transition-transform" />

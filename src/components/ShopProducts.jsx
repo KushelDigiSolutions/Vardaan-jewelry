@@ -56,6 +56,7 @@ export default function ShopProducts() {
   const [priceFilter, setPriceFilter] = useState("all"); // 'all' | 'under-2k' | 'over-2k'
   const [sortOrder, setSortOrder] = useState("newest"); // 'newest' | 'price_asc' | 'price_desc'
   const [isActive, setIsActive] = useState(false);
+  const [filterShow, setFilterShow] = useState("");
 
   // UI states
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
@@ -202,7 +203,7 @@ export default function ShopProducts() {
 
     setTimeout(() => {
       setCartState((prev) => ({ ...prev, [id]: false }));
-    }, 2000);
+    }, 3000);
   };
 
   useEffect(() => {
@@ -227,7 +228,7 @@ export default function ShopProducts() {
     setCurrentPage(1);
   };
 
-  console.log("IS ACTIVE : " , isActive)
+  // console.log("IS ACTIVE : " , isActive)
 
   return (
     <section className="py-8 bg-[#FFFDF9] ">
@@ -245,6 +246,13 @@ export default function ShopProducts() {
               onChange={(e) => setSearchInput(e.target.value)}
               className="flex-grow px-4 py-2.5  text-[16px] text-gray-800 focus:outline-none placeholder-gray-400 bg-transparent font-sans"
             />
+            {searchInput.length >= 1 && (
+              <FiX
+                className="w-4 h-4  cursor-pointer me-4"
+                onClick={() => setSearchInput("")}
+              />
+            )}
+
             <button
               type="submit"
               className="bg-[#07512E] hover:bg-[#054024] text-white px-5 py-3.5 transition-colors cursor-pointer flex items-center justify-center"
@@ -264,23 +272,25 @@ export default function ShopProducts() {
               <FiSliders className="w-4 h-4" />
               <span>Filters</span>
             </button>
-            {isActive && 
-            <button
-              onClick={() => {
-                setSelectedCategory("all");
-                setPriceFilter("all");
-                setSearch("");
-                setSearchInput("");
-                setCurrentPage(1);
-                setIsActive(false)
-              }}
-              className={` border border-white rounded px-4 py-2 hover:bg-white/10 transition-colors flex items-center gap-2 text-sm sm:text-[17px] font-sans tracking-wider font-medium cursor-pointer ${isActive ? "" : "disabled: opacity-50 disabled:pointer-events-none"} `}
-            >
-              {/* <FiSliders className="w-4 h-4" /> */}
-              <span>Clear All</span>
-            </button>
-            }
-            
+            {isActive && (
+              <button
+                onClick={() => {
+                  setSelectedCategory("all");
+                  setPriceFilter("all");
+                  setSearch("");
+                  setSearchInput("");
+                  setCurrentPage(1);
+                  setIsActive(false);
+                }}
+                className={` border border-white rounded px-4 py-2 hover:bg-white/10 transition-colors flex items-center gap-2 text-sm sm:text-[17px] font-sans tracking-wider font-medium cursor-pointer ${isActive ? "" : "disabled: opacity-50 disabled:pointer-events-none"} `}
+              >
+                {/* <FiSliders className="w-4 h-4" /> */}
+                <span>{filterShow}</span>{" "}
+                <span>
+                  <FiX className="w-5 h-5" />{" "}
+                </span>
+              </button>
+            )}
           </div>
 
           <div className="flex items-center gap-4">
@@ -420,7 +430,8 @@ export default function ShopProducts() {
                     >
                       {cartState[product._id] ? (
                         <span className="flex items-center justify-center gap-1.5">
-                          <FiCheck className="stroke-[3]" /> Added to Cart
+                          {/* <FiCheck className="stroke-[3]" />  */}
+                          Adding to Cart
                         </span>
                       ) : (
                         "Add to Cart"
@@ -447,7 +458,6 @@ export default function ShopProducts() {
                 setSearch("");
                 setSearchInput("");
                 setCurrentPage(1);
-
               }}
               className="mt-6 bg-[#07512E] text-white px-6 py-2.5 text-sm uppercase tracking-wider font-serif hover:bg-[#04361E] transition-colors cursor-pointer"
             >
@@ -526,37 +536,38 @@ export default function ShopProducts() {
                   >
                     All Items
                   </button>
-                 {categories
-  .filter((cat) => !cat.parentCategory)
-  .map((cat) => {
-    const children = categories.filter(
-      (item) => item.parentCategory?._id === cat._id
-    );
+                  {categories
+                    .filter((cat) => !cat.parentCategory)
+                    .map((cat) => {
+                      const children = categories.filter(
+                        (item) => item.parentCategory?._id === cat._id,
+                      );
 
-    const hasChildren = children.length > 0;
+                      const hasChildren = children.length > 0;
 
-    return (
-      <div key={cat._id}>
-        {hasChildren ? (
-          <details>
-            <summary
-              className={`cursor-pointer py-2 px-3 ${
-                selectedCategory === cat._id
-                  ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]"
-                  : "text-gray-600 hover:text-[#07512E]"
-              }`}
-              onClick={() => {
-                setSelectedCategory(cat._id);
-                setCurrentPage(1);
-                setIsActive(true);
-              }}
-            >
-              {cat.name}
-            </summary>
+                      return (
+                        <div key={cat._id}>
+                          {hasChildren ? (
+                            <details>
+                              <summary
+                                className={`cursor-pointer py-2 px-3 ${
+                                  selectedCategory === cat._id
+                                    ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]"
+                                    : "text-gray-600 hover:text-[#07512E]"
+                                }`}
+                                onClick={() => {
+                                  setSelectedCategory(cat._id);
+                                  setFilterShow(cat.name);
+                                  setCurrentPage(1);
+                                  setIsActive(true);
+                                }}
+                              >
+                                {cat.name}
+                              </summary>
 
-            <div className="ml-4">
-              {/* Parent Category */}
-              {/* <button
+                              <div className="ml-4">
+                                {/* Parent Category */}
+                                {/* <button
                 onClick={() => {
                   setSelectedCategory(cat._id);
                   setCurrentPage(1);
@@ -571,45 +582,47 @@ export default function ShopProducts() {
                 All {cat.name}
               </button> */}
 
-              {/* Child Categories */}
-              {children.map((child) => (
-                <button
-                  key={child._id}
-                  onClick={() => {
-                    setSelectedCategory(child._id);
-                    setCurrentPage(1);
-                    setIsActive(true);
-                  }}
-                  className={`block w-full text-left py-2 px-3 cursor-pointer ${
-                    selectedCategory === child._id
-                      ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]"
-                      : "text-gray-600 hover:text-[#07512E]"
-                  }`}
-                >
-                  {child.name}
-                </button>
-              ))}
-            </div>
-          </details>
-        ) : (
-          <button
-            onClick={() => {
-              setSelectedCategory(cat._id);
-              setCurrentPage(1);
-              setIsActive(true);
-            }}
-            className={`block w-full text-left py-2 px-3 cursor-pointer ${
-              selectedCategory === cat._id
-                ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]"
-                : "text-gray-600 hover:text-[#07512E]"
-            }`}
-          >
-            {cat.name}
-          </button>
-        )}
-      </div>
-    );
-  })}
+                                {/* Child Categories */}
+                                {children.map((child) => (
+                                  <button
+                                    key={child._id}
+                                    onClick={() => {
+                                      setSelectedCategory(child._id);
+                                      setCurrentPage(1);
+                                      setFilterShow(child.name);
+                                      setIsActive(true);
+                                    }}
+                                    className={`block w-full text-left py-2 px-3 cursor-pointer ${
+                                      selectedCategory === child._id
+                                        ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]"
+                                        : "text-gray-600 hover:text-[#07512E]"
+                                    }`}
+                                  >
+                                    {child.name}
+                                  </button>
+                                ))}
+                              </div>
+                            </details>
+                          ) : (
+                            <button
+                              onClick={() => {
+                                setSelectedCategory(cat._id);
+                                setCurrentPage(1);
+                                setFilterShow(cat.name);
+                                setIsActive(true);
+                              }}
+                              className={`block w-full text-left py-2 px-3 cursor-pointer ${
+                                selectedCategory === cat._id
+                                  ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]"
+                                  : "text-gray-600 hover:text-[#07512E]"
+                              }`}
+                            >
+                              {cat.name}
+                            </button>
+                          )}
+                        </div>
+                      );
+                    })}
                   {/* {categories.map((cat) => (
                     
                     <button
@@ -643,6 +656,7 @@ export default function ShopProducts() {
                       onClick={() => {
                         setPriceFilter(range.id);
                         setCurrentPage(1);
+                        setFilterShow(range.label);
                         setIsActive(true);
                       }}
                       className={`text-left text-sm py-1.5 px-3 transition-colors cursor-pointer ${priceFilter === range.id ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]" : "text-gray-600 hover:text-[#07512E]"}`}

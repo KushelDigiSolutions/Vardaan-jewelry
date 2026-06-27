@@ -3,7 +3,9 @@ import "./globals.css";
 import { AuthProvider } from "../context/AuthContext";
 import { CartProvider } from "../context/CartContext";
 import { ToastProvider } from "../context/ToastContext";
+// import { LoaderProvider } from "../context/LoaderContext";
 import CartDrawer from "../components/CartDrawer";
+import LoaderProvider from "@/context/LoaderContext";
 
 export const metadata = {
   title: "Vardaan - More than a Jewel, a Blessing",
@@ -18,16 +20,20 @@ export default function RootLayout({ children }) {
       className="h-full antialiased"
     >
       <body className="min-h-full flex flex-col font-sans bg-[#111111] text-gray-900 overflow-x-hidden">
+        
         <AuthProvider>
           <ToastProvider>
+            <LoaderProvider>
             <CartProvider>
               <div className="w-full max-w-[1720px] mx-auto min-h-screen flex flex-col bg-[#FCFCF9] relative shadow-2xl overflow-x-hidden">
                 {children}
                 <CartDrawer />
               </div>
             </CartProvider>
+            </LoaderProvider>
           </ToastProvider>
         </AuthProvider>
+       
       </body>
     </html>
 
