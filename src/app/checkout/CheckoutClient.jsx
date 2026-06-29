@@ -10,6 +10,21 @@ import { FiCheck, FiMapPin, FiPlus, FiChevronLeft, FiCreditCard } from "react-ic
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
+const loadRazorpayScript = () => {
+  return new Promise((resolve) => {
+    if (typeof window !== "undefined" && window.Razorpay) {
+      resolve(true);
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+};
+
 export default function CheckoutClient() {
   const router = useRouter();
   const { cartItems, clearCart } = useCart();
@@ -27,7 +42,8 @@ export default function CheckoutClient() {
     city: "",
     state: "",
     zipCode: "",
-    country: "India"
+    country: "India",
+    mobile: ""
   });
 
   // Shipping & Coupon states
@@ -170,7 +186,8 @@ export default function CheckoutClient() {
             city: addressDetails.city,
             state: addressDetails.state,
             zipCode: addressDetails.zipCode,
-            country: addressDetails.country
+            country: addressDetails.country,
+            mobile: addressDetails.mobile || user?.mobile || ""
           },
           shippingMethod,
           paymentMethod,
@@ -192,9 +209,9 @@ export default function CheckoutClient() {
         setStep(4);
         clearCart();
       } else {
-        // Run Simulated Gateway Screen
+        // Run Razorpay Gateway flow
         setStep(3);
-        startMockGatewayCountdown(order._id);
+        handleRazorpayPayment(order);
       }
     } catch (err) {
       setErrorMsg(err.message || "Failed to place order");
@@ -203,45 +220,94 @@ export default function CheckoutClient() {
     }
   };
 
-  // Mock Gateway Countdown & Verify
-  const startMockGatewayCountdown = (orderId) => {
-    let count = 3;
-    setMockGatewayTimer(count);
-    const interval = setInterval(async () => {
-      count -= 1;
-      setMockGatewayTimer(count);
-      if (count <= 0) {
-        clearInterval(interval);
-        // Call Payment Verify API
-        try {
-          const res = await fetch(`${API_URL}/payments/verify`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`
-            },
-            body: JSON.stringify({
-              orderId,
-              gatewayTransactionId: `txn_mock_${Math.random().toString(36).substring(2, 9).toUpperCase()}`,
-              status: "success"
-            })
-          });
-          const json = await res.json();
-          if (res.ok) {
-            setOrderData(json.data); // Update with verified order + AWB
+  // Handle real Razorpay payment
+  const handleRazorpayPayment = async (order) => {
+    try {
+      setErrorMsg("");
+      const isScriptLoaded = await loadRazorpayScript();
+      if (!isScriptLoaded) {
+        throw new Error("Failed to load Razorpay payment gateway script. Please check your internet connection.");
+      }
+
+      const initiateRes = await fetch(`${API_URL}/payments/initiate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ orderId: order._id })
+      });
+
+      const initiateJson = await initiateRes.json();
+      if (!initiateRes.ok) {
+        throw new Error(initiateJson.message || "Failed to initiate payment session");
+      }
+
+      const session = initiateJson.data;
+
+      const options = {
+        key: session.key,
+        amount: Math.round(session.amount * 100),
+        currency: session.currency,
+        name: "Vardaan Store",
+        description: `Order #${order._id.substring(18)} Checkout`,
+        image: "/icon.png",
+        order_id: session.gatewayOrderId,
+        handler: async function (response) {
+          setLoading(true);
+          try {
+            const verifyRes = await fetch(`${API_URL}/payments/verify`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+              },
+              body: JSON.stringify({
+                orderId: order._id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature
+              })
+            });
+
+            const verifyJson = await verifyRes.json();
+            if (!verifyRes.ok) {
+              throw new Error(verifyJson.message || "Payment verification failed");
+            }
+
+            setOrderData(verifyJson.data);
             setStep(4);
             clearCart();
-          } else {
-            setErrorMsg("Simulated payment verification failed.");
+          } catch (verifyErr) {
+            setErrorMsg(verifyErr.message || "Payment verification failed.");
+            setStep(2);
+          } finally {
+            setLoading(false);
+          }
+        },
+        prefill: {
+          name: user?.name || "",
+          email: user?.email || "",
+          contact: order.shippingAddress?.mobile || user?.mobile || ""
+        },
+        theme: {
+          color: "#07512E"
+        },
+        modal: {
+          ondismiss: function () {
+            setErrorMsg("Payment process was cancelled by user.");
             setStep(2);
           }
-        } catch (e) {
-          console.error(e);
-          setErrorMsg("Failed to verify transaction.");
-          setStep(2);
         }
-      }
-    }, 1000);
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      console.error(err);
+      setErrorMsg(err.message || "Failed to launch Razorpay payment gateway.");
+      setStep(2);
+    }
   };
 
   if (authLoading) {
@@ -311,9 +377,9 @@ export default function CheckoutClient() {
             <span className="text-gray-300">→</span>
             <span className={`text-[18px] ${step === 2 ? "text-[#07512E]  font-semibold" : step > 2 ? "text-gray-900" : ""}`}>2. Payment & Promos</span>
             <span className="text-gray-300">→</span>
-            <span className={`text-[18px] ${step === 3 ? "text-[#07512E] font-semibold" : ""}`}>3. Payment Capture</span>
+            <span className={`text-[18px] ${step === 3 ? "text-[#07512E] font-semibold" : step > 3 ? "text-gray-900" : ""}`}>3. Payment Capture</span>
             <span className="text-gray-300">→</span>
-            <span className={`text-[18px] ${step === 4 ? "text-green-700 font-semibold" : ""}`}>4. Confirmation</span>
+            <span className={`text-[18px] ${step === 4 ? "text-[#07512E] font-semibold" : ""}`}>4. Confirmation</span>
           </div>
 
           {/* STEP 1: Address Selection */}
@@ -393,6 +459,11 @@ export default function CheckoutClient() {
                   </div>
 
                   <div>
+                    <label className="block text-gray-600 font-medium mb-1.5">Contact Phone Number</label>
+                    <input type="text" name="mobile" required value={newAddr.mobile} onChange={handleAddrChange} className="w-full p-2.5 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E]" placeholder="10-digit mobile number" />
+                  </div>
+
+                  <div>
                     <label className="block text-gray-600 font-medium mb-1.5">Street Address</label>
                     <input type="text" name="street" required value={newAddr.street} onChange={handleAddrChange} className="w-full p-2.5 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E]" placeholder="Flat / House No, Street name" />
                   </div>
@@ -469,18 +540,18 @@ export default function CheckoutClient() {
                   <label className={`flex flex-col p-4 border rounded cursor-pointer gap-2 ${paymentMethod === "Razorpay" ? "border-[#07512E] bg-green-50/20" : "border-gray-200"}`}>
                     <input type="radio" checked={paymentMethod === "Razorpay"} onChange={() => setPaymentMethod("Razorpay")} className="accent-[#07512E] self-start" />
                     <div>
-                      <p className="font-medium text-[18px] text-gray-900">Razorpay / UPI</p>
-                      <p className="text-sm text-gray-500">Simulate UPI/Gateway</p>
+                      <p className="font-medium text-[18px] text-gray-900">Online</p>
+                      <p className="text-sm text-gray-500">UPI/Gateway</p>
                     </div>
                   </label>
 
-                  <label className={`flex flex-col p-4 border rounded cursor-pointer gap-2 ${paymentMethod === "Card" ? "border-[#07512E] bg-green-50/20" : "border-gray-200"}`}>
+                  {/* <label className={`flex flex-col p-4 border rounded cursor-pointer gap-2 ${paymentMethod === "Card" ? "border-[#07512E] bg-green-50/20" : "border-gray-200"}`}>
                     <input type="radio" checked={paymentMethod === "Card"} onChange={() => setPaymentMethod("Card")} className="accent-[#07512E] self-start" />
                     <div>
                       <p className="font-medium text-[18px] text-gray-900">Credit / Debit Card</p>
                       <p className="text-sm text-gray-500">Simulate Visa/Mastercard</p>
                     </div>
-                  </label>
+                  </label> */}
                   
                   <label className={`flex flex-col p-4 border rounded cursor-pointer gap-2 ${paymentMethod === "COD" ? "border-[#07512E] bg-green-50/20" : "border-gray-200"}`}>
                     <input type="radio" checked={paymentMethod === "COD"} onChange={() => setPaymentMethod("COD")} className="accent-[#07512E] self-start" />
@@ -511,16 +582,16 @@ export default function CheckoutClient() {
             </div>
           )}
 
-          {/* STEP 3: Simulated Gateway Spinner */}
+          {/* STEP 3: Razorpay Payment Gateway */}
           {step === 3 && (
             <div className="text-center py-16 animate-fade-in font-sans">
               <div className="w-16 h-16 rounded-full border-4 border-gray-200 border-t-[#07512E] animate-spin mx-auto mb-6"></div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Simulated Secure Gateway</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Secure Payment Gateway</h3>
               <p className="text-sm text-gray-500 max-w-sm mx-auto leading-relaxed">
-                Contacting payment channel... Verifying and capturing credentials. Please do not close or reload this page.
+                Please complete the payment in the secure Razorpay checkout modal. Do not close or refresh this page.
               </p>
               <div className="mt-8 text-[#07512E] text-lg font-bold flex items-center justify-center gap-2">
-                <FiCreditCard /> Verifying in {mockPaymentLoading || mockGatewayTimer} seconds...
+                <FiCreditCard /> Awaiting payment capture...
               </div>
             </div>
           )}
@@ -557,10 +628,10 @@ export default function CheckoutClient() {
                   CONTINUE SHOPPING
                 </Link>
                 <Link
-                  href="/profile?tab=orders"
+                  href="/profile"
                   className="border border-[#07512E] text-[#07512E] px-6 py-2.5 rounded font-semibold text-sm hover:bg-green-50/10"
                 >
-                  VIEW ORDER HISTORY
+                  VIEW ACCOUNT HISTORY
                 </Link>
               </div>
             </div>
