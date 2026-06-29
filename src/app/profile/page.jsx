@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
@@ -35,7 +35,12 @@ const getImageUrl = (imagePath) => {
   return `http://localhost:5000${imagePath}`;
 };
 
-export default function ProfilePage() {
+const toTitleCase = (str) => {
+  if (!str) return "";
+  return str.toLowerCase().split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+};
+
+function ProfileContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const {
@@ -125,7 +130,9 @@ export default function ProfilePage() {
 
   // Status alerts
   const [loading, setLoading] = useState(false);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [msg, setMsg] = useState({ type: "", text: "" });
+  const [showAvatarConfirmPopup, setShowAvatarConfirmPopup] = useState(false);
 
   // Cancellation and Review Handlers
   const handleCancelOrder = async (orderId) => {
@@ -204,7 +211,7 @@ export default function ProfilePage() {
   // Load User Details
   useEffect(() => {
     if (user) {
-      setName(user.name || "");
+      setName(toTitleCase(user.name || ""));
       setMobile(user.mobile || "");
     }
   }, [user]);
@@ -391,26 +398,28 @@ export default function ProfilePage() {
     formData.append("avatar", file);
 
     setLoading(true);
+    setUploadingAvatar(true);
     setMsg({ type: "", text: "" });
 
     try {
       await uploadAvatar(formData);
-      setMsg({ type: "success", text: "Your profile photo has been updated successfully!" });
+      toast.success("Your profile photo has been updated successfully!");
     } catch (err) {
       setMsg({ type: "error", text: err.message || "Could not update profile photo. Please try again." });
     } finally {
       setLoading(false);
+      setUploadingAvatar(false);
     }
   };
 
   // Remove Avatar Profile Image
   const handleRemoveAvatar = async () => {
-    if (!confirm("Are you sure you want to remove your profile photo?")) return;
+    setShowAvatarConfirmPopup(false);
     setLoading(true);
     setMsg({ type: "", text: "" });
     try {
       await removeAvatar();
-      setMsg({ type: "success", text: "Your profile photo has been removed successfully." });
+      toast.success("Your profile photo has been removed successfully.");
     } catch (err) {
       setMsg({ type: "error", text: err.message || "Could not remove profile photo. Please try again." });
     } finally {
@@ -805,33 +814,49 @@ export default function ProfilePage() {
                     )}
 
                     {/* Upload Overlay */}
-                    <label className="absolute inset-0 bg-black/60 opacity-0 hover:opacity-100 flex items-center justify-center text-white cursor-pointer transition-opacity">
-                      <FiCamera className="w-5 h-5" />
-                      <input
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={handleAvatarFileChange}
-                        disabled={loading}
-                      />
-                    </label>
+                    {isEditingProfile && (
+                      <label className="absolute inset-0 bg-black/60 opacity-0 hover:opacity-100 flex items-center justify-center text-white cursor-pointer transition-opacity">
+                        <FiCamera className="w-5 h-5" />
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={handleAvatarFileChange}
+                          disabled={loading}
+                        />
+                      </label>
+                    )}
                   </div>
 
                   <div className="text-center sm:text-left">
                     <h3 className="text-xl font-bold text-gray-900">
-                      {user.name}
+                      {toTitleCase(user.name)}
                     </h3>
                     <p className="text-[18px] text-gray-500 ">
                       {user.email}
                     </p>
-                    <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
-                      {user.avatar && (
+                    <div className="flex flex-wrap gap-3 items-center justify-center sm:justify-start mt-3">
+                      {isEditingProfile && (
+                        <label className="flex items-center gap-2 bg-[#07512E] hover:bg-[#054024] text-white px-4 py-2 rounded font-sans text-sm font-semibold cursor-pointer transition-colors shadow-sm">
+                          <FiCamera className="w-4 h-4" />
+                          <span>{user.avatar ? "Change Profile Photo" : "Upload Profile Photo"}</span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={handleAvatarFileChange}
+                            disabled={loading}
+                          />
+                        </label>
+                      )}
+                      {isEditingProfile && user.avatar && (
                         <button
-                          onClick={handleRemoveAvatar}
+                          type="button"
+                          onClick={() => setShowAvatarConfirmPopup(true)}
                           disabled={loading}
-                          className="bg-transparent border-none text-red-500 hover:underline text-[18px] font-normal cursor-pointer"
+                          className="bg-transparent border border-red-200 text-red-600 hover:bg-red-50 px-4 py-2 rounded font-sans text-sm font-semibold cursor-pointer transition-colors"
                         >
-                          Remove Profile Photo
+                          Remove Photo
                         </button>
                       )}
                     </div>
@@ -859,7 +884,7 @@ export default function ProfilePage() {
                           Full Name -
                         </p>
                         <p className="text-gray-500 font-[500] text-[18px] mt-0.5">
-                          {user.name}
+                          {toTitleCase(user.name)}
                         </p>
                       </div>
                       <div className="flex gap-0 flex-col  md: flex-col xl:flex-row    xl:gap-4">
@@ -906,7 +931,7 @@ export default function ProfilePage() {
                           type="text"
                           required
                           value={name}
-                          onChange={(e) => setName(e.target.value)}
+                          onChange={(e) => setName(toTitleCase(e.target.value))}
                           className="w-full p-2.5 bg-white border border-gray-200 rounded outline-none focus:border-[#07512E]"
                           disabled={loading}
                         />
@@ -939,7 +964,7 @@ export default function ProfilePage() {
                           disabled={loading}
                           className="bg-[#07512E] text-white px-6 py-2.5 font-semibold rounded hover:bg-[#054024] cursor-pointer"
                         >
-                          {loading ? "SAVING..." : "SAVE PROFILE"}
+                          {uploadingAvatar ? "UPLOADING..." : loading ? "SAVING..." : "SAVE PROFILE"}
                         </button>
                       </div>
                     </div>
@@ -2463,7 +2488,64 @@ export default function ProfilePage() {
         </div>
       )}
 
+      {/* Profile Photo Remove Confirmation Modal Popup */}
+      {showAvatarConfirmPopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs font-sans animate-fade-in">
+          <div className="w-full max-w-md bg-white rounded-lg shadow-2xl overflow-hidden border border-[#F0ECE3] flex flex-col text-left">
+            <div className="bg-red-50 text-red-800 p-4 flex justify-between items-center border-b border-red-100">
+              <h3 className="text-base font-serif font-bold tracking-wide">
+                Confirm Removal
+              </h3>
+              <button
+                type="button"
+                onClick={() => setShowAvatarConfirmPopup(false)}
+                className="text-red-600 hover:text-red-800 p-1 cursor-pointer bg-transparent border-none"
+              >
+                <FiX className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-6 space-y-3">
+              <p className="text-[18px] text-gray-800 font-medium">
+                Are you sure you want to remove your profile photo?
+              </p>
+            </div>
+            <div className="bg-gray-50 p-4 border-t border-gray-100 flex justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setShowAvatarConfirmPopup(false)}
+                className="border border-gray-300 hover:bg-gray-100 text-gray-700 font-semibold px-5 py-2 rounded text-xs transition-colors cursor-pointer bg-white"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleRemoveAvatar}
+                disabled={loading}
+                className="bg-red-600 hover:bg-red-700 text-white font-semibold px-5 py-2 rounded text-xs transition-colors cursor-pointer border-none"
+              >
+                {loading ? "REMOVING..." : "Remove Photo"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Footer />
     </main>
+  );
+}
+
+export default function ProfilePage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="w-full text-center py-20 bg-[#FCFCF9] font-sans">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#07512E] mx-auto mb-4"></div>
+          <p className="text-gray-500">Loading profile data...</p>
+        </div>
+      }
+    >
+      <ProfileContent />
+    </Suspense>
   );
 }
