@@ -25,17 +25,15 @@ export default function AboutHero() {
           </div>
 
           <h1 className="text-[40px] md:text-[64px] font-serif font-light leading-tight uppercase">
-            Spirit in Gold,
+           More Than a Jewel,
             <br />
             <span className="text-[#FFDE59]">
-              Blessings in Art
+              A Blessing
             </span>
           </h1>
 
           <p className="mt-6 text-[18px] text-gray-200 leading-relaxed max-w-lg">
-            Vardaan stands at the intersection of cultural legacy and fine
-            jewelry design. Every gemstone is selected for its purity; every
-            curve is hand-crafted to celebrate your sacred path.
+           <span className="font-bold">Established in 2025</span>, Vardaan Jewels was founded with a vision to create jewellery that combines timeless elegance with everyday comfort.
           </p>
 
           <div className="mt-8 pt-6 border-t border-white/20 max-w-sm">

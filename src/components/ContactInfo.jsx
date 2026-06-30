@@ -8,15 +8,15 @@ export default function ContactInfo() {
     {
       icon: FiPhoneCall,
       title: "Concierge Helpline",
-      value: "+91 98187 19997",
-      href: "tel:+919818719997",
+      value: "+91 9217042525",
+      href: "tel:+919217042525",
       desc: "Connect instantly with our design curators."
     },
     {
       icon: FiMail,
       title: "Write to Atelier",
-      value: "info@vardaanjewelry.com",
-      href: "mailto:info@vardaanjewelry.com",
+      value: "vardaan.1225@gmail.com",
+      href: "mailto:vardaan.1225@gmail.com",
       desc: "Send sketches or Rolled Gold custom queries."
     },
     {

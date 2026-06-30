@@ -35,22 +35,22 @@ export default function ContactHero() {
         <div className="flex items-center gap-2.5">
           <span className="w-8 h-[1px] bg-[#FFDE59]" />
           <span className="text-[18px] font-semibold tracking-widest text-[#FFDE59] uppercase">
-            Atelier Concierge Desk
+            Vardaan Jewels
           </span>
           <span className="w-8 h-[1px] bg-[#FFDE59]" />
         </div>
         
         <h1 className="text-[32px] sm:text-[40px] md:text-[64px] font-serif font-light text-white leading-[1.1] tracking-wide uppercase">
-          A Covenant of <br />
-          <span className="text-[#FFDE59] font-normal tracking-[0.05em] relative">
+          Let's Connect<br />
+          {/* <span className="text-[#FFDE59] font-normal tracking-[0.05em] relative">
             Personal Service
-          </span>
+          </span> */}
         </h1>
         
         <div className="w-12 h-[2px] bg-[#FFDE59]/30 my-2" />
         
         <p className="text-[18px] text-gray-300 font-light max-w-lg leading-relaxed tracking-wide mt-2 text-center mx-auto">
-          Our design curators are available to guide you through bespoke Rolled Gold selections, premium gold jewelry inquiries, or private suite reservations.
+         Whether you're shopping for yourself, celebrating a special occasion, or searching for the perfect gift, we're here to help.
         </p>
       </div>
 
