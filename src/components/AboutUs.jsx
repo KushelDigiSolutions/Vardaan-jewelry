@@ -23,13 +23,33 @@ export default function AboutUs() {
           </h2>
           <div className="w-16 h-[2px] bg-[#FFDE59] mt-1 mb-2" />
           
-          <p className="text-[18px] text-gray-600 font-light leading-relaxed tracking-wide">
-            At Vardaan, we believe that fine jewelry is far more than an ornament. It is an extension of your spirit, a symbol of your journey, and above all, a sacred blessing. Inspired by the intricate symmetry of natural flora, our master artisans bring years of meticulous heritage craftsmanship to every single cut.
-          </p>
+          <div className="space-y-4">
+            {/* <p className="text-[18px] text-gray-600 font-light leading-relaxed tracking-wide">
+              <span className="font-semibold text-[#07512E]">Established in 2025</span>, Vardaan Jewels was founded with a vision to create jewellery that combines timeless elegance with everyday comfort.
+            </p> */}
+
+            <p className="text-[18px] text-gray-600 font-light leading-relaxed tracking-wide">
+              We specialize in <span className="font-semibold text-[#07512E]">Premium Anti-Tarnish Jewellery</span> designed for modern lifestyles—pieces that are stylish, durable, and perfect for daily wear, work, travel, and special occasions.
+            </p>
+
+            <p className="text-[18px] text-gray-600 font-light leading-relaxed tracking-wide">
+              For those who cherish tradition, our <span className="font-semibold text-[#07512E]">Ethnic Heritage Collection</span> showcases beautifully crafted designs inspired by India&apos;s rich cultural heritage, making every celebration even more memorable.
+            </p>
+
+            <p className="text-[18px] text-gray-600 font-light leading-relaxed tracking-wide">
+              Looking for the perfect gift? <span className="font-semibold text-[#07512E]">Vardaan Gifting</span> offers thoughtfully curated jewellery for birthdays, anniversaries, weddings, festivals, corporate gifting, and every meaningful moment.
+            </p>
+
+            <p className="text-[18px] text-gray-600 font-light leading-relaxed tracking-wide">
+              At Vardaan, every creation is thoughtfully curated with premium craftsmanship, elegant designs, and exceptional quality.
+            </p>
+
+            <p className="text-[18px] italic text-[#07512E] font-medium leading-relaxed tracking-wide">
+              Because every piece is more than a jewel—it&apos;s a blessing.
+            </p>
+          </div>
+
           
-          <p className="text-[18px] text-gray-600 font-light leading-relaxed tracking-wide">
-            From the initial sketch in our atelier to the final hand-polished gold setting, each diamond, emerald, and sapphire is ethically sourced and hand-selected. We don't just create jewelry; we curate memories that pass down as modern family heirlooms.
-          </p>
 
           <div ref={ref} className="flex gap-4 sm:gap-8 mt-6">
             <div >
@@ -54,7 +74,7 @@ export default function AboutUs() {
           <div className="absolute inset-4 -translate-x-4 translate-y-4 border border-[#FFDE59] rounded-lg hidden sm:block pointer-events-none" />
           
           {/* Main luxury image */}
-          <div className="relative w-full aspect-[4/3] sm:aspect-video lg:aspect-[4/3] rounded-lg overflow-hidden shadow-xl border border-gray-100 z-10">
+          <div className="relative w-full aspect-[4/3] sm:aspect-video lg:aspect-[4/4] rounded-lg overflow-hidden shadow-xl border border-gray-100 z-10">
             <img 
               src="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=650&auto=format&fit=crop" 
               alt="Artisan crafting jewelry" 
