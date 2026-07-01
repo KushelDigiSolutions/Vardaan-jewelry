@@ -553,6 +553,13 @@ export default function ShopProducts() {
                       >
                         Out of Stock
                       </button>
+                    ) : cartItems && cartItems.some((item) => item.id === product._id) ? (
+                      <Link
+                        href="/cart"
+                        className="w-full border-2 border-[#07512E] bg-[#07512E] text-white hover:bg-[#054024] hover:border-[#054024] font-sans font-medium text-[18px] py-3 transition-all cursor-pointer text-center block"
+                      >
+                        View Cart
+                      </Link>
                     ) : (
                       <button
                         onClick={() => handleAddToCart(product)}
