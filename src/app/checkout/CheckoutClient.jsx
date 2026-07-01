@@ -649,7 +649,7 @@ export default function CheckoutClient() {
               {cartItems.map((item) => (
                 <div key={`${item.id}-${item.variant}`} className="flex gap-3 flex-col md:flex-row items-start">
                   <div className="w-20 h-20 bg-gray-50 rounded overflow-hidden shrink-0 border">
-                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                    <img src={item.image || "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png"} alt={item.name} className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-grow min-w-0 text-md">
                     <p className="font-semibold text-gray-900  text-[16px]">{item.name}</p>
