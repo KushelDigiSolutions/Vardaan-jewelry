@@ -303,21 +303,37 @@ export default function ProductDetails({ productId }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isInCart, cartItem?.quantity]);
 
+  // Get custom size price if selected
+  const selectedSizeObj = useMemo(() => {
+    if (!product?.sizes || !selectedSize) return null;
+    return product.sizes.find(s => s.size === selectedSize);
+  }, [product?.sizes, selectedSize]);
+
   /** Current display price */
-  const displayPrice = activeVariant
-    ? activeVariant.salePrice > 0
-      ? activeVariant.salePrice
-      : activeVariant.price
-    : (product?.salePrice > 0 ? product?.salePrice : product?.price) || 0;
+  const displayPrice = useMemo(() => {
+    if (activeVariant) {
+      return activeVariant.salePrice > 0 ? activeVariant.salePrice : activeVariant.price;
+    }
+    if (selectedSizeObj && selectedSizeObj.price !== null && selectedSizeObj.price !== undefined && selectedSizeObj.price > 0) {
+      return selectedSizeObj.price;
+    }
+    return (product?.salePrice > 0 ? product?.salePrice : product?.price) || 0;
+  }, [activeVariant, selectedSizeObj, product]);
 
-  const originalPrice = activeVariant
-    ? activeVariant.price
-    : product?.price || 0;
+  const originalPrice = useMemo(() => {
+    if (activeVariant) return activeVariant.price;
+    if (selectedSizeObj && selectedSizeObj.price !== null && selectedSizeObj.price !== undefined && selectedSizeObj.price > 0) {
+      return selectedSizeObj.price;
+    }
+    return product?.price || 0;
+  }, [activeVariant, selectedSizeObj, product]);
 
-  const hasDiscount = activeVariant
-    ? activeVariant.salePrice > 0 &&
-    activeVariant.salePrice < activeVariant.price
-    : product?.salePrice > 0 && product?.salePrice < product?.price;
+  const hasDiscount = useMemo(() => {
+    if (activeVariant) {
+      return activeVariant.salePrice > 0 && activeVariant.salePrice < activeVariant.price;
+    }
+    return product?.salePrice > 0 && product?.salePrice < product?.price;
+  }, [activeVariant, product]);
 
   // Compute average rating and count dynamically
   const { averageRating, totalRatingsCount } = useMemo(() => {
@@ -424,7 +440,8 @@ export default function ProductDetails({ productId }) {
   const handleAddToCart = () => {
     if (!product) return;
 
-    if (isRingProduct && !selectedSize) {
+    const requiresSize = (isRingProduct && !hasVariants) || (product.sizes && product.sizes.length > 0);
+    if (requiresSize && !selectedSize) {
       toast.error("Please select a size first!");
       return;
     }
@@ -446,6 +463,13 @@ export default function ProductDetails({ productId }) {
         price: activeVariant.price,
         salePrice: activeVariant.salePrice || 0,
         inventory: activeVariant.inventory,
+      };
+    } else if (selectedSizeObj) {
+      variantDetails = {
+        size: selectedSize,
+        price: displayPrice,
+        salePrice: 0,
+        inventory: product.inventory
       };
     }
 
@@ -705,12 +729,6 @@ export default function ProductDetails({ productId }) {
                     <span className="text-[14px] font-semibold font-sans text-gray-700 uppercase tracking-wide">
                       Size
                     </span>
-                    <a
-                      href="#size-guide"
-                      className="text-[#07512E] text-[13px] underline underline-offset-4 decoration-1"
-                    >
-                      Size guide
-                    </a>
                   </div>
                   <div className="flex gap-2 flex-wrap">
                     {availableSizes.map((size) => (
@@ -739,28 +757,51 @@ export default function ProductDetails({ productId }) {
             </div>
           )}
 
-          {/* ── Fallback: static size selector for ring products without variants ── */}
-          {!hasVariants && isRingProduct && (
+          {/* ── Custom Sizes Selector ── */}
+          {!hasVariants && product.sizes && product.sizes.length > 0 && (
+            <div className="mb-6">
+              <div className="flex justify-between items-center mb-3">
+                <span className="text-[15px] font-sans text-gray-700 font-semibold uppercase tracking-wide">
+                  Select Size
+                </span>
+              </div>
+              <div className="flex gap-2 flex-wrap mb-3">
+                {product.sizes.map((sObj) => (
+                  <button
+                    key={sObj.size}
+                    type="button"
+                    onClick={() => setSelectedSize(sObj.size)}
+                    className={`px-4 py-2 border flex items-center justify-center text-[15px] font-sans transition-colors cursor-pointer rounded ${selectedSize === sObj.size
+                      ? "bg-[#07512E] border-[#07512E] text-white font-medium shadow-sm"
+                      : "bg-white border-gray-300 text-gray-700 hover:border-gray-400"
+                      }`}
+                  >
+                    {sObj.size}
+                  </button>
+                ))}
+              </div>
+              <p
+                className={`text-[13px] font-sans font-semibold ${stockLabel.color}`}
+              >
+                {stockLabel.text}
+              </p>
+            </div>
+          )}
+
+          {/* ── Fallback: static size selector for ring products without variants/custom sizes ── */}
+          {!hasVariants && isRingProduct && (!product.sizes || product.sizes.length === 0) && (
             <div className="mb-6">
               <div className="flex justify-between items-center mb-3">
                 <span className="text-[15px] font-sans text-gray-700">
                   Size :
                 </span>
-
-                <a
-                  href="#size-guide"
-                  onClick={() => setIsActive(true)}
-                  className="text-[#07512E] text-[14px] underline underline-offset-4 decoration-1"
-                >
-                  Size guide
-                </a>
               </div>
               <div className="flex gap-2 flex-wrap mb-3">
-                {["50", "52", "55", "58", "60"].map((size) => (
+                {["20", "32", "45", "50", "60"].map((size) => (
                   <button
                     key={size}
                     onClick={() => setSelectedSize(size)}
-                    className={`w-11 h-11 border flex items-center justify-center text-[15px] font-sans transition-colors cursor-pointer ${selectedSize === size
+                    className={`w-11 h-11 border flex items-center justify-center text-[15px] font-sans transition-colors cursor-pointer rounded ${selectedSize === size
                       ? "bg-[#07512E] border-[#07512E] text-white"
                       : "bg-white border-gray-300 text-gray-700 hover:border-gray-400"
                       }`}

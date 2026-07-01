@@ -42,7 +42,7 @@ export function CartProvider({ children }) {
             id: item.product._id,
             productId: item.product._id,
             name: item.product.name,
-            price: item.product.salePrice || item.product.price,
+            price: (item.variantDetails?.salePrice > 0 ? item.variantDetails.salePrice : item.variantDetails?.price) || item.product.salePrice || item.product.price,
             image: item.product.images?.[0] || "",
             quantity: item.quantity,
             variant: item.variant || "50",
@@ -123,7 +123,7 @@ export function CartProvider({ children }) {
   // Add an item to the cart and open the drawer
   const addToCart = useCallback(async (product, qty = 1, size = "50", variantDetails = null) => {
     const productId = product._id || product.id || product.productId;
-    let priceVal = variantDetails?.price || product.salePrice || product.priceVal || product.price;
+    let priceVal = (variantDetails?.salePrice > 0 ? variantDetails.salePrice : variantDetails?.price) || product.salePrice || product.priceVal || product.price;
     if (typeof priceVal === "string") {
       priceVal = parseFloat(priceVal.replace(/[^0-9.]/g, "")) || 0;
     }

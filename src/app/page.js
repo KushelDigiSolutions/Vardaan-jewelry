@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import HeroSlider from "@/components/HeroSlider";
 import CosmicCreations from "@/components/CosmicCreations";
 import ShopByCategories from "@/components/ShopByCategories";
+import ShopByPrice from "@/components/ShopByPrice";
 import LatestCollection from "@/components/LatestCollection";
 import BridalCollection from "@/components/BridalCollection";
 import RoyallyCrafted from "@/components/RoyallyCrafted";
@@ -20,6 +21,7 @@ export default function Home() {
         <HeroSlider />
         <CosmicCreations />
         <ShopByCategories />
+        <ShopByPrice />
         <LatestCollection />
         <BridalCollection />
         <RoyallyCrafted />

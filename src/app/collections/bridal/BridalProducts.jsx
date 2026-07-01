@@ -444,24 +444,44 @@ export default function BridalProducts() {
                   </p>
 
                   <div className="flex flex-col gap-2">
-                    <Link
-                      href={`/product/${product._id}`}
-                      className="w-full bg-[#FFDE59] text-[#101010] hover:bg-[#e6c543] font-sans font-medium text-[18px] py-3 transition-colors cursor-pointer text-center block"
-                    >
-                      Shop Now
-                    </Link>
-                    <button
-                      onClick={() => handleAddToCart(product)}
-                      className={`w-full border-2 border-[#07512E] text-[#07512E] hover:bg-[#07512E] hover:text-white font-sans font-medium text-[18px] py-3 transition-all cursor-pointer text-center ${cartState[product._id] ? "bg-[#07512E] text-white" : "bg-transparent"}`}
-                    >
-                      {cartState[product._id] ? (
-                        <span className="flex items-center justify-center gap-1.5">
-                          <FiCheck className="stroke-[3]" /> Added to Cart
-                        </span>
-                      ) : (
-                        "Add to Cart"
-                      )}
-                    </button>
+                    {product.inventory <= 0 ? (
+                      <button
+                        onClick={() => toggleFavorite(product._id)}
+                        className="w-full bg-[#E5DCC5] text-[#303030] hover:bg-[#d9cfb4] font-sans font-medium text-[18px] py-3 transition-colors cursor-pointer text-center flex items-center justify-center gap-2"
+                      >
+                        <FiHeart className={favorites[product._id] ? "fill-red-500 text-red-500" : ""} />
+                        {favorites[product._id] ? "In Wishlist" : "Add to Wishlist"}
+                      </button>
+                    ) : (
+                      <Link
+                        href={`/product/${product._id}`}
+                        className="w-full bg-[#FFDE59] text-[#101010] hover:bg-[#e6c543] font-sans font-medium text-[18px] py-3 transition-colors cursor-pointer text-center block"
+                      >
+                        Shop Now
+                      </Link>
+                    )}
+                    {product.inventory <= 0 ? (
+                      <button
+                        disabled
+                        className="w-full border-2 border-gray-300 text-gray-400 bg-gray-50 font-sans font-medium text-[18px] py-3 cursor-not-allowed text-center"
+                      >
+                        Out of Stock
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleAddToCart(product)}
+                        className={`w-full border-2 border-[#07512E] text-[#07512E] hover:bg-[#07512E] hover:text-white font-sans font-medium text-[18px] py-3 transition-all cursor-pointer text-center ${cartState[product._id] ? "bg-[#07512E] text-white" : "bg-transparent"}`}
+                      >
+                        {cartState[product._id] ? (
+                          <span className="flex items-center justify-center gap-1.5">
+                            {/* <FiCheck className="stroke-[3]" /> */}
+                            Adding to Cart
+                          </span>
+                        ) : (
+                          "Add to Cart"
+                        )}
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

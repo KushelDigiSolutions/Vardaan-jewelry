@@ -31,8 +31,22 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 const getImageUrl = (imagePath) => {
   if (!imagePath)
     return "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png";
-  if (imagePath.startsWith("http")) return imagePath;
-  return `http://localhost:5000${imagePath}`;
+  
+  let actualPath = imagePath;
+  if (Array.isArray(imagePath)) {
+    if (imagePath.length > 0) {
+      actualPath = imagePath[0];
+    } else {
+      return "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png";
+    }
+  }
+
+  if (typeof actualPath !== "string") {
+    return "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png";
+  }
+
+  if (actualPath.startsWith("http")) return actualPath;
+  return `http://localhost:5000${actualPath}`;
 };
 
 const toTitleCase = (str) => {

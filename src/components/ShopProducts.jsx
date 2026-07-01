@@ -111,6 +111,9 @@ export default function ShopProducts() {
     fetchWishlist();
   }, [token]);
 
+  const minPriceParam = searchParams ? searchParams.get("minPrice") : null;
+  const maxPriceParam = searchParams ? searchParams.get("maxPrice") : null;
+
   // Fetch Products based on current filters
   const fetchProducts = useCallback(async () => {
     setLoading(true);
@@ -127,10 +130,16 @@ export default function ShopProducts() {
         params.append("search", search.trim());
       }
 
-      if (priceFilter === "under-2k") {
-        params.append("maxPrice", 2000);
+      if (minPriceParam) {
+        params.append("minPrice", minPriceParam);
       } else if (priceFilter === "over-2k") {
         params.append("minPrice", 2000);
+      }
+
+      if (maxPriceParam) {
+        params.append("maxPrice", maxPriceParam);
+      } else if (priceFilter === "under-2k") {
+        params.append("maxPrice", 2000);
       }
 
       if (sortOrder !== "price-range") {
@@ -149,7 +158,7 @@ export default function ShopProducts() {
     } finally {
       setLoading(false);
     }
-  }, [currentPage, selectedCategory, search, priceFilter, sortOrder]);
+  }, [currentPage, selectedCategory, search, priceFilter, sortOrder, minPriceParam, maxPriceParam]);
 
   // Trigger load when filters update
   useEffect(() => {
@@ -306,6 +315,26 @@ export default function ShopProducts() {
                 title="Clear search text"
               >
                 <span>{search}</span>
+                <span>
+                  <FiX className="w-5 h-5" />
+                </span>
+              </button>
+            )}
+            {(minPriceParam || maxPriceParam) && (
+              <button
+                onClick={() => {
+                  window.location.href = "/shop";
+                }}
+                className="border border-white rounded px-4 py-2 hover:bg-white/10 transition-colors flex items-center gap-2 text-sm sm:text-[17px] font-sans tracking-wider font-medium cursor-pointer bg-white/10"
+                title="Clear price filter"
+              >
+                <span>
+                  {minPriceParam && maxPriceParam
+                    ? `₹${minPriceParam} - ₹${maxPriceParam}`
+                    : minPriceParam
+                    ? `₹${minPriceParam} & Above`
+                    : `Under ₹${maxPriceParam}`}
+                </span>
                 <span>
                   <FiX className="w-5 h-5" />
                 </span>
@@ -501,25 +530,44 @@ export default function ShopProducts() {
                   </p>
 
                   <div className="mt-auto flex flex-col gap-2">
-                    <Link
-                      href={`/product/${product._id}`}
-                      className="w-full bg-[#FFDE59] text-[#101010] hover:bg-[#e6c543] font-sans font-medium text-[18px] py-3 transition-colors cursor-pointer text-center block"
-                    >
-                      Shop Now
-                    </Link>
-                    <button
-                      onClick={() => handleAddToCart(product)}
-                      className={`w-full border-2 border-[#07512E] text-[#07512E] hover:bg-[#07512E] hover:text-white font-sans font-medium text-[18px] py-3 transition-all cursor-pointer text-center ${cartState[product._id] ? "bg-[#07512E] text-white" : "bg-transparent"}`}
-                    >
-                      {cartState[product._id] ? (
-                        <span className="flex items-center justify-center gap-1.5">
-                          {/* <FiCheck className="stroke-[3]" />  */}
-                          Adding to Cart
-                        </span>
-                      ) : (
-                        "Add to Cart"
-                      )}
-                    </button>
+                    {product.inventory <= 0 ? (
+                      <button
+                        onClick={() => toggleFavorite(product._id)}
+                        className="w-full bg-[#E5DCC5] text-[#303030] hover:bg-[#d9cfb4] font-sans font-medium text-[18px] py-3 transition-colors cursor-pointer text-center flex items-center justify-center gap-2"
+                      >
+                        <FiHeart className={favorites[product._id] ? "fill-red-500 text-red-500" : ""} />
+                        {favorites[product._id] ? "In Wishlist" : "Add to Wishlist"}
+                      </button>
+                    ) : (
+                      <Link
+                        href={`/product/${product._id}`}
+                        className="w-full bg-[#FFDE59] text-[#101010] hover:bg-[#e6c543] font-sans font-medium text-[18px] py-3 transition-colors cursor-pointer text-center block"
+                      >
+                        Shop Now
+                      </Link>
+                    )}
+                    {product.inventory <= 0 ? (
+                      <button
+                        disabled
+                        className="w-full border-2 border-gray-300 text-gray-400 bg-gray-50 font-sans font-medium text-[18px] py-3 cursor-not-allowed text-center"
+                      >
+                        Out of Stock
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleAddToCart(product)}
+                        className={`w-full border-2 border-[#07512E] text-[#07512E] hover:bg-[#07512E] hover:text-white font-sans font-medium text-[18px] py-3 transition-all cursor-pointer text-center ${cartState[product._id] ? "bg-[#07512E] text-white" : "bg-transparent"}`}
+                      >
+                        {cartState[product._id] ? (
+                          <span className="flex items-center justify-center gap-1.5">
+                            {/* <FiCheck className="stroke-[3]" />  */}
+                            Adding to Cart
+                          </span>
+                        ) : (
+                          "Add to Cart"
+                        )}
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
