@@ -4,7 +4,7 @@ import PolicyPage from "@/components/PolicyPage";
 
 export const metadata = {
   title: "Cancellation Policy | Vardaan",
-  description: "Read Vardaan's cancellation policy for order cancellation requests, custom jewelry, refunds, and processing timelines.",
+  description: "Read Vardaan's cancellation policy for order cancellation requests, custom jewellery, refunds, and processing timelines.",
 };
 
 const sections = [
@@ -18,7 +18,7 @@ const sections = [
   {
     title: "Customized Orders",
     content: [
-      "Customized, made-to-order, engraved, resized, or specially sourced jewelry may not be eligible for cancellation once production or procurement has started.",
+      "Customized, made-to-order, engraved, resized, or specially sourced jewellery may not be eligible for cancellation once production or procurement has started.",
       "Our team will confirm the applicable terms before accepting major customization requests.",
     ],
   },

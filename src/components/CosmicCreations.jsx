@@ -46,7 +46,7 @@ export default function CosmicCreations() {
             </h2>
             <p className="font-sans text-white/90 text-[15px] sm:text-[20px] font-normal leading-relaxed mb-8 pr-4 lg:pr-0">
               Shimmering like a trail of stardust in the night sky, 
-              the fine jewelry pieces that form the Vardaan 
+              the fine jewellery pieces that form the Vardaan 
               Created Diamonds Galaxy Collection highlight the 
               wonder of the universe. Precious metals and 
               laboratory grown diamonds, cut for brilliance, 

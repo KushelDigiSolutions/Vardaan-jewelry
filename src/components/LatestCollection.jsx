@@ -41,12 +41,13 @@ export default function LatestCollection() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 640) {
-        setSlideWidth(window.innerWidth - 32);
-      } else if (window.innerWidth < 1024) {
-        setSlideWidth((window.innerWidth - 32 - 24) / 2);
-      } else if (window.innerWidth < 1280) {
-        setSlideWidth((window.innerWidth - 32 - 48) / 3); // 1024px to 1280px: 3 columns fit perfectly
+      const width = window.innerWidth;
+      if (width < 768) {
+        setSlideWidth(width - 32);
+      } else if (width < 1024) {
+        setSlideWidth((width - 64 - 24) / 2);
+      } else if (width < 1280) {
+        setSlideWidth((width - 96 - 48) / 3);
       } else {
         setSlideWidth(340);
       }

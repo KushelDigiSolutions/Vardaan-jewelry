@@ -12,7 +12,7 @@ const sections = [
     title: "Return Eligibility",
     content: [
       "Return requests are reviewed based on product condition, order type, delivery date, and the reason for return. Items should be unused, undamaged, and returned with original packaging, certificates, tags, invoices, and accessories where applicable.",
-      "Customized, engraved, resized, made-to-order, or specially sourced jewelry may not be eligible for return unless there is a verified defect or order issue.",
+      "Customized, engraved, resized, made-to-order, or specially sourced jewellery may not be eligible for return unless there is a verified defect or order issue.",
     ],
   },
   {

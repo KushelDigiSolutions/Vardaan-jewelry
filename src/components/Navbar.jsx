@@ -57,7 +57,7 @@ export default function Navbar() {
         >
           <input
             type="text"
-            placeholder="Search for keywords, Products"
+            placeholder="Search for keywords, products"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="flex-grow px-4 py-2 text-sm text-gray-800 focus:outline-none placeholder-gray-500 font-sans bg-transparent"

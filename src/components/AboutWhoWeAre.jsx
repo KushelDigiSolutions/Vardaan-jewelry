@@ -8,7 +8,7 @@ export default function AboutWhoWeAre() {
       <div className="w-full max-w-[1192px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0 grid grid-cols-1 xl:grid-cols-12 gap-16 items-center">
         
         {/* Left Side: Drop-Cap & Narrative */}
-        <div className="lg:col-span-5 flex flex-col items-start gap-6 relative">
+        <div className="lg:col-span-6 xl:col-span-5 flex flex-col items-start gap-6 relative">
           <span className="text-[18px] tracking-widest font-semibold text-amber-600 uppercase">
             The Design Collective
           </span>
@@ -40,7 +40,7 @@ export default function AboutWhoWeAre() {
         </div>
 
         {/* Right Side: Staggered 3-Image Editorial Gallery */}
-        <div className="lg:col-span-7 grid grid-cols-12 gap-4 relative py-6">
+        <div className="lg:col-span-6 xl:col-span-7 grid grid-cols-12 gap-4 relative py-6">
           {/* Main Large Image */}
           <div className="col-span-12 sm:col-span-8 relative aspect-[4/3] rounded-lg overflow-hidden shadow-2xl border border-gray-100/60 z-10 hover:scale-[1.01] transition-transform duration-500">
             <img 
