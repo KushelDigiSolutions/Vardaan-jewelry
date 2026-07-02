@@ -212,12 +212,12 @@ export default function LatestCollection() {
                         ₹ {(product.salePrice || product.price).toLocaleString("en-IN")}
                       </p>
                       <div className="mt-auto flex gap-4">
-                        <Link href={`/product/${product._id}`} className="flex-1 h-[48px] flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] hover:bg-[#e6c543] transition-colors duration-300">
+                        <Link href={`/product/${product._id}`} className="flex-1 h-[48px] flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap hover:bg-[#e6c543] transition-colors duration-300">
                           Shop Now
                         </Link>
                         <button
                           onClick={() => addToCart(product)}
-                          className="flex-1 h-[48px] cursor-pointer flex items-center justify-center bg-white border border-[#07512E] text-[#07512E] font-sans font-medium text-[20px] hover:bg-[#07512E] hover:text-white transition-colors duration-300"
+                          className="flex-1 h-[48px] cursor-pointer flex items-center justify-center bg-white border border-[#07512E] text-[#07512E] font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap hover:bg-[#07512E] hover:text-white transition-colors duration-300"
                         >
                           Add to Cart
                         </button>
