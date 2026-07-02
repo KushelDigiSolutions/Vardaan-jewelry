@@ -893,27 +893,27 @@ function ProfileContent() {
                       </button>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 text-left">
-                      <div className="flex   sm: flex-col xl:flex-row   gap-0 xl:gap-4">
-                        <p className="text-gray-800 text-[18px] font-[500]  tracking-wider">
+                      <div className="flex flex-col xl:flex-row gap-0 xl:gap-4">
+                        <p className="text-gray-800 text-[15px] sm:text-[18px] font-[500] tracking-wider">
                           Full Name -
                         </p>
-                        <p className="text-gray-500 font-[500] text-[18px] mt-0.5">
+                        <p className="text-gray-500 font-[500] text-[15px] sm:text-[18px] mt-0.5">
                           {toTitleCase(user.name)}
                         </p>
                       </div>
-                      <div className="flex gap-0 flex-col  md: flex-col xl:flex-row    xl:gap-4">
-                        <p className="text-gray-800 text-[18px] font-[500]  tracking-wider">
+                      <div className="flex flex-col xl:flex-row gap-0 xl:gap-4">
+                        <p className="text-gray-800 text-[15px] sm:text-[18px] font-[500] tracking-wider">
                           Mobile Number -
                         </p>
-                        <p className="text-gray-500 font-[500] text-[18px] mt-0.5">
+                        <p className="text-gray-500 font-[500] text-[15px] sm:text-[18px] mt-0.5">
                           {user.mobile || "Not Provided"}
                         </p>
                       </div>
-                      <div className="sm:col-span-2 flex gap-0 flex-col  md: flex-col xl:flex-row    xl:gap-4">
-                        <p className="text-gray-800 text-[18px] font-[500]  tracking-wider">
+                      <div className="sm:col-span-2 flex flex-col xl:flex-row gap-0 xl:gap-4 w-full overflow-hidden">
+                        <p className="text-gray-800 text-[15px] sm:text-[18px] font-[500] tracking-wider">
                           Email Address -
                         </p>
-                        <p className="text-gray-500 font-[500] text-[18px] mt-0.5">
+                        <p className="text-gray-500 font-[500] text-[15px] sm:text-[18px] mt-0.5 truncate w-full xl:w-auto">
                           {user.email}
                         </p>
                       </div>

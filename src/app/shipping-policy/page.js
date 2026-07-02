@@ -12,7 +12,7 @@ const sections = [
     title: "Order Processing",
     content: [
       "Orders are processed after payment confirmation and any required verification. Processing timelines may vary based on product availability, customization, quality checks, and packaging needs.",
-      "For made-to-order or customized jewelry, our team may share an estimated dispatch timeline before or after order confirmation.",
+      "For made-to-order or customized jewellery, our team may share an estimated dispatch timeline before or after order confirmation.",
     ],
   },
   {

@@ -48,12 +48,16 @@ export default function NewJewelry() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setSlideWidth(window.innerWidth - 64);
-      } else if (window.innerWidth < 1024) {
-        setSlideWidth((window.innerWidth - 64 - 24) / 2);
-      } else if (window.innerWidth < 1224) {
-        setSlideWidth(((window.innerWidth * 0.6666 - 8) - 32 - 24) / 2);
+      const width = window.innerWidth;
+      if (width < 768) {
+        setSlideWidth(width - 64);
+      } else if (width < 1024) {
+        setSlideWidth((width - 96 - 24) / 2);
+      } else if (width < 1280) {
+        const parentAvailable = width - 96;
+        const carouselWindowWidth = parentAvailable * 0.66666 - 8;
+        const innerAvailable = carouselWindowWidth - 32;
+        setSlideWidth((innerAvailable - 24) / 2);
       } else {
         setSlideWidth(362);
       }
@@ -114,7 +118,7 @@ export default function NewJewelry() {
         {/* Header Section */}
         <div className="flex justify-between flex-col md:flex-row sm: gap-4 items-start md:items-center mb-10">
           <h2 className="text-3xl md:text-4xl font-serif text-[#1e2a24] font-medium tracking-wide">
-            New Jewelry
+            New Jewellery
           </h2>
           <div className="flex gap-3">
             <button
@@ -150,7 +154,7 @@ export default function NewJewelry() {
             {loading ? (
               <div className="text-center py-20">
                 <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#07512E] mx-auto mb-3"></div>
-                <p className="text-gray-500 text-sm">Loading fine jewelry...</p>
+                <p className="text-gray-500 text-sm">Loading fine jewellery...</p>
               </div>
             ) : productItems.length > 0 ? (
               <div

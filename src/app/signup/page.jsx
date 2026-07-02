@@ -127,8 +127,8 @@ export default function SignupPage() {
           <div className="text-center mb-8">
             {!otpSent ? (
               <>
-                <h1 className="text-[32px] font-serif text-[#07512E] mb-2">Create Account</h1>
-                <p className="text-[15px] font-sans text-gray-500 font-light">Join Vardaan for an exclusive luxury experience</p>
+                <h1 className="text-[26px] sm:text-[32px] whitespace-nowrap font-serif text-[#07512E] mb-2">Create Account</h1>
+                <p className="text-[13px] sm:text-[15px] font-sans text-gray-500 font-light">Join Vardaan for an exclusive luxury experience</p>
               </>
             ) : (
               <>
@@ -142,7 +142,7 @@ export default function SignupPage() {
             <form onSubmit={handleSignupSubmit} className="flex flex-col gap-5">
               <div className="flex flex-col sm:flex-row gap-5">
                 <div className="flex-1">
-                  <label className="block text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="firstName">
+                  <label className="block text-[13px] sm:text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="firstName">
                     First Name
                   </label>
                   <input
@@ -151,13 +151,13 @@ export default function SignupPage() {
                     required
                     value={formData.firstName}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[15px]"
+                    className="w-full px-3 sm:px-4 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[13px] sm:text-[15px]"
                     placeholder="John"
                     disabled={loading}
                   />
                 </div>
                 <div className="flex-1">
-                  <label className="block text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="lastName">
+                  <label className="block text-[13px] sm:text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="lastName">
                     Last Name
                   </label>
                   <input
@@ -166,7 +166,7 @@ export default function SignupPage() {
                     required
                     value={formData.lastName}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[15px]"
+                    className="w-full px-3 sm:px-4 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[13px] sm:text-[15px]"
                     placeholder="Doe"
                     disabled={loading}
                   />
@@ -174,7 +174,7 @@ export default function SignupPage() {
               </div>
 
               <div>
-                <label className="block text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="email">
+                <label className="block text-[13px] sm:text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="email">
                   Email Address
                 </label>
                 <input
@@ -183,14 +183,14 @@ export default function SignupPage() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[15px]"
+                  className="w-full px-3 sm:px-4 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[13px] sm:text-[15px]"
                   placeholder="you@example.com"
                   disabled={loading}
                 />
               </div>
 
               <div>
-                <label className="block text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="mobile">
+                <label className="block text-[13px] sm:text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="mobile">
                   Mobile Number
                 </label>
                 <input
@@ -199,14 +199,14 @@ export default function SignupPage() {
                   required
                   value={formData.mobile}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[15px]"
+                  className="w-full px-3 sm:px-4 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[13px] sm:text-[15px]"
                   placeholder="e.g. 9818719997"
                   disabled={loading}
                 />
               </div>
               
               <div>
-                <label className="block text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="password">
+                <label className="block text-[13px] sm:text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="password">
                   Password
                 </label>
                 <div className="relative">
@@ -216,7 +216,7 @@ export default function SignupPage() {
                     required
                     value={formData.password}
                     onChange={handleChange}
-                    className="w-full pl-4 pr-12 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[15px]"
+                    className="w-full pl-3 sm:pl-4 pr-12 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[13px] sm:text-[15px]"
                     placeholder="••••••••"
                     disabled={loading}
                   />
@@ -231,7 +231,7 @@ export default function SignupPage() {
               </div>
 
               <div>
-                <label className="block text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="confirmPassword">
+                <label className="block text-[13px] sm:text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="confirmPassword">
                   Confirm Password
                 </label>
                 <div className="relative">
@@ -241,7 +241,7 @@ export default function SignupPage() {
                     required
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    className="w-full pl-4 pr-12 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[15px]"
+                    className="w-full pl-3 sm:pl-4 pr-12 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[13px] sm:text-[15px]"
                     placeholder="••••••••"
                     disabled={loading}
                   />
@@ -266,7 +266,7 @@ export default function SignupPage() {
           ) : (
             <form onSubmit={handleVerifyOtpSubmit} className="flex flex-col gap-5">
               <div>
-                <label className="block text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="emailOtp">
+                <label className="block text-[13px] sm:text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="emailOtp">
                   Enter verification OTP (Sent to Email)
                 </label>
                 <input
@@ -291,9 +291,9 @@ export default function SignupPage() {
           )}
           
           <div className="mt-8 text-center border-t border-gray-100 pt-6">
-            <p className="text-[15px] font-sans text-gray-600 font-light">
-              Already have an account?{" "}
-              <Link href="/login" className="text-[#07512E] font-medium hover:underline underline-offset-4">
+            <p className="text-[13px] sm:text-[15px] font-sans text-gray-600 font-light flex flex-col sm:block items-center">
+              <span>Already have an account?</span>
+              <Link href="/login" className="text-[#07512E] font-medium hover:underline underline-offset-4 mt-1 sm:mt-0 sm:ml-1">
                 Sign in here
               </Link>
             </p>

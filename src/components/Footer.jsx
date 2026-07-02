@@ -186,7 +186,7 @@ export default function Footer() {
                 <li><Link href="/terms-and-conditions" className="hover:text-[#FFDE59] transition-colors" onClick={scrollShopToTop}>Terms & Conditions</Link></li>
                 <li><Link href="/cancellation-policy" className="hover:text-[#FFDE59] transition-colors" onClick={scrollShopToTop}>Cancellation Policy</Link></li>
               </ul>
-              
+
               {/* Mobile-only Trust Badges (below Cancellation Policy) */}
               <div className="flex md:hidden flex-col gap-5 text-[14px] font-medium tracking-widest text-white mt-4">
                 <div className="flex items-center gap-2.5">

@@ -33,7 +33,7 @@ export default function AboutVisionMission() {
               Our Vision
             </h3>
             <p className="text-[18px] text-gray-200 font-light leading-relaxed">
-              To be a globally recognized boutique jeweler, where each creation
+              To be a globally recognized boutique jeweller, where each creation
               is celebrated for its organic floral geometry and holds a legacy
               of blessings for the generations that inherit it.
             </p>

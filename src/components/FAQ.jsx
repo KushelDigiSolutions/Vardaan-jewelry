@@ -5,16 +5,16 @@ import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
 const faqItems = [
   {
-    question: "Are your jewelry pieces certified and hallmarked?",
-    answer: "Yes, absolutely. Every gold jewelry piece at Vardaan carries the official BIS Hallmark certification guaranteeing exact purity (18K or 22K gold). Furthermore, all our diamonds and gemstones come with authentic certification from internationally recognized laboratories like IGI and GIA.",
+    question: "Are your jewellery pieces certified and hallmarked?",
+    answer: "Yes, absolutely. Every gold jewellery piece at Vardaan carries the official BIS Hallmark certification guaranteeing exact purity (18K or 22K gold). Furthermore, all our diamonds and gemstones come with authentic certification from internationally recognized laboratories like IGI and GIA.",
   },
   {
-    question: "Can I request custom designs or bespoke bridal jewelry?",
-    answer: "Yes, we specialize in bespoke sculpting and custom bridal suites. You can book a private consultation with our expert designers in our Delhi atelier or via a virtual session. We work closely with you to select the desired gold karat, diamond specifications, and design motifs to bring your dream jewelry to life.",
+    question: "Can I request custom designs or bespoke bridal jewellery?",
+    answer: "Yes, we specialize in bespoke sculpting and custom bridal suites. You can book a private consultation with our expert designers in our Delhi atelier or via a virtual session. We work closely with you to select the desired gold karat, diamond specifications, and design motifs to bring your dream jewellery to life.",
   },
   {
-    question: "How is your fine jewelry packaged and shipped securely?",
-    answer: "Every piece of Vardaan jewelry is meticulously packaged in our luxury, tamper-proof branded boxes. We offer fully insured, secure shipping across India and worldwide, ensuring your precious pieces arrive safely at your doorstep.",
+    question: "How is your fine jewellery packaged and shipped securely?",
+    answer: "Every piece of Vardaan jewellery is meticulously packaged in our luxury, tamper-proof branded boxes. We offer fully insured, secure shipping across India and worldwide, ensuring your precious pieces arrive safely at your doorstep.",
   },
   {
     question: "What materials and gemstones do you use in your creations?",
@@ -22,7 +22,7 @@ const faqItems = [
   },
   {
     question: "Do you offer maintenance, cleaning, or restoration services?",
-    answer: "Vardaan provides a lifetime maintenance covenant for all our clients. We offer professional inspection, ultrasonic cleaning, prong tightening, and restoration services to ensure your heirloom jewelry maintains its pristine brilliance across generations.",
+    answer: "Vardaan provides a lifetime maintenance covenant for all our clients. We offer professional inspection, ultrasonic cleaning, prong tightening, and restoration services to ensure your heirloom jewellery maintains its pristine brilliance across generations.",
   },
 ];
 

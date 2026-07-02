@@ -179,7 +179,7 @@ export default function LoginPage() {
           {mode === "email" && (
             <form onSubmit={handleEmailLogin} className="flex flex-col gap-5">
               <div>
-                <label className="block text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="email">
+                <label className="block text-[13px] sm:text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="email">
                   Email Address
                 </label>
                 <input
@@ -188,7 +188,7 @@ export default function LoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[15px]"
+                  className="w-full px-3 sm:px-4 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[13px] sm:text-[15px]"
                   placeholder="you@example.com"
                   disabled={loading}
                 />
@@ -196,7 +196,7 @@ export default function LoginPage() {
 
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <label className="block text-[14px] font-sans font-medium text-[#303030]" htmlFor="password">
+                  <label className="block text-[13px] sm:text-[14px] font-sans font-medium text-[#303030]" htmlFor="password">
                     Password
                   </label>
                   <button
@@ -214,7 +214,7 @@ export default function LoginPage() {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-4 pr-12 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[15px]"
+                    className="w-full pl-3 sm:pl-4 pr-12 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[13px] sm:text-[15px]"
                     placeholder="••••••••"
                     disabled={loading}
                   />
@@ -241,7 +241,7 @@ export default function LoginPage() {
           {mode === "forgot" && (
             <form onSubmit={handleForgotPassword} className="flex flex-col gap-5">
               <div>
-                <label className="block text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="forgotEmail">
+                <label className="block text-[13px] sm:text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="forgotEmail">
                   Registered Email Address
                 </label>
                 <input
@@ -250,7 +250,7 @@ export default function LoginPage() {
                   required
                   value={forgotEmail}
                   onChange={(e) => setForgotEmail(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[15px]"
+                  className="w-full px-3 sm:px-4 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[13px] sm:text-[15px]"
                   placeholder="yourname@domain.com"
                   disabled={loading}
                 />
@@ -276,7 +276,7 @@ export default function LoginPage() {
             <form onSubmit={handleResetPassword} className="flex flex-col gap-5">
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <label className="block text-[14px] font-sans font-medium text-[#303030]" htmlFor="resetOtp">
+                  <label className="block text-[13px] sm:text-[14px] font-sans font-medium text-[#303030]" htmlFor="resetOtp">
                     Enter Email OTP Code
                   </label>
                   <button
@@ -294,14 +294,14 @@ export default function LoginPage() {
                   required
                   value={resetOtp}
                   onChange={(e) => setResetOtp(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[15px]"
+                  className="w-full px-3 sm:px-4 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[13px] sm:text-[15px]"
                   placeholder="Enter verification code"
                   disabled={loading}
                 />
               </div>
 
               <div>
-                <label className="block text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="newPassword">
+                <label className="block text-[13px] sm:text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="newPassword">
                   New Account Password
                 </label>
                 <div className="relative">
@@ -311,7 +311,7 @@ export default function LoginPage() {
                     required
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full pl-4 pr-12 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[15px]"
+                    className="w-full pl-3 sm:pl-4 pr-12 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[13px] sm:text-[15px]"
                     placeholder="••••••••"
                     disabled={loading}
                   />
@@ -326,7 +326,7 @@ export default function LoginPage() {
               </div>
 
               <div>
-                <label className="block text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="confirmPassword">
+                <label className="block text-[13px] sm:text-[14px] font-sans font-medium text-[#303030] mb-2" htmlFor="confirmPassword">
                   Confirm Account Password
                 </label>
                 <div className="relative">
@@ -336,7 +336,7 @@ export default function LoginPage() {
                     required
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full pl-4 pr-12 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[15px]"
+                    className="w-full pl-3 sm:pl-4 pr-12 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[13px] sm:text-[15px]"
                     placeholder="••••••••"
                     disabled={loading}
                   />
@@ -368,15 +368,10 @@ export default function LoginPage() {
           )}
 
           {/* Under Footer Links */}
-          <div className="mt-0 md:mt-8  flex justify-between flex-col md:flex-row  border-t border-gray-100 pt-6">
-            <p className="text-[15px] font-sans text-gray-600 font-light">
-              Don't have an account?{" "}
-
-            </p>
-            <p className="text-[15px] font-sans text-gray-600 font-light">
-
-              <Link href="/signup" className="text-[#07512E] font-medium hover:underline underline-offset-4">
-
+          <div className="mt-0 md:mt-8 flex flex-col sm:flex-row justify-center sm:justify-between items-center border-t border-gray-100 pt-6">
+            <p className="text-[13px] sm:text-[15px] font-sans text-gray-600 font-light flex flex-col sm:block items-center text-center w-full">
+              <span>Don't have an account?</span>
+              <Link href="/signup" className="text-[#07512E] font-medium hover:underline underline-offset-4 mt-1 sm:mt-0 sm:ml-1">
                 Create an account
               </Link>
             </p>

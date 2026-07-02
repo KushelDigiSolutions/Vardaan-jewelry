@@ -63,12 +63,13 @@ export default function ShopByCategories() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setSlideWidth(window.innerWidth - 32); // mobile full width
-      } else if (window.innerWidth < 1024) {
-        setSlideWidth((window.innerWidth - 32 - 16) / 2); // tablet 2 cols
-      } else if (window.innerWidth < 1204) {
-        setSlideWidth((window.innerWidth - 64) / 3); // 1024px to 1204px: exactly 3 cards fit perfectly (32px padding + 32px gaps = 64px)
+      const width = window.innerWidth;
+      if (width < 768) {
+        setSlideWidth(width - 32); // mobile full width
+      } else if (width < 1024) {
+        setSlideWidth((width - 64 - 16) / 2); // tablet 2 cols
+      } else if (width < 1280) {
+        setSlideWidth((width - 96 - 32) / 3); // 1024px to 1280px
       } else {
         setSlideWidth(380); // large desktop fixed
       }
