@@ -5,7 +5,7 @@ import Link from "next/link";
 import { FiTrash2 } from "react-icons/fi";
 import { useCart } from "@/context/CartContext";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Footer from "@/components/Footer"; 
 import YouMayAlsoLike from "@/components/YouMayAlsoLike";
 
 export default function CartPage() {
