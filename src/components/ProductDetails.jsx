@@ -584,11 +584,11 @@ export default function ProductDetails({ productId }) {
   // ── Render ────────────────────────────────────────────────────────────────
   return (
     <div className="w-full max-w-[1192px] lg:min-h-[808px] mx-auto px-4 lg:px-12 xl:px-0 py-10 lg:py-16">
-      <div className="flex flex-col lg:flex-row justify-between gap-8 lg:gap-6">
+      <div className="flex flex-col lg:grid lg:grid-cols-2 xl:flex xl:flex-row justify-between gap-8 lg:gap-x-8 lg:gap-y-10 xl:gap-6">
         {/* =========================================
             COLUMN 1: PRODUCT INFO & ACTIONS
             ========================================= */}
-        <div className="w-full lg:w-[365px] flex flex-col order-2 lg:order-1 shrink-0 text-left">
+        <div className="w-full xl:w-[365px] flex flex-col order-2 lg:order-2 xl:order-1 shrink-0 text-left lg:col-span-1">
           <h1 className="text-[22px] sm:text-[26px] lg:text-[32px] font-sans font-medium text-[#303030] leading-tight mb-2">
             {product.name}
           </h1>
@@ -892,7 +892,7 @@ export default function ProductDetails({ productId }) {
             )}
           </div>
 
-          <div className="text-center mb-4">
+          <div className="w-full lg:w-[344px] text-center mb-4">
             <span className="text-[#303030] text-[13px] font-sans">
               Shipping calculated at checkout
             </span>
@@ -940,10 +940,9 @@ export default function ProductDetails({ productId }) {
         {/* =========================================
             COLUMN 2: IMAGE GALLERY
             ========================================= */}
-        <div className="w-full md:max-w-[400px] lg:max-w-none lg:w-[395px] mx-auto lg:mx-0 flex flex-col gap-6 order-1 lg:order-2 shrink-0">
+        <div className="w-full md:max-w-[400px] lg:max-w-none xl:w-[395px] mx-auto xl:mx-0 flex flex-col lg:grid lg:grid-cols-2 xl:flex xl:flex-col gap-6 lg:gap-8 xl:gap-6 order-1 lg:order-1 xl:order-2 shrink-0 items-start lg:col-span-2 xl:col-span-1">
           {/* Top Section: Main product image */}
-          <div>
-
+          <div className="w-full">
             <div className="w-full aspect-square bg-white overflow-hidden relative border border-gray-100 rounded-lg shadow-sm">
               <img
                 src={
@@ -957,12 +956,15 @@ export default function ProductDetails({ productId }) {
             </div>
           </div>
 
+          {/* Bottom Section Wrapper for side-by-side view on lg */}
+          <div className="w-full flex flex-col gap-6">
+
           {/* Bottom Section: Wearable Media (Images & Videos showing the product being worn) */}
           {product.wearableMedia && product.wearableMedia.length > 0 && (
-            <div className="flex flex-col gap-3 pt-4 border-t border-gray-200">
+            <div className="flex flex-col gap-3 pt-4 lg:pt-0 border-t lg:border-t-0 xl:pt-4 xl:border-t border-gray-200">
 
               {/* Active Wearable Media Display Area */}
-              <div className="w-full aspect-[4/5] bg-white overflow-hidden relative border border-gray-100 rounded-lg shadow-sm">
+              <div className="w-full aspect-[4/5] lg:aspect-square xl:aspect-[4/5] bg-white overflow-hidden relative border border-gray-100 rounded-lg shadow-sm">
                 {product.wearableMedia[selectedWearableIdx]?.mediaType ===
                   "video" ? (
                   <video
@@ -1052,12 +1054,13 @@ export default function ProductDetails({ productId }) {
                 </div>
               </div>
             )}
+          </div>
         </div>
 
         {/* =========================================
             COLUMN 3: DESCRIPTION & TRUST
             ========================================= */}
-        <div className="w-full lg:w-[384px] flex flex-col order-3 shrink-0 text-left">
+        <div className="w-full xl:w-[384px] flex flex-col order-3 lg:order-3 shrink-0 text-left lg:col-span-1">
           {/* Yellowish Description Box */}
           <div className="bg-[#FFFDF4] px-6 pt-4 pb-6 sm:px-8 sm:pt-5 sm:pb-8 border border-[#F5EEDC] mb-5">
             <h2 className="text-[28px] font-medium font-serif text-[#303030] mb-4">
