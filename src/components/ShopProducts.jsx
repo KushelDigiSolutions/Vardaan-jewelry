@@ -31,6 +31,7 @@ export default function ShopProducts() {
   // React to category query param in the URL
   useEffect(() => {
     if (categorySlugParam && categories.length > 0) {
+      setCategoriesReady(false); // reset while resolving
       const normalizeStr = (str) => {
         if (!str) return "";
         return str
@@ -75,7 +76,7 @@ export default function ShopProducts() {
         });
       }
 
-      // 3. Custom mappings (like necklace set -> sets/necklaces, jhumka -> earrings, wedding -> bridal)
+      // 3. Custom mappings (like necklace set -> sets/necklaces, jhumka -> earrings, wedding -> bridal, ring -> rings)
       if (!matched) {
         if (paramNormalized.includes("necklaceset") || paramNormalized.includes("necklace")) {
           matched = categories.find(
@@ -97,6 +98,14 @@ export default function ShopProducts() {
               normalizeStr(cat.slug) === "bridal" ||
               normalizeStr(cat.name).includes("bridal") ||
               normalizeStr(cat.name).includes("wedding"),
+          );
+        } else if (paramNormalized === "ring" || paramNormalized === "rings") {
+          matched = categories.find(
+            (cat) =>
+              normalizeStr(cat.slug) === "rings" ||
+              normalizeStr(cat.slug) === "ring" ||
+              normalizeStr(cat.name) === "rings" ||
+              normalizeStr(cat.name) === "ring",
           );
         }
       }
@@ -120,6 +129,14 @@ export default function ShopProducts() {
           searchKeyword = "date";
         } else if (normParam.includes("travelessential") || normParam.includes("travel")) {
           searchKeyword = "travel";
+        } else if (normParam.includes("festive")) {
+          searchKeyword = "festive";
+        } else if (normParam.includes("sangeet")) {
+          searchKeyword = "sangeet";
+        } else if (normParam.includes("haldi")) {
+          searchKeyword = "haldi";
+        } else if (normParam.includes("partylook") || normParam.includes("party")) {
+          searchKeyword = "party";
         }
 
         setSearch(searchKeyword);
@@ -128,8 +145,14 @@ export default function ShopProducts() {
         setIsActive(true);
         setFilterShow(categorySlugParam);
       }
+      // Mark categories as resolved so fetchProducts can proceed
+      setCategoriesReady(true);
     } else if (!categorySlugParam && categories.length > 0) {
       setSelectedCategory("all");
+      setCategoriesReady(true);
+    } else if (!categorySlugParam) {
+      // No category param at all, always ready
+      setCategoriesReady(true);
     }
   }, [categorySlugParam, categories]);
 
@@ -204,8 +227,15 @@ export default function ShopProducts() {
   const minPriceParam = searchParams ? searchParams.get("minPrice") : null;
   const maxPriceParam = searchParams ? searchParams.get("maxPrice") : null;
 
+  // Track whether categories have been resolved for the current URL param
+  const [categoriesReady, setCategoriesReady] = useState(false);
+
   // Fetch Products based on current filters
   const fetchProducts = useCallback(async () => {
+    // If a category param is in the URL but categories haven't loaded yet, wait.
+    // This prevents fetching all-products before the filter is resolved.
+    if (categorySlugParam && !categoriesReady) return;
+
     setLoading(true);
     try {
       const params = new URLSearchParams();
@@ -248,7 +278,7 @@ export default function ShopProducts() {
     } finally {
       setLoading(false);
     }
-  }, [currentPage, selectedCategory, search, priceFilter, sortOrder, minPriceParam, maxPriceParam]);
+  }, [currentPage, selectedCategory, search, priceFilter, sortOrder, minPriceParam, maxPriceParam, categorySlugParam, categoriesReady]);
 
   // Trigger load when filters update
   useEffect(() => {
