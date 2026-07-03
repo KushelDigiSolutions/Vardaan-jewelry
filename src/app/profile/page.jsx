@@ -147,10 +147,18 @@ function ProfileContent() {
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [msg, setMsg] = useState({ type: "", text: "" });
   const [showAvatarConfirmPopup, setShowAvatarConfirmPopup] = useState(false);
+  const [showDeleteAccountPopup, setShowDeleteAccountPopup] = useState(false);
+  const [orderToCancel, setOrderToCancel] = useState(null);
 
   // Cancellation and Review Handlers
-  const handleCancelOrder = async (orderId) => {
-    if (!confirm("Are you sure you want to cancel this order?")) return;
+  const handleCancelOrder = (orderId) => {
+    setOrderToCancel(orderId);
+  };
+
+  const confirmCancelOrder = async () => {
+    const orderId = orderToCancel;
+    if (!orderId) return;
+    setOrderToCancel(null);
     setLoading(true);
     setMsg({ type: "", text: "" });
     try {
@@ -442,15 +450,13 @@ function ProfileContent() {
   };
 
   // Delete User Account
-  const handleDeleteAccount = async () => {
-    const doubleCheck = confirm(
-      "WARNING: This will permanently delete your account, addresses, and shopping cart. This cannot be undone. Do you wish to proceed?",
-    );
-    if (!doubleCheck) return;
+  const handleDeleteAccountConfirm = async () => {
+    setShowDeleteAccountPopup(false);
     setLoading(true);
     setMsg({ type: "", text: "" });
     try {
       await deleteAccount();
+      toast.success("Your account has been successfully deleted. We hope to see you again soon!");
       router.push("/");
     } catch (err) {
       setMsg({
@@ -459,6 +465,10 @@ function ProfileContent() {
       });
       setLoading(false);
     }
+  };
+
+  const handleDeleteAccount = () => {
+    setShowDeleteAccountPopup(true);
   };
 
   // Addresses CRUD Methods
@@ -2538,6 +2548,92 @@ function ProfileContent() {
                 className="bg-red-600 hover:bg-red-700 text-white font-semibold px-5 py-2 rounded text-xs transition-colors cursor-pointer border-none"
               >
                 {loading ? "REMOVING..." : "Remove Photo"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Account Delete Confirmation Modal Popup */}
+      {showDeleteAccountPopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs font-sans animate-fade-in">
+          <div className="w-full max-w-md bg-white rounded-lg shadow-2xl overflow-hidden border border-[#F0ECE3] flex flex-col text-left">
+            <div className="bg-red-50 text-red-800 p-4 flex justify-between items-center border-b border-red-100">
+              <h3 className="text-base font-serif font-bold tracking-wide">
+                Delete Account
+              </h3>
+              <button
+                type="button"
+                onClick={() => setShowDeleteAccountPopup(false)}
+                className="text-red-600 hover:text-red-800 p-1 cursor-pointer bg-transparent border-none"
+              >
+                <FiX className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-6 space-y-3">
+              <p className="text-[15px] text-gray-800 font-medium leading-relaxed">
+                Are you sure you want to permanently delete your account? This action <strong className="text-gray-900">cannot be undone</strong>.
+              </p>
+            </div>
+            <div className="bg-gray-50 p-4 border-t border-gray-100 flex justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setShowDeleteAccountPopup(false)}
+                className="border border-gray-300 hover:bg-gray-100 text-gray-700 font-semibold px-5 py-2 rounded text-xs transition-colors cursor-pointer bg-white"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleDeleteAccountConfirm}
+                disabled={loading}
+                className="bg-red-600 hover:bg-red-700 text-white font-semibold px-5 py-2 rounded text-xs transition-colors cursor-pointer border-none"
+              >
+                {loading ? "DELETING..." : "Delete Account"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Cancel Order Confirmation Modal Popup */}
+      {orderToCancel && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs font-sans animate-fade-in">
+          <div className="w-full max-w-md bg-white rounded-lg shadow-2xl overflow-hidden border border-[#F0ECE3] flex flex-col text-left">
+            <div className="bg-[#FFFDF4] text-[#07512E] p-4 flex justify-between items-center border-b border-[#F5EEDC]">
+              <div className="flex items-center gap-2">
+                <FiAlertCircle className="w-5 h-5 text-amber-500" />
+                <h3 className="text-base font-serif font-bold tracking-wide">
+                  Cancel Order
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setOrderToCancel(null)}
+                className="text-gray-400 hover:text-gray-600 p-1 cursor-pointer bg-transparent border-none"
+              >
+                <FiX className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-6 space-y-3">
+              <p className="text-[15px] text-gray-800 font-medium leading-relaxed">
+                Are you sure you want to cancel this order? This action cannot be undone.
+              </p>
+            </div>
+            <div className="bg-gray-50 p-4 border-t border-gray-100 flex justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setOrderToCancel(null)}
+                className="border border-gray-300 hover:bg-gray-100 text-gray-700 font-semibold px-5 py-2 rounded text-xs transition-colors cursor-pointer bg-white"
+              >
+                No, Keep it
+              </button>
+              <button
+                type="button"
+                onClick={confirmCancelOrder}
+                disabled={loading}
+                className="bg-[#07512E] hover:bg-[#054024] text-white font-semibold px-5 py-2 rounded text-xs transition-colors cursor-pointer border-none"
+              >
+                {loading ? "CANCELLING..." : "Yes, Cancel Order"}
               </button>
             </div>
           </div>

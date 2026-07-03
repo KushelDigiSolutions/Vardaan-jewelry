@@ -992,8 +992,8 @@ export default function ProductDetails({ productId }) {
                   <button
                     key={idx}
                     onClick={() => setSelectedWearableIdx(idx)}
-                    className={`w-16 h-16 bg-gray-50 border-2 cursor-pointer shrink-0 rounded overflow-hidden relative transition-all ${selectedWearableIdx === idx
-                      ? "border-[#07512E] scale-105 shadow-sm"
+                    className={`w-16 h-16 bg-gray-50 border-[2px] border-solid cursor-pointer shrink-0 rounded overflow-hidden relative transition-all ${selectedWearableIdx === idx
+                      ? "border-[#07512E] shadow-sm z-10"
                       : "border-transparent opacity-80 hover:opacity-100"
                       }`}
                   >
@@ -1039,8 +1039,8 @@ export default function ProductDetails({ productId }) {
                     <button
                       key={idx}
                       onClick={() => setSelectedImageIdx(idx)}
-                      className={`w-16 h-14 bg-gray-50 border-2 cursor-pointer shrink-0 rounded overflow-hidden transition-all ${selectedImageIdx === idx
-                        ? "border-[#07512E]"
+                      className={`w-16 h-14 bg-gray-50 border-[2px] border-solid cursor-pointer shrink-0 rounded overflow-hidden transition-all ${selectedImageIdx === idx
+                        ? "border-[#07512E] z-10"
                         : "border-transparent hover:border-gray-200"
                         }`}
                     >
