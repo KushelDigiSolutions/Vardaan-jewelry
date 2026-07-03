@@ -23,10 +23,10 @@ export default function LatestCollectionBanner() {
       <div className="relative z-10 w-full max-w-[1192px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0">
         <div className="max-w-md">
           <h2 className="text-4xl md:text-5xl lg:text-[3.5rem] font-serif text-white mb-4 leading-tight">
-            Latest Collection
+            Everyday Icons
           </h2>
           <p className="text-base md:text-[20px] text-white/95 font-sans leading-relaxed mb-8">
-            Discover the Newest Expressions of Elegance
+            Discover the Everyday Expressions of Elegance and Style.
           </p>
           <Link
             href="/shop?category=latest"

@@ -8,7 +8,7 @@ import { useCart } from "../context/CartContext";
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
 export default function LatestCollection() {
-  const { addToCart } = useCart();
+  const { addToCart, cartItems } = useCart();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -215,12 +215,28 @@ export default function LatestCollection() {
                         <Link href={`/product/${product._id}`} className="flex-1 h-[48px] flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap hover:bg-[#e6c543] transition-colors duration-300">
                           Shop Now
                         </Link>
-                        <button
-                          onClick={() => addToCart(product)}
-                          className="flex-1 h-[48px] cursor-pointer flex items-center justify-center bg-white border border-[#07512E] text-[#07512E] font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap hover:bg-[#07512E] hover:text-white transition-colors duration-300"
-                        >
-                          Add to Cart
-                        </button>
+                        {product.inventory <= 0 ? (
+                          <button
+                            disabled
+                            className="flex-1 h-[48px] cursor-not-allowed flex items-center justify-center bg-gray-100 border border-gray-300 text-gray-400 font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap"
+                          >
+                            Out of Stock
+                          </button>
+                        ) : cartItems && cartItems.some((item) => item.id === product._id) ? (
+                          <Link
+                            href="/cart"
+                            className="flex-1 h-[48px] cursor-pointer flex items-center justify-center bg-[#07512E] border border-[#07512E] text-white font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap hover:bg-[#054024] hover:border-[#054024] transition-colors duration-300 text-center"
+                          >
+                            View Cart
+                          </Link>
+                        ) : (
+                          <button
+                            onClick={() => addToCart(product)}
+                            className="flex-1 h-[48px] cursor-pointer flex items-center justify-center bg-white border border-[#07512E] text-[#07512E] font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap hover:bg-[#07512E] hover:text-white transition-colors duration-300"
+                          >
+                            Add to Cart
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>

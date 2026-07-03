@@ -15,7 +15,7 @@ const bannerItem = {
 };
 
 export default function NewJewelry() {
-  const { addToCart } = useCart();
+  const { addToCart, cartItems } = useCart();
   const [productItems, setProductItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -189,12 +189,28 @@ export default function NewJewelry() {
                           <Link href={`/product/${item._id}`} className="flex-1 h-[48px] flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap hover:bg-[#e6c543] transition-colors duration-300">
                             Shop Now
                           </Link>
-                          <button
-                            onClick={() => addToCart(item)}
-                            className="flex-1 h-[48px] flex items-center cursor-pointer justify-center bg-white border border-[#07512E] text-[#07512E] font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap hover:bg-[#07512E] hover:text-white transition-colors duration-300"
-                          >
-                            Add to Cart
-                          </button>
+                          {item.inventory <= 0 ? (
+                            <button
+                              disabled
+                              className="flex-1 h-[48px] cursor-not-allowed flex items-center justify-center bg-gray-100 border border-gray-300 text-gray-400 font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap"
+                            >
+                              Out of Stock
+                            </button>
+                          ) : cartItems && cartItems.some((cartItem) => cartItem.id === item._id) ? (
+                            <Link
+                              href="/cart"
+                              className="flex-1 h-[48px] cursor-pointer flex items-center justify-center bg-[#07512E] border border-[#07512E] text-white font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap hover:bg-[#054024] hover:border-[#054024] transition-colors duration-300 text-center"
+                            >
+                              View Cart
+                            </Link>
+                          ) : (
+                            <button
+                              onClick={() => addToCart(item)}
+                              className="flex-1 h-[48px] flex items-center cursor-pointer justify-center bg-white border border-[#07512E] text-[#07512E] font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap hover:bg-[#07512E] hover:text-white transition-colors duration-300"
+                            >
+                              Add to Cart
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>

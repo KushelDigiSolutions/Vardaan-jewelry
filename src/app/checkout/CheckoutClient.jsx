@@ -520,7 +520,7 @@ export default function CheckoutClient() {
                     <span className="font-medium text-[18px] text-[#2e8b57]">Free</span>
                   </label>
                   
-                  <label className={`flex justify-between items-center p-4 border rounded cursor-pointer ${shippingMethod === "Express Delivery" ? "border-[#07512E] bg-green-50/20" : "border-gray-200"}`}>
+                  {/* <label className={`flex justify-between items-center p-4 border rounded cursor-pointer ${shippingMethod === "Express Delivery" ? "border-[#07512E] bg-green-50/20" : "border-gray-200"}`}>
                     <div className="flex items-center gap-2">
                       <input type="radio" checked={shippingMethod === "Express Delivery"} onChange={() => setShippingMethod("Express Delivery")} className="accent-[#07512E]" />
                       <div>
@@ -529,13 +529,13 @@ export default function CheckoutClient() {
                       </div>
                     </div>
                     <span className="font-medium text-[18px] text-gray-900">₹ 150.00</span>
-                  </label>
+                  </label> */}
                 </div>
               </div>
 
               {/* Payment Methods */}
               <div className="mb-8 font-sans">
-                <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-3">Select Payment Gateway</h4>
+                <h4 className="text-xl font-medium tracking-wider text-gray-400 mb-3">Select Payment Gateway</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <label className={`flex flex-col p-4 border rounded cursor-pointer gap-2 ${paymentMethod === "Razorpay" ? "border-[#07512E] bg-green-50/20" : "border-gray-200"}`}>
                     <input type="radio" checked={paymentMethod === "Razorpay"} onChange={() => setPaymentMethod("Razorpay")} className="accent-[#07512E] self-start" />
@@ -665,7 +665,7 @@ export default function CheckoutClient() {
             {/* Promo Code Input block */}
             {step === 2 && (
               <div className="border border-[#E5E7EB] p-4 mb-6 bg-gray-50/35 rounded">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Apply Promo Code</h4>
+                <h4 className="text-xs font-medium  tracking-wider text-gray-400 mb-2">Click input filed for Available Promo Codes</h4>
                 
                 {/* Input + Apply button */}
                 <div className="relative">
@@ -684,7 +684,7 @@ export default function CheckoutClient() {
                       onBlur={() => setTimeout(() => setShowCouponDropdown(false), 180)}
                       placeholder="e.g. VARDAAN50"
                       disabled={!!appliedCoupon}
-                      className="flex-1 min-w-0 py-2 px-3 border border-[#E5E7EB] border-r-0 rounded-l outline-none text-xs bg-white uppercase font-semibold focus:border-[#07512E] transition-colors"
+                      className="flex-1 min-w-0 py-2 px-3 border border-[#E5E7EB] border-r-0 rounded-l outline-none text-xs bg-white uppercase  focus:border-[#07512E] transition-colors"
                     />
                     <button
                       onClick={() => handleApplyCoupon()}
