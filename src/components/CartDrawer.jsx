@@ -209,12 +209,18 @@ export default function CartDrawer() {
                       <p className="text-[18px] sm:text-[20px] text-[#07512E] font-medium font-sans">
                         Rs. {(item.salePrice || item.price || 0).toLocaleString("en-IN")}
                       </p>
-                      <button 
-                        onClick={() => addToCart(item)}
-                        className="text-[12px] font-bold uppercase tracking-wider text-[#07512E] underline underline-offset-4 hover:text-[#054024]"
-                      >
-                        Add to Cart
-                      </button>
+                      {item.inventory <= 0 ? (
+                        <span className="text-[12px] font-bold uppercase tracking-wider text-red-500 bg-red-50 px-3 py-1.5 rounded-sm border border-red-200">
+                          Out of Stock
+                        </span>
+                      ) : (
+                        <button 
+                          onClick={() => addToCart(item)}
+                          className="text-[12px] font-bold uppercase tracking-wider text-[#07512E] border border-[#07512E] px-3 py-1.5 rounded-sm hover:bg-[#07512E] hover:text-white transition-colors"
+                        >
+                          Add to Cart
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>

@@ -31,7 +31,15 @@ export default function SignupPage() {
   const [emailOtp, setEmailOtp] = useState("");
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    if (id === 'mobile') {
+      const numericValue = value.replace(/[^0-9]/g, '');
+      if (numericValue.length <= 10) {
+        setFormData({ ...formData, [id]: numericValue });
+      }
+    } else {
+      setFormData({ ...formData, [id]: value });
+    }
   };
 
   // Submit registration form
@@ -45,6 +53,11 @@ export default function SignupPage() {
     const hasSmall = /[a-z]/.test(password);
     const hasNumber = /[0-9]/.test(password);
     const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+
+    if (formData.mobile.length !== 10) {
+      toast.error("Mobile number must be exactly 10 digits!");
+      return;
+    }
 
     if (password.length < minLength) {
       toast.error("Password must be at least 8 characters long!");
@@ -122,7 +135,7 @@ export default function SignupPage() {
       <Navbar />
       
       <div className="flex-1 flex items-center justify-center py-16 px-4">
-        <div className="bg-white border border-[#F0ECE3] rounded-xl shadow-lg p-8 sm:p-10 w-full max-w-[500px] luxury-card-hover transition-all">
+        <div className="bg-white border border-[#F0ECE3] rounded-xl shadow-lg p-8 sm:p-10 w-full max-w-[500px] transition-all">
           
           <div className="text-center mb-8">
             {!otpSent ? (
@@ -152,7 +165,7 @@ export default function SignupPage() {
                     value={formData.firstName}
                     onChange={handleChange}
                     className="w-full px-3 sm:px-4 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[13px] sm:text-[15px]"
-                    placeholder="John"
+                    placeholder="Enter your first name"
                     disabled={loading}
                   />
                 </div>
@@ -167,7 +180,7 @@ export default function SignupPage() {
                     value={formData.lastName}
                     onChange={handleChange}
                     className="w-full px-3 sm:px-4 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[13px] sm:text-[15px]"
-                    placeholder="Doe"
+                    placeholder="Enter your last name"
                     disabled={loading}
                   />
                 </div>
@@ -184,7 +197,7 @@ export default function SignupPage() {
                   value={formData.email}
                   onChange={handleChange}
                   className="w-full px-3 sm:px-4 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[13px] sm:text-[15px]"
-                  placeholder="you@example.com"
+                  placeholder="Enter your email address"
                   disabled={loading}
                 />
               </div>
@@ -200,7 +213,7 @@ export default function SignupPage() {
                   value={formData.mobile}
                   onChange={handleChange}
                   className="w-full px-3 sm:px-4 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[13px] sm:text-[15px]"
-                  placeholder="e.g. 9818719997"
+                  placeholder="Enter your mobile number"
                   disabled={loading}
                 />
               </div>
@@ -217,7 +230,7 @@ export default function SignupPage() {
                     value={formData.password}
                     onChange={handleChange}
                     className="w-full pl-3 sm:pl-4 pr-12 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[13px] sm:text-[15px]"
-                    placeholder="••••••••"
+                    placeholder="Enter your password"
                     disabled={loading}
                   />
                   <button
@@ -242,7 +255,7 @@ export default function SignupPage() {
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     className="w-full pl-3 sm:pl-4 pr-12 py-3 bg-[#FAF9F6] border border-gray-200 rounded outline-none focus:border-[#07512E] transition-colors font-sans text-[13px] sm:text-[15px]"
-                    placeholder="••••••••"
+                    placeholder="Confirm your password"
                     disabled={loading}
                   />
                   <button
