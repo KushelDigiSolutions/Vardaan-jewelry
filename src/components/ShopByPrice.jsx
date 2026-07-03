@@ -22,7 +22,7 @@ const priceRanges = [
   {
     title: "₹1199 & Above",
     query: "?minPrice=1199",
-    image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1782471275/ecom-uploads/ku4jvwvropxgson8rjpo.webp",
+    image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1782973425/ecom-uploads/qzcdfnnua12lrymbsahq.png",
   },
 ];
 
