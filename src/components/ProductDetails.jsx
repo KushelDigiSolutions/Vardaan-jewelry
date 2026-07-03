@@ -329,11 +329,13 @@ export default function ProductDetails({ productId }) {
   }, [activeVariant, selectedSizeObj, product]);
 
   const hasDiscount = useMemo(() => {
+    // Custom size selected — no discount/sale badge for size-specific prices
+    if (selectedSizeObj) return false;
     if (activeVariant) {
       return activeVariant.salePrice > 0 && activeVariant.salePrice < activeVariant.price;
     }
     return product?.salePrice > 0 && product?.salePrice < product?.price;
-  }, [activeVariant, product]);
+  }, [activeVariant, product, selectedSizeObj]);
 
   // Compute average rating and count dynamically
   const { averageRating, totalRatingsCount } = useMemo(() => {
