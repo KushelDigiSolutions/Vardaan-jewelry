@@ -42,7 +42,18 @@ export default function LoginPage() {
         router.push("/profile");
       }, 1500);
     } catch (err) {
-      toast.error(err.message || "Login failed. Please check your credentials.");
+      if (err.message && err.message.toLowerCase().includes("suspended")) {
+        toast.error(
+          <div className="flex flex-col gap-1.5">
+            <span className="font-bold text-gray-900 text-[15px]">Account Deactivated</span>
+            <span className="text-[13px] font-normal text-gray-600 leading-relaxed">
+              Your account has been deactivated by the administrator. Please contact the administrator for further assistance.
+            </span>
+          </div>
+        );
+      } else {
+        toast.error(err.message || "Login failed. Please check your credentials.");
+      }
     } finally {
       setLoading(false);
     }

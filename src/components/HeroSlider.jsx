@@ -87,26 +87,26 @@ export default function HeroSlider() {
 
             {/* Floating Content Layout */}
             <div className="absolute inset-0 max-w-[1440px] mx-auto z-20 pointer-events-none">
-              <div className="pointer-events-auto flex flex-col items-start justify-between select-none
+              <div className="pointer-events-auto flex flex-col items-start text-left justify-center select-none
                 absolute 
-                bottom-12 right-6 md:right-16
-                lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 lg:right-20 xl:right-32
-                w-[260px] sm:h-[272px] gap-4 sm:gap-0">
+                top-1/2 -translate-y-1/2 
+                right-4 sm:right-8 md:right-12 lg:right-16 xl:right-20
+                w-[80%] sm:w-[85%] md:w-auto max-w-[400px] gap-3 sm:gap-4 md:gap-5">
 
                 {/* Subtitle */}
-                <span className="text-[16px] sm:text-[24px] font-sans font-medium tracking-wider text-[#FFFFFF] uppercase animate-slide-up">
+                <span className="text-[14px] sm:text-[16px] md:text-[20px] font-sans font-medium tracking-[0.2em] text-[#FDE066] uppercase animate-slide-up drop-shadow-md">
                   {slide.subtitle}
                 </span>
 
                 {/* Title */}
-                <h2 className="text-[32px] sm:text-[48px] font-serif text-[#FFFFFF] font-normal leading-[1.1] drop-shadow-sm uppercase whitespace-pre-line">
+                <h2 className="text-[28px] sm:text-[34px] md:text-[40px] lg:text-[40px] font-sans text-[#FFFFFF] font-normal leading-[1.1] drop-shadow-lg uppercase whitespace-pre-line">
                   {slide.title}
                 </h2>
 
                 {/* CTA Button */}
                 <a
                   href={slide.ctaLink}
-                  className="mt-auto inline-flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] w-[184px] h-[48px] hover:bg-[#e6c543] transition-colors duration-300"
+                  className="mt-2 md:mt-4 inline-flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-semibold text-[15px] md:text-[18px] px-8 py-3.5 md:py-4 hover:bg-[#e6c543] transition-colors duration-300"
                 >
                   {slide.ctaText}
                 </a>

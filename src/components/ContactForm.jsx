@@ -52,7 +52,7 @@ export default function ContactForm() {
     }
 
     setIsSubmitting(true);
-    
+
     try {
       const res = await fetch(`${API_URL}/contact`, {
         method: "POST",
@@ -106,7 +106,7 @@ export default function ContactForm() {
         }
       `}</style>
       <div className="w-full max-w-[1192px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 xl:gap-16 items-start">
-        
+
         {/* Left Column: Asymmetric Guide sidebar */}
         <div className="lg:col-span-4 flex flex-col gap-6 lg:gap-0 xl:gap-6 lg:justify-between lg:h-[540px] xl:h-auto lg:sticky lg:top-8 w-full">
           <div className="flex flex-col gap-1 w-full">
@@ -118,7 +118,7 @@ export default function ContactForm() {
               <span className="font-normal text-amber-600">Private Suite</span>
             </h2>
           </div>
-          
+
           <div className="w-12 h-[2px] bg-[#FFDE59] mt-1 lg:mt-0 xl:mt-1" />
 
           <p className="text-[18px] lg:text-[14px] xl:text-[18px] text-gray-500 font-light leading-relaxed lg:leading-normal xl:leading-relaxed">
@@ -149,12 +149,12 @@ export default function ContactForm() {
         {/* Right Column: Flat-Line Luxury Form Card */}
         <div className="lg:col-span-8 bg-[#07512E] rounded-xl shadow-[0_20px_50px_rgba(7,81,78,0.15)] p-8 md:p-10 lg:p-8 xl:p-10 relative overflow-hidden w-full text-white border border-white/5 lg:h-[540px] xl:h-auto flex flex-col lg:justify-between">
           {/* Subtle Watermark overlay */}
-         <div 
-  className="absolute inset-0 bg-no-repeat bg-center bg-cover pointer-events-none mix-blend-screen opacity-[0.1]"
-  style={{ 
-    backgroundImage: `url('https://res.cloudinary.com/dd9tagtiw/image/upload/v1781515128/a29bc3df60dd42fbfd5b10b5b93b4efd38995dd5_clck27.png')`
-  }}
-/>
+          <div
+            className="absolute inset-0 bg-no-repeat bg-center bg-cover pointer-events-none mix-blend-screen opacity-[0.1]"
+            style={{
+              backgroundImage: `url('https://res.cloudinary.com/dd9tagtiw/image/upload/v1781515128/a29bc3df60dd42fbfd5b10b5b93b4efd38995dd5_clck27.png')`
+            }}
+          />
 
           {isSubmitted ? (
             <div className="flex flex-col items-center justify-center py-20 text-center animate-fade-in gap-6">
@@ -162,13 +162,13 @@ export default function ContactForm() {
               <div className="w-16 h-16 rounded-full bg-[#FFDE59] text-[#07512E] flex items-center justify-center shadow-2xl font-serif text-2xl font-bold animate-bounce border-2 border-white/10">
                 V
               </div>
-              
+
               <div className="flex flex-col gap-2">
                 <h3 className="font-serif text-[28px] md:text-[32px] text-[#FFDE59] uppercase tracking-wide">
                   Concierge Notified
                 </h3>
                 <p className="text-[18px] text-gray-300 font-light max-w-md leading-relaxed mt-2">
-                  Thank you for your request. A private consultant has been assigned and will reply to your submission within 12 hours.
+                  Thank you for your request. A private consultant has been assigned and will reply to your submission within 24 hours.
                 </p>
               </div>
 
@@ -181,7 +181,7 @@ export default function ContactForm() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-10 lg:gap-0 xl:gap-10 lg:h-full lg:justify-between">
-              
+
               {/* Form Title */}
               <div className="flex flex-col gap-2.5 lg:gap-1 xl:gap-2.5">
                 <span className="text-[12px] md:text-[14px] lg:text-[12px] xl:text-[14px] tracking-widest font-semibold text-[#FFDE59] uppercase">
@@ -195,11 +195,11 @@ export default function ContactForm() {
 
               {/* Flat-Line Inputs Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10 lg:gap-y-6 xl:gap-y-10">
-                
+
                 {/* Full Name */}
                 <div className="relative flex flex-col pt-4">
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
@@ -208,7 +208,7 @@ export default function ContactForm() {
                     className="peer w-full bg-transparent border-b border-white/20 focus:border-[#FFDE59] py-2 text-sm text-white focus:outline-none transition-colors duration-300 font-light"
                     id="name"
                   />
-                  <label 
+                  <label
                     htmlFor="name"
                     className="absolute top-4 left-0 text-xs text-gray-400 font-semibold tracking-widest uppercase transition-all duration-300 pointer-events-none peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#FFDE59] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[9px] peer-[:not(:placeholder-shown)]:text-[#FFDE59]"
                   >
@@ -218,8 +218,8 @@ export default function ContactForm() {
 
                 {/* Email Address */}
                 <div className="relative flex flex-col pt-4">
-                  <input 
-                    type="email" 
+                  <input
+                    type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
@@ -228,7 +228,7 @@ export default function ContactForm() {
                     className="peer w-full bg-transparent border-b border-white/20 focus:border-[#FFDE59] py-2 text-sm text-white focus:outline-none transition-colors duration-300 font-light"
                     id="email"
                   />
-                  <label 
+                  <label
                     htmlFor="email"
                     className="absolute top-4 left-0 text-xs text-gray-400 font-semibold tracking-widest uppercase transition-all duration-300 pointer-events-none peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#FFDE59] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[9px] peer-[:not(:placeholder-shown)]:text-[#FFDE59]"
                   >
@@ -236,10 +236,10 @@ export default function ContactForm() {
                   </label>
                 </div>
 
-                 {/* Phone Number */}
+                {/* Phone Number */}
                 <div className="relative flex flex-col pt-4">
-                  <input 
-                    type="tel" 
+                  <input
+                    type="tel"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
@@ -248,7 +248,7 @@ export default function ContactForm() {
                     className="peer w-full bg-transparent border-b border-white/20 focus:border-[#FFDE59] py-2 text-sm text-white focus:outline-none transition-colors duration-300 font-light"
                     id="phone"
                   />
-                  <label 
+                  <label
                     htmlFor="phone"
                     className="absolute top-4 left-0 text-xs text-gray-400 font-semibold tracking-widest uppercase transition-all duration-300 pointer-events-none peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#FFDE59] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[9px] peer-[:not(:placeholder-shown)]:text-[#FFDE59]"
                   >
@@ -258,8 +258,8 @@ export default function ContactForm() {
 
                 {/* Subject */}
                 <div className="relative flex flex-col pt-4">
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
@@ -268,7 +268,7 @@ export default function ContactForm() {
                     className="peer w-full bg-transparent border-b border-white/20 focus:border-[#FFDE59] py-2 text-sm text-white focus:outline-none transition-colors duration-300 font-light"
                     id="subject"
                   />
-                  <label 
+                  <label
                     htmlFor="subject"
                     className="absolute top-4 left-0 text-xs text-gray-400 font-semibold tracking-widest uppercase transition-all duration-300 pointer-events-none peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#FFDE59] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[9px] peer-[:not(:placeholder-shown)]:text-[#FFDE59]"
                   >
@@ -278,7 +278,7 @@ export default function ContactForm() {
 
                 {/* Message */}
                 <div className="relative flex flex-col pt-4 md:col-span-2">
-                  <textarea 
+                  <textarea
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
@@ -288,7 +288,7 @@ export default function ContactForm() {
                     className="peer w-full bg-transparent border-b border-white/20 focus:border-[#FFDE59] py-2 text-sm text-white focus:outline-none transition-colors duration-300 font-light resize-none"
                     id="message"
                   />
-                  <label 
+                  <label
                     htmlFor="message"
                     className="absolute top-4 left-0 text-xs text-gray-400 font-semibold tracking-widest uppercase transition-all duration-300 pointer-events-none peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#FFDE59] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[9px] peer-[:not(:placeholder-shown)]:text-[#FFDE59]"
                   >
