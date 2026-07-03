@@ -23,6 +23,7 @@ import {
   FiPhone,
   FiEye,
   FiEyeOff,
+  FiAlertCircle,
 } from "react-icons/fi";
 import { useToast } from "@/context/ToastContext";
 
@@ -1741,7 +1742,7 @@ function ProfileContent() {
                   // Orders log list
                   <div className="space-y-6">
                     <h3 className="text-[24px] font-serif text-[#07512E] font-semibold">
-                      Order Logs History
+                      My Order History
                     </h3>
 
                     {ordersLoading ? (
