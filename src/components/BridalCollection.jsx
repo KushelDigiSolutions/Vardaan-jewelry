@@ -19,10 +19,10 @@ export default function BridalCollection() {
       <div className="relative z-10 w-full max-w-[1192px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0">
         <div className="max-w-lg">
           <h2 className="text-[36px] sm:text-[48px] font-serif font-medium text-[#FFFFFF] mb-4 sm:mb-6 leading-tight">
-            Bridal Collection
+           Timeless Tradition
           </h2>
           <p className="text-[16px] sm:text-[20px] font-sans font-normal text-[#FFFFFF] leading-relaxed mb-6 sm:mb-8 max-w-md">
-            Celebrate your special day with timeless bridal jewellery crafted to make every moment unforgettable.
+           Explore our exquisite wedding ornaments for the occassion of festive wedding, sangeet, and more necklace, jhumka, ring, watches.
           </p>
           <Link
             href="/shop?category=bridal"

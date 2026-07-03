@@ -195,7 +195,9 @@ export default function SignupPage() {
                 </label>
                 <input
                   id="mobile"
-                  type="tel"
+                  type="number"
+                  maxLength={10}
+                  minLength={10}
                   required
                   value={formData.mobile}
                   onChange={handleChange}

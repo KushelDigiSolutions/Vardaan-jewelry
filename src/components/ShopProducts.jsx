@@ -31,12 +31,102 @@ export default function ShopProducts() {
   // React to category query param in the URL
   useEffect(() => {
     if (categorySlugParam && categories.length > 0) {
-      const matched = categories.find(
-        (cat) => cat.slug.toLowerCase() === categorySlugParam.toLowerCase(),
+      const normalizeStr = (str) => {
+        if (!str) return "";
+        return str
+          .toLowerCase()
+          .replace(/[^a-z0-9]/g, ""); // remove spaces, hyphens, and other special characters
+      };
+
+      const paramNormalized = normalizeStr(categorySlugParam);
+
+      // 1. Try exact or direct slug/name match (normalized)
+      let matched = categories.find(
+        (cat) =>
+          normalizeStr(cat.slug) === paramNormalized ||
+          normalizeStr(cat.name) === paramNormalized,
       );
+
+      // 2. Try singular/plural normalization match
+      if (!matched) {
+        matched = categories.find((cat) => {
+          const catSlugNorm = normalizeStr(cat.slug);
+          const catNameNorm = normalizeStr(cat.name);
+
+          const paramSingular = paramNormalized.replace(/s$/, ""); // rings -> ring
+          const catSingular = catSlugNorm.replace(/s$/, "");
+          const catNameSingular = catNameNorm.replace(/s$/, "");
+
+          // Also strip 'es' for words like watches -> watch
+          const paramSingularEs = paramNormalized.replace(/es$/, "");
+          const catSingularEs = catSlugNorm.replace(/es$/, "");
+          const catNameSingularEs = catNameNorm.replace(/es$/, "");
+
+          return (
+            paramSingular === catSingular ||
+            paramSingular === catNameSingular ||
+            paramSingularEs === catSingularEs ||
+            paramSingularEs === catNameSingularEs ||
+            catSlugNorm.startsWith(paramSingular) ||
+            catNameNorm.startsWith(paramSingular) ||
+            paramNormalized.startsWith(catSingular) ||
+            paramNormalized.startsWith(catNameSingular)
+          );
+        });
+      }
+
+      // 3. Custom mappings (like necklace set -> sets/necklaces, jhumka -> earrings, wedding -> bridal)
+      if (!matched) {
+        if (paramNormalized.includes("necklaceset") || paramNormalized.includes("necklace")) {
+          matched = categories.find(
+            (cat) =>
+              normalizeStr(cat.slug) === "sets" ||
+              normalizeStr(cat.slug) === "necklaces" ||
+              normalizeStr(cat.name).includes("set") ||
+              normalizeStr(cat.name).includes("necklace"),
+          );
+        } else if (paramNormalized.includes("jhumka") || paramNormalized.includes("earring")) {
+          matched = categories.find(
+            (cat) =>
+              normalizeStr(cat.slug) === "earrings" ||
+              normalizeStr(cat.name).includes("earring"),
+          );
+        } else if (paramNormalized.includes("wedding") || paramNormalized.includes("marriage")) {
+          matched = categories.find(
+            (cat) =>
+              normalizeStr(cat.slug) === "bridal" ||
+              normalizeStr(cat.name).includes("bridal") ||
+              normalizeStr(cat.name).includes("wedding"),
+          );
+        }
+      }
+
       if (matched) {
         setSelectedCategory(matched._id);
         setCurrentPage(1);
+        setIsActive(true);
+        setFilterShow(matched.name);
+      } else {
+        // Fallback to text search if no category ID matches the URL query param
+        setSelectedCategory("all");
+        
+        let searchKeyword = categorySlugParam;
+        const normParam = paramNormalized;
+        if (normParam.includes("officewear") || normParam.includes("office")) {
+          searchKeyword = "office";
+        } else if (normParam.includes("everydaywear") || normParam.includes("everyday")) {
+          searchKeyword = "everyday";
+        } else if (normParam.includes("datenight") || normParam.includes("date")) {
+          searchKeyword = "date";
+        } else if (normParam.includes("travelessential") || normParam.includes("travel")) {
+          searchKeyword = "travel";
+        }
+
+        setSearch(searchKeyword);
+        setSearchInput(searchKeyword);
+        setCurrentPage(1);
+        setIsActive(true);
+        setFilterShow(categorySlugParam);
       }
     } else if (!categorySlugParam && categories.length > 0) {
       setSelectedCategory("all");
