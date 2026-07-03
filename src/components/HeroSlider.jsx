@@ -82,16 +82,16 @@ export default function HeroSlider() {
               style={{ backgroundImage: `url('${slide.image}')` }}
             />
 
-            {/* Dark/Green gradient overlay for luxury look & high readability */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/25 to-transparent md:bg-gradient-to-r md:from-black/40 md:via-[#07512E]/10 md:to-[#07512E]/25" />
+            {/* Dark overlay for luxury look & high readability */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/10 md:bg-gradient-to-l md:from-black/70 md:via-black/30 md:to-transparent" />
 
             {/* Floating Content Layout */}
             <div className="absolute inset-0 max-w-[1440px] mx-auto z-20 pointer-events-none">
               <div className="pointer-events-auto flex flex-col items-start text-left justify-center select-none
                 absolute 
-                top-1/2 -translate-y-1/2 
-                right-4 sm:right-8 md:right-12 lg:right-16 xl:right-20
-                w-[80%] sm:w-[85%] md:w-auto max-w-[400px] gap-3 sm:gap-4 md:gap-5">
+                top-1/2 -translate-y-1/2 md:-mt-8 lg:mt-0
+                left-4 sm:left-auto right-auto sm:right-2 md:right-3 lg:right-4 xl:right-5
+                w-[80%] sm:w-[85%] md:w-auto max-w-[400px] gap-3 sm:gap-3 lg:gap-5">
 
                 {/* Subtitle */}
                 <span className="text-[14px] sm:text-[16px] md:text-[20px] font-sans font-medium tracking-[0.2em] text-[#FDE066] uppercase animate-slide-up drop-shadow-md">
@@ -99,14 +99,13 @@ export default function HeroSlider() {
                 </span>
 
                 {/* Title */}
-                <h2 className="text-[28px] sm:text-[34px] md:text-[40px] lg:text-[40px] font-sans text-[#FFFFFF] font-normal leading-[1.1] drop-shadow-lg uppercase whitespace-pre-line">
+                <h2 className="text-[28px] sm:text-[34px] md:text-[34px] lg:text-[40px] font-sans text-[#FFFFFF] font-normal leading-[1.1] drop-shadow-lg  whitespace-pre-line">
                   {slide.title}
                 </h2>
 
-                {/* CTA Button */}
                 <a
                   href={slide.ctaLink}
-                  className="mt-2 md:mt-4 inline-flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-semibold text-[15px] md:text-[18px] px-8 py-3.5 md:py-4 hover:bg-[#e6c543] transition-colors duration-300"
+                  className="mt-2 md:mt-3 lg:mt-4 inline-flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-semibold text-[14px] md:text-[14px] lg:text-[16px] px-6 md:px-6 lg:px-8 py-2.5 md:py-2.5 lg:py-3 hover:bg-[#e6c543] transition-colors duration-300"
                 >
                   {slide.ctaText}
                 </a>
@@ -119,14 +118,14 @@ export default function HeroSlider() {
       {/* Manual Arrow Controls (Desktop only) */}
       <button
         onClick={handlePrev}
-        className="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 w-11 h-11 items-center justify-center rounded-full bg-black/20 hover:bg-[#07512E]/80 text-white hover:text-[#FFDE59] transition-all duration-300 border border-white/10 z-30 cursor-pointer"
+        className="hidden lg:flex absolute left-6 top-1/2 -translate-y-1/2 w-11 h-11 items-center justify-center rounded-full bg-black/20 hover:bg-[#07512E]/80 text-white hover:text-[#FFDE59] transition-all duration-300 border border-white/10 z-30 cursor-pointer"
         aria-label="Previous slide"
       >
         <FiChevronLeft className="w-5 h-5" />
       </button>
       <button
         onClick={handleNext}
-        className="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 w-11 h-11 items-center justify-center rounded-full bg-black/20 hover:bg-[#07512E]/80 text-white hover:text-[#FFDE59] transition-all duration-300 border border-white/10 z-30 cursor-pointer"
+        className="hidden lg:flex absolute right-6 top-1/2 -translate-y-1/2 w-11 h-11 items-center justify-center rounded-full bg-black/20 hover:bg-[#07512E]/80 text-white hover:text-[#FFDE59] transition-all duration-300 border border-white/10 z-30 cursor-pointer"
         aria-label="Next slide"
       >
         <FiChevronRight className="w-5 h-5" />

@@ -213,6 +213,14 @@ export default function CartDrawer() {
                         <span className="text-[12px] font-bold uppercase tracking-wider text-red-500 bg-red-50 px-3 py-1.5 rounded-sm border border-red-200">
                           Out of Stock
                         </span>
+                      ) : cartItems.some((cartItem) => cartItem.id === item._id || cartItem._id === item._id) ? (
+                        <Link 
+                          href="/cart"
+                          onClick={closeCart}
+                          className="text-[12px] font-bold uppercase tracking-wider text-white bg-[#07512E] border border-[#07512E] px-3 py-1.5 rounded-sm hover:bg-[#054024] transition-colors"
+                        >
+                          View Cart
+                        </Link>
                       ) : (
                         <button 
                           onClick={() => addToCart(item)}
