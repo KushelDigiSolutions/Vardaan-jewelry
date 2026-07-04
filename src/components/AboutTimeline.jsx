@@ -33,7 +33,7 @@ export default function AboutTimeline() {
         {/* Title */}
         <div className="flex flex-col items-center text-center gap-4 mb-24">
           <span className="text-[18px] tracking-widest font-semibold text-amber-600 uppercase">
-            ATELIER CHRONOLOGY
+            Vardaan's Chronology
           </span>
           <h2 className="text-[32px] md:text-[48px] font-serif text-[#07512E] font-light uppercase tracking-wide">
             Our Journey <span className="font-normal text-amber-600">Through Time</span>

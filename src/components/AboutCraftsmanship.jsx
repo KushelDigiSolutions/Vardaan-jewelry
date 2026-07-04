@@ -8,8 +8,8 @@ export default function AboutCraftsmanship() {
   const steps = [
     {
       num: "I",
-      title: "Design Atelier",
-      desc: "Every jewellery creation begins as a hand-drawn vision. In our New Delhi design atelier, we sketch organic flora patterns and trace geometric lines to fit modern silhouettes.",
+      title: "Design Vardaan Jewels",
+      desc: "Every jewellery creation begins as a hand-drawn vision. In our Vardaan, we sketch organic flora patterns and trace geometric lines to fit modern silhouettes.",
       img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=600&auto=format&fit=crop"
     },
     {
@@ -26,7 +26,7 @@ export default function AboutCraftsmanship() {
     },
     {
       num: "IV",
-      title: "Atelier Buffing & Audit",
+      title: "Vardaan Buffing & Audit",
       desc: "Before a Vardaan piece is delivered, it undergoes multiple rounds of hand polishing and quality audits, ensuring a signature, mirror-like jewellery shine.",
       img: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=600&auto=format&fit=crop"
     }

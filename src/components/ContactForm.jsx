@@ -114,8 +114,8 @@ export default function ContactForm() {
               Private Commissions
             </span>
             <h2 className="text-[32px] md:text-[48px] lg:text-[34px] xl:text-[48px] font-serif text-[#07512E] font-normal uppercase tracking-wide leading-[1.1]">
-              Concierge <br />
-              <span className="font-normal text-amber-600">Private Suite</span>
+              Private  <br />
+              <span className="font-normal text-amber-600">Inquiry Form</span>
             </h2>
           </div>
 

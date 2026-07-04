@@ -33,10 +33,10 @@ export default function AboutWhoWeAre() {
           <div className="w-full h-[1px] bg-gray-100 my-4" />
 
           {/* Signature Badge */}
-          <div className="flex items-center gap-3">
+          {/* <div className="flex items-center gap-3">
             <span className="font-serif italic text-amber-700 text-[16px]">Design Atelier Team</span>
             <span className="w-2 h-2 rounded-full bg-[#FFDE59]" />
-          </div>
+          </div> */}
         </div>
 
         {/* Right Side: Staggered 3-Image Editorial Gallery */}

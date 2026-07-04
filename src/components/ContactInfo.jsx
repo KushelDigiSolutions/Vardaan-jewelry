@@ -14,18 +14,18 @@ export default function ContactInfo() {
     },
     {
       icon: FiMail,
-      title: "Write to Atelier",
+      title: "Write to Vardaan",
       value: "vardaan.1225@gmail.com",
       href: "mailto:vardaan.1225@gmail.com",
       desc: "Send sketches or Rolled Gold custom queries."
     },
-    {
-      icon: FiMapPin,
-      title: "Atelier Showroom",
-      value: "New Delhi, India",
-      href: "#contact-form-section",
-      desc: "Experience our premium Rolled Gold lines."
-    }
+    // {
+    //   icon: FiMapPin,
+    //   title: "Atelier Showroom",
+    //   value: "New Delhi, India",
+    //   href: "#contact-form-section",
+    //   desc: "Experience our premium Rolled Gold lines."
+    // }
   ];
 
   return (
@@ -96,24 +96,24 @@ export default function ContactInfo() {
           
           <div className="w-12 h-[2px] bg-[#FFDE59] mt-1 lg:mt-0 xl:mt-1" />
 
-          <div className="flex gap-4 lg:gap-3 xl:gap-4 items-start w-full bg-[#FAF9F6] border border-gray-150/80 p-6 lg:p-4 xl:p-6 rounded-lg mt-2 lg:mt-0 xl:mt-2">
+          {/* <div className="flex gap-4 lg:gap-3 xl:gap-4 items-start w-full bg-[#FAF9F6] border border-gray-150/80 p-6 lg:p-4 xl:p-6 rounded-lg mt-2 lg:mt-0 xl:mt-2">
             <FiClock className="text-amber-600 w-6 h-6 lg:w-5 lg:h-5 xl:w-6 xl:h-6 shrink-0 mt-0.5" />
             <div className="flex flex-col">
               <span className="text-[20px] lg:text-[17px] xl:text-[20px] font-semibold text-[#07512E] tracking-wider">Atelier Hours</span>
               <span className="text-[18px] lg:text-[14px] xl:text-[18px] text-gray-600 font-light mt-1 lg:mt-0.5 xl:mt-1">Mon - Sat: 11:00 AM - 7:30 PM</span>
               <span className="text-[12px] lg:text-[11px] xl:text-[12px] text-gray-400 font-light italic mt-1 lg:mt-0.5 xl:mt-1">Sundays Closed</span>
             </div>
-          </div>
+          </div> */}
 
           <p className="text-[18px] lg:text-[13px] xl:text-[18px] text-gray-500 font-light leading-relaxed lg:leading-normal xl:leading-relaxed mt-2 lg:mt-0 xl:mt-2">
-            Private consultations are managed through designated VIP suites to ensure a secure, personalized, and comfortable experience.
+            Private consultations are managed through designated VIP to ensure a secure, personalized, and comfortable experience.
           </p>
 
           <a 
             href="#contact-form-section"
             className="flex items-center gap-2 text-[14px] lg:text-[13px] xl:text-[14px] font-serif font-semibold text-[#07512E] hover:text-amber-600 transition-colors group mt-2 lg:mt-0 xl:mt-2 w-full"
           >
-            <span>Book Private Consultation Suite</span>
+            <span>Book Private Consultation</span>
             <FiChevronRight className="w-4 h-4 lg:w-3.5 lg:h-3.5 xl:w-4 xl:h-4 translate-x-0 group-hover:translate-x-1 transition-transform" />
           </a>
         </div>

@@ -9,7 +9,7 @@ import Footer from "@/components/Footer";
 export const metadata = {
   title: "Contact Us | Vardaan - Fine Handcrafted Jewelry",
   description:
-    "Connect with Vardaan's Delhi atelier. Contact our custom design consultants, inquire about certificates, or view showroom hours.",
+    "Connect with Vardaan's. Contact our custom design consultants, inquire about certificates, or view showroom hours.",
   keywords:
     "contact vardaan, boutique showroom delhi, custom jewelry consult, gold certification, email vardaan support",
 };
@@ -72,7 +72,7 @@ export default function ContactPage() {
                         alt=""
                         className="h-6 w-6 text-white "
                       />
-                      <span>spanvardaan.1225@gmail.com</span>
+                      <span>vardaan.1225@gmail.com</span>
                     </a>
                   </div>
                 </div>
