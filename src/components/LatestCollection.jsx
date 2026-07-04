@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "../context/CartContext";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://vardaan-backend.vercel.app/api";
 
 export default function LatestCollection() {
   const { addToCart, cartItems } = useCart();
@@ -22,16 +22,28 @@ export default function LatestCollection() {
     const fetchLatestProducts = async () => {
       try {
         const res = await fetch(`${API_URL}/products?sort=newest&limit=6`);
-        if (res.ok) {
-          const json = await res.json();
-          const items = json.data?.products || json.data || [];
-          setProducts(items);
-          if (items.length > 0) {
-            setCurrentIndex(items.length);
-          }
+        if (!res.ok) {
+          throw new Error(`Request failed with status ${res.status}`);
+        }
+
+        const json = await res.json();
+        const items = Array.isArray(json)
+          ? json
+          : Array.isArray(json?.data)
+            ? json.data
+            : Array.isArray(json?.data?.products)
+              ? json.data.products
+              : Array.isArray(json?.products)
+                ? json.products
+                : [];
+
+        setProducts(items);
+        if (items.length > 0) {
+          setCurrentIndex(items.length);
         }
       } catch (err) {
         console.error("Error fetching latest products:", err);
+        setProducts([]);
       } finally {
         setLoading(false);
       }

@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 
 const AuthContext = createContext();
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+const API_URL = process.env.NEXT_PUBLIC_API_URL?.trim() || "https://vardaan-backend.vercel.app/api";
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -82,18 +82,28 @@ export function AuthProvider({ children }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.message || "Invalid email or password");
+
+      let data = null;
+      try {
+        data = await res.json();
+      } catch {
+        data = null;
       }
-      setUser(data.data || data);
-      setToken(data.data?.token || data.token);
-      localStorage.setItem("vardaan_token", data.data?.token || data.token);
-      await loadAddresses(data.data?.token || data.token);
-      return data.data || data;
+
+      if (!res.ok) {
+        throw new Error(data?.message || `Login failed with status ${res.status}`);
+      }
+
+      setUser(data?.data || data);
+      const authToken = data?.data?.token || data?.token;
+      setToken(authToken);
+      localStorage.setItem("vardaan_token", authToken);
+      await loadAddresses(authToken);
+      return data?.data || data;
     } catch (err) {
-      setError(err.message);
-      throw err;
+      const message = err?.message || "Login failed. Please try again.";
+      setError(message);
+      throw new Error(message);
     }
   };
 

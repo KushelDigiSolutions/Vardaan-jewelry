@@ -1742,7 +1742,7 @@ function ProfileContent() {
                   // Orders log list
                   <div className="space-y-6">
                     <h3 className="text-[24px] font-serif text-[#07512E] font-semibold">
-                      My Order History
+                      Order Logs History
                     </h3>
 
                     {ordersLoading ? (
