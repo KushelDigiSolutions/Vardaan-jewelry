@@ -86,7 +86,11 @@ export default function ShopProducts() {
               normalizeStr(cat.name).includes("set") ||
               normalizeStr(cat.name).includes("necklace"),
           );
-        } else if (paramNormalized.includes("jhumka") || paramNormalized.includes("earring")) {
+        } else if (
+          paramNormalized.includes("jhumka") ||
+          paramNormalized.includes("earring") || // earring, earrings
+          paramNormalized.includes("earing")     // typo: earings, earing
+        ) {
           matched = categories.find(
             (cat) =>
               normalizeStr(cat.slug) === "earrings" ||
@@ -106,6 +110,80 @@ export default function ShopProducts() {
               normalizeStr(cat.slug) === "ring" ||
               normalizeStr(cat.name) === "rings" ||
               normalizeStr(cat.name) === "ring",
+          );
+        }
+        // ── Gift by Occasion ───────────────────────────────────────────────────
+        else if (paramNormalized.includes("anniversary")) {
+          matched = categories.find(
+            (cat) =>
+              normalizeStr(cat.slug).includes("anniversary") ||
+              normalizeStr(cat.name).includes("anniversary"),
+          );
+        } else if (paramNormalized.includes("birthday")) {
+          matched = categories.find(
+            (cat) =>
+              normalizeStr(cat.slug).includes("birthday") ||
+              normalizeStr(cat.name).includes("birthday"),
+          );
+        } else if (paramNormalized.includes("engagement")) {
+          matched = categories.find(
+            (cat) =>
+              normalizeStr(cat.slug).includes("engagement") ||
+              normalizeStr(cat.name).includes("engagement"),
+          );
+        }
+        // ── Gift for Person ─────────────────────────────────────────────────────
+        // "for-her" → normalised → "forher"
+        else if (paramNormalized === "forher" || paramNormalized.includes("forher")) {
+          matched = categories.find(
+            (cat) =>
+              normalizeStr(cat.slug) === "forher" ||
+              normalizeStr(cat.slug).includes("forher") ||
+              normalizeStr(cat.name) === "forher" ||
+              normalizeStr(cat.name).includes("forher") ||
+              normalizeStr(cat.name) === "for her" ||
+              normalizeStr(cat.slug) === "forher",
+          );
+        } else if (paramNormalized === "forhim" || paramNormalized.includes("forhim")) {
+          matched = categories.find(
+            (cat) =>
+              normalizeStr(cat.slug).includes("forhim") ||
+              normalizeStr(cat.name).includes("forhim"),
+          );
+        } else if (paramNormalized.includes("forsister")) {
+          matched = categories.find(
+            (cat) =>
+              normalizeStr(cat.slug).includes("forsister") ||
+              normalizeStr(cat.name).includes("forsister") ||
+              normalizeStr(cat.name).includes("sister"),
+          );
+        } else if (paramNormalized.includes("forbrother")) {
+          matched = categories.find(
+            (cat) =>
+              normalizeStr(cat.slug).includes("forbrother") ||
+              normalizeStr(cat.name).includes("forbrother") ||
+              normalizeStr(cat.name).includes("brother"),
+          );
+        } else if (paramNormalized.includes("formother")) {
+          matched = categories.find(
+            (cat) =>
+              normalizeStr(cat.slug).includes("formother") ||
+              normalizeStr(cat.name).includes("formother") ||
+              normalizeStr(cat.name).includes("mother"),
+          );
+        } else if (paramNormalized.includes("forfather")) {
+          matched = categories.find(
+            (cat) =>
+              normalizeStr(cat.slug).includes("forfather") ||
+              normalizeStr(cat.name).includes("forfather") ||
+              normalizeStr(cat.name).includes("father"),
+          );
+        } else if (paramNormalized.includes("forfriends") || paramNormalized.includes("forfriend")) {
+          matched = categories.find(
+            (cat) =>
+              normalizeStr(cat.slug).includes("forfriend") ||
+              normalizeStr(cat.name).includes("forfriend") ||
+              normalizeStr(cat.name).includes("friend"),
           );
         }
       }
