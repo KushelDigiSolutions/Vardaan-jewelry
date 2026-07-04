@@ -1,96 +1,85 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import Image from "next/image";
 import Link from "next/link";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-
-const getCategoryFallbackImage = (slug) => {
-  const s = slug ? slug.toLowerCase() : "";
-  if (s.includes("set")) {
-    return "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781528583/sets_xvoyfd.png";
-  }
-  if (s.includes("earring")) {
-    return "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781528601/earing_fktmvk.png";
-  }
-  if (s.includes("ring")) {
-    return "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781528583/rings_pkq8gv.png";
-  }
-  // Default general fallback
-  return "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781528583/rings_pkq8gv.png";
-};
+// ─── Static categories shown in the "Shop by Category" carousel ───────────────
+// slug must match what ShopProducts.jsx normalizer can resolve
+// (rings→rings, earrings→earrings/jhumka, bracelet→bracelet, watches→watch/watches, necklace→necklace/sets)
+const STATIC_CATEGORIES = [
+  {
+    name: "Necklace",
+    slug: "necklace",
+    image:
+      "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781528583/sets_xvoyfd.png",
+  },
+  {
+    name: "Earrings",
+    slug: "earrings",
+    image:
+      "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781528601/earing_fktmvk.png",
+  },
+  {
+    name: "Rings",
+    slug: "rings",
+    image:
+      "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781528583/rings_pkq8gv.png",
+  },
+  {
+    name: "Bracelet",
+    slug: "bracelet",
+    image:
+      "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783165746/bracletss_kbwsrg.webp",
+  },
+  {
+    name: "Watches",
+    slug: "watches",
+    image:
+      "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783080277/watch_e0hbih.png",
+      
+  },
+];
 
 export default function ShopByCategories() {
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const categories = STATIC_CATEGORIES;
+  const totalItems = categories.length;
+
+  const [currentIndex, setCurrentIndex] = useState(totalItems); // start at first real set
   const [isTransitioning, setIsTransitioning] = useState(true);
   const [slideWidth, setSlideWidth] = useState(380);
   const [isHovered, setIsHovered] = useState(false);
-  const totalItems = categories.length;
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await fetch(`${API_URL}/categories`);
-        if (res.ok) {
-          const json = await res.json();
-          const data = Array.isArray(json) ? json : json?.data || [];
-          
-          // Filter root active categories (parentCategory is null)
-          const rootActive = data.filter(c => c.isActive && !c.parentCategory);
-          
-          // Fallback to all active categories if no root categories are found
-          const displayCategories = rootActive.length > 0 
-            ? rootActive 
-            : data.filter(c => c.isActive);
-            
-          setCategories(displayCategories);
-          
-          if (displayCategories.length > 0) {
-            setCurrentIndex(displayCategories.length);
-          }
-        }
-      } catch (err) {
-        console.error("Error fetching categories:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCategories();
-  }, []);
-
+  // Responsive slide width
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
       if (width < 768) {
-        setSlideWidth(width - 32); // mobile full width
+        setSlideWidth(width - 32);
       } else if (width < 1024) {
-        setSlideWidth((width - 64 - 16) / 2); // tablet 2 cols
+        setSlideWidth((width - 64 - 16) / 2);
       } else if (width < 1280) {
-        setSlideWidth((width - 96 - 32) / 3); // 1024px to 1280px
+        setSlideWidth((width - 96 - 32) / 3);
       } else {
-        setSlideWidth(380); // large desktop fixed
+        setSlideWidth(380);
       }
     };
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const nextSlide = useCallback(() => {
-    if (!isTransitioning || totalItems === 0) return;
+    if (!isTransitioning) return;
     setCurrentIndex((prev) => prev + 1);
-  }, [isTransitioning, totalItems]);
+  }, [isTransitioning]);
 
   const prevSlide = () => {
-    if (!isTransitioning || totalItems === 0) return;
+    if (!isTransitioning) return;
     setCurrentIndex((prev) => prev - 1);
   };
 
+  // Infinite loop reset — forward
   useEffect(() => {
-    if (totalItems === 0) return;
     if (currentIndex >= totalItems * 2) {
       const timer = setTimeout(() => {
         setIsTransitioning(false);
@@ -98,6 +87,7 @@ export default function ShopByCategories() {
       }, 700);
       return () => clearTimeout(timer);
     }
+    // Infinite loop reset — backward
     if (currentIndex <= 0) {
       const timer = setTimeout(() => {
         setIsTransitioning(false);
@@ -107,87 +97,87 @@ export default function ShopByCategories() {
     }
   }, [currentIndex, totalItems]);
 
+  // Re-enable transition after a snap jump
   useEffect(() => {
-    if (totalItems === 0) return;
     if (!isTransitioning) {
       const timer = setTimeout(() => setIsTransitioning(true), 50);
       return () => clearTimeout(timer);
     }
-  }, [isTransitioning, totalItems]);
+  }, [isTransitioning]);
 
+  // Auto-play every 3 seconds (pause on hover)
   useEffect(() => {
-    if (totalItems === 0 || isHovered) return;
-    const timer = setInterval(() => {
-      nextSlide();
-    }, 3000);
+    if (isHovered) return;
+    const timer = setInterval(nextSlide, 3000);
     return () => clearInterval(timer);
-  }, [nextSlide, totalItems, isHovered]);
-
-  if (loading) {
-    return (
-      <section className="py-10 md:py-16 bg-[#FFF6E8] overflow-hidden">
-        <div className="w-full max-w-[1172px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0">
-          {/* Header Section */}
-          <div className="flex justify-between items-center mb-10">
-            <h2 className="text-[32px] font-medium font-serif text-[#07512E] ">
-              Shop by Categories
-            </h2>
-          </div>
-          <div className="flex justify-center items-center py-20">
-            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#07512E]"></div>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  if (categories.length === 0) {
-    return null;
-  }
+  }, [nextSlide, isHovered]);
 
   return (
     <section className="py-10 md:py-16 bg-[#FFF6E8] overflow-hidden">
       <div className="w-full max-w-[1172px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0">
-        {/* Header Section */}
-        <div className="flex justify-between sm: flex-wrap sm: gap-4 items-center mb-10">
-          <h2 className="text-[32px] font-medium font-serif text-[#07512E] ">
-            Shop by Categories
+        {/* Header */}
+        <div className="flex justify-between sm:flex-wrap sm:gap-4 items-center mb-10">
+          <h2 className="text-[32px] font-medium font-serif text-[#07512E]">
+            Shop by Category
           </h2>
           <div className="flex gap-3">
-            <button 
+            <button
               onClick={prevSlide}
               className="w-10 h-10 rounded-full border cursor-pointer border-[#07512E] flex items-center justify-center text-[#07512E] hover:bg-[#07512E] hover:text-white transition-colors z-10"
               aria-label="Previous slide"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <path d="M19 12H5M12 19l-7-7 7-7" />
               </svg>
             </button>
-            <button 
+            <button
               onClick={nextSlide}
               className="w-10 h-10 rounded-full cursor-pointer bg-[#07512E] flex items-center justify-center text-white hover:bg-[#04361E] transition-colors z-10"
               aria-label="Next slide"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </button>
           </div>
         </div>
 
-        {/* Carousel Window (Pause on Hover) */}
-        <div 
+        {/* Carousel Window */}
+        <div
           className="w-full relative overflow-hidden"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <div 
-            className={`flex gap-4 ${isTransitioning ? 'transition-transform duration-700 ease-in-out' : ''}`}
-            style={{ transform: `translateX(calc(-${currentIndex} * (${slideWidth}px + 16px)))` }}
+          <div
+            className={`flex gap-4 ${
+              isTransitioning ? "transition-transform duration-700 ease-in-out" : ""
+            }`}
+            style={{
+              transform: `translateX(calc(-${currentIndex} * (${slideWidth}px + 16px)))`,
+            }}
           >
+            {/* Triple clone for seamless infinite loop */}
             {[...categories, ...categories, ...categories].map((cat, idx) => (
-              <div 
-                key={idx} 
+              <div
+                key={idx}
                 className="flex-shrink-0 flex justify-center"
                 style={{ width: `${slideWidth}px` }}
               >
@@ -196,11 +186,11 @@ export default function ShopByCategories() {
                   className="group relative w-full h-[420px] overflow-hidden block"
                 >
                   <img
-                    src={cat.image || getCategoryFallbackImage(cat.slug)}
+                    src={cat.image}
                     alt={cat.name}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 bg-gray-200"
                   />
-                  {/* Green Gradient Overlay with Category Title */}
+                  {/* Green gradient overlay with label */}
                   <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#07512E]/90 via-[#07512E]/40 to-transparent pointer-events-none flex items-end justify-center pb-8">
                     <h3 className="text-white font-serif text-3xl font-medium tracking-wide capitalize">
                       {cat.name}

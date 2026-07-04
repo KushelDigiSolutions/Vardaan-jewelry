@@ -144,7 +144,7 @@ export default function RoyallyCrafted() {
         {/* Header Section */}
         <div className="flex justify-between sm:flex-wrap sm:gap-4 items-center mb-10">
           <h2 className="text-3xl md:text-4xl font-serif text-[#1e2a24] font-medium tracking-wide">
-            Shop By categories
+            Shop By Category
           </h2>
           <div className="flex gap-3">
             <button

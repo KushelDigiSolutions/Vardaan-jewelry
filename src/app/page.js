@@ -15,6 +15,9 @@ import InstagramFeed from "@/components/InstagramFeed";
 import CustomerFeedback from "@/components/CustomerFeedback";
 import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
+import GiftingCollection from "@/components/GiftingCollections";
+import GiftsByOccasion from "@/components/GiftsByOccasion";
+import GiftsForSomeone from "@/components/GiftsForSomeone";
 
 export default function Home() {
   return (
@@ -32,6 +35,9 @@ export default function Home() {
         <RoyallyCrafted />
         <ShopByOccasion />
         <ShopByBudget />
+        <GiftingCollection/>
+        <GiftsByOccasion />
+        <GiftsForSomeone />
         {/* <NewJewelry /> */}
         <InstagramFeed />
         <CustomerFeedback />
