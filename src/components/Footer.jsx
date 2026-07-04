@@ -102,16 +102,18 @@ export default function Footer() {
             {/* Circle Social Links */}
             <div className="flex items-center gap-4 mt-2 w-full justify-start">
               {[
-                { icon: FaFacebookF, label: "Facebook" },
-                { icon: FiInstagram, label: "Instagram" },
-                { icon: FiYoutube, label: "Youtube" },
-                { icon: FaLinkedinIn, label: "LinkedIn" }
+                // { icon: FaFacebookF, label: "Facebook",link:"https://www.facebook.com/share/v/fN9M85G1cT639m1n/" },
+                { icon: FiInstagram, label: "Instagram",link:"https://www.instagram.com/vardaan.pureblessing?igsh=MXRzNmJzNWlicjByNQ==" },
+                { icon: FiYoutube, label: "Youtube",link:"https://youtube.com/@vardaanjewels?si=bd-SoaWgD21qJXHP" },
+                // { icon: FaLinkedinIn, label: "LinkedIn",link:"https://www.linkedin.com/company/vardaanpureblessing/" }
               ].map((soc, i) => {
                 const Icon = soc.icon;
                 return (
                   <a
                     key={i}
-                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={soc.link}
                     className="w-[36px] h-[36px] rounded-full border-[1.5px] border-white flex items-center justify-center text-white hover:text-[#FFDE59] hover:border-[#FFDE59] transition-all duration-300 hover:bg-white/5"
                     aria-label={soc.label}
                   >
@@ -162,10 +164,10 @@ export default function Footer() {
                 Categories
               </h4>
               <ul className="flex flex-col gap-5 text-[16px] text-[#FFFFFF] font-normal">
-                <li><Link href="/shop?category=latest" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Ring</Link></li>
-                <li><Link href="/shop?category=latest" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Bridal</Link></li>
-                <li><Link href="/shop?category=latest" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Sets</Link></li>
-                <li><Link href="/shop?category=latest" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Necklaces</Link></li>
+                <li><Link href="/shop?category=rings" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Ring</Link></li>
+                <li><Link href="/shop?category=jhumka" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Jhumka</Link></li>
+                <li><Link href="/shop?category=watch" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Watch</Link></li>
+                <li><Link href="/shop?category=wedding" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Wedding</Link></li>
               </ul>
             </div>
           </div>

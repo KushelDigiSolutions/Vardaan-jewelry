@@ -50,7 +50,7 @@ export default function AboutVisionMission() {
             <p className="text-[18px] text-gray-600 font-light leading-relaxed">
               To keep the ancestral craft of fine handcrafting alive, enforce
               strict transparency with GIA gemstone grading, and provide direct
-              atelier customization services for our patrons.
+              Vardaan customization services for our patrons.
             </p>
           </div>
         </div>
