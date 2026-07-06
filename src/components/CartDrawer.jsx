@@ -150,13 +150,13 @@ export default function CartDrawer() {
                     </h3>
                     {lastItem.variant && lastItem.variant !== "default" && (
                       <p className="text-[13px] text-[#6B7280] font-normal font-sans leading-relaxed mb-1 italic">
-                        {lastItem.variant}
+                        Size : {lastItem.variant}
                       </p>
                     )}
                     <p className="text-[13px] text-[#9CA3AF] font-sans mb-2">
                       Qty: {lastItem.quantity}
                     </p>
-                    <div className="flex flex-col gap-1 mt-auto items-center sm:items-start">
+                    <div className="flex flex-col gap-1 mt-2 items-center sm:items-start">
                       <span className="text-[24px] font-semibold font-sans text-[#111827]">
                         ₹ {(lastItem.price * lastItem.quantity).toLocaleString("en-IN")}
                       </span>

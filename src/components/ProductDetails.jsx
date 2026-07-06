@@ -358,26 +358,34 @@ export default function ProductDetails({ productId }) {
   }, [reviews, product]);
 
   /** Out-of-stock flag */
-  const isOutOfStock = activeVariant
-    ? activeVariant.inventory <= 0
-    : (product?.inventory || 0) <= 0;
+  const isOutOfStock = useMemo(() => {
+    if (hasVariants) {
+      return activeVariant
+        ? activeVariant.inventory <= 0
+        : (product?.inventory || 0) <= 0;
+    }
+    if (selectedSizeObj) {
+      return selectedSizeObj.inventory <= 0;
+    }
+    return (product?.inventory || 0) <= 0;
+  }, [hasVariants, activeVariant, selectedSizeObj, product]);
 
   /** Stock availability label */
   const stockLabel = useMemo(() => {
-    if (!hasVariants) {
-      const inv = product?.inventory || 0;
+    if (hasVariants) {
+      if (!activeVariant)
+        return { text: "Select options above", color: "text-gray-400" };
+      const inv = activeVariant.inventory || 0;
       if (inv <= 0) return { text: "Out of Stock", color: "text-red-600" };
-      if (inv <= 5)
-        return { text: `Only ${inv} left!`, color: "text-amber-700" };
+      if (inv <= 5) return { text: `Only ${inv} left!`, color: "text-amber-700" };
       return { text: `${inv} in stock`, color: "text-green-700" };
     }
-    if (!activeVariant)
-      return { text: "Select options above", color: "text-gray-400" };
-    const inv = activeVariant.inventory || 0;
+    // For non-variants (including custom sizes or simple products)
+    const inv = selectedSizeObj ? (selectedSizeObj.inventory || 0) : (product?.inventory || 0);
     if (inv <= 0) return { text: "Out of Stock", color: "text-red-600" };
     if (inv <= 5) return { text: `Only ${inv} left!`, color: "text-amber-700" };
     return { text: `${inv} in stock`, color: "text-green-700" };
-  }, [hasVariants, product, activeVariant]);
+  }, [hasVariants, activeVariant, selectedSizeObj, product]);
 
   // ── Selection Change Sync (Score-based Matching) ──────────────────────────
   const handleSelectionChange = useCallback(
@@ -471,7 +479,7 @@ export default function ProductDetails({ productId }) {
         size: selectedSize,
         price: displayPrice,
         salePrice: 0,
-        inventory: product.inventory
+        inventory: selectedSizeObj.inventory
       };
     }
 
@@ -783,8 +791,9 @@ export default function ProductDetails({ productId }) {
                 ))}
               </div>
               <p
-                className={`text-[13px] font-sans font-semibold ${stockLabel.color}`}
+                className={`text-[13px] font-sans font-semibold ${stockLabel.color} flex items-center gap-1.5`}
               >
+                {isOutOfStock && <FiAlertTriangle className="w-4 h-4" />}
                 {stockLabel.text}
               </p>
             </div>
@@ -823,8 +832,9 @@ export default function ProductDetails({ productId }) {
                 </div>
               )}
               <p
-                className={`text-[13px] font-sans font-semibold ${stockLabel.color}`}
+                className={`text-[13px] font-sans font-semibold ${stockLabel.color} flex items-center gap-1.5`}
               >
+                {isOutOfStock && <FiAlertTriangle className="w-4 h-4" />}
                 {stockLabel.text}
               </p>
             </div>
@@ -852,6 +862,8 @@ export default function ProductDetails({ productId }) {
                   quantity >=
                     (hasVariants && activeVariant
                       ? activeVariant.inventory
+                      : selectedSizeObj
+                      ? selectedSizeObj.inventory
                       : product?.inventory || 0)
                 }
                 className="w-10 h-10 flex items-center justify-center text-[#333333] hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
