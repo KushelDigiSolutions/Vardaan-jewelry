@@ -224,7 +224,7 @@ export default function CartDrawer() {
                       ) : (
                         <button 
                           onClick={() => addToCart(item)}
-                          className="text-[12px] font-bold uppercase tracking-wider text-[#07512E] border border-[#07512E] px-3 py-1.5 rounded-sm hover:bg-[#07512E] hover:text-white transition-colors"
+                          className="text-[12px] font-bold uppercase tracking-wider cursor-pointer text-[#07512E] border border-[#07512E] px-3 py-1.5 rounded-sm hover:bg-[#07512E] hover:text-white transition-colors"
                         >
                           Add to Cart
                         </button>

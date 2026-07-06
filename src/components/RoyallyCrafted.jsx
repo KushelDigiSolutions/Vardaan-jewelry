@@ -280,7 +280,7 @@ export default function RoyallyCrafted() {
               >
                 <path d="M20 6L9 17l-5-5" />
               </svg>
-              Easy 10 Day Returns
+              Easy Replacement
             </div>
             <div className="flex items-center gap-2 text-[#07512E] font-medium text-[18px]">
               <svg

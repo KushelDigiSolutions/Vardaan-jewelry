@@ -39,19 +39,19 @@ export default function CosmicCreations() {
           {/* Text Content */}
           <div className="relative z-10 w-full max-w-[456px] flex flex-col justify-center text-left mx-auto lg:mx-0">
             <p className="text-white/80 font-sans tracking-[0.15em] uppercase text-[16px] sm:text-[24px] mb-4 font-light">
-              COSMIC CREATIONS
+              VARDAAN
             </p>
             <h2 className="font-serif text-[32px] sm:text-[40px] text-white mb-6 leading-[1.1]">
-              Vardaan Created<br />Necklace
+             More Than a Jewel,<br /> A Blessing
             </h2>
             <p className="font-sans text-white/90 text-[15px] sm:text-[20px] font-normal leading-relaxed mb-8 pr-4 lg:pr-0">
-              Shimmering like a trail of stardust in the night sky, 
-              the fine jewellery pieces that form the Vardaan 
-              Created Diamonds Galaxy Collection highlight the 
-              wonder of the universe. Precious metals and 
-              laboratory grown diamonds, cut for brilliance, 
-              unite in unexpected combinations, bringing 
-              unrivaled luminosity to your looks.
+              Some jewellery shines.
+Some tells a story.
+At VARDAAN, every piece becomes a blessing.
+We believe jewellery is more than an accessory. It is a symbol of affection, confidence, gratitude, and timeless memories. Whether you're choosing something for yourself or gifting someone special, every creation is designed to carry emotions that last far beyond the moment.
+Wear your confidence.
+Celebrate your story.
+Gift a blessing that will be treasured forever.
             </p>
             <Link 
               href="/shop" 

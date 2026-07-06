@@ -51,7 +51,7 @@ export default function ContactPage() {
                     <p className="font-medium text-[#FFDE59] uppercase tracking-[0.2em]">
                       WhatsApp
                     </p>
-                    <a  href="tel:+919217042525" className="mt-2 flex items-center gap-2 cursor-pointer">
+                    <a  href="https://wa.me/+919217042525" target="_blank" className="mt-2 flex items-center gap-2 cursor-pointer">
                       <div className="">
                         <img
                           src="/whatsappIcon.svg"
@@ -59,7 +59,7 @@ export default function ContactPage() {
                           className="h-7 w-7"
                         />
                       </div>
-                      <span>+91 92170 42525</span>
+                      <span>Ask on Whatsaap</span>
                     </a>
                   </div>
                   <div>

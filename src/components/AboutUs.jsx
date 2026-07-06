@@ -51,19 +51,19 @@ export default function AboutUs() {
 
           
 
-          <div ref={ref} className="flex gap-4 sm:gap-8 mt-6">
+          <div ref={ref} className="flex flex-col gap-4 sm:gap-8 mt-6">
             <div >
-              <span className="block font-serif text-3xl text-[#07512E]"> {inView && <CountUp end={20} duration={2} useEasing={false} />}+</span>
-              <span className="text-[12px] md:text-[14px] text-gray-400 font-medium tracking-widest uppercase">Years of Artistry</span>
+              {/* <span className="block font-serif text-3xl text-[#07512E]"> {inView && <CountUp end={20} duration={2} useEasing={false} />}+</span> */}
+              <span className="text-[12px] md:text-[14px] text-black font-medium tracking-widest uppercase">✨Premium Craftsmanship Designed to Last</span>
             </div>
-            <div className="border-l border-gray-200 pl-4 sm:pl-8">
-              <span className="block font-serif text-3xl text-[#07512E]">{inView && <CountUp end={100} duration={2} useEasing={false} />}% 
-              </span>
-              <span className="text-[12px] md:text-[14px] text-gray-400 font-medium tracking-widest uppercase">Certified Gold</span>
+            <div className="">
+              {/* <span className="block font-serif text-3xl text-[#07512E]">{inView && <CountUp end={100} duration={2} useEasing={false} />}% 
+              </span> */}
+              <span className="text-[12px] md:text-[14px] text-black font-medium tracking-widest uppercase">✨ 316 L Stainless Steel Anti-Tarnish Collection</span>
             </div>
-            <div className="border-l border-gray-200 pl-4 sm:pl-8">
-              <span className="block font-serif text-3xl text-[#07512E]">{inView && <CountUp end={10} duration={2} useEasing={false} />}k+</span>
-              <span className="text-[12px] md:text-[14px] text-gray-400 font-medium tracking-widest uppercase">Happy Patrons</span>
+            <div className="">
+              {/* <span className="block font-serif text-3xl text-[#07512E]">{inView && <CountUp end={10} duration={2} useEasing={false} />}k+</span> */}
+              <span className="text-[12px] md:text-[14px] text-black font-medium tracking-widest uppercase">✨ Thoughtfully Curated More Than a Jewel, A Blessing</span>
             </div>
           </div>
         </div>
@@ -82,7 +82,7 @@ export default function AboutUs() {
             />
             {/* Elegant transparent overlay with brand stamp */}
             <div className="absolute bottom-4 right-4  text-[#FFDE59] text-[9px] tracking-[0.2em] font-serif uppercase px-4 py-2 rounded backdrop-blur-sm shadow-md">
-                        <img src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781789797/vardan_logo_2_br1lkx.png" alt="" className="w-20 color-transparent" />
+                        <img src="https://res.cloudinary.com/dxlykgx6w/image/upload/v1783322584/Vardaan_jewel_logo-removebg-preview_q2mgqj.png" alt="" className="w-20 color-transparent" />
 
             </div>
           </div>

@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { FiInstagram, FiYoutube, FiRefreshCw } from "react-icons/fi";
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import { HiOutlineShieldCheck, HiOutlineTruck } from "react-icons/hi";
+import { BsGoogle } from "react-icons/bs";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -87,7 +88,7 @@ export default function Footer() {
                 {/* SVG Logo matching the branding */}
                 <div className="flex flex-col items-center gap-1 w-max">
                   <img
-                    src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781789797/vardan_logo_2_br1lkx.png"
+                    src="https://res.cloudinary.com/dxlykgx6w/image/upload/v1783322584/Vardaan_jewel_logo-removebg-preview_q2mgqj.png"
                     alt="Vardaan Logo"
                     className="h-[80px] md:h-[90px] w-auto object-contain"
                   />
@@ -105,6 +106,7 @@ export default function Footer() {
                 // { icon: FaFacebookF, label: "Facebook",link:"https://www.facebook.com/share/v/fN9M85G1cT639m1n/" },
                 { icon: FiInstagram, label: "Instagram",link:"https://www.instagram.com/vardaan.pureblessing?igsh=MXRzNmJzNWlicjByNQ==" },
                 { icon: FiYoutube, label: "Youtube",link:"https://youtube.com/@vardaanjewels?si=bd-SoaWgD21qJXHP" },
+                { icon: BsGoogle, label: "google review",link:"https://g.page/r/CREzg2FefF56EBM/review" },
                 // { icon: FaLinkedinIn, label: "LinkedIn",link:"https://www.linkedin.com/company/vardaanpureblessing/" }
               ].map((soc, i) => {
                 const Icon = soc.icon;

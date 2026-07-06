@@ -5,24 +5,52 @@ import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
 const faqItems = [
   {
-    question: "Are your jewellery pieces certified and hallmarked?",
-    answer: "Yes, absolutely. Every gold jewellery piece at Vardaan carries the official BIS Hallmark certification guaranteeing exact purity (18K or 22K gold). Furthermore, all our diamonds and gemstones come with authentic certification from internationally recognized laboratories like IGI and GIA.",
+    question: "What is Vardaan Jewellery made of?",
+    answer: "Our Anti-Tarnish collection is crafted from premium 316L stainless steel with high-quality gold plating for long-lasting shine. Our Heritage collection features beautifully crafted ethnic designs for special occasions.",
   },
   {
-    question: "Can I request custom designs or bespoke bridal jewellery?",
-    answer: "Yes, we specialize in bespoke sculpting and custom bridal suites. You can book a private consultation with our expert designers in our Delhi atelier or via a virtual session. We work closely with you to select the desired gold karat, diamond specifications, and design motifs to bring your dream jewellery to life.",
+    question: "Is your jewellery anti-tarnish?",
+    answer: "Yes. Our Anti-Tarnish collection is designed to resist fading and maintain its shine for much longer than regular fashion jewellery with proper care.",
   },
   {
-    question: "How is your fine jewellery packaged and shipped securely?",
-    answer: "Every piece of Vardaan jewellery is meticulously packaged in our luxury, tamper-proof branded boxes. We offer fully insured, secure shipping across India and worldwide, ensuring your precious pieces arrive safely at your doorstep.",
+    question: "Is the jewellery safe for sensitive skin?",
+    answer: "Yes. Our Anti-Tarnish collection is skin-friendly and comfortable for everyday wear.",
   },
   {
-    question: "What materials and gemstones do you use in your creations?",
-    answer: "We craft our timeless pieces using premium 18K and 22K BIS certified gold. Our masterful settings feature conflict-free, ethically sourced VVS/VS clarity diamonds, lush Zambian emeralds, rich rubies, and premium South Sea pearls, created by expert traditional artisans.",
+    question: "Can I wear it daily?",
+    answer: "Absolutely. Our designs are made for office wear, casual outings, date nights, and everyday elegance.",
   },
   {
-    question: "Do you offer maintenance, cleaning, or restoration services?",
-    answer: "Vardaan provides a lifetime maintenance covenant for all our clients. We offer professional inspection, ultrasonic cleaning, prong tightening, and restoration services to ensure your heirloom jewellery maintains its pristine brilliance across generations.",
+    question: "How do I care for my jewellery?",
+    answer: "Store it in a dry pouch or jewellery box. Avoid direct contact with perfume and harsh chemicals. Wipe with a soft cloth after use. Keep pieces separate to avoid scratches.",
+  },
+  {
+    question: "How long does delivery take?",
+    answer: "Most orders are delivered within 3–7 business days, depending on your location.",
+  },
+  {
+    question: "Do you offer Cash on Delivery (COD)?",
+    answer: "Yes, COD is available on selected pincodes.",
+  },
+  {
+    question: "How can I track my order?",
+    answer: "Once your order is shipped, you'll receive a tracking link via SMS/Email/WhatsApp.",
+  },
+  {
+    question: "Do you accept returns or exchanges?",
+    answer: "Yes, we accept returns or exchange of products. Please contact us within 2 hours of delivery with an unboxing video.",
+  },
+  {
+    question: "Is Vardaan Jewellery suitable for gifting?",
+    answer: "Absolutely! Every Vardaan piece is designed to celebrate life's special moments—birthdays, anniversaries, weddings, festivals, and heartfelt surprises.",
+  },
+  {
+    question: "Do you provide gift packaging?",
+    answer: "Yes. Premium gift packaging is available, making every order ready to gift.",
+  },
+  {
+    question: "Why choose Vardaan?",
+    answer: "Because every piece combines premium quality, timeless design, and thoughtful craftsmanship—More Than a Jewel, A Blessing.",
   },
 ];
 
