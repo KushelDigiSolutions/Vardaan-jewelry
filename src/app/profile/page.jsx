@@ -130,18 +130,14 @@ function ProfileContent() {
   const [reviewComment, setReviewComment] = useState("");
   const [submittingReview, setSubmittingReview] = useState(false);
 
-  // Return Request Form state
-  const [activeReturnOrder, setActiveReturnOrder] = useState(null); // Order object being returned
-  const [editingReturn, setEditingReturn] = useState(null); // Return request object being edited
+  // Replacement Request Form state
+  const [activeReturnOrder, setActiveReturnOrder] = useState(null); // Order object being replaced
+  const [editingReturn, setEditingReturn] = useState(null); // Replacement request object being edited
   const [returnItems, setReturnItems] = useState({}); // { [productId]: { selected: bool, quantity: num, reason: str } }
-  const [refundMethod, setRefundMethod] = useState("upi");
-  const [refundDetails, setRefundDetails] = useState({
-    upiId: "",
-    accountNo: "",
-    ifsc: "",
-    bankName: "",
-    holderName: "",
-  });
+  const [replacementReason, setReplacementReason] = useState("Defective Product / Damaged");
+  const [replacementDescription, setReplacementDescription] = useState("");
+  const [photoFiles, setPhotoFiles] = useState([]);
+  const [videoFiles, setVideoFiles] = useState([]);
 
   // Status alerts
   const [loading, setLoading] = useState(false);
@@ -450,19 +446,19 @@ function ProfileContent() {
     }
   };
 
-  // Delete User Account
+  // Deactivate User Account
   const handleDeleteAccountConfirm = async () => {
     setShowDeleteAccountPopup(false);
     setLoading(true);
     setMsg({ type: "", text: "" });
     try {
       await deleteAccount();
-      toast.success("Your account has been successfully deleted. We hope to see you again soon!");
+      toast.success("Your account has been successfully deactivated. Please contact an administrator to reactivate.");
       router.push("/");
     } catch (err) {
       setMsg({
         type: "error",
-        text: err.message || "Failed to delete account",
+        text: err.message || "Failed to deactivate account",
       });
       setLoading(false);
     }
@@ -518,7 +514,7 @@ function ProfileContent() {
     }
   };
 
-  // Return Request Actions
+  // Replacement Request Actions
   const handleOpenReturnForm = (order, existingReturn = null) => {
     setActiveReturnOrder(order);
     setEditingReturn(existingReturn);
@@ -542,25 +538,15 @@ function ProfileContent() {
       };
     });
     setReturnItems(initialItemsState);
+    setPhotoFiles([]);
+    setVideoFiles([]);
 
     if (existingReturn) {
-      setRefundMethod(existingReturn.refundMethod || "upi");
-      setRefundDetails({
-        upiId: existingReturn.refundDetails?.upiId || "",
-        accountNo: existingReturn.refundDetails?.accountNo || "",
-        ifsc: existingReturn.refundDetails?.ifsc || "",
-        bankName: existingReturn.refundDetails?.bankName || "",
-        holderName: existingReturn.refundDetails?.holderName || "",
-      });
+      setReplacementReason(existingReturn.reason || "Defective Product / Damaged");
+      setReplacementDescription(existingReturn.description || "");
     } else {
-      setRefundMethod("upi");
-      setRefundDetails({
-        upiId: "",
-        accountNo: "",
-        ifsc: "",
-        bankName: "",
-        holderName: "",
-      });
+      setReplacementReason("Defective Product / Damaged");
+      setReplacementDescription("");
     }
   };
 
@@ -572,10 +558,6 @@ function ProfileContent() {
         [field]: val,
       },
     }));
-  };
-
-  const handleRefundDetailsChange = (e) => {
-    setRefundDetails({ ...refundDetails, [e.target.name]: e.target.value });
   };
 
   const handleSubmitReturnRequest = async (e) => {
@@ -590,7 +572,17 @@ function ProfileContent() {
       }));
 
     if (itemsToSubmit.length === 0) {
-      alert("Please select at least one item to return.");
+      alert("Please select at least one item for replacement.");
+      return;
+    }
+
+    if (!editingReturn && photoFiles.length === 0) {
+      alert("Please upload at least 1 photo of the product as proof.");
+      return;
+    }
+
+    if (!editingReturn && videoFiles.length === 0) {
+      alert("Please upload at least 1 unboxing video of the product as proof.");
       return;
     }
 
@@ -598,72 +590,38 @@ function ProfileContent() {
     setMsg({ type: "", text: "" });
 
     try {
+      const formData = new FormData();
+      formData.append("orderId", activeReturnOrder._id);
+      formData.append("items", JSON.stringify(itemsToSubmit));
+      formData.append("reason", replacementReason);
+      formData.append("description", replacementDescription);
+
+      photoFiles.forEach((file) => {
+        formData.append("photos", file);
+      });
+      videoFiles.forEach((file) => {
+        formData.append("videos", file);
+      });
+
       let res;
       let json;
-      const requestBody = {
-        orderId: activeReturnOrder._id,
-        items: itemsToSubmit,
-        refundMethod,
-        refundDetails:
-          refundMethod === "upi"
-            ? { upiId: refundDetails.upiId }
-            : {
-                accountNo: refundDetails.accountNo,
-                ifsc: refundDetails.ifsc,
-                bankName: refundDetails.bankName,
-                holderName: refundDetails.holderName,
-              },
-      };
 
       if (editingReturn) {
-        // Try Option A: PUT /returns/:id
         res = await fetch(`${API_URL}/returns/${editingReturn._id}`, {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(requestBody),
+          body: formData,
         });
         json = await res.json();
-
-        // If A failed (e.g. 404/405), try Option B: PUT /returns/request/:id
-        if (!res.ok && (res.status === 404 || res.status === 405)) {
-          res = await fetch(`${API_URL}/returns/request/${editingReturn._id}`, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(requestBody),
-          });
-          json = await res.json();
-        }
-
-        // If B failed too, try Option C: PUT /returns/request with returnId in body
-        if (!res.ok && (res.status === 404 || res.status === 405)) {
-          res = await fetch(`${API_URL}/returns/request`, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              returnId: editingReturn._id,
-              ...requestBody,
-            }),
-          });
-          json = await res.json();
-        }
       } else {
-        // Normal POST /returns/request
         res = await fetch(`${API_URL}/returns/request`, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(requestBody),
+          body: formData,
         });
         json = await res.json();
       }
@@ -671,13 +629,13 @@ function ProfileContent() {
       if (!res.ok) {
         throw new Error(
           json.message ||
-            `Failed to ${editingReturn ? "update" : "submit"} return request`,
+            `Failed to ${editingReturn ? "update" : "submit"} replacement request`,
         );
       }
 
       const successMsg = editingReturn
-        ? "Return request updated successfully!"
-        : "Return request submitted successfully! An administrator will review your ticket.";
+        ? "Replacement request updated successfully!"
+        : "Replacement request submitted successfully! An administrator will review your ticket.";
 
       setMsg({ type: "success", text: successMsg });
       toast.success(successMsg);
@@ -687,7 +645,7 @@ function ProfileContent() {
       fetchReturns();
     } catch (err) {
       setMsg({ type: "error", text: err.message });
-      toast.error(err.message || "Failed to submit return request");
+      toast.error(err.message || "Failed to submit replacement request");
     } finally {
       setLoading(false);
     }
@@ -792,7 +750,7 @@ function ProfileContent() {
                   : "text-gray-600 hover:bg-gray-50"
               }`}
             >
-              <FiRefreshCw /> Track Returns
+              <FiRefreshCw /> Track Replacements
             </button>
             <button
               onClick={() => {
@@ -999,18 +957,17 @@ function ProfileContent() {
                 {/* Danger zone */}
                 <div className="bg-red-50 border border-red-200 rounded-lg p-6 font-sans text-sm text-left">
                   <h4 className="text-[20px] font-normal text-red-800 mb-1">
-                    Danger Zone
+                    Deactivate Account
                   </h4>
                   <p className="text-sm text-red-700 mb-4">
-                    Deletes all profile files, address entries, and user
-                    accounts. This action is permanent.
+                    Deactivates your profile. You will be signed out immediately, and can only log back in if an administrator reactivates your account.
                   </p>
                   <button
                     onClick={handleDeleteAccount}
                     disabled={loading}
                     className="bg-red-600 text-white px-4 md:px-6 py-2 text-[14px] md:text-[20px] font-medium rounded hover:bg-red-700 cursor-pointer"
                   >
-                    Delete Account Permanently
+                    Deactivate Account
                   </button>
                 </div>
               </div>
@@ -1517,8 +1474,8 @@ function ProfileContent() {
                     <div className="flex justify-between items-center pb-3 border-b">
                       <h4 className="text-[24px] font-bold text-gray-900">
                         {editingReturn
-                          ? "Edit Return Request"
-                          : "Request Product Return"}
+                          ? "Edit Replacement Request"
+                          : "Request Product Replacement"}
                         :{" "}
                         <span className="text-gray-600">
                           {" "}
@@ -1539,7 +1496,7 @@ function ProfileContent() {
 
                     <div className="space-y-4">
                       <p className="font-semibold text-[18px] text-gray-700">
-                        Select items to return & specify quantities:
+                        Select items for replacement & specify quantities:
                       </p>
 
                       {activeReturnOrder.items.map((item) => {
@@ -1570,7 +1527,7 @@ function ProfileContent() {
 
                             {state.selected && (
                               <div className="flex-1 flex flex-col sm:flex-row gap-4 w-full sm:w-auto text-xs sm:text-sm">
-                                <div className="flex  items-center gap-2">
+                                <div className="flex items-center gap-2">
                                   <span className="text-[17px]">Quantity:</span>
                                   <input
                                     type="number"
@@ -1593,19 +1550,6 @@ function ProfileContent() {
                                     (Max {state.maxQty})
                                   </span>
                                 </div>
-                                <input
-                                  type="text"
-                                  placeholder="Reason for return..."
-                                  value={state.reason}
-                                  onChange={(e) =>
-                                    handleReturnItemChange(
-                                      prodId,
-                                      "reason",
-                                      e.target.value,
-                                    )
-                                  }
-                                  className="flex-grow p-2 border border-gray-300 text-[17px] rounded bg-[#FAF9F6] outline-none"
-                                />
                               </div>
                             )}
                           </div>
@@ -1615,103 +1559,78 @@ function ProfileContent() {
 
                     <div className="border-t pt-4 space-y-4">
                       <p className="font-semibold text-[18px] text-gray-700">
-                        Refund Routing Details
+                        Replacement Details
                       </p>
 
-                      <div className="flex gap-4">
-                        <label className="flex items-center gap-1.5 cursor-pointer">
-                          <input
-                            type="radio"
-                            checked={refundMethod === "upi"}
-                            onChange={() => setRefundMethod("upi")}
-                            className="accent-[#07512E]"
-                          />
-                          <span className="text-[16px]">UPI Transfer</span>
+                      <div className="max-w-md">
+                        <label className="block text-gray-600 mb-1 font-medium text-[16px]">
+                          Reason for Replacement
                         </label>
-                        <label className="flex items-center gap-1.5 cursor-pointer">
-                          <input
-                            type="radio"
-                            checked={refundMethod === "bank"}
-                            onChange={() => setRefundMethod("bank")}
-                            className="accent-[#07512E]"
-                          />
-                          <span className="text-[16px]">
-                            Bank Account Details
-                          </span>
-                        </label>
+                        <select
+                          value={replacementReason}
+                          onChange={(e) => setReplacementReason(e.target.value)}
+                          className="w-full p-2.5 border rounded outline-none bg-white focus:border-[#07512E] text-[16px]"
+                        >
+                          <option value="Defective Product / Damaged">Defective Product / Damaged</option>
+                          <option value="Wrong Item Received">Wrong Item Received</option>
+                          <option value="Wrong Variant/Size Received">Wrong Variant/Size Received</option>
+                          <option value="Missing Parts or Accessories">Missing Parts or Accessories</option>
+                          <option value="Other (Specify in description)">Other (Specify in description)</option>
+                        </select>
                       </div>
 
-                      {refundMethod === "upi" ? (
-                        <div className="max-w-md">
-                          <label className="block text-gray-600 mb-1">
-                            Enter UPI VPA ID
+                      <div>
+                        <label className="block text-gray-600 mb-1 font-medium text-[16px]">
+                          Detailed Description of the Issue
+                        </label>
+                        <textarea
+                          value={replacementDescription}
+                          onChange={(e) => setReplacementDescription(e.target.value)}
+                          placeholder="Please write details about the replacement issue..."
+                          rows={4}
+                          required
+                          className="w-full p-2.5 border rounded outline-none bg-white focus:border-[#07512E] text-[16px]"
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-gray-600 mb-1 font-medium text-[16px]">
+                            Upload Product Photo(s) (Proof) {!editingReturn && <span className="text-red-500">*</span>}
                           </label>
                           <input
-                            type="text"
-                            name="upiId"
-                            required={refundMethod === "upi"}
-                            value={refundDetails.upiId}
-                            onChange={handleRefundDetailsChange}
-                            placeholder="e.g. mobile@upi"
-                            className="w-full p-2.5 border rounded outline-none bg-white focus:border-[#07512E]"
+                            type="file"
+                            accept="image/*"
+                            multiple
+                            required={!editingReturn}
+                            onChange={(e) => setPhotoFiles(Array.from(e.target.files))}
+                            className="w-full p-2.5 border rounded outline-none bg-white focus:border-[#07512E] text-[16px]"
                           />
+                          {photoFiles.length > 0 && (
+                            <p className="text-xs text-green-600 mt-1 font-bold">
+                              Selected ({photoFiles.length}): {photoFiles.map((f) => f.name).join(", ")}
+                            </p>
+                          )}
                         </div>
-                      ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          <div>
-                            <label className="block text-gray-600 mb-1">
-                              Account Holder Name
-                            </label>
-                            <input
-                              type="text"
-                              name="holderName"
-                              required={refundMethod === "bank"}
-                              value={refundDetails.holderName}
-                              onChange={handleRefundDetailsChange}
-                              className="w-full p-2.5 border rounded outline-none bg-white focus:border-[#07512E]"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-gray-600 mb-1">
-                              Bank Name
-                            </label>
-                            <input
-                              type="text"
-                              name="bankName"
-                              required={refundMethod === "bank"}
-                              value={refundDetails.bankName}
-                              onChange={handleRefundDetailsChange}
-                              className="w-full p-2.5 border rounded outline-none bg-white focus:border-[#07512E]"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-gray-600 mb-1">
-                              Account Number
-                            </label>
-                            <input
-                              type="text"
-                              name="accountNo"
-                              required={refundMethod === "bank"}
-                              value={refundDetails.accountNo}
-                              onChange={handleRefundDetailsChange}
-                              className="w-full p-2.5 border rounded outline-none bg-white focus:border-[#07512E]"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-gray-600 mb-1">
-                              Bank IFSC Code
-                            </label>
-                            <input
-                              type="text"
-                              name="ifsc"
-                              required={refundMethod === "bank"}
-                              value={refundDetails.ifsc}
-                              onChange={handleRefundDetailsChange}
-                              className="w-full p-2.5 border rounded outline-none bg-white focus:border-[#07512E]"
-                            />
-                          </div>
+                        <div>
+                          <label className="block text-gray-600 mb-1 font-medium text-[16px]">
+                            Upload Unboxing Video(s) (Proof) {!editingReturn && <span className="text-red-500">*</span>}
+                          </label>
+                          <input
+                            type="file"
+                            accept="video/*"
+                            multiple
+                            required={!editingReturn}
+                            onChange={(e) => setVideoFiles(Array.from(e.target.files))}
+                            className="w-full p-2.5 border rounded outline-none bg-white focus:border-[#07512E] text-[16px]"
+                          />
+                          {videoFiles.length > 0 && (
+                            <p className="text-xs text-green-600 mt-1 font-bold">
+                              Selected ({videoFiles.length}): {videoFiles.map((f) => f.name).join(", ")}
+                            </p>
+                          )}
                         </div>
-                      )}
+                      </div>
                     </div>
 
                     <div className="flex gap-3 justify-end pt-4 border-t">
@@ -1731,10 +1650,10 @@ function ProfileContent() {
                         className="bg-[#07512E] text-white px-6 py-2.5 rounded font-bold cursor-pointer"
                       >
                         {loading
-                          ? "Submiting..."
+                          ? "Submitting..."
                           : editingReturn
-                            ? "Update Return"
-                            : "Submit Return"}
+                            ? "Update Request"
+                            : "Submit Request"}
                       </button>
                     </div>
                   </form>
@@ -1922,18 +1841,18 @@ function ProfileContent() {
                                   if (orderReturn) {
                                     return (
                                       <div className="flex flex-col md:flex-row items-center gap-2">
-                                        {orderReturn.status === "refunded" ||  orderReturn.status === "rejected" && (
+                                        {(orderReturn.status === "replaced" || orderReturn.status === "rejected" || orderReturn.status === "approved") && (
                                           <span
                                             className={`px-2.5 py-1.5 sm:w-full rounded text-[11px] font-bold text-white capitalize ${
-                                              orderReturn.status === "refunded"
+                                              orderReturn.status === "replaced"
                                                 ? "bg-green-700"
                                                 : orderReturn.status ===
                                                     "rejected"
                                                   ? "bg-red-600"
-                                                  : "bg-amber-650"
+                                                  : "bg-amber-600"
                                             }`}
                                           >
-                                            Return: {orderReturn.status}
+                                            Replacement: {orderReturn.status}
                                           </span>
                                         )}
 
@@ -1948,7 +1867,7 @@ function ProfileContent() {
                                             }
                                             className="border border-[#07512E] sm:w-full text-[#07512E] hover:bg-[#07512E] hover:text-white font-normal px-3 py-1.5 rounded text-[14px] transition-all cursor-pointer bg-white"
                                           >
-                                            Edit Return
+                                            Edit Replacement
                                           </button>
                                         )}
                                       </div>
@@ -1960,7 +1879,7 @@ function ProfileContent() {
                                       onClick={() => handleOpenReturnForm(o)}
                                       className="bg-amber-600 hover:bg-amber-700 text-white font-semibold px-4 py-2 rounded text-xs transition-colors cursor-pointer"
                                     >
-                                      Request Return
+                                      Request Replacement
                                     </button>
                                   );
                                 })()}
@@ -1985,11 +1904,11 @@ function ProfileContent() {
               </div>
             )}
 
-            {/* TAB 4: Track Returns */}
+            {/* TAB 4: Track Replacements */}
             {activeTab === "returns" && (
               <div className="animate-fade-in space-y-6">
                 <h3 className="text-[24px] font-serif text-[#07512E] font-semibold">
-                  My Product Returns Logs
+                  My Replacement Requests
                 </h3>
 
                 {returnsLoading ? (
@@ -2001,7 +1920,7 @@ function ProfileContent() {
                   </div>
                 ) : returns.length === 0 ? (
                   <p className="text-md text-gray-500 italic py-6">
-                    No return requests on file.
+                    No replacement requests on file.
                   </p>
                 ) : (
                   returns.map((r) => (
@@ -2011,8 +1930,8 @@ function ProfileContent() {
                     >
                       <div className="flex justify-between items-center pb-2 border-b border-gray-100">
                         <div>
-                          <p className="font-normal   text-[20px] text-gray-900">
-                            Return ID:{" "}
+                          <p className="font-normal text-[20px] text-gray-900">
+                            Replacement ID:{" "}
                             <span className="font-mono ms-1 text-[20px] text-gray-500">
                               #{r._id.substring(18)}
                             </span>
@@ -2024,7 +1943,7 @@ function ProfileContent() {
                         </div>
                         <span
                           className={`px-2.5 py-0.5 rounded text-[16px] font-bold text-white capitalize ${
-                            r.status === "refunded"
+                            r.status === "replaced"
                               ? "bg-green-700"
                               : r.status === "rejected"
                                 ? "bg-red-600"
@@ -2038,7 +1957,7 @@ function ProfileContent() {
                       {/* Items */}
                       <div className="space-y-2">
                         <p className="font-normal text-gray-700 text-[20px]">
-                          Products Returned:
+                          Products for Replacement:
                         </p>
                         {r.items.map((item, idx) => (
                           <div
@@ -2048,9 +1967,6 @@ function ProfileContent() {
                             <div>
                               <p className="font-semibold text-gray-900">
                                 {item.name} (x{item.quantity})
-                              </p>
-                              <p className="text-gray-400 text-[18px]">
-                                Reason: "{item.reason}"
                               </p>
                             </div>
                             <span className="font-semibold text-[18px] text-gray-900">
@@ -2063,25 +1979,56 @@ function ProfileContent() {
                         ))}
                       </div>
 
-                      {/* Refund type */}
-                      <div className="bg-gray-50 p-3.5 rounded text-xs mt-2 border border-gray-150">
+                      {/* Replacement Details */}
+                      <div className="bg-gray-50 p-3.5 rounded text-xs mt-2 border border-gray-150 space-y-2">
                         <p className="font-semibold text-[16px]">
-                          Refund Method:{" "}
-                          <span className="uppercase text-gray-500">
-                            {r.refundMethod}
-                          </span>
+                          Reason: <span className="text-gray-500 font-normal">{r.reason}</span>
                         </p>
-                        {r.refundMethod === "upi" ? (
-                          <p className="text-gray-600 mt-1 text-[15px]">
-                            UPI ID: {r.refundDetails?.upiId}
-                          </p>
-                        ) : (
-                          <p className="text-gray-600 mt-1">
-                            Bank: {r.refundDetails?.bankName} | Ac No:{" "}
-                            {r.refundDetails?.accountNo} | Holder:{" "}
-                            {r.refundDetails?.holderName}
-                          </p>
-                        )}
+                        <p className="text-gray-600 text-[15px] whitespace-pre-wrap">
+                          <b>Description:</b> {r.description}
+                        </p>
+                        <div className="flex flex-col gap-2 pt-2">
+                          {r.photos && r.photos.length > 0 && (
+                            <div>
+                              <p className="font-semibold text-gray-700 mb-1">Photo Proofs:</p>
+                              <div className="flex flex-wrap gap-2">
+                                {r.photos.map((photo, i) => (
+                                  <a
+                                    key={i}
+                                    href={photo}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="inline-block border rounded overflow-hidden"
+                                  >
+                                    <img
+                                      src={photo}
+                                      alt={`Proof Photo ${i + 1}`}
+                                      className="w-16 h-16 object-cover hover:opacity-80 transition-opacity"
+                                    />
+                                  </a>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                          {r.videos && r.videos.length > 0 && (
+                            <div className="mt-2">
+                              <p className="font-semibold text-gray-700 mb-1">Video Proofs:</p>
+                              <div className="flex flex-wrap gap-2">
+                                {r.videos.map((video, i) => (
+                                  <a
+                                    key={i}
+                                    href={video}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="text-xs bg-[#07512E] text-white px-3 py-1.5 rounded hover:bg-[#054024] transition-colors inline-block font-semibold"
+                                  >
+                                    Play Video Proof {i + 1}
+                                  </a>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
                         {r.adminNotes && (
                           <p className="border-t border-gray-200 pt-2.5 mt-2.5 text-[#07512E] font-medium italic">
                             Admin Response Notes: "{r.adminNotes}"
@@ -2555,13 +2502,13 @@ function ProfileContent() {
         </div>
       )}
 
-      {/* Account Delete Confirmation Modal Popup */}
+      {/* Account Deactivate Confirmation Modal Popup */}
       {showDeleteAccountPopup && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs font-sans animate-fade-in">
           <div className="w-full max-w-md bg-white rounded-lg shadow-2xl overflow-hidden border border-[#F0ECE3] flex flex-col text-left">
             <div className="bg-red-50 text-red-800 p-4 flex justify-between items-center border-b border-red-100">
               <h3 className="text-base font-serif font-bold tracking-wide">
-                Delete Account
+                Deactivate Account
               </h3>
               <button
                 type="button"
@@ -2573,7 +2520,7 @@ function ProfileContent() {
             </div>
             <div className="p-6 space-y-3">
               <p className="text-[15px] text-gray-800 font-medium leading-relaxed">
-                Are you sure you want to permanently delete your account? This action <strong className="text-gray-900">cannot be undone</strong>.
+                Are you sure you want to deactivate your profile? You will not be able to log back in until an administrator reactivates your account.
               </p>
             </div>
             <div className="bg-gray-50 p-4 border-t border-gray-100 flex justify-end gap-3">
@@ -2590,7 +2537,7 @@ function ProfileContent() {
                 disabled={loading}
                 className="bg-red-600 hover:bg-red-700 text-white font-semibold px-5 py-2 rounded text-xs transition-colors cursor-pointer border-none"
               >
-                {loading ? "DELETING..." : "Delete Account"}
+                {loading ? "DEACTIVATING..." : "Deactivate Account"}
               </button>
             </div>
           </div>
