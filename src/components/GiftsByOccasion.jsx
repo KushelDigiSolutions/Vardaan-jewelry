@@ -7,9 +7,9 @@ import Link from "next/link";
 // If no match found in backend → ShopProducts shows "No items found"
 const GIFT_OCCASIONS = [
    {
-    id: "birthday",
-    name: "Birthday",
-    slug: "birthday",
+    id: "birthday blessings",
+    name: "Birthday Blessings",
+    slug: "birthday blessings",
     description: "Make their day unforgettable",
     icon: "🎂",
     bg: "#FFF8EC",
@@ -17,36 +17,76 @@ const GIFT_OCCASIONS = [
     image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783171659/birthday_gift_pkt9yh.jpg",
   },
   {
-    id: "anniversary",
-    name: "Anniversary",
-    slug: "anniversary",
+    id: "anniversary love",
+    name: "Anniversary Love",
+    slug: "anniversary love",
     description: "Celebrate love & milestones",
     icon: "💍",
     bg: "#FFF0F5",
     accent: "#C9487A",
     image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783172118/anniversary_gift_jwtsbd.jpg",
   },
+  {
+    id: "festive gifting",
+    name: "Festive Gifting",
+    slug: "festive gifting",
+    description: "Celebrate festivals with joy",
+    icon: "",
+    bg: "#FFF0F5",
+    accent: "#C9487A",
+    image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783321131/festive_gifting_isctgi.webp",
+  },
+  {
+    id: "congratulations",
+    name: "Congratulations",
+    slug: "congratulations",
+    description: "Congratulate on every success",
+    icon: "",
+    bg: "#FFF0F5",
+    accent: "#C9487A",
+    image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783321136/ChatGPT_Image_Jul_6_2026_12_26_13_PM_tichc1.png",
+  },
+  {
+    id: "self love",
+    name: "Self Love",
+    slug: "self love",
+    description: "Celebrate yourself every day",
+    icon: "",
+    bg: "#FFF0F5",
+    accent: "#C9487A",
+    image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783321136/self_zsscld.png",
+  },
+  {
+    id: "just because",
+    name: "Just Because",
+    slug: "just because",
+    description: "Thoughtful gifts without reason",
+    icon: "",
+    bg: "#FFF0F5",
+    accent: "#C9487A",
+    image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783321136/ChatGPT_Image_Jul_6_2026_12_18_46_PM_kl0foz.png",
+  },
  
-  {
-    id: "engagement",
-    name: "Engagement",
-    slug: "engagement",
-    description: "The promise of forever",
-    icon: "💎",
-    bg: "#F0F5FF",
-    accent: "#3B5FBF",
-    image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783172118/engament_im9isy.jpg",
-  },
-  {
-    id: "wedding",
-    name: "Wedding",
-    slug: "wedding",
-    description: "Royal bridal treasures",
-    icon: "👰",
-    bg: "#F5FFF0",
-    accent: "#07512E",
-    image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783172361/wedding_kcld1q.jpg",
-  },
+  // {
+  //   id: "engagement",
+  //   name: "Engagement",
+  //   slug: "engagement",
+  //   description: "The promise of forever",
+  //   icon: "💎",
+  //   bg: "#F0F5FF",
+  //   accent: "#3B5FBF",
+  //   image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783172118/engament_im9isy.jpg",
+  // },
+  // {
+  //   id: "wedding",
+  //   name: "Wedding",
+  //   slug: "wedding",
+  //   description: "Wedding ready elegance",
+  //   icon: "👰",
+  //   bg: "#F5FFF0",
+  //   accent: "#07512E",
+  //   image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783172361/wedding_kcld1q.jpg",
+  // },
 ];
 
 export default function GiftsByOccasion() {
@@ -106,7 +146,7 @@ export default function GiftsByOccasion() {
         <div className="flex justify-between sm:flex-wrap sm:gap-4 items-center mb-10">
           <div>
             <h2 className="text-3xl md:text-4xl font-serif text-[#1e2a24] font-medium tracking-wide">
-              Gifts by Occasion
+              Gift by Moment
             </h2>
             <p className="text-[#07512E] font-sans mt-2 text-sm sm:text-base tracking-wide">
               The perfect jewelry piece for every cherished moment

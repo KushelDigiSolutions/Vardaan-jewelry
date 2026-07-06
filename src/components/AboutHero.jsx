@@ -38,7 +38,7 @@ export default function AboutHero() {
 
           <div className="mt-8 pt-6 border-t border-white/20 max-w-sm">
             <img
-              src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781789797/vardan_logo_2_br1lkx.png"
+              src="https://res.cloudinary.com/dxlykgx6w/image/upload/v1783322584/Vardaan_jewel_logo-removebg-preview_q2mgqj.png"
               alt="Vardaan"
               className="w-44"
             />

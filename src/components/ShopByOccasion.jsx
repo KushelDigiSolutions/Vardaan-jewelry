@@ -16,7 +16,7 @@ const OCCASIONS = [
     name: "Wedding",
     slug: "wedding",
     image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783082969/wedding_mpmaqx.png",
-    description: "Royal bridal treasures",
+    description: "Wedding ready elegance",
   },
   {
     id: "sangeet",

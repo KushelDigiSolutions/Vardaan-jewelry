@@ -5,8 +5,8 @@ export default function TrustFeatures() {
   const features = [
     {
       icon: <FiAward className="w-7 h-7 text-[#07512E] stroke-[1.5]" />,
-      title: "100% CERTIFIED",
-      description: "Every piece of rolled gold jewellery is certified for premium finish, exceptional durability, and authentic quality."
+      title: "SIGNATURE GIFT EXPERIENCE",
+      description: "More Than Jewellery. A Beautiful Presentation.From the first look to the final reveal, our premium packaging is crafted to create a memorable unboxing experience for every celebration."
     },
     {
       icon: <FiShield className="w-7 h-7 text-[#07512E] stroke-[1.5]" />,
@@ -15,8 +15,8 @@ export default function TrustFeatures() {
     },
     {
       icon: <FiRefreshCw className="w-7 h-7 text-[#07512E] stroke-[1.5]" />,
-      title: "LIFETIME EXCHANGE",
-      description: "Upgrade or exchange your Vardaan heirloom pieces anytime with our lifetime policy."
+      title: "Transparent Shopping Experience",
+      description: "What You See Is What You Get We provide genuine product details, clear pricing, and realistic images to ensure you know exactly what you're buying. Your trust is our most valuable asset."
     },
     {
       icon: <FiTruck className="w-7 h-7 text-[#07512E] stroke-[1.5]" />,
@@ -30,8 +30,8 @@ export default function TrustFeatures() {
       <div className="w-full max-w-[1192px] mx-auto px-4 lg:px-12 xl:px-0">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-8">
           {features.map((feature, index) => (
-            <div key={index} className="flex flex-col items-center text-center">
-              <div className="w-20 h-20 rounded-full bg-[#f4f8f6] flex items-center justify-center mb-6">
+            <div key={index} className="flex flex-col  ">
+              <div className="w-20 h-20 rounded-full bg-[#f4f8f6] items-center flex  justify-center mb-6">
                 {feature.icon}
               </div>
               <h3 className="text-[#07512E] font-bold tracking-wider text-[20px] mb-3">

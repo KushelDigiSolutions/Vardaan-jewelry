@@ -27,7 +27,8 @@ export default function InstagramFeed() {
             Explore latest <span className="text-[#FDE066]">Instagram Posts</span>
           </h2>
           <Link
-            href="#"
+          target="_blank"
+            href="https://www.instagram.com/vardaan.pureblessing?igsh=MXRzNmJzNWlicjByNQ%3D%3D"
             className="inline-block bg-[#FDE066] text-[#1a1a1a] font-semibold px-8 py-3 rounded-full hover:bg-[#e6c95c] transition-colors whitespace-nowrap"
           >
             Follow us

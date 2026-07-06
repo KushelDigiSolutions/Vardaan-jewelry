@@ -1,23 +1,24 @@
 "use client";
 
 import React from "react";
+import { FaWhatsapp } from "react-icons/fa";
 import { FiPhoneCall, FiMail, FiMapPin, FiClock, FiChevronRight } from "react-icons/fi";
 
 export default function ContactInfo() {
   const channels = [
     {
-      icon: FiPhoneCall,
-      title: "Concierge Helpline",
-      value: "+91 9217042525",
-      href: "tel:+919217042525",
-      desc: "Connect instantly with our design curators."
+      icon: FaWhatsapp,
+      title: "Whatsapp assistance ",
+      value: "",
+      href: "https://wa.me/+919217042525",
+      desc: "Connect instantly max response time 24hr"
     },
     {
       icon: FiMail,
       title: "Write to Vardaan",
       value: "vardaan.1225@gmail.com",
       href: "mailto:vardaan.1225@gmail.com",
-      desc: "Send sketches or Rolled Gold custom queries."
+      desc: "Share your experiences and queries.Share your experiences /feedback"
     },
     // {
     //   icon: FiMapPin,
@@ -85,12 +86,12 @@ export default function ContactInfo() {
         {/* Column 3: Operating Hours & Direct Suit CTA (Right - 4 columns) */}
         <div className="lg:col-span-4 flex flex-col items-start gap-6 lg:gap-0 xl:gap-6 lg:justify-between lg:h-[430px] xl:h-auto pl-0 lg:pl-0 xl:pl-6 w-full">
           <div className="flex flex-col gap-1 w-full">
-            <span className="text-[12px] md:text-[14px] lg:text-[12px] xl:text-[14px] tracking-widest font-semibold text-amber-600 uppercase">
-              Delhi Showroom
+            <span className="text-[12px] md:text-[14px] lg:text-[12px] xl:text-[14px] tracking-widest font-medium text-amber-600 uppercase">
+              Book your video call Appointment
             </span>
-            <h3 className="text-[32px] md:text-[48px] lg:text-[32px] xl:text-[48px] font-serif text-[#07512E] font-normal leading-[1.1] uppercase tracking-wide">
-              Flagship Suite <br />
-              <span className="font-normal text-amber-600">Hours</span>
+            <h3 className="text-[24px] lg:text-[30px]  font-serif text-[#07512E]  font-medium leading-[1.5] uppercase tracking-wide">
+              Get Personalized Jewellery Assistance  <br />
+              <span className="font-normal text-amber-600">from Anywhere</span>
             </h3>
           </div>
           
@@ -106,14 +107,14 @@ export default function ContactInfo() {
           </div> */}
 
           <p className="text-[18px] lg:text-[13px] xl:text-[18px] text-gray-500 font-light leading-relaxed lg:leading-normal xl:leading-relaxed mt-2 lg:mt-0 xl:mt-2">
-            Private consultations are managed through designated VIP to ensure a secure, personalized, and comfortable experience.
+          Book a one-on-one video consultation with our jewellery experts and explore Vardaan's collections from the comfort of your home. Whether you're shopping for yourself, selecting the perfect gift, or looking for styling advice, we'll help you find pieces that suit your style and occasion.
           </p>
 
           <a 
             href="#contact-form-section"
             className="flex items-center gap-2 text-[14px] lg:text-[13px] xl:text-[14px] font-serif font-semibold text-[#07512E] hover:text-amber-600 transition-colors group mt-2 lg:mt-0 xl:mt-2 w-full"
           >
-            <span>Book Private Consultation</span>
+            <span>Get your appointment now</span>
             <FiChevronRight className="w-4 h-4 lg:w-3.5 lg:h-3.5 xl:w-4 xl:h-4 translate-x-0 group-hover:translate-x-1 transition-transform" />
           </a>
         </div>

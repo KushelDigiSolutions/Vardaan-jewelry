@@ -1119,7 +1119,7 @@ function ProfileContent() {
                         value={addrForm.mobile}
                         onChange={handleAddrFormChange}
                         className="w-full p-2 border border-gray-300 rounded outline-none bg-white focus:border-[#07512E]"
-                        placeholder="e.g. 9818719997"
+                        placeholder="Enter your number"
                       />
                     </div>
                     <div>
@@ -1260,7 +1260,7 @@ function ProfileContent() {
                           })
                         }
                         className="w-full p-2 border border-gray-300 rounded bg-white outline-none focus:border-[#07512E]"
-                        placeholder="e.g. 9818719997"
+                        placeholder="Enter your Mobile Number"
                       />
                     </div>
                     <div>
@@ -1742,7 +1742,7 @@ function ProfileContent() {
                   // Orders log list
                   <div className="space-y-6">
                     <h3 className="text-[24px] font-serif text-[#07512E] font-semibold">
-                      Order Logs History
+                    My Order History
                     </h3>
 
                     {ordersLoading ? (

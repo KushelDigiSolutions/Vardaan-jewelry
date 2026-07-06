@@ -14,21 +14,20 @@ export default function AboutWhoWeAre() {
           </span>
           
           <h2 className="text-[32px] md:text-[48px] font-serif text-[#07512E] font-light leading-tight uppercase tracking-wide">
-            We Are <br />
-            <span className="font-normal text-[#FFDE59] bg-[#07512E] px-4 py-1.5 inline-block mt-2 shadow-sm rounded-sm">Vardaan</span>
+          WHERE ELEGANCE MEETS<br />
+            <span className="font-normal text-[#FFDE59] bg-[#07512E] px-4 py-1.5 inline-block mt-2 shadow-sm rounded-sm">BLESSING</span>
           </h2>
           
           <div className="w-12 h-[2px] bg-[#FFDE59] mt-2" />
 
           {/* Narrative with drop-cap */}
           <div className="text-[18px] text-gray-600 font-light leading-relaxed tracking-wide mt-2">
-            <span className="float-left text-[48px] md:text-[64px] font-serif text-[#07512E] leading-[0.8] pr-2.5 pt-1 font-normal">W</span>
-            e are a collective of generational goldsmiths, certified gemologists, and modern artisans. Headquartered in our Delhi design atelier, we practice high jewelry design not as a trade, but as a commitment to heritage. We preserve India's oldest filigree and carving practices, ensuring that old-world secrets stay alive.
-          </div>
+            <span className="float-left text-[48px] md:text-[64px] font-serif text-[#07512E] leading-[0.8] pr-2.5 pt-1 font-normal">V</span>
+ardaan began with a dream—to make premium jewellery accessible without compromising on quality or elegance. Every collection is carefully curated so that when you gift or wear Vardaan, it feels like receiving a blessing          </div>
 
-          <p className="text-[18px] text-gray-600 font-light leading-relaxed tracking-wide">
+          {/* <p className="text-[18px] text-gray-600 font-light leading-relaxed tracking-wide">
             By keeping our workshops local, ethically auditing our gemstone supply chain, and co-creating designs directly with you, Vardaan ensures that every creation is a personal amulet.
-          </p>
+          </p> */}
 
           <div className="w-full h-[1px] bg-gray-100 my-4" />
 

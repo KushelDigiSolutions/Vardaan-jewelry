@@ -37,19 +37,20 @@ export default function AboutHeritage() {
         {/* Staggered Grid Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 xl:min-w-300 w-full mt-8 max-w-4xl text-left border border-white/10 p-10 rounded-lg bg-[#053D22]/50 backdrop-blur-md">
           <div className="flex flex-col gap-2">
-            <span className="text-2xl font-serif text-[#FFDE59] font-normal">Vardaan Est. 2005</span>
-            <span className="text-[12px] md:text-[14px] text-gray-400 font-semibold tracking-widest ">Vardaan Heritage</span>
-            <p className="text-[18px] text-gray-300 font-light leading-relaxed">Established in 2005, Vardaan began as a premier jewellery house crafting sacred, timeless heirloom pieces with uncompromising dedication.</p>
+            <span className="text-2xl font-serif text-[#FFDE59] font-normal">Vardaan ESt. 2025</span>
+            <span className="text-[12px] md:text-[14px] text-gray-400 font-semibold tracking-widest ">A new beginning</span>
+            <p className="text-[18px] text-gray-300 font-light leading-relaxed">Growing with Your Trust
+Established in 2025, building relationships through quality, honesty, and exceptional service.</p>
           </div>
           <div className="flex flex-col gap-2 border-t md:border-t-0 md:border-x border-white/10 pt-6 md:pt-0 md:px-8">
-            <span className="text-2xl font-serif text-[#FFDE59] font-normal">100% Hallmark</span>
-            <span className="text-[12px] md:text-[14px] text-gray-400 font-semibold tracking-widest ">Certified BIS Hallmark</span>
-            <p className="text-[18px] text-gray-300 font-light leading-relaxed">Every piece of Vardaan jewellery adheres to strict BIS hallmarking standards and IGI diamond certifications, ensuring absolute purity and trust.</p>
+            <span className="text-2xl font-serif text-[#FFDE59] font-normal">Premium Craftsmanship</span>
+            {/* <span className="text-[12px] md:text-[14px] text-gray-400 font-semibold tracking-widest ">Certified BIS Hallmark</span> */}
+            <p className="text-[18px] text-gray-300 font-light leading-relaxed">Thoughtfully designed with exceptional attention to detail and lasting elegance. Using premium grade 316 stainless steel with an anti-tarnish finish</p>
           </div>
           <div className="flex flex-col gap-2 border-t md:border-t-0 pt-6 md:pt-0">
-            <span className="text-2xl font-serif text-[#FFDE59] font-normal">Vardaan Care</span>
-            <span className="text-[12px] md:text-[14px] text-gray-400 font-semibold tracking-widest ">Lifetime Maintenance</span>
-            <p className="text-[18px] text-gray-300 font-light leading-relaxed">We stand by our craftsmanship with complimentary professional jewellery cleaning, rigorous inspection, and polishing for the lifetime of your product.</p>
+            <span className="text-2xl font-serif text-[#FFDE59] font-normal">Quality Assured</span>
+            {/* <span className="text-[12px] md:text-[14px] text-gray-400 font-semibold tracking-widest ">Lifetime Maintenance</span> */}
+            <p className="text-[18px] text-gray-300 font-light leading-relaxed">Every piece is carefully inspected and beautifully packed before it reaches you.</p>
           </div>
         </div>
 
