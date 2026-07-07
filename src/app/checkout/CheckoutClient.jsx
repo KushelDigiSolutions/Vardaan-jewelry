@@ -323,7 +323,7 @@ export default function CheckoutClient() {
     return (
       <section className="flex-1 flex justify-center py-20 px-5 bg-[#fdfbf6]">
         <div className="bg-white border border-[#F0ECE3] rounded-lg shadow-sm p-8 max-w-md w-full text-center">
-          <h3 className="text-2xl font-serif text-[#07512E] mb-3">Authentication Required</h3>
+          <h3 className="text-2xl font-serif text-[#07512E] mb-3">Sign In to Continue</h3>
           <p className="text-sm text-gray-500 font-sans leading-relaxed mb-6">
             You must sign in to save shipping addresses and place orders securely.
           </p>
@@ -331,7 +331,7 @@ export default function CheckoutClient() {
             href={`/login?redirect=/checkout`}
             className="inline-block bg-[#07512E] text-[#FFDE59] px-8 py-3 rounded font-sans font-semibold hover:bg-[#054024] transition-colors"
           >
-            SIGN IN TO PROCEED
+            SIGN IN 
           </Link>
         </div>
       </section>
@@ -563,8 +563,7 @@ export default function CheckoutClient() {
                 </div>
               </div>
 
-              {/* Back & Place Buttons */}
-              <div className="flex justify-between border-t border-gray-100 pt-6 mt-6">
+              {/* Back & Place Buttons */}              <div className="flex flex-col gap-4 justify-between border-t border-gray-100 pt-6 mt-6">
                 <button
                   onClick={() => setStep(1)}
                   className="flex items-center gap-1.5 text-gray-500 hover:text-gray-900 text-sm font-semibold font-sans bg-transparent border-none cursor-pointer"

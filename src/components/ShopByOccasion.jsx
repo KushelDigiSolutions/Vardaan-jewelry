@@ -93,7 +93,7 @@ export default function ShopByOccasion() {
               Shop By Occasion
             </h2>
             <p className="text-[#07512E] font-sans mt-2 text-sm sm:text-base tracking-wide">
-              Curated jewelry collections for every special moment
+              Curated jewellery collections for every special moment
             </p>
           </div>
           <div className="flex gap-3 animate-fade-in">

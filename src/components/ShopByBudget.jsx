@@ -36,7 +36,7 @@ export default function ShopByBudget() {
             Shop By Price
           </h2>
           <p className="text-[#07512E] font-sans mt-2 text-sm sm:text-base tracking-wide">
-            Find the perfect jewelry matching your price preferences
+            Find the perfect jewellery matching your price preferences
           </p>
         </div>
 
