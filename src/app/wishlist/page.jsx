@@ -139,7 +139,7 @@ export default function WishlistPage() {
               href="/shop"
               className="bg-[#07512E] text-white px-8 py-3.5 text-[16px] font-medium tracking-wide hover:bg-[#054024] transition-colors cursor-pointer"
             >
-              Discover Collections
+             Browse  Collections
             </Link>
           </div>
         ) : (

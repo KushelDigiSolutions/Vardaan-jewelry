@@ -9,7 +9,7 @@ const GIFT_OCCASIONS = [
    {
     id: "birthday blessings",
     name: "Birthday Blessings",
-    slug: "birthday blessings",
+    slug: "birthday-blessings",
     description: "Make their day unforgettable",
     icon: "🎂",
     bg: "#FFF8EC",
@@ -19,7 +19,7 @@ const GIFT_OCCASIONS = [
   {
     id: "anniversary love",
     name: "Anniversary Love",
-    slug: "anniversary love",
+    slug: "anniversary-love",
     description: "Celebrate love & milestones",
     icon: "💍",
     bg: "#FFF0F5",
@@ -29,7 +29,7 @@ const GIFT_OCCASIONS = [
   {
     id: "festive gifting",
     name: "Festive Gifting",
-    slug: "festive gifting",
+    slug: "festive-gifting",
     description: "Celebrate festivals with joy",
     icon: "",
     bg: "#FFF0F5",
@@ -49,7 +49,7 @@ const GIFT_OCCASIONS = [
   {
     id: "self love",
     name: "Self Love",
-    slug: "self love",
+    slug: "self-love",
     description: "Celebrate yourself every day",
     icon: "",
     bg: "#FFF0F5",
@@ -59,7 +59,7 @@ const GIFT_OCCASIONS = [
   {
     id: "just because",
     name: "Just Because",
-    slug: "just because",
+    slug: "just-because",
     description: "Thoughtful gifts without reason",
     icon: "",
     bg: "#FFF0F5",
@@ -67,6 +67,7 @@ const GIFT_OCCASIONS = [
     image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783321136/ChatGPT_Image_Jul_6_2026_12_18_46_PM_kl0foz.png",
   },
  
+  
   // {
   //   id: "engagement",
   //   name: "Engagement",

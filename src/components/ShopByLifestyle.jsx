@@ -100,7 +100,7 @@ export default function ShopByLifestyle() {
               Shop By Style
             </h2>
             <p className="text-[#07512E] font-sans mt-2 text-sm sm:text-base tracking-wide">
-              Jewelry styled for your lifestyle and special moments
+               jewellery styled for your lifestyle and special moments
             </p>
           </div>
           <div className="flex gap-3">
