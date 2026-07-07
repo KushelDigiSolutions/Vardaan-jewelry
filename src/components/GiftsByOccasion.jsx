@@ -67,6 +67,7 @@ const GIFT_OCCASIONS = [
     image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783321136/ChatGPT_Image_Jul_6_2026_12_18_46_PM_kl0foz.png",
   },
  
+  
   // {
   //   id: "engagement",
   //   name: "Engagement",
