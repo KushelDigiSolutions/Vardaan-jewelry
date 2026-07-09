@@ -1701,6 +1701,17 @@ function ProfileContent() {
                             <div className="flex gap-2 items-center text-xs">
                               <span
                                 className={`px-2.5 py-1 rounded text-[14px] font-bold text-white capitalize ${
+                                  o.paymentStatus === "paid"
+                                    ? "bg-green-700"
+                                    : o.paymentStatus === "pending"
+                                      ? "bg-amber-600"
+                                      : "bg-red-600"
+                                }`}
+                              >
+                                {o.paymentStatus === "paid" ? "Paid" : o.paymentStatus}
+                              </span>
+                              <span
+                                className={`px-2.5 py-1 rounded text-[14px] font-bold text-white capitalize ${
                                   o.orderStatus === "delivered"
                                     ? "bg-green-700"
                                     : o.orderStatus === "cancelled"
@@ -2089,9 +2100,17 @@ function ProfileContent() {
                   <p className="text-sm text-gray-500 font-semibold uppercase tracking-wider">
                     Payment Status
                   </p>
-                  <p className="text-[16px] font-medium  capitalize mt-0.5 text-gray-800">
+                  <span
+                    className={`inline-block px-2.5 py-0.5 rounded text-[14px] font-normal text-white capitalize mt-1 ${
+                      selectedDetailedOrder.paymentStatus === "paid"
+                        ? "bg-green-700"
+                        : selectedDetailedOrder.paymentStatus === "pending"
+                          ? "bg-amber-600"
+                          : "bg-red-600"
+                    }`}
+                  >
                     {selectedDetailedOrder.paymentStatus}
-                  </p>
+                  </span>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500 font-semibold uppercase tracking-wider">
@@ -2192,32 +2211,49 @@ function ProfileContent() {
 
                   {/* Cost Summary Breakdown */}
                   <div className="pt-4 space-y-1 text-sm">
-                    <div className="flex  justify-between text-gray-600">
-                      <span className='text-[16px]'>Items Subtotal:</span>
-                      <span clasName='text-[16px]'>
-                        ₹{" "}
-                        {(
-                          selectedDetailedOrder.totalAmount -
-                          (selectedDetailedOrder.shippingCost || 0)
-                        ).toLocaleString("en-IN")}
-                      </span>
-                    </div>
-                    <div className="flex justify-between text-gray-600">
-                      <span clasName='text-[16px]'>Shipping Fee:</span>
-                      <span clasName='text-[16px]'>
-                        ₹{" "}
-                        {(
-                          selectedDetailedOrder.shippingCost || 0
-                        ).toLocaleString("en-IN")}
-                      </span>
-                    </div>
+                    {(() => {
+                      const itemsSubtotal = selectedDetailedOrder.items.reduce(
+                        (sum, item) => sum + (item.price * item.quantity),
+                        0
+                      );
+                      const shippingCost = selectedDetailedOrder.shippingCost || 0;
+                      const discount = selectedDetailedOrder.discount || 0;
+                      const couponCode = selectedDetailedOrder.couponCode;
+
+                      return (
+                        <>
+                          <div className="flex justify-between text-gray-600">
+                            <span className="text-[16px]">Items Subtotal:</span>
+                            <span className="text-[16px]">
+                              ₹ {itemsSubtotal.toLocaleString("en-IN")}
+                            </span>
+                          </div>
+                          
+                          {discount > 0 && (
+                            <div className="flex justify-between text-green-700 font-medium bg-green-50/50 px-2 py-0.5 rounded border border-green-100/50 my-1">
+                              <span className="text-[16px]">
+                                Discount Applied {couponCode ? `(${couponCode})` : "(Promo)"}:
+                              </span>
+                              <span className="text-[16px]">
+                                - ₹ {discount.toLocaleString("en-IN")}
+                              </span>
+                            </div>
+                          )}
+
+                          <div className="flex justify-between text-gray-600">
+                            <span className="text-[16px]">Shipping Fee:</span>
+                            <span className="text-[16px]">
+                              ₹ {shippingCost.toLocaleString("en-IN")}
+                            </span>
+                          </div>
+                        </>
+                      );
+                    })()}
+                    
                     <div className="flex justify-between font-bold text-gray-900 border-t pt-1 text-sm mt-1">
-                      <span>Grand Total:</span>
-                      <span>
-                        ₹{" "}
-                        {selectedDetailedOrder.totalAmount.toLocaleString(
-                          "en-IN",
-                        )}
+                      <span className="text-[16px]">Grand Total:</span>
+                      <span className="text-[16px]">
+                        ₹ {selectedDetailedOrder.totalAmount.toLocaleString("en-IN")}
                       </span>
                     </div>
                   </div>

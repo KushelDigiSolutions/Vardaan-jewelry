@@ -11,14 +11,14 @@ const sections = [
   {
     title: "Return Eligibility",
     content: [
-      "Return requests are reviewed based on product condition, order type, delivery date, and the reason for return. Items should be unused, undamaged, and returned with original packaging, certificates, tags, invoices, and accessories where applicable.",
+      "In return/exchange policy- We will accept return/exchange only if return/exchange request raised within 2hrs of product delivery.",
       "Customized, engraved, resized, made-to-order, or specially sourced jewellery may not be eligible for return unless there is a verified defect or order issue.",
     ],
   },
   {
     title: "Return Request Process",
     content: [
-      "To request a return, contact our support team with your order number, registered contact details, product photos, and reason for the request.",
+      "To request a return, contact our support team with your order number, registered contact details, Product unboxing video, and reason for the request.",
       "Our team will review the request and share the next steps if the return is eligible.",
     ],
   },

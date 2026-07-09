@@ -8,7 +8,7 @@ export default function ContactInfo() {
   const channels = [
     {
       icon: FaWhatsapp,
-      title: "Whatsapp assistance ",
+      title: "Click here for Chat ",
       value: "",
       href: "https://wa.me/+919217042525",
       desc: "Connect instantly max response time 24hr"
@@ -68,7 +68,7 @@ export default function ContactInfo() {
                 </div>
 
                 <div className="flex flex-col gap-1 w-full">
-                  <span className="text-[12px] md:text-[14px] lg:text-[12px] xl:text-[14px] tracking-widest text-[#FFDE59] uppercase font-semibold">
+                  <span className="text-[12px] md:text-[14px] hover:underline bg-[black]/40 p-2 rounded-2xl text-center lg:text-[12px] xl:text-[14px] tracking-widest text-[#FFDE59] uppercase font-semibold">
                     {chan.title}
                   </span>
                   <span className="font-serif text-[14px] sm:text-[16px] md:text-[20px] lg:text-[15px] xl:text-[20px] font-medium tracking-wide lg:tracking-normal xl:tracking-wide whitespace-nowrap lg:whitespace-normal xl:whitespace-nowrap lg:break-all xl:break-normal group-hover:text-amber-300 transition-colors mt-0.5">

@@ -33,9 +33,7 @@ export default function AboutVisionMission() {
               Our Vision
             </h3>
             <p className="text-[18px] text-gray-200 font-light leading-relaxed">
-              To be a globally recognized boutique jeweller, where each creation
-              is celebrated for its organic floral geometry and holds a legacy
-              of blessings for the generations that inherit it.
+              To become the most trusted jewellery brand by building lasting emotional connections through honesty, quality, and jewellery that carries the warmth of a blessing.
             </p>
           </div>
 
@@ -48,9 +46,7 @@ export default function AboutVisionMission() {
               Our Mission
             </h3>
             <p className="text-[18px] text-gray-600 font-light leading-relaxed">
-              To keep the ancestral craft of fine handcrafting alive, enforce
-              strict transparency with GIA gemstone grading, and provide direct
-              Vardaan customization services for our patrons.
+            To earn trust every day through exceptional craftsmanship, transparent practices, premium quality, and meaningful gifting experiences—making every Vardaan piece more than a jewel, a blessing.
             </p>
           </div>
         </div>

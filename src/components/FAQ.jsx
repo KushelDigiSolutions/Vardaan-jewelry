@@ -38,7 +38,7 @@ const faqItems = [
   },
   {
     question: "Do you accept returns or exchanges?",
-    answer: "Yes, we accept returns or exchange of products. Please contact us within 2 hours of delivery with an unboxing video.",
+    answer: "Yes, we accept returns or exchange of all products only if eligible for our return/exchange policy.",
   },
   {
     question: "Is Vardaan Jewellery suitable for gifting?",
