@@ -105,12 +105,12 @@ export default function ContactForm() {
           box-shadow: none !important;
         }
       `}</style>
-      <div className="w-full max-w-[1192px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 xl:gap-16 items-start">
+      <div className="w-full max-w-[1192px] mx-auto px-4">
 
         {/* Left Column: Asymmetric Guide sidebar */}
-        <div className="lg:col-span-4 flex flex-col gap-6 lg:gap-0 xl:gap-6 lg:justify-between lg:h-[540px] xl:h-auto lg:sticky lg:top-8 w-full">
+        {/* <div className="lg:col-span-4 flex flex-col gap-6 lg:gap-0 xl:gap-6 lg:justify-between lg:h-[540px] xl:h-auto lg:sticky lg:top-8 w-full">
           <div className="flex flex-col gap-1 w-full">
-            <span className="text-[12px] md:text-[14px] lg:text-[12px] xl:text-[14px] tracking-[0.3em] font-semibold text-amber-600 uppercase">
+            <span className="text-[12px] md:text-[14px] lg:text-[12px] xl:text-[14px] tracking-[0.3em] font-medium text-amber-600 uppercase">
               Private Commissions
             </span>
             <h2 className="text-[32px] md:text-[48px] lg:text-[34px] xl:text-[48px] font-serif text-[#07512E] font-normal uppercase tracking-wide leading-[1.1]">
@@ -126,7 +126,7 @@ export default function ContactForm() {
           </p>
 
           <div className="flex flex-col gap-4 lg:gap-3 xl:gap-4 mt-4 lg:mt-0 xl:mt-4 bg-white p-8 lg:p-6 xl:p-8 rounded-lg border border-gray-100 shadow-sm relative overflow-hidden w-full">
-            <span className="text-[12px] md:text-[14px] lg:text-[13px] xl:text-[14px] tracking-widest font-semibold text-[#07512E] uppercase">
+            <span className="text-[12px] md:text-[14px] lg:text-[13px] xl:text-[14px] tracking-widest font-medium text-[#07512E] uppercase">
               Our Security Covenant
             </span>
             <ul className="flex flex-col gap-3 lg:gap-2.5 xl:gap-3 text-[14px] md:text-[16px] lg:text-[13px] xl:text-[16px] text-gray-500 font-light">
@@ -144,7 +144,7 @@ export default function ContactForm() {
               </li>
             </ul>
           </div>
-        </div>
+        </div> */}
 
         {/* Right Column: Flat-Line Luxury Form Card */}
         <div className="lg:col-span-8 bg-[#07512E] rounded-xl shadow-[0_20px_50px_rgba(7,81,78,0.15)] p-8 md:p-10 lg:p-8 xl:p-10 relative overflow-hidden w-full text-white border border-white/5 lg:h-[540px] xl:h-auto flex flex-col lg:justify-between">
@@ -174,7 +174,7 @@ export default function ContactForm() {
 
               <button
                 onClick={() => setIsSubmitted(false)}
-                className="bg-[#FFDE59] hover:bg-[#e6c543] text-[#07512E] font-semibold text-[12px] md:text-[14px] tracking-widest px-8 py-4 uppercase rounded shadow transition-colors cursor-pointer mt-4"
+                className="bg-[#FFDE59] hover:bg-[#e6c543] text-[#07512E] font-medium text-[12px] md:text-[14px] tracking-widest px-8 py-4 uppercase rounded shadow transition-colors cursor-pointer mt-4"
               >
                 Submit Another Inquiry
               </button>
@@ -184,11 +184,11 @@ export default function ContactForm() {
 
               {/* Form Title */}
               <div className="flex flex-col gap-2.5 lg:gap-1 xl:gap-2.5">
-                <span className="text-[12px] md:text-[14px] lg:text-[12px] xl:text-[14px] tracking-widest font-semibold text-[#FFDE59] uppercase">
+                <span className="text-[12px] md:text-[14px] lg:text-[12px] xl:text-[14px] tracking-widest font-medium text-[#FFDE59] uppercase">
                   Write to us
                 </span>
                 <h2 className="text-[28px] md:text-[40px] lg:text-[30px] xl:text-[40px] font-serif text-[#FFDE59] font-normal uppercase tracking-wide leading-[1.1]">
-                  Private Inquiry Form
+                  Book an appointment Form
                 </h2>
                 <div className="w-10 h-[2px] bg-[#FFDE59] mt-1 lg:mt-0 xl:mt-1" />
               </div>
@@ -210,7 +210,7 @@ export default function ContactForm() {
                   />
                   <label
                     htmlFor="name"
-                    className="absolute top-4 left-0 text-xs text-gray-400 font-semibold tracking-widest uppercase transition-all duration-300 pointer-events-none peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#FFDE59] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[9px] peer-[:not(:placeholder-shown)]:text-[#FFDE59]"
+                    className="absolute top-4 left-0 text-xs text-gray-400 font-medium tracking-widest uppercase transition-all duration-300 pointer-events-none peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#FFDE59] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[9px] peer-[:not(:placeholder-shown)]:text-[#FFDE59]"
                   >
                     Full Name *
                   </label>
@@ -230,7 +230,7 @@ export default function ContactForm() {
                   />
                   <label
                     htmlFor="email"
-                    className="absolute top-4 left-0 text-xs text-gray-400 font-semibold tracking-widest uppercase transition-all duration-300 pointer-events-none peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#FFDE59] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[9px] peer-[:not(:placeholder-shown)]:text-[#FFDE59]"
+                    className="absolute top-4 left-0 text-xs text-gray-400 font-medium tracking-widest uppercase transition-all duration-300 pointer-events-none peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#FFDE59] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[9px] peer-[:not(:placeholder-shown)]:text-[#FFDE59]"
                   >
                     Email Address *
                   </label>
@@ -250,7 +250,7 @@ export default function ContactForm() {
                   />
                   <label
                     htmlFor="phone"
-                    className="absolute top-4 left-0 text-xs text-gray-400 font-semibold tracking-widest uppercase transition-all duration-300 pointer-events-none peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#FFDE59] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[9px] peer-[:not(:placeholder-shown)]:text-[#FFDE59]"
+                    className="absolute top-4 left-0 text-xs text-gray-400 font-medium tracking-widest uppercase transition-all duration-300 pointer-events-none peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#FFDE59] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[9px] peer-[:not(:placeholder-shown)]:text-[#FFDE59]"
                   >
                     Phone Number *
                   </label>
@@ -270,7 +270,7 @@ export default function ContactForm() {
                   />
                   <label
                     htmlFor="subject"
-                    className="absolute top-4 left-0 text-xs text-gray-400 font-semibold tracking-widest uppercase transition-all duration-300 pointer-events-none peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#FFDE59] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[9px] peer-[:not(:placeholder-shown)]:text-[#FFDE59]"
+                    className="absolute top-4 left-0 text-xs text-gray-400 font-medium tracking-widest uppercase transition-all duration-300 pointer-events-none peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#FFDE59] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[9px] peer-[:not(:placeholder-shown)]:text-[#FFDE59]"
                   >
                     Subject *
                   </label>
@@ -290,9 +290,9 @@ export default function ContactForm() {
                   />
                   <label
                     htmlFor="message"
-                    className="absolute top-4 left-0 text-xs text-gray-400 font-semibold tracking-widest uppercase transition-all duration-300 pointer-events-none peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#FFDE59] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[9px] peer-[:not(:placeholder-shown)]:text-[#FFDE59]"
+                    className="absolute top-4 left-0 text-xs text-gray-400 font-medium tracking-widest uppercase transition-all duration-300 pointer-events-none peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:top-0 peer-focus:text-[9px] peer-focus:text-[#FFDE59] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[9px] peer-[:not(:placeholder-shown)]:text-[#FFDE59]"
                   >
-                    Detailed Inquiry *
+                    Preferred time for video call *
                   </label>
                 </div>
 
@@ -303,7 +303,7 @@ export default function ContactForm() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-[#FFDE59] hover:bg-[#e6c543] text-[#07512E] font-semibold text-[12px] md:text-[14px] tracking-widest px-8 py-3 uppercase rounded shadow-lg transition-colors cursor-pointer flex items-center justify-center gap-2"
+                  className="bg-[#FFDE59] hover:bg-[#e6c543] text-[#07512E] font-medium text-[12px] md:text-[14px] tracking-widest px-8 py-3 uppercase rounded shadow-lg transition-colors cursor-pointer flex items-center justify-center gap-2"
                 >
                   {isSubmitting ? (
                     <>
@@ -314,7 +314,7 @@ export default function ContactForm() {
                       <span>Transmitting...</span>
                     </>
                   ) : (
-                    <span className="text-[14px] font-semibold">Submit Inquiry</span>
+                    <span className="text-[14px] font-medium">Submit Inquiry</span>
                   )}
                 </button>
               </div>

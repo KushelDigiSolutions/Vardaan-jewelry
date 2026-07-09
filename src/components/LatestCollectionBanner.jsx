@@ -29,7 +29,7 @@ export default function LatestCollectionBanner() {
             Discover the Everyday Expressions of Elegance and Style.
           </p>
           <Link
-            href="/shop?category=latest"
+            href="/shop"
             className="inline-flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] w-[184px] h-[48px] hover:bg-[#e6c543] transition-colors duration-300"
           >
             Explore Now

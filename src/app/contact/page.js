@@ -59,7 +59,7 @@ export default function ContactPage() {
                           className="h-7 w-7"
                         />
                       </div>
-                      <span>Ask on Whatsaap</span>
+                      <span className="hover:underline bg-white/20 px-2 rounded-md">Click here for Chat</span>
                     </a>
                   </div>
                   <div>
@@ -72,7 +72,7 @@ export default function ContactPage() {
                         alt=""
                         className="h-6 w-6 text-white "
                       />
-                      <span>vardaan.1225@gmail.com</span>
+                      <span className="hover:underline">vardaan.1225@gmail.com</span>
                     </a>
                   </div>
                 </div>
