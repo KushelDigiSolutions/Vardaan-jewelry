@@ -14,6 +14,10 @@
   --animate-fade-in: fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   --animate-slide-up: slide-up 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   --animate-scale-up: scale-up 12s ease-out infinite alternate;
+  --animate-reveal-width: reveal-width 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-fade-in-up: fade-in-up 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-letter-reveal: letter-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-word-reveal: word-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   
   @keyframes fade-in {
     from { opacity: 0; }
@@ -26,6 +30,59 @@
   @keyframes scale-up {
     from { transform: scale(1); }
     to { transform: scale(1.08); }
+  }
+  @keyframes reveal-width {
+    from {
+      width: 0%;
+      opacity: 0;
+    }
+    to {
+      width: 100%;
+      opacity: 1;
+    }
+  }
+  @keyframes fade-in-up {
+    from {
+      transform: translateY(15px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  @keyframes letter-reveal {
+    0% {
+      opacity: 0;
+      transform: translateY(15px) scale(0.85);
+      color: rgba(255, 255, 255, 0.2);
+      filter: blur(4px);
+    }
+    60% {
+      color: #FFF1B8;
+      text-shadow: 0 0 12px rgba(255, 222, 89, 0.9);
+      filter: blur(0);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      color: #FFDE59;
+      text-shadow: 0 0 6px rgba(255, 222, 89, 0.3);
+    }
+  }
+  @keyframes word-reveal {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+      filter: blur(2px);
+    }
+    60% {
+      filter: blur(0);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 

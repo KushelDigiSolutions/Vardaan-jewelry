@@ -93,19 +93,84 @@ export default function HeroSlider() {
                 left-4 sm:left-auto right-auto sm:right-2 md:right-3 lg:right-4 xl:right-5
                 w-[80%] sm:w-[85%] md:w-auto max-w-[400px] gap-3 sm:gap-3 lg:gap-5">
 
+                {/* Animated Brand Header */}
+                <div className="flex flex-col items-start w-full mb-1 sm:mb-2 select-none">
+                  {/* Brand Title (Letter-by-Letter Reveal) */}
+                  <h1 className="text-[28px] sm:text-[34px] md:text-[40px] lg:text-[44px] font-serif font-black uppercase leading-none drop-shadow-[0_2px_8px_rgba(255,222,89,0.2)]">
+                    {"VARDAAN".split("").map((letter, lIdx) => (
+                      <span
+                        key={lIdx}
+                        style={{ animationDelay: `${lIdx * 80}ms` }}
+                        className={`inline-block mr-[0.08em] ${
+                          idx === current ? "animate-letter-reveal" : "opacity-0"
+                        }`}
+                      >
+                        {letter}
+                      </span>
+                    ))}
+                  </h1>
+                  
+                  {/* Shimmer/glowing Divider Line */}
+                  <div 
+                    style={{ animationDelay: "560ms" }}
+                    className={`h-[1px] bg-gradient-to-r from-[#FFDE59]/80 via-[#FFDE59]/20 to-transparent my-2 transition-all duration-1000 ${
+                      idx === current ? "w-full animate-reveal-width" : "w-0 opacity-0"
+                    }`} 
+                  />
+                  
+                  {/* Brand Subtext (Word-by-Word Reveal) */}
+                  <p className="text-[12px] sm:text-[13px] md:text-[15px] font-sans font-light tracking-[0.08em] flex flex-wrap gap-x-1.5 leading-relaxed">
+                    {[
+                      { text: "More", highlight: false },
+                      { text: "Than", highlight: false },
+                      { text: "a", highlight: false },
+                      { text: "Jewel,", highlight: false },
+                      { text: "A", highlight: false },
+                      { text: "Blessing", highlight: true }
+                    ].map((word, wIdx) => (
+                      <span
+                        key={wIdx}
+                        style={{ animationDelay: `${700 + wIdx * 100}ms` }}
+                        className={`inline-block ${
+                          word.highlight 
+                            ? "text-[#FFDE59] font-medium font-serif italic" 
+                            : "text-[#FAF9F6]/90"
+                        } ${
+                          idx === current ? "animate-word-reveal" : "opacity-0"
+                        }`}
+                      >
+                        {word.text}
+                      </span>
+                    ))}
+                  </p>
+                </div>
+
                 {/* Subtitle */}
-                <span className="text-[14px] sm:text-[16px] md:text-[20px] font-sans font-medium tracking-[0.2em] text-[#FDE066] uppercase animate-slide-up drop-shadow-md">
+                <span 
+                  style={{ animationDelay: "1300ms" }}
+                  className={`text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] font-sans font-medium tracking-[0.2em] text-[#FDE066] uppercase drop-shadow-md transition-all duration-700 ${
+                    idx === current ? "animate-slide-up" : "opacity-0"
+                  }`}
+                >
                   {slide.subtitle}
                 </span>
 
                 {/* Title */}
-                <h2 className="text-[28px] sm:text-[34px] md:text-[34px] lg:text-[40px] font-sans text-[#FFFFFF] font-normal leading-[1.1] drop-shadow-lg  whitespace-pre-line">
+                <h2 
+                  style={{ animationDelay: "1500ms" }}
+                  className={`text-[24px] sm:text-[30px] md:text-[34px] lg:text-[40px] font-sans text-[#FFFFFF] font-normal leading-[1.15] drop-shadow-lg whitespace-pre-line transition-all duration-700 ${
+                    idx === current ? "animate-slide-up" : "opacity-0"
+                  }`}
+                >
                   {slide.title}
                 </h2>
 
                 <a
                   href={slide.ctaLink}
-                  className="mt-2 md:mt-3 lg:mt-4 inline-flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-semibold text-[14px] md:text-[14px] lg:text-[16px] px-6 md:px-6 lg:px-8 py-2.5 md:py-2.5 lg:py-3 hover:bg-[#e6c543] transition-colors duration-300"
+                  style={{ animationDelay: "1700ms" }}
+                  className={`mt-1 md:mt-2 lg:mt-3 inline-flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-semibold text-[14px] md:text-[14px] lg:text-[16px] px-6 md:px-6 lg:px-8 py-2.5 md:py-2.5 lg:py-3 hover:bg-[#e6c543] transition-all duration-300 hover:shadow-lg hover:shadow-[#FFDE59]/20 transform hover:-translate-y-0.5 ${
+                    idx === current ? "animate-slide-up" : "opacity-0"
+                  }`}
                 >
                   {slide.ctaText}
                 </a>
