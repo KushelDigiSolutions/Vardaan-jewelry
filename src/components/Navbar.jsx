@@ -149,18 +149,6 @@ export default function Navbar() {
        
         <div className="relative bg-[#07512E] text-white px-4 md:px-8 pt-5 md:pt-6 flex flex-col items-center overflow-hidden">
           
-          
-        <div className="flex">
-
-            <div 
-            className="absolute left-[-20%] md:left-[-5%] top-1/2 -translate-y-1/2 w-[500px] md:w-[75%] h-[500px] md:h-[700px] bg-no-repeat bg-center bg-contain pointer-events-none mix-blend-screen opacity-80"
-            style={{ backgroundImage: `url('https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781612368/photo-1535632066927-ab7c9ab60908_1_cre4nd.png')` }}
-          />
-          <div 
-            className="absolute right-[0%] top-1/2 -translate-y-1/2 w-[500px] md:w-[30%] h-[500px] md:h-[700px] bg-no-repeat bg-center bg-contain pointer-events-none mix-blend-screen opacity-80"
-            style={{ backgroundImage: `url('https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781612369/photo-1535632066927-ab7c9ab60908_2_hr2sjj.png')` }}
-          />
-        </div>
 
         
           <Link 
@@ -203,11 +191,6 @@ export default function Navbar() {
   
         <div className="relative bg-[#07512E] text-white px-4 md:px-8 lg:px-12 py-3 flex items-center justify-between overflow-hidden">
           
-   
-          <div 
-            className="absolute left-[-5%] top-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-no-repeat bg-center bg-contain pointer-events-none mix-blend-screen opacity-50"
-            style={{ backgroundImage: `url('https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781612368/photo-1535632066927-ab7c9ab60908_1_cre4nd.png')` }}
-          />
 
         
           <Link href="/" className="relative z-10 hover:opacity-90 transition-opacity flex-shrink-0">

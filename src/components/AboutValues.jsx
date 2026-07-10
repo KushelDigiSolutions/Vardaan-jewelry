@@ -9,7 +9,7 @@ export default function AboutValues() {
     {
       icon: FiCheckSquare,
       title: "BIS Certified Gold",
-      desc: "Every single piece carries the government recognized Hallmark tag, guaranteeing exact purity specification (18k or 22k gold)."
+      desc: "Every single piece carries the government recognized Hallmark tag, guaranteeing exact purity specification (Premium Rolled Gold)."
     },
     {
       icon: FiGlobe,
