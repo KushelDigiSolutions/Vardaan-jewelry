@@ -155,7 +155,7 @@ function ProfileContent() {
   const confirmCancelOrder = async () => {
     const orderId = orderToCancel;
     if (!orderId) return;
-    setOrderToCancel(null);
+    
     setLoading(true);
     setMsg({ type: "", text: "" });
     try {
@@ -179,6 +179,7 @@ function ProfileContent() {
       toast.error(err.message || "Failed to cancel order");
     } finally {
       setLoading(false);
+      setOrderToCancel(null);
     }
   };
 
