@@ -151,12 +151,13 @@ export default function CheckoutClient() {
     }
   };
 
-  // Compute Shipping Fees
-  const shippingCost = shippingMethod === "Express Delivery" ? 150 : (subtotal < 999 ? 50 : 0);
+  // Compute Shipping Fees (applicable only on orders below 399 after discount)
+  const discountVal = appliedCoupon ? appliedCoupon.discount : 0;
+  const amountBeforeShipping = Math.max(0, subtotal - discountVal);
+  const shippingCost = shippingMethod === "Express Delivery" ? 150 : (amountBeforeShipping <= 399 ? 50 : 0);
   
   // Compute Grand Total
-  const discountVal = appliedCoupon ? appliedCoupon.discount : 0;
-  const grandTotal = Math.max(0, subtotal - discountVal + shippingCost);
+  const grandTotal = amountBeforeShipping + shippingCost;
 
   // Submit Order Checkout
   const handlePlaceOrder = async () => {
