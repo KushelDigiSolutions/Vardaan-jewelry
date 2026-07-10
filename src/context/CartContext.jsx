@@ -246,6 +246,11 @@ export function CartProvider({ children }) {
         if (matchedVariant && matchedVariant.inventory !== undefined) {
           availableInventory = matchedVariant.inventory;
         }
+      } else if (item.variant && item.product?.sizes?.length > 0) {
+        const sizeMatch = item.product.sizes.find(s => s.size === item.variant);
+        if (sizeMatch && sizeMatch.inventory !== undefined) {
+          availableInventory = sizeMatch.inventory;
+        }
       }
       if (item.quantity + delta > availableInventory) {
         toast.error(`Only ${availableInventory} items available in stock!`);
