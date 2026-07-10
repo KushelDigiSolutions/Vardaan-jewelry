@@ -74,10 +74,10 @@ export default function AboutCraftsmanship() {
 
                 {/* Slide Up Content Container */}
                 <div className={`absolute inset-x-0 bottom-0 p-6 lg:p-4 xl:p-6 flex flex-col justify-end transition-transform duration-500 ease-out h-[60%] lg:h-[75%] xl:h-[60%] bg-gradient-to-t from-[#04361E] to-transparent ${isActive ? 'translate-y-0' : 'translate-y-16 group-hover:translate-y-0'}`}>
-                  <h3 className="font-serif text-[20px] md:text-[24px] lg:text-[17px] xl:text-[24px] text-[#FFDE59] uppercase tracking-wide mb-2 lg:mb-1 xl:mb-2 font-normal">
+                  <h3 className="font-serif text-[20px] md:text-[24px] lg:text-[17px] xl:text-[24px] text-[#FFDE59] uppercase tracking-wide mb-2 lg:mb-1 xl:mb-2 font-normal md:min-h-[72px] lg:min-h-0 md:flex md:items-end lg:block">
                     {step.title}
                   </h3>
-                  <p className={`text-[18px] lg:text-[13px] xl:text-[18px] text-gray-300 font-light leading-relaxed lg:leading-normal xl:leading-relaxed transition-opacity duration-500 delay-100 ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+                  <p className={`text-[18px] lg:text-[13px] xl:text-[18px] text-gray-300 font-light leading-relaxed lg:leading-normal xl:leading-relaxed transition-opacity duration-500 delay-100 md:min-h-[160px] lg:min-h-0 ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
                     {step.desc}
                   </p>
                 </div>

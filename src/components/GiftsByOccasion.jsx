@@ -150,7 +150,7 @@ export default function GiftsByOccasion() {
               Gift by Moment
             </h2>
             <p className="text-[#07512E] font-sans mt-2 text-sm sm:text-base tracking-wide">
-              The perfect jewelry piece for every cherished moment
+              The perfect jewellery piece for every cherished moment
             </p>
           </div>
           <div className="flex gap-3">
