@@ -57,6 +57,7 @@ export default function ContactInfo() {
             return (
               <Component
                 key={idx}
+                target="_blank"
                 href={chan.href}
                 className="bg-[#053D22] border border-white/5 p-6 lg:p-5 xl:p-6 rounded-lg shadow-xl flex items-start gap-4 lg:gap-3 xl:gap-4 transition-transform duration-300 transform hover:translate-x-3 hover:border-[#FFDE59]/40 text-white group w-full"
               >
