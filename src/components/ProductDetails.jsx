@@ -450,11 +450,14 @@ export default function ProductDetails({ productId }) {
   const handleAddToCart = () => {
     if (!product) return;
 
+    // Size selection is optional; commented out mandatory validation
+    /*
     const requiresSize = (isRingProduct && !hasVariants) || (product.sizes && product.sizes.length > 0);
     if (requiresSize && !selectedSize) {
       toast.error("Please select a size first!");
       return;
     }
+    */
 
     if (isOutOfStock) {
       toast.error("This variant is currently out of stock!");
@@ -799,46 +802,7 @@ export default function ProductDetails({ productId }) {
             </div>
           )}
 
-          {/* ── Fallback: static size selector for ring products without variants/custom sizes ── */}
-          {!hasVariants && isRingProduct && (!product.sizes || product.sizes.length === 0) && (
-            <div className="mb-6">
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-[15px] font-sans text-gray-700">
-                  Size :
-                </span>
-              </div>
-              <div className="flex gap-2 flex-wrap mb-3">
-                {["20", "32", "45", "50", "60"].map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={`w-11 h-11 border flex items-center justify-center text-[15px] font-sans transition-colors cursor-pointer rounded ${selectedSize === size
-                      ? "bg-[#07512E] border-[#07512E] text-white"
-                      : "bg-white border-gray-300 text-gray-700 hover:border-gray-400"
-                      }`}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
-              {isActive && (
-                <div>
-                  <input
-                    type="number"
-                    value={selectedSize}
-                    onChange={(e) => setSelectedSize(e.target.value)}
-                    className="border border-gray-300 p-1 w-11"
-                  />
-                </div>
-              )}
-              <p
-                className={`text-[13px] font-sans font-semibold ${stockLabel.color} flex items-center gap-1.5`}
-              >
-                {isOutOfStock && <FiAlertTriangle className="w-4 h-4" />}
-                {stockLabel.text}
-              </p>
-            </div>
-          )}
+
 
           {/* ── Quantity ── */}
           <div className="mb-8">
