@@ -55,19 +55,14 @@
     0% {
       opacity: 0;
       transform: translateY(15px) scale(0.85);
-      color: rgba(255, 255, 255, 0.2);
       filter: blur(4px);
     }
     60% {
-      color: #FFF1B8;
-      text-shadow: 0 0 12px rgba(255, 222, 89, 0.9);
       filter: blur(0);
     }
     100% {
       opacity: 1;
       transform: translateY(0) scale(1);
-      color: #FFDE59;
-      text-shadow: 0 0 6px rgba(255, 222, 89, 0.3);
     }
   }
   @keyframes word-reveal {

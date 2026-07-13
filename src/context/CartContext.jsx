@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
+import React, { createContext, useContext, useState, useCallback, useEffect, useRef } from "react";
 import { useAuth } from "./AuthContext";
 import { useToast } from "./ToastContext";
 import { useLoader } from "./LoaderContext";
@@ -230,43 +230,50 @@ export function CartProvider({ children }) {
   // Update item quantity
   const updateQuantity = useCallback(async (id, delta, variant = "50") => {
     const item = cartItems.find(i => (i.id === id || i.productId === id) && i.variant === variant);
-    if (!item) return;
+    if (!item) return false;
 
-    if (delta > 0) {
-      let availableInventory = item.variantDetails?.inventory ?? item.inventory ?? item.product?.inventory ?? Infinity;
-      if (item.product?.variants?.length > 0) {
-        const matchedVariant = item.product.variants.find(v => {
-          if (item.variantDetails) {
-            return v.karat === item.variantDetails.karat && 
-                   v.metalColor === item.variantDetails.metalColor && 
-                   v.size === item.variantDetails.size;
-          }
-          return false;
-        });
-        if (matchedVariant && matchedVariant.inventory !== undefined) {
-          availableInventory = matchedVariant.inventory;
+    let availableInventory = item.variantDetails?.inventory ?? item.inventory ?? item.product?.inventory ?? Infinity;
+    if (item.product?.variants?.length > 0) {
+      const matchedVariant = item.product.variants.find(v => {
+        if (item.variantDetails) {
+          return v.karat === item.variantDetails.karat && 
+                 v.metalColor === item.variantDetails.metalColor && 
+                 v.size === item.variantDetails.size;
         }
-      } else if (item.variant && item.product?.sizes?.length > 0) {
-        const sizeMatch = item.product.sizes.find(s => s.size === item.variant);
-        if (sizeMatch && sizeMatch.inventory !== undefined) {
-          availableInventory = sizeMatch.inventory;
-        }
+        return false;
+      });
+      if (matchedVariant && matchedVariant.inventory !== undefined) {
+        availableInventory = matchedVariant.inventory;
       }
-      if (item.quantity + delta > availableInventory) {
-        toast.error(`Only ${availableInventory} items available in stock!`);
-        return;
+    } else if (item.variant && item.product?.sizes?.length > 0) {
+      const sizeMatch = item.product.sizes.find(s => s.size === item.variant);
+      if (sizeMatch && sizeMatch.inventory !== undefined) {
+        availableInventory = sizeMatch.inventory;
       }
     }
 
-    const newQty = Math.max(1, item.quantity + delta);
-    if (newQty === item.quantity) return; // No change (e.g. trying to decrease below 1)
+    const newQty = item.quantity + delta;
+    if (newQty < 1) return false; // Do not allow quantity less than 1
 
-    const isIncrease = delta > 0;
-    const actionText = isIncrease ? "Increased" : "Decreased";
+    if (newQty > availableInventory) {
+      toast.error(`Only ${availableInventory} items available in stock!`);
+      return false;
+    }
+
+    // Optimistically update local cart items state instantly
+    setCartItems((prev) => {
+      const updated = prev.map((i) =>
+        (i.id === id || i.productId === id) && i.variant === variant
+          ? { ...i, quantity: newQty }
+          : i
+      );
+      saveToLocal(updated);
+      return updated;
+    });
 
     if (token) {
       try {
-        const res = await fetch(`${API_URL}/cart`, {
+        await fetch(`${API_URL}/cart`, {
           method: "PUT",
           headers: getHeaders(),
           body: JSON.stringify({
@@ -275,24 +282,14 @@ export function CartProvider({ children }) {
             variant: variant
           }),
         });
-        if (res.ok) {
-          await fetchCart();
-        }
+        return true;
       } catch (err) {
         console.error("Update quantity API error:", err);
+        return false;
       }
-    } else {
-      setCartItems((prev) => {
-        const updated = prev.map((item) =>
-          (item.id === id || item.productId === id) && item.variant === variant
-            ? { ...item, quantity: newQty }
-            : item
-        );
-        saveToLocal(updated);
-        return updated;
-      });
     }
-  }, [token, getHeaders, cartItems, fetchCart, toast]);
+    return true;
+  }, [token, getHeaders, cartItems, toast]);
 
   const clearCart = useCallback(async () => {
     if (token) {

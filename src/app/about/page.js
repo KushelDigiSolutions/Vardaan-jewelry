@@ -1,12 +1,13 @@
 import Navbar from "@/components/Navbar";
 import AboutHero from "@/components/AboutHero";
 import AboutUs from "@/components/AboutUs";
-import AboutWhoWeAre from "@/components/AboutWhoWeAre";
+import AboutFounderStory from "@/components/AboutFounderStory";
 import AboutHeritage from "@/components/AboutHeritage";
 import AboutVisionMission from "@/components/AboutVisionMission";
 import AboutCraftsmanship from "@/components/AboutCraftsmanship";
 import AboutValues from "@/components/AboutValues";
 import Footer from "@/components/Footer"; 
+import AboutWhoWeAre from "@/components/AboutWhoWeAre";
 
 export const metadata = {
   title: "About Us | Vardaan - Fine Handcrafted Jewelry",
@@ -20,14 +21,15 @@ export default function AboutPage() {
       <Navbar />
       <main className="flex-grow">
         <AboutHero />
-        <AboutUs />
         <AboutWhoWeAre />
-        <AboutHeritage />
+        <AboutFounderStory />
         <AboutVisionMission />
-        <AboutCraftsmanship />
-        <AboutValues />
+        <AboutHeritage />
+        <AboutUs />
+        {/* <AboutCraftsmanship /> */}
+        {/* <AboutValues /> */}
       </main>
       <Footer />
-    </>
+    </> 
   );
 }
