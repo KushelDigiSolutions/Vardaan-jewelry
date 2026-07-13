@@ -150,7 +150,9 @@ export default function CartDrawer() {
                     </h3>
                     {lastItem.variant && lastItem.variant !== "default" && (
                       <p className="text-[13px] text-[#6B7280] font-normal font-sans leading-relaxed mb-1 italic">
-                        Size : {lastItem.variant}
+                        {lastItem.variant.startsWith("Size:") || lastItem.variant.startsWith("Size :")
+                          ? lastItem.variant
+                          : `Size : ${lastItem.variant}`}
                       </p>
                     )}
                     <p className="text-[13px] text-[#9CA3AF] font-sans mb-2">

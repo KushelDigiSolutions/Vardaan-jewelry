@@ -8,7 +8,7 @@ import { useCart } from "../context/CartContext";
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
 export default function YouMayAlsoLike({ categoryId, currentProductId }) {
-  const { addToCart } = useCart();
+  const { addToCart, isProductOutOfStock, getCartItemDetailsForListing } = useCart();
   const [products, setProducts] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
 
@@ -86,15 +86,29 @@ export default function YouMayAlsoLike({ categoryId, currentProductId }) {
 
                 {/* Buttons Container */}
                 <div className="mt-auto flex items-center gap-3 w-full">
-                  <Link href={`/product/${product._id}`} className="flex-1 py-2.5 bg-[#FFDE59] text-[#101010] hover:bg-[#e6c543] transition-colors cursor-pointer text-center font-sans text-[16px] sm:text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap font-medium block">
-                    Shop Now
-                  </Link>
-                  <button 
-                    onClick={() => addToCart(product)}
-                    className="flex-1 py-2.5 bg-white border border-[#07512E] text-[#07512E] hover:bg-[#07512E] hover:text-white transition-colors cursor-pointer text-center font-sans text-[16px] sm:text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap font-medium"
-                  >
-                    Add to Cart
-                  </button>
+                  {isProductOutOfStock(product) ? (
+                    <button 
+                      disabled
+                      className="w-full py-2.5 bg-gray-50 border border-gray-300 text-gray-400 cursor-not-allowed text-center font-sans text-[16px] sm:text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap font-medium"
+                    >
+                      Out of Stock
+                    </button>
+                  ) : (
+                    <>
+                      <Link href={`/product/${product._id}`} className="flex-1 py-2.5 bg-[#FFDE59] text-[#101010] hover:bg-[#e6c543] transition-colors cursor-pointer text-center font-sans text-[16px] sm:text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap font-medium block">
+                        Shop Now
+                      </Link>
+                      <button 
+                        onClick={() => {
+                          const { variantStr, variantDetails } = getCartItemDetailsForListing(product);
+                          addToCart(product, 1, variantStr, variantDetails);
+                        }}
+                        className="flex-1 py-2.5 bg-white border border-[#07512E] text-[#07512E] hover:bg-[#07512E] hover:text-white transition-colors cursor-pointer text-center font-sans text-[16px] sm:text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap font-medium"
+                      >
+                        Add to Cart
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
 

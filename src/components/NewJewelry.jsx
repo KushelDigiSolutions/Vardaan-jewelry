@@ -15,7 +15,7 @@ const bannerItem = {
 };
 
 export default function NewJewelry() {
-  const { addToCart, cartItems } = useCart();
+  const { addToCart, cartItems, isProductOutOfStock, getCartItemDetailsForListing } = useCart();
   const [productItems, setProductItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -193,7 +193,7 @@ export default function NewJewelry() {
                           <Link href={`/product/${item._id}`} className="flex-1 h-[48px] flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap hover:bg-[#e6c543] transition-colors duration-300">
                             Shop Now
                           </Link>
-                          {item.inventory <= 0 ? (
+                          {isProductOutOfStock(item) ? (
                             <button
                               disabled
                               className="flex-1 h-[48px] cursor-not-allowed flex items-center justify-center bg-gray-100 border border-gray-300 text-gray-400 font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap"
@@ -209,7 +209,10 @@ export default function NewJewelry() {
                             </Link>
                           ) : (
                             <button
-                              onClick={() => addToCart(item)}
+                              onClick={() => {
+                                const { variantStr, variantDetails } = getCartItemDetailsForListing(item);
+                                addToCart(item, 1, variantStr, variantDetails);
+                              }}
                               className="flex-1 h-[48px] flex items-center cursor-pointer justify-center bg-white border border-[#07512E] text-[#07512E] font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap hover:bg-[#07512E] hover:text-white transition-colors duration-300"
                             >
                               Add to Cart

@@ -314,6 +314,77 @@ export function CartProvider({ children }) {
   const closeCart = useCallback(() => setIsCartOpen(false), []);
   const openCart = useCallback(() => setIsCartOpen(true), []);
 
+  const isProductOutOfStock = useCallback((product) => {
+    if (!product) return true;
+    const hasVariants = product.variants && product.variants.length > 0;
+    const hasSizes = product.sizes && product.sizes.length > 0;
+
+    if (hasVariants) {
+      return product.variants.every(v => (v.inventory || 0) <= 0);
+    }
+    if (hasSizes) {
+      return product.sizes.every(s => (s.inventory || 0) <= 0);
+    }
+    return (product.inventory || 0) <= 0;
+  }, []);
+
+  const getCartItemDetailsForListing = useCallback((product) => {
+    if (!product) return { variantStr: "Standard", variantDetails: null };
+    const hasVariants = product.variants && product.variants.length > 0;
+    const hasSizes = product.sizes && product.sizes.length > 0;
+
+    if (hasVariants) {
+      const availableVar = product.variants.find(v => (v.inventory || 0) > 0) || product.variants[0];
+      if (availableVar) {
+        const parts = [];
+        parts.push(`Size: ${availableVar.size || "Standard"}`);
+        if (availableVar.karat) parts.push(`Karat: ${availableVar.karat}`);
+        if (availableVar.metalColor) parts.push(`Color: ${availableVar.metalColor}`);
+        if (availableVar.metalType) parts.push(`Metal Type: ${availableVar.metalType}`);
+        if (availableVar.grossWeight) parts.push(`Gross Wt: ${availableVar.grossWeight}`);
+        if (availableVar.netWeight) parts.push(`Net Wt: ${availableVar.netWeight}`);
+        const variantStr = parts.join(" | ") || "Standard";
+
+        const variantDetails = {
+          karat: availableVar.karat || "",
+          metalColor: availableVar.metalColor || "",
+          metalType: availableVar.metalType || "Gold",
+          grossWeight: availableVar.grossWeight || "",
+          netWeight: availableVar.netWeight || "",
+          size: availableVar.size || "Standard",
+          price: availableVar.price,
+          salePrice: availableVar.salePrice || 0,
+          inventory: availableVar.inventory || 0,
+        };
+        return { variantStr, variantDetails };
+      }
+    }
+
+    if (hasSizes) {
+      const availableSize = product.sizes.find(s => (s.inventory || 0) > 0) || product.sizes[0];
+      if (availableSize) {
+        const variantStr = availableSize.size || "Standard";
+        const variantDetails = {
+          size: availableSize.size || "Standard",
+          price: availableSize.price || product.price,
+          salePrice: 0,
+          inventory: availableSize.inventory || 0
+        };
+        return { variantStr, variantDetails };
+      }
+    }
+
+    return { 
+      variantStr: "Standard", 
+      variantDetails: {
+        size: "Standard",
+        price: product.price,
+        salePrice: product.salePrice || 0,
+        inventory: product.inventory || 0
+      } 
+    };
+  }, []);
+
   return (
     <CartContext.Provider
       value={{
@@ -325,6 +396,8 @@ export function CartProvider({ children }) {
         clearCart,
         closeCart,
         openCart,
+        isProductOutOfStock,
+        getCartItemDetailsForListing,
       }}
     >
       {children}

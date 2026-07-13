@@ -725,7 +725,7 @@ function ProfileContent() {
                   : "text-gray-600 hover:bg-gray-50"
               }`}
             >
-              <FiMapPin /> Addresses Book
+              <FiMapPin /> Addresses
             </button>
             <button
               onClick={() => {
@@ -2165,7 +2165,7 @@ function ProfileContent() {
                             </p>
                           )}
                           <p className="text-[16px] text-gray-500">
-                            Qty: {item.quantity} @ ₹{" "}
+                            Qty: {item.quantity} , Price : ₹{" "}
                             {item.price.toLocaleString("en-IN")}
                           </p>
                             </div>
