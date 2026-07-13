@@ -2220,6 +2220,8 @@ function ProfileContent() {
                       const shippingCost = selectedDetailedOrder.shippingCost || 0;
                       const discount = selectedDetailedOrder.discount || 0;
                       const couponCode = selectedDetailedOrder.couponCode;
+                      const codCharge = selectedDetailedOrder.codCharge !== undefined && selectedDetailedOrder.codCharge !== null ? selectedDetailedOrder.codCharge : (selectedDetailedOrder.paymentMethod === 'COD' ? 100 : 0);
+                      const onlineDiscount = selectedDetailedOrder.onlineDiscount !== undefined && selectedDetailedOrder.onlineDiscount !== null ? selectedDetailedOrder.onlineDiscount : (selectedDetailedOrder.paymentMethod !== 'COD' ? Math.round((itemsSubtotal - discount) * 0.05) : 0);
 
                       return (
                         <>
@@ -2237,6 +2239,26 @@ function ProfileContent() {
                               </span>
                               <span className="text-[16px]">
                                 - ₹ {discount.toLocaleString("en-IN")}
+                              </span>
+                            </div>
+                          )}
+
+                          {codCharge > 0 && (
+                            <div className="flex justify-between text-red-600 font-medium my-1">
+                              <span className="text-[16px]">Handling Charge:</span>
+                              <span className="text-[16px]">
+                                + ₹ {codCharge.toLocaleString("en-IN")}
+                              </span>
+                            </div>
+                          )}
+
+                          {onlineDiscount > 0 && (
+                            <div className="flex justify-between text-green-700 font-medium bg-green-50/50 px-2 py-0.5 rounded border border-green-100/50 my-1">
+                              <span className="text-[16px]">
+                                Online Payment Discount (5%):
+                              </span>
+                              <span className="text-[16px]">
+                                - ₹ {onlineDiscount.toLocaleString("en-IN")}
                               </span>
                             </div>
                           )}

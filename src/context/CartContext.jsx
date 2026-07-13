@@ -313,6 +313,12 @@ export function CartProvider({ children }) {
 
   const isProductOutOfStock = useCallback((product) => {
     if (!product) return true;
+    
+    // If the root product has inventory, it's not out of stock (Standard is available)
+    if ((product.inventory || 0) > 0) {
+      return false;
+    }
+
     const hasVariants = product.variants && product.variants.length > 0;
     const hasSizes = product.sizes && product.sizes.length > 0;
 
@@ -322,7 +328,7 @@ export function CartProvider({ children }) {
     if (hasSizes) {
       return product.sizes.every(s => (s.inventory || 0) <= 0);
     }
-    return (product.inventory || 0) <= 0;
+    return true;
   }, []);
 
   const getCartItemDetailsForListing = useCallback((product) => {
@@ -331,7 +337,7 @@ export function CartProvider({ children }) {
     const hasSizes = product.sizes && product.sizes.length > 0;
 
     if (hasVariants) {
-      const availableVar = product.variants.find(v => (v.inventory || 0) > 0) || product.variants[0];
+      const availableVar = product.variants.find(v => (v.inventory || 0) > 0);
       if (availableVar) {
         const parts = [];
         parts.push(`Size: ${availableVar.size || "Standard"}`);
@@ -358,7 +364,7 @@ export function CartProvider({ children }) {
     }
 
     if (hasSizes) {
-      const availableSize = product.sizes.find(s => (s.inventory || 0) > 0) || product.sizes[0];
+      const availableSize = product.sizes.find(s => (s.inventory || 0) > 0);
       if (availableSize) {
         const variantStr = availableSize.size || "Standard";
         const variantDetails = {
