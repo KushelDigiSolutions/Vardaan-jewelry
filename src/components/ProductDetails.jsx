@@ -234,17 +234,16 @@ export default function ProductDetails({ productId }) {
   /** The specific variant object matching current selection */
   const activeVariant = useMemo(() => {
     if (!hasVariants) return null;
-    return (
-      product.variants.find(
-        (v) =>
-          v.karat === selectedKarat &&
-          v.metalColor === selectedColor &&
-          v.size === selectedSize &&
-          (v.metalType || "Gold") === (selectedMetalType || "Gold") &&
-          (v.grossWeight || "") === (selectedGrossWeight || "") &&
-          (v.netWeight || "") === (selectedNetWeight || ""),
-      ) || null
+    const matched = product.variants.find(
+      (v) =>
+        v.karat === selectedKarat &&
+        v.metalColor === selectedColor &&
+        (selectedSize ? v.size === selectedSize : true) &&
+        (v.metalType || "Gold") === (selectedMetalType || "Gold") &&
+        (v.grossWeight || "") === (selectedGrossWeight || "") &&
+        (v.netWeight || "") === (selectedNetWeight || ""),
     );
+    return matched || product.variants[0];
   }, [
     product,
     hasVariants,
@@ -260,15 +259,15 @@ export default function ProductDetails({ productId }) {
   const variantStr = useMemo(() => {
     if (hasVariants && activeVariant) {
       const parts = [];
-      if (selectedSize) parts.push(`Size: ${selectedSize}`);
+      parts.push(`Size: ${selectedSize || "Standard"}`);
       if (selectedKarat) parts.push(`Karat: ${selectedKarat}`);
       if (selectedColor) parts.push(`Color: ${selectedColor}`);
       if (selectedMetalType) parts.push(`Metal Type: ${selectedMetalType}`);
       if (selectedGrossWeight) parts.push(`Gross Wt: ${selectedGrossWeight}`);
       if (selectedNetWeight) parts.push(`Net Wt: ${selectedNetWeight}`);
-      return parts.join(" | ") || "default";
+      return parts.join(" | ") || "Standard";
     }
-    return selectedSize || "default";
+    return selectedSize || "Standard";
   }, [
     hasVariants,
     activeVariant,
@@ -305,8 +304,11 @@ export default function ProductDetails({ productId }) {
 
   // Get custom size price if selected
   const selectedSizeObj = useMemo(() => {
-    if (!product?.sizes || !selectedSize) return null;
-    return product.sizes.find(s => s.size === selectedSize);
+    if (!product?.sizes) return null;
+    if (!selectedSize) {
+      return product.sizes.find(s => s.inventory > 0) || product.sizes[0] || null;
+    }
+    return product.sizes.find(s => s.size === selectedSize) || null;
   }, [product?.sizes, selectedSize]);
 
   /** Current display price */
@@ -359,6 +361,9 @@ export default function ProductDetails({ productId }) {
 
   /** Out-of-stock flag */
   const isOutOfStock = useMemo(() => {
+    if (!selectedSize) {
+      return (product?.inventory || 0) <= 0;
+    }
     if (hasVariants) {
       return activeVariant
         ? activeVariant.inventory <= 0
@@ -368,10 +373,17 @@ export default function ProductDetails({ productId }) {
       return selectedSizeObj.inventory <= 0;
     }
     return (product?.inventory || 0) <= 0;
-  }, [hasVariants, activeVariant, selectedSizeObj, product]);
+  }, [hasVariants, activeVariant, selectedSizeObj, product, selectedSize]);
 
   /** Stock availability label */
   const stockLabel = useMemo(() => {
+    if (!selectedSize) {
+      const inv = product?.inventory || 0;
+      if (inv <= 0) return { text: "Out of Stock", color: "text-red-600" };
+      if (inv <= 5) return { text: `Only ${inv} left!`, color: "text-amber-700" };
+      return { text: `${inv} in stock`, color: "text-green-700" };
+    }
+
     if (hasVariants) {
       if (!activeVariant)
         return { text: "Select options above", color: "text-gray-400" };
@@ -385,7 +397,7 @@ export default function ProductDetails({ productId }) {
     if (inv <= 0) return { text: "Out of Stock", color: "text-red-600" };
     if (inv <= 5) return { text: `Only ${inv} left!`, color: "text-amber-700" };
     return { text: `${inv} in stock`, color: "text-green-700" };
-  }, [hasVariants, activeVariant, selectedSizeObj, product]);
+  }, [hasVariants, activeVariant, selectedSizeObj, product, selectedSize]);
 
   // ── Selection Change Sync (Score-based Matching) ──────────────────────────
   const handleSelectionChange = useCallback(
@@ -431,7 +443,11 @@ export default function ProductDetails({ productId }) {
         if (field === "size") {
           setSelectedSize(value);
         } else {
-          setSelectedSize(bestVariant.size || "");
+          if (selectedSize === "") {
+            setSelectedSize("");
+          } else {
+            setSelectedSize(bestVariant.size || "");
+          }
         }
       }
     },
@@ -472,17 +488,24 @@ export default function ProductDetails({ productId }) {
         metalType: selectedMetalType,
         grossWeight: selectedGrossWeight,
         netWeight: selectedNetWeight,
-        size: selectedSize,
+        size: selectedSize || "Standard",
         price: activeVariant.price,
         salePrice: activeVariant.salePrice || 0,
-        inventory: activeVariant.inventory,
+        inventory: selectedSize ? activeVariant.inventory : (product?.inventory || 0),
       };
     } else if (selectedSizeObj) {
       variantDetails = {
-        size: selectedSize,
+        size: selectedSize || "Standard",
         price: displayPrice,
         salePrice: 0,
-        inventory: selectedSizeObj.inventory
+        inventory: selectedSize ? selectedSizeObj.inventory : (product?.inventory || 0)
+      };
+    } else {
+      variantDetails = {
+        size: "Standard",
+        price: displayPrice,
+        salePrice: 0,
+        inventory: product?.inventory || 0
       };
     }
 
@@ -744,6 +767,16 @@ export default function ProductDetails({ productId }) {
                     </span>
                   </div>
                   <div className="flex gap-2 flex-wrap">
+                    <button
+                      key="Standard"
+                      onClick={() => handleSelectionChange("size", "")}
+                      className={`px-3.5 h-11 border flex items-center justify-center text-[15px] font-sans transition-all cursor-pointer rounded ${!selectedSize
+                        ? "bg-[#07512E] border-[#07512E] text-white font-medium shadow-sm"
+                        : "bg-white border-gray-300 text-gray-700 hover:border-[#07512E] hover:text-[#07512E]"
+                        }`}
+                    >
+                      Standard
+                    </button>
                     {availableSizes.map((size) => (
                       <button
                         key={size}
@@ -775,10 +808,21 @@ export default function ProductDetails({ productId }) {
             <div className="mb-6">
               <div className="flex justify-between items-center mb-3">
                 <span className="text-[15px] font-sans text-gray-700 font-semibold uppercase tracking-wide">
-                  Select Size
+                  Select Size (Current: {selectedSize || "Standard"})
                 </span>
               </div>
               <div className="flex gap-2 flex-wrap mb-3">
+                <button
+                  key="Standard"
+                  type="button"
+                  onClick={() => setSelectedSize("")}
+                  className={`px-4 py-2 border flex items-center justify-center text-[15px] font-sans transition-colors cursor-pointer rounded ${!selectedSize
+                    ? "bg-[#07512E] border-[#07512E] text-white font-medium shadow-sm"
+                    : "bg-white border-gray-300 text-gray-700 hover:border-gray-400"
+                    }`}
+                >
+                  Standard
+                </button>
                 {product.sizes.map((sObj) => (
                   <button
                     key={sObj.size}
@@ -1155,13 +1199,13 @@ export default function ProductDetails({ productId }) {
                       ))}
                     </select>
                   </li>
-                  {isRingProduct && activeVariant && activeVariant.size && (
+                  {isRingProduct && (
                     <li className="flex justify-between py-1 border-b border-[#E5DCC5]/30">
                       <span className="font-semibold text-gray-500">
                         Ring Size :
                       </span>
                       <span className="text-gray-900 font-medium">
-                        {activeVariant.size}
+                        {selectedSize || "Standard"}
                       </span>
                     </li>
                   )}

@@ -13,7 +13,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
 export default function WishlistPage() {
   const { token } = useAuth();
-  const { addToCart } = useCart();
+  const { addToCart, getCartItemDetailsForListing } = useCart();
   const toast = useToast();
   
   const [wishlist, setWishlist] = useState([]);
@@ -82,7 +82,8 @@ export default function WishlistPage() {
     setCartState((prev) => ({ ...prev, [id]: true }));
     
     // Add to cart
-    addToCart(product, 1, "50");
+    const { variantStr, variantDetails } = getCartItemDetailsForListing(product);
+    addToCart(product, 1, variantStr, variantDetails);
     setTimeout(()=> {
        toast.success(`${product.name} moved to cart successfully!`);
     

@@ -85,7 +85,7 @@ const fallbackCategories = [
 ];
 
 export default function BridalProducts() {
-  const { addToCart, cartItems } = useCart();
+  const { addToCart, cartItems, isProductOutOfStock, getCartItemDetailsForListing } = useCart();
   const { token } = useAuth();
   const toast = useToast();
   const searchParams = useSearchParams();
@@ -302,7 +302,8 @@ export default function BridalProducts() {
   const handleAddToCart = (product) => {
     const id = product._id;
     setCartState(prev => ({ ...prev, [id]: true }));
-    addToCart(product, 1, "50");
+    const { variantStr, variantDetails } = getCartItemDetailsForListing(product);
+    addToCart(product, 1, variantStr, variantDetails);
     
     setTimeout(() => {
       setCartState(prev => ({ ...prev, [id]: false }));
@@ -444,7 +445,7 @@ export default function BridalProducts() {
                   </p>
 
                   <div className="flex flex-col gap-2">
-                    {product.inventory <= 0 ? (
+                    {isProductOutOfStock(product) ? (
                       <button
                         onClick={() => toggleFavorite(product._id)}
                         className="w-full bg-[#E5DCC5] text-[#303030] hover:bg-[#d9cfb4] font-sans font-medium text-[18px] py-3 transition-colors cursor-pointer text-center flex items-center justify-center gap-2"
@@ -460,7 +461,7 @@ export default function BridalProducts() {
                         Shop Now
                       </Link>
                     )}
-                    {product.inventory <= 0 ? (
+                    {isProductOutOfStock(product) ? (
                       <button
                         disabled
                         className="w-full border-2 border-gray-300 text-gray-400 bg-gray-50 font-sans font-medium text-[18px] py-3 cursor-not-allowed text-center"

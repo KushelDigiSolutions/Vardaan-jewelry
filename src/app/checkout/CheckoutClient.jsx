@@ -653,7 +653,11 @@ export default function CheckoutClient() {
                   </div>
                   <div className="flex-grow min-w-0 text-md">
                     <p className="font-semibold text-gray-900  text-[16px]">{item.name}</p>
-                    <p className="text-gray-500 text-[16px]">Qty: {item.quantity} | Size: {item.variant}</p>
+                    <p className="text-gray-500 text-[16px]">
+                      Qty: {item.quantity} | {item.variant.startsWith("Size:") || item.variant.startsWith("Size :")
+                        ? item.variant
+                        : `Size: ${item.variant}`}
+                    </p>
                   </div>
                   <span className="font-semibold text-gray-900 text-xs text-[16px] mt-1 shrink-0">
                     ₹ {(item.price * item.quantity).toLocaleString("en-IN")}
