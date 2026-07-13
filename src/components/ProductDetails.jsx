@@ -306,7 +306,7 @@ export default function ProductDetails({ productId }) {
   const selectedSizeObj = useMemo(() => {
     if (!product?.sizes) return null;
     if (!selectedSize) {
-      return product.sizes.find(s => s.inventory > 0) || product.sizes[0] || null;
+      return null;
     }
     return product.sizes.find(s => s.size === selectedSize) || null;
   }, [product?.sizes, selectedSize]);
@@ -517,23 +517,37 @@ export default function ProductDetails({ productId }) {
 
   // ── Quantity API Trigger ──
   const handleQuantityChange = async (delta) => {
+    // Get available inventory based on variant/size selections
+    let availableInventory = product?.inventory || 0;
+    if (hasVariants && activeVariant) {
+      availableInventory = activeVariant.inventory;
+    } else if (selectedSizeObj) {
+      availableInventory = selectedSizeObj.inventory;
+    }
+
+    const newQty = quantity + delta;
+    if (newQty < 1) return; // Do not allow quantity less than 1
+
+    if (newQty > availableInventory) {
+      toast.error(`Only ${availableInventory} items available in stock!`);
+      return;
+    }
+
     if (isInCart) {
-      if (delta > 0 && isOutOfStock) {
-        toast.error("Insufficient inventory available!");
-        return;
-      }
-      try {
-        const newQty = Math.max(1, quantity + delta);
-        if (newQty === quantity) return;
-        await updateQuantity(product._id, delta, variantStr);
-        setQuantity(newQty);
-      } catch (err) {
+      // Optimistically update the UI instantly
+      setQuantity(newQty);
+      
+      updateQuantity(product._id, delta, variantStr).then((success) => {
+        if (!success) {
+          // Revert quantity if the API call fails
+          setQuantity((current) => current - delta);
+        }
+      }).catch((err) => {
         console.error("Cart update quantity error:", err);
-        toast.error("Failed to update cart quantity.");
-      }
+        setQuantity((current) => current - delta);
+      });
     } else {
-      if (delta > 0 && isOutOfStock) return;
-      setQuantity((q) => Math.max(1, q + delta));
+      setQuantity(newQty);
     }
   };
 
@@ -865,16 +879,7 @@ export default function ProductDetails({ productId }) {
               </div>
              <button
                 onClick={() => handleQuantityChange(1)}
-                disabled={
-                  isOutOfStock ||
-                  quantity >=
-                    (hasVariants && activeVariant
-                      ? activeVariant.inventory
-                      : selectedSizeObj
-                      ? selectedSizeObj.inventory
-                      : product?.inventory || 0)
-                }
-                className="w-10 h-10 flex items-center justify-center text-[#333333] hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                className="w-10 h-10 flex items-center justify-center text-[#333333] hover:bg-gray-50 transition-colors cursor-pointer"
               >
                 +
               </button>

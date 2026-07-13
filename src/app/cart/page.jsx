@@ -77,9 +77,19 @@ export default function CartPage() {
 
                       <div className="flex flex-wrap sm:flex-nowrap items-center justify-between mt-4 sm:mt-auto">
                         <div className="flex items-center border border-[#E5E7EB] rounded-full h-[42px] px-3 box-border w-fit">
-                          <button className="bg-transparent border-none px-2 cursor-pointer text-[18px] text-[#333] hover:text-[#07512E]" onClick={() => handleQtyChange(item.id, -1, item.variant)}>-</button>
+                          <button 
+                            className="bg-transparent border-none px-2 cursor-pointer text-[18px] text-[#333] hover:text-[#07512E]" 
+                            onClick={() => handleQtyChange(item.id, -1, item.variant)}
+                          >
+                            -
+                          </button>
                           <span className="px-4 text-[16px] font-medium font-sans w-8 text-center">{item.quantity}</span>
-                          <button className="bg-transparent border-none px-2 cursor-pointer text-[18px] text-[#333] hover:text-[#07512E]" onClick={() => handleQtyChange(item.id, 1, item.variant)}>+</button>
+                          <button 
+                            className="bg-transparent border-none px-2 cursor-pointer text-[18px] text-[#333] hover:text-[#07512E]" 
+                            onClick={() => handleQtyChange(item.id, 1, item.variant)}
+                          >
+                            +
+                          </button>
                         </div>
                         <div className="font-semibold text-[20px] text-[#111827] font-sans mt-2 sm:mt-0">
                           ₹ {(item.price * item.quantity).toLocaleString("en-IN")}
