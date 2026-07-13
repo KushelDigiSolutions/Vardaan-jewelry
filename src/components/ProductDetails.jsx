@@ -138,23 +138,26 @@ export default function ProductDetails({ productId }) {
   const hasVariants = product?.variants?.length > 0;
 
   const isRingProduct = useMemo(() => {
-    if (!product?.category) return false;
-
-    const categoryValue =
-      typeof product.category === "string"
-        ? product.category
-        : product.category.name || product.category.slug || "";
-    const parentValue =
-      typeof product.category !== "string" && product.category.parentCategory
-        ? product.category.parentCategory.name ||
-        product.category.parentCategory.slug ||
-        ""
+    const getNormalizedString = (cat) => {
+      if (!cat) return "";
+      const catVal = typeof cat === "string" ? cat : (cat.name || cat.slug || "");
+      const parentVal = typeof cat !== "string" && cat.parentCategory
+        ? (cat.parentCategory.name || cat.parentCategory.slug || "")
         : "";
+      return `${catVal} ${parentVal}`;
+    };
 
-    const normalized = `${categoryValue} ${parentValue}`
-      .toString()
-      .toLowerCase();
+    let searchStr = "";
+    if (product?.category) {
+      searchStr += getNormalizedString(product.category);
+    }
+    if (product?.categories && Array.isArray(product.categories)) {
+      product.categories.forEach(c => {
+        searchStr += " " + getNormalizedString(c);
+      });
+    }
 
+    const normalized = searchStr.toLowerCase();
     return normalized.includes("ring");
   }, [product]);
 
@@ -1419,7 +1422,7 @@ export default function ProductDetails({ productId }) {
         </div>
       </div>
       <YouMayAlsoLike
-        categoryId={product?.category?._id}
+        categoryId={product?.category?._id || product?.categories?.[0]?._id}
         currentProductId={product?._id}
       />
     </div>

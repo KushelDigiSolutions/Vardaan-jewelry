@@ -154,10 +154,16 @@ export default function CheckoutClient() {
   // Compute Shipping Fees (applicable only on orders below 399 after discount)
   const discountVal = appliedCoupon ? appliedCoupon.discount : 0;
   const amountBeforeShipping = Math.max(0, subtotal - discountVal);
-  const shippingCost = shippingMethod === "Express Delivery" ? 150 : (amountBeforeShipping <= 399 ? 50 : 0);
+  
+  // Calculate online discount and COD charge
+  const codCharge = paymentMethod === "COD" ? 100 : 0;
+  const onlineDiscount = paymentMethod !== "COD" ? Math.round(amountBeforeShipping * 0.05) : 0;
+  
+  const amountAfterPaymentAdjustments = amountBeforeShipping + codCharge - onlineDiscount;
+  const shippingCost = shippingMethod === "Express Delivery" ? 150 : (amountAfterPaymentAdjustments <= 399 ? 50 : 0);
   
   // Compute Grand Total
-  const grandTotal = amountBeforeShipping + shippingCost;
+  const grandTotal = amountAfterPaymentAdjustments + shippingCost;
 
   // Submit Order Checkout
   const handlePlaceOrder = async () => {
@@ -541,7 +547,9 @@ export default function CheckoutClient() {
                   <label className={`flex flex-col p-4 border rounded cursor-pointer gap-2 ${paymentMethod === "Razorpay" ? "border-[#07512E] bg-green-50/20" : "border-gray-200"}`}>
                     <input type="radio" checked={paymentMethod === "Razorpay"} onChange={() => setPaymentMethod("Razorpay")} className="accent-[#07512E] self-start" />
                     <div>
-                      <p className="font-medium text-[18px] text-gray-900">Online</p>
+                      <p className="font-medium text-[18px] text-gray-900 flex items-center gap-1.5">
+                        Online <span className="text-[11px] bg-green-700 text-white px-2 py-0.5 rounded font-normal font-sans">5% OFF</span>
+                      </p>
                       <p className="text-sm text-gray-500">UPI/Gateway</p>
                     </div>
                   </label>
@@ -557,7 +565,9 @@ export default function CheckoutClient() {
                   <label className={`flex flex-col p-4 border rounded cursor-pointer gap-2 ${paymentMethod === "COD" ? "border-[#07512E] bg-green-50/20" : "border-gray-200"}`}>
                     <input type="radio" checked={paymentMethod === "COD"} onChange={() => setPaymentMethod("COD")} className="accent-[#07512E] self-start" />
                     <div>
-                      <p className="font-medium text-[18px] text-gray-900">Cash on Delivery</p>
+                      <p className="font-medium text-[18px] text-gray-900 flex items-center gap-1.5">
+                        Cash on Delivery <span className="text-[11px] bg-red-650 text-white px-2.5 py-0.5 rounded font-normal font-sans">Handling Charge +₹100</span>
+                      </p>
                       <p className="text-sm text-gray-500">Pay on parcel arrival</p>
                     </div>
                   </label>
@@ -614,6 +624,14 @@ export default function CheckoutClient() {
                 <p className="mb-2"><b>Payment status:</b> <span className="font-semibold">{orderData.paymentStatus}</span></p>
                 <p className="mb-2"><b>Carrier Partner:</b> {orderData.tracking?.carrier || "Shipment pending allocation"}</p>
                 <p className="mb-2"><b>AWB Code:</b> <span className="font-mono">{orderData.tracking?.awb || "Pending generation"}</span></p>
+                
+                {orderData.codCharge > 0 && (
+                  <p className="mb-2 text-red-600"><b>Handling Charge:</b> <span>+ ₹ {orderData.codCharge.toLocaleString("en-IN")}</span></p>
+                )}
+                {orderData.onlineDiscount > 0 && (
+                  <p className="mb-2 text-green-750"><b>Online Payment Discount (5%):</b> <span>- ₹ {orderData.onlineDiscount.toLocaleString("en-IN")}</span></p>
+                )}
+                
                 <p className="border-t border-gray-200 pt-3 mt-3 font-semibold text-gray-900 flex justify-between">
                   <span>Grand Total Paid:</span>
                   <span>₹ {orderData.totalAmount.toLocaleString("en-IN")}</span>
@@ -759,6 +777,18 @@ export default function CheckoutClient() {
               <div className="flex justify-between mb-3 text-[16px] text-green-700 font-semibold">
                 <span>Promo Discount</span>
                 <span>- ₹ {discountVal.toLocaleString("en-IN")}</span>
+              </div>
+            )}
+            {codCharge > 0 && (
+              <div className="flex justify-between mb-3 text-[16px] text-red-600 font-semibold">
+                <span>Handling Charge</span>
+                <span>+ ₹ {codCharge.toLocaleString("en-IN")}</span>
+              </div>
+            )}
+            {onlineDiscount > 0 && (
+              <div className="flex justify-between mb-3 text-[16px] text-green-700 font-semibold">
+                <span>Online Payment Discount (5%)</span>
+                <span>- ₹ {onlineDiscount.toLocaleString("en-IN")}</span>
               </div>
             )}
             <div className="flex justify-between mb-3 text-[16px] text-gray-600">
