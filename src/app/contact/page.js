@@ -5,6 +5,7 @@ import ContactForm from "@/components/ContactForm";
 import TrustFeatures from "@/components/TrustFeatures";
 import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
+import GoogleReviewCTA from "@/components/GoogleReviewCTA";
 
 export const metadata = {
   title: "Contact Us | Vardaan - Fine Handcrafted Jewelry",
@@ -82,6 +83,7 @@ export default function ContactPage() {
         </section>
         <TrustFeatures />
         <FAQ />
+        <GoogleReviewCTA />
       </main>
       <Footer />
     </>

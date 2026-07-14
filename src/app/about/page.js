@@ -8,6 +8,7 @@ import AboutCraftsmanship from "@/components/AboutCraftsmanship";
 import AboutValues from "@/components/AboutValues";
 import Footer from "@/components/Footer"; 
 import AboutWhoWeAre from "@/components/AboutWhoWeAre";
+import GoogleReviewCTA from "@/components/GoogleReviewCTA";
 
 export const metadata = {
   title: "About Us | Vardaan - Fine Handcrafted Jewelry",
@@ -28,6 +29,7 @@ export default function AboutPage() {
         <AboutUs />
         {/* <AboutCraftsmanship /> */}
         {/* <AboutValues /> */}
+        <GoogleReviewCTA />
       </main>
       <Footer />
     </> 
