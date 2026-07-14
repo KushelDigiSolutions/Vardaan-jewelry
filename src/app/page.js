@@ -18,6 +18,7 @@ import Footer from "@/components/Footer";
 import GiftingCollection from "@/components/GiftingCollections";
 import GiftsByOccasion from "@/components/GiftsByOccasion";
 import GiftsForSomeone from "@/components/GiftsForSomeone";
+import GoogleReviewCTA from "@/components/GoogleReviewCTA";
 
 export default function Home() {
   return (
@@ -42,6 +43,7 @@ export default function Home() {
         <InstagramFeed />
         <CustomerFeedback />
         <FAQ />
+        <GoogleReviewCTA/>
       </main>
       <Footer />
     </>
