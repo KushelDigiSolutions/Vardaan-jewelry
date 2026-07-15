@@ -63,7 +63,7 @@ export default function AboutFounderStory() {
               Together with my husband, <span className="font-semibold text-[#07512E]">Vikas Jindal</span>, we started Vardaan with one simple belief: a jewellery brand should earn trust before it earns a sale. We wanted to offer premium, thoughtfully crafted jewellery backed by honesty, transparency, and genuine care for every customer.
             </p>
             <p>
-              The name <span className="font-semibold text-[#07512E]">Vardaan</span> comes from our son, who has been the greatest blessing in our lives. That is why every piece we deliver carries the same emotion—not just to be worn, but to become a part of someone&apos;s special moments.
+              The name <span className="font-semibold text-[#07512E]">Vardaan </span> comes from our son, who has been the greatest blessing in our lives. That is why every piece we deliver carries the same emotion—not just to be worn, but to become a part of someone&apos;s special moments.
             </p>
           </div>
 
