@@ -30,20 +30,23 @@ function QuoteIcon() {
 const testimonials = [
   {
     id: 1,
-    quote: '"Vardaan’s Rolled Gold jewellery is an absolute masterpiece. The craftsmanship, texture, and brilliant finish look exactly like pure 24K gold. It feels incredibly luxurious to wear!"',
-    name: "Ananya Sharma",
+    quote: `I've bought two bracelets from this brand. Both are classy, elegant and beautiful. Superior quality, reasonable price, quick delivery & good packaging with a lovely thanking note. Thank you so much, 'Vardaan'- a name you can trust upon. Best wishes always. 😊🙏`,
+    name: "Jasmeet kaur",
     location: "India",
   },
   {
     id: 2,
-    quote: '"I purchased a stunning rolled gold bridal set for a family wedding, and the quality is exceptional. It maintains its radiant golden luster perfectly. Highly recommended!"',
-    name: "Rajeshwari Patel",
+    quote: `Beautiful, classy, economical - All in one.
+Very very good collection.
+Already purchased some and after wearing it people are asking about the source of them
+Very impressive and recommended everyone to try once`,
+    name: "Debashish banarjee",
     location: "India",
   },
   {
     id: 3,
-    quote: '"The elegant designs and durable rolled gold finishing are unmatched. Vardaan offers the true essence of traditional gold jewellery with modern sophistication and premium feel."',
-    name: "Priya Mehta",
+    quote: `I ordered earrings and pendant. I absolutely loved both. They look very classy and are perfect for professional look.The packaging, finishing and delivery experience was really nice - especially the jewellery box.`,
+    name: "Sneha rawat",
     location: "India",
   },
 ];
