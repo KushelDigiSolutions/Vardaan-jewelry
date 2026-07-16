@@ -5,12 +5,20 @@ import Image from "next/image";
 export default function LatestCollectionBanner() {
   return (
     <section className="relative w-full h-[496px] overflow-hidden flex items-center">
-      {/* Background Image */}
+      {/* Background Image (Mobile view below sm) */}
       <img
-        src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781526285/Latest_Collection_avkkym.png"
-        alt="Latest Collection"
-        className="absolute inset-0 w-full h-full object-cover object-center"
+        src="https://res.cloudinary.com/dxlykgx6w/image/upload/v1784195001/1001141539_osw2xo.png"
+        alt="Latest Collection Mobile"
+        className="absolute inset-0 w-full h-full object-cover object-center block sm:hidden"
       />
+
+      {/* Background Image (Tablet/Desktop view sm and up) */}
+      <img
+        src="https://res.cloudinary.com/dxlykgx6w/image/upload/v1784190125/ChatGPT_Image_Jul_16_2026_01_51_17_PM_rnxnos.png"
+        alt="Latest Collection"
+        className="absolute inset-0 w-full h-full object-cover object-center hidden sm:block"
+      />
+
 
       {/* Image Overlay for Text Readability */}
       <img

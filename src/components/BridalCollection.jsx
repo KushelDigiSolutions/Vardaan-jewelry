@@ -5,11 +5,18 @@ import Image from "next/image";
 export default function BridalCollection() {
   return (
     <section className="relative w-full h-[496px] overflow-hidden flex items-center">
-      {/* Background Image Placeholder */}
+      {/* Background Image (Mobile view below sm) */}
       <img
-        src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781586844/Bridal_Collection_image_sbbumb.jpg"
+        src="https://res.cloudinary.com/dxlykgx6w/image/upload/v1784195001/1001136297_t6psjs.png"
+        alt="Bridal Collection Mobile"
+        className="absolute inset-0 w-full h-full object-cover object-center block sm:hidden"
+      />
+
+      {/* Background Image (Tablet/Desktop view sm and up) */}
+      <img
+        src="https://res.cloudinary.com/dxlykgx6w/image/upload/v1784190850/ChatGPT_Image_Jul_16_2026_02_03_27_PM_kkxtrd.png"
         alt="Bridal Collection"
-        className="absolute inset-0 w-full h-full object-cover object-right"
+        className="absolute inset-0 w-full h-full object-cover object-center hidden sm:block"
       />
 
       {/* Gradient Overlay for Text Readability */}
