@@ -96,12 +96,14 @@ export default function HeroSlider() {
                 {/* Animated Brand Header */}
                 <div className="flex flex-col items-start w-full mb-1 sm:mb-2 select-none">
                   {/* Brand Title (Letter-by-Letter Reveal) */}
-                  <h1 className="text-[28px] sm:text-[34px] md:text-[40px] lg:text-[44px] font-serif font-black uppercase leading-none drop-shadow-[0_4px_12px_rgba(0,0,0,0.7)]">
+                  <h1 className="text-[28px] sm:text-[34px] md:text-[40px] lg:text-[44px] font-medium font-serif font-black uppercase leading-none drop-shadow-[0_4px_12px_rgba(0,0,0,0.7)]">
                     {"VARDAAN".split("").map((letter, lIdx) => (
                       <span
                         key={lIdx}
                         style={{ animationDelay: `${lIdx * 80}ms` }}
                         className={`inline-block mr-[0.08em] bg-gradient-to-r from-[#eca636] to-[#fdd967] bg-clip-text text-transparent ${
+                          lIdx === 0 ? "text-[1.8em]" : ""
+                        } ${
                           idx === current ? "animate-letter-reveal" : "opacity-0"
                         }`}
                       >
