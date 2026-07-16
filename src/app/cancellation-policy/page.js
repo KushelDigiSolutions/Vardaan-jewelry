@@ -7,7 +7,7 @@ export const metadata = {
   description: "Read Vardaan's cancellation policy for order cancellation requests, custom jewellery, refunds, and processing timelines.",
 };
 
-const sections = [
+const sections = [ 
   {
     title: "Cancellation Requests",
     content: [
