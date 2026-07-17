@@ -11,31 +11,31 @@ const STATIC_CATEGORIES = [
     name: "Necklace",
     slug: "necklace",
     image:
-      "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781528583/sets_xvoyfd.png",
+      "https://res.cloudinary.com/vykqb6hs/image/upload/v1784273398/shop_by_category-necklace_evkx5c.jpg",
   },
   {
     name: "Earrings",
     slug: "earrings",
     image:
-      "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781528601/earing_fktmvk.png",
+      "https://res.cloudinary.com/vykqb6hs/image/upload/v1784273397/shop_by_category-Earrings_crzrdt.jpg",
   },
   {
     name: "Rings",
     slug: "rings",
     image:
-      "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781528583/rings_pkq8gv.png",
+      "https://res.cloudinary.com/vykqb6hs/image/upload/v1784273398/shop_by_category-Rings_wp86so.jpg",
   },
   {
     name: "Bracelet",
     slug: "bracelet",
     image:
-      "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783165746/bracletss_kbwsrg.webp",
+      "https://res.cloudinary.com/vykqb6hs/image/upload/v1784273397/shop_by_category-Bracelets_cptpsc.jpg",
   },
   {
     name: "Watches",
     slug: "watches",
     image:
-      "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783080277/watch_e0hbih.png",
+      "https://res.cloudinary.com/vykqb6hs/image/upload/v1784273396/shop_by_category-watches_b6imki.jpg",
       
   },
 ];

@@ -135,7 +135,7 @@ export default function HeroSlider() {
                         style={{ animationDelay: `${700 + wIdx * 100}ms` }}
                         className={`inline-block ${
                           word.highlight 
-                            ? "text-[#fdd967] font-semibold font-serif italic" 
+                            ? "text-[#FAF9F6] font-light font-serif" 
                             : "text-[#FAF9F6]/90"
                         } ${
                           idx === current ? "animate-word-reveal" : "opacity-0"

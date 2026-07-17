@@ -7,22 +7,22 @@ const budgetRanges = [
   {
     title: "Under ₹499",
     query: "?maxPrice=499",
-    image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=600&auto=format&fit=crop",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784281534/Everyday_icons_shop_by_price-under_499_pxj2k9.jpg",
   },
   {
     title: "₹500 - ₹699",
     query: "?minPrice=500&maxPrice=699",
-    image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=600&auto=format&fit=crop",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784281534/Everyday_icons_shop_by_price-500-699_izkztc.jpg",
   },
   {
     title: "₹700 - ₹999",
     query: "?minPrice=700&maxPrice=999",
-    image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=600&auto=format&fit=crop",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784281534/Everyday_icons_shop_by_price-700-999_olshxm.jpg",
   },
   {
     title: "₹999 & Above",
     query: "?minPrice=999",
-    image: "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?q=80&w=600&auto=format&fit=crop",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784281534/Everyday_icons_shop_by_price-above-999_wdpalr.jpg",
   },
 ];
 

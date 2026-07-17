@@ -69,7 +69,7 @@ Gift a blessing that will be treasured forever.
       {/* Right side image area (Bleeding to edge on desktop) */}
       <div className="w-full h-[400px] md:h-auto md:absolute md:top-0 md:right-0 md:w-1/2 md:bottom-0 z-0">
         <img
-          src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781523380/VardaanCreateNecklace_xo448i.png"
+          src="https://res.cloudinary.com/vykqb6hs/image/upload/v1784273397/jewel_a_blessing_gvz0l1.jpg"
           alt="Woman wearing Vardaan necklace"
           className="w-full h-full object-cover object-center"
         />

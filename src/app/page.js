@@ -31,11 +31,11 @@ export default function Home() {
         <LatestCollectionBanner />
         <ShopByCategories />
         <ShopByLifestyle />
-        <ShopByPrice />
+        <ShopByBudget />
         <BridalCollection />
         <RoyallyCrafted />
         <ShopByOccasion />
-        <ShopByBudget />
+        <ShopByPrice />
         <GiftingCollection/>
         <GiftsByOccasion />
         <GiftsForSomeone />
