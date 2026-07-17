@@ -18,25 +18,25 @@ export default function RoyallyCrafted() {
       id: "necklace-set",
       name: "Necklace Set",
       slug: "necklaceset",
-      image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783080277/necklace_set_kc47em.png",
+      image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784273400/time_shop_by_category_-_neckless_sets_gy7kff.jpg",
     },
     {
       id: "jhumka",
       name: "Jhumka",
       slug: "jhumka",
-      image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783080277/jhumka_vhbcmh.png",
+      image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784281535/time_shop_by_category_-jhumka_akxlnl.jpg",
     },
     {
       id: "ring",
       name: "Ring",
       slug: "rings",
-      image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783080277/ring_b7hv9m.png",
+      image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784281535/time_shop_by_category_-rings_yums3r.jpg",
     },
     {
       id: "watches",
       name: "Watches",
       slug: "watches",
-      image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783080277/watch_e0hbih.png",
+      image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784281534/time_shop_by_category_-watches_bgjuuw.jpg",
     },
   ];
 

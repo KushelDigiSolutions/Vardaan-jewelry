@@ -7,14 +7,14 @@ export default function LatestCollectionBanner() {
     <section className="relative w-full h-[496px] overflow-hidden flex items-center">
       {/* Background Image (Mobile view below sm) */}
       <img
-        src="https://res.cloudinary.com/dxlykgx6w/image/upload/v1784195001/1001141539_osw2xo.png"
+        src="https://res.cloudinary.com/vykqb6hs/image/upload/v1784285147/ChatGPT_Image_Jul_17_2026_04_15_00_PM_s79jbs.png"
         alt="Latest Collection Mobile"
         className="absolute inset-0 w-full h-full object-cover object-center block sm:hidden"
       />
 
       {/* Background Image (Tablet/Desktop view sm and up) */}
       <img
-        src="https://res.cloudinary.com/dxlykgx6w/image/upload/v1784190125/ChatGPT_Image_Jul_16_2026_01_51_17_PM_rnxnos.png"
+        src="https://res.cloudinary.com/vykqb6hs/image/upload/v1784285147/ChatGPT_Image_Jul_17_2026_04_13_09_PM_ev955h.png"
         alt="Latest Collection"
         className="absolute inset-0 w-full h-full object-cover object-center hidden sm:block"
       />

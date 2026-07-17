@@ -121,7 +121,7 @@ export default function LatestCollection() {
         <div className="w-full xl:w-[584px] relative h-[400px] xl:h-[600px] flex-shrink-0 overflow-hidden group">
           {/* Placeholder for the user's banner image */}
           <img
-            src="https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781529489/Latest_Collection_mjuzxl.png"
+            src="https://res.cloudinary.com/vykqb6hs/image/upload/v1784273397/love_tick_forever_penxs4.jpg"
             alt="Latest Collection Banner"
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 bg-[#dcdcdc]"
           />
