@@ -7,22 +7,22 @@ const priceRanges = [
   {
     title: "Under ₹599",
     query: "?maxPrice=599",
-    image: "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781528583/rings_pkq8gv.png",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784353155/WhatsApp_Image_2026-07-18_at_10.59.51_AM_tx9xl1.jpg",
   },
   {
     title: "₹600 - ₹899",
     query: "?minPrice=600&maxPrice=899",
-    image: "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781528601/earing_fktmvk.png",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784353155/WhatsApp_Image_2026-07-18_at_10.59.52_AM_mo262m.jpg",
   },
   {
     title: "₹900 - ₹1199",
     query: "?minPrice=900&maxPrice=1199",
-    image: "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781528583/sets_xvoyfd.png",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784353531/ChatGPT_Image_Jul_18_2026_11_15_07_AM_jiogew.png",
   },
   {
     title: "₹1199 & Above",
     query: "?minPrice=1199",
-    image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1782973425/ecom-uploads/qzcdfnnua12lrymbsahq.png",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784353155/WhatsApp_Image_2026-07-18_at_10.59.52_AM_2_dmjpst.jpg",
   },
 ];
 

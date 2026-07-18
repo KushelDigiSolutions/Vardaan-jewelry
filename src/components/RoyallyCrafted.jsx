@@ -18,7 +18,7 @@ export default function RoyallyCrafted() {
       id: "necklace-set",
       name: "Necklace Set",
       slug: "necklaceset",
-      image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784273400/time_shop_by_category_-_neckless_sets_gy7kff.jpg",
+      image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784296012/ChatGPT_Image_Jul_17_2026_07_16_14_PM_evfji8.png",
     },
     {
       id: "jhumka",
