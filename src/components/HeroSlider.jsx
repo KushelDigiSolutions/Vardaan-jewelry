@@ -31,6 +31,17 @@ const defaultSlides = [
   },
 ];
 
+const getOptimizedHeroImage = (image) => {
+  if (typeof image !== "string") return image;
+
+  if (image.includes("res.cloudinary.com")) {
+    const separator = image.includes("?") ? "&" : "?";
+    return `${image}${separator}q_auto,f_auto,w_2200,c_fill,dpr_2.0`;
+  }
+
+  return image;
+};
+
 export default function HeroSlider() {
   const [slides, setSlides] = useState(defaultSlides);
   const [current, setCurrent] = useState(0);
@@ -73,13 +84,23 @@ export default function HeroSlider() {
         {slides.map((slide, idx) => (
           <div
             key={idx}
-            className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${idx === current ? "opacity-100 z-10" : "opacity-0 z-0"
+            className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${idx === current ? "opacity-100 z-10" : "opacity-0        z-0"
               }`}
           >
             {/* Background Image */}
-            <div
-              className={`absolute inset-0 bg-cover bg-center ${slide.styleFilter || ""}`}
-              style={{ backgroundImage: `url('${slide.image}')` }}
+            <img
+              src={getOptimizedHeroImage(slide.image)}
+              alt={slide.title || "Hero slide"}
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+              className={`absolute inset-0 h-full w-full object-cover object-center ${slide.styleFilter || ""}`}
+              style={{
+                transform: "translateZ(0)",
+                imageRendering: "auto",
+                WebkitBackfaceVisibility: "hidden",
+                backfaceVisibility: "hidden",
+              }}
             />
 
             {/* Dark overlay for luxury look & high readability */}

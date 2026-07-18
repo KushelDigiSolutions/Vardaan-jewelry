@@ -14,7 +14,7 @@ const GIFT_OCCASIONS = [
     icon: "🎂",
     bg: "#FFF8EC",
     accent: "#D4891A",
-    image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783171659/birthday_gift_pkt9yh.jpg",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784353155/WhatsApp_Image_2026-07-18_at_10.59.55_AM_waq11o.jpg",
   },
   {
     id: "anniversary love",
@@ -24,7 +24,7 @@ const GIFT_OCCASIONS = [
     icon: "💍",
     bg: "#FFF0F5",
     accent: "#C9487A",
-    image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783172118/anniversary_gift_jwtsbd.jpg",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784353156/WhatsApp_Image_2026-07-18_at_10.59.54_AM_ncbd0h.jpg",
   },
   {
     id: "festive gifting",
@@ -34,7 +34,7 @@ const GIFT_OCCASIONS = [
     icon: "",
     bg: "#FFF0F5",
     accent: "#C9487A",
-    image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783321131/festive_gifting_isctgi.webp",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784354193/ChatGPT_Image_Jul_18_2026_11_26_11_AM_ilrtgg.png",
   },
   {
     id: "congratulations",
@@ -44,7 +44,7 @@ const GIFT_OCCASIONS = [
     icon: "",
     bg: "#FFF0F5",
     accent: "#C9487A",
-    image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783321136/ChatGPT_Image_Jul_6_2026_12_26_13_PM_tichc1.png",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784353155/WhatsApp_Image_2026-07-18_at_10.59.53_AM_2_aunn47.jpg",
   },
   {
     id: "self love",
@@ -54,7 +54,7 @@ const GIFT_OCCASIONS = [
     icon: "",
     bg: "#FFF0F5",
     accent: "#C9487A",
-    image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783321136/self_zsscld.png",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784353156/WhatsApp_Image_2026-07-18_at_10.59.54_AM_1_pistuj.jpg",
   },
   {
     id: "just because",
@@ -64,7 +64,7 @@ const GIFT_OCCASIONS = [
     icon: "",
     bg: "#FFF0F5",
     accent: "#C9487A",
-    image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783321136/ChatGPT_Image_Jul_6_2026_12_18_46_PM_kl0foz.png",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784353156/WhatsApp_Image_2026-07-18_at_10.59.53_AM_hocpjb.jpg",
   },
  
   

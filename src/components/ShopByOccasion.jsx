@@ -22,7 +22,7 @@ const OCCASIONS = [
     id: "sangeet",
     name: "Sangeet",
     slug: "sangeet",
-    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784281535/time_shop_by_occasion-Sangeet_pevmtn.jpg",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784293875/ChatGPT_Image_Jul_17_2026_06_40_11_PM_ebqhym.png",
     description: "Dance the night away",
   },
   {
