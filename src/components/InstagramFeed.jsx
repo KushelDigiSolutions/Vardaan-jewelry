@@ -4,18 +4,54 @@ import Link from "next/link";
 
 export default function InstagramFeed() {
   const instaImages = [
-    "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781591259/01_ircrg1.png",
-    "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781591262/02_i6sorm.png",
-    "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781591266/03_bkl3hm.png",
-    "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781591255/04_1_wynaxd.png",
-    "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781591253/9_gqh50g.png",
-    "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781591266/11_gut3iw.png",
-    "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781591372/05_pkg9gj.png",
-    "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781591375/06_cnfjpa.png",
-    "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781591375/07_rquoyy.png",
-    "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781591375/08_a0gfne.png",
-    "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781591377/10_scol7z.png",
-    "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781591380/image_19_pc3qnn.png"
+    {
+      src: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784371855/WhatsApp_Image_2026-07-18_at_1.23.16_PM_hpuuoy.jpg",
+      link: "https://www.instagram.com/reel/DTj9dN3kwwg/?igsh=N3ltNTZrbGYyeHc="
+    },
+    {
+      src: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784371854/WhatsApp_Image_2026-07-18_at_1.28.55_PM_avlmb3.jpg",
+      link: "https://www.instagram.com/p/DU7wGpeE-OC/?igsh=YjBqMnl5bTg2c20w"
+    },
+    {
+      src: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784376644/ChatGPT_Image_Jul_18_2026_05_40_13_PM_tom5dg.png",
+      link: "https://www.instagram.com/reel/DWllgweE1ep/?igsh=MXhhdDRqNGJrcjBqbg=="
+    },
+    {
+      src: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784371854/WhatsApp_Image_2026-07-18_at_1.21.39_PM_xzjcb7.jpg",
+      link: "https://www.instagram.com/reel/DTlOBFFk8OW/?igsh=MW5ueHI1ZnV6Y3RpcA=="
+    },
+    {
+      src: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784371854/WhatsApp_Image_2026-07-18_at_1.20.59_PM_lxydnm.jpg",
+      link: "https://www.instagram.com/reel/DSuxhYjEswDpAMWczD52RhvVyjpCX9EYAvzCIU0/?igsh=NWZqcGVxMWRtNzlk"
+    },
+    {
+      src: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784371854/WhatsApp_Image_2026-07-18_at_1.17.41_PM_sbuc9z.jpg",
+      link: "https://www.instagram.com/reel/DUITj78E0O9/?igsh=d2EwZTdlNWluMGZ6"
+    },
+    {
+      src: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784371853/WhatsApp_Image_2026-07-18_at_1.15.36_PM_f7bskd.jpg",
+      link: "https://www.instagram.com/p/DU3Zel5kyUx/?igsh=NTkxNWFlb3k5MHBw"
+    },
+    {
+      src: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784371853/WhatsApp_Image_2026-07-18_at_1.13.49_PM_eablo3.jpg",
+      link: "https://www.instagram.com/reel/DV-_hmFE9kR/?igsh=aG1qaGkxdWV1azRz"
+    },
+    {
+      src: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784371852/WhatsApp_Image_2026-07-18_at_1.06.01_PM_j6wfl1.jpg",
+      link: "https://www.instagram.com/p/DW8XSGpkzP2/?igsh=MTJnM3ljYnFoNDg3ZQ=="
+    },
+    {
+      src: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784371852/WhatsApp_Image_2026-07-18_at_1.06.54_PM_dstdez.jpg",
+      link: "https://www.instagram.com/reel/DZeYRBTzx9H/?igsh=cTEyazEwMG96ZnNo"
+    },
+    {
+      src: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784375139/WhatsApp_Image_2026-07-18_at_5.14.33_PM_md3jas.jpg",
+      link: "https://www.instagram.com/reel/Dae6tEkz0cH/?igsh=M2xka3YxdG1iM205"
+    },
+    {
+      src: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784375139/WhatsApp_Image_2026-07-18_at_5.13.53_PM_xp4bcn.jpg",
+      link: "https://www.instagram.com/reel/DahldCtzjNS/?igsh=MWVuajJsMGNwd2VoYQ=="
+    }
   ];
 
   return (
@@ -83,15 +119,17 @@ export default function InstagramFeed() {
       <div className="marquee-container mt-6">
         {/* Row 1: Sliding Left */}
         <div className="marquee-track marquee-left">
-          {[...instaImages.slice(0, 6), ...instaImages.slice(0, 6), ...instaImages.slice(0, 6), ...instaImages.slice(0, 6)].map((src, index) => (
+          {[...instaImages.slice(0, 6), ...instaImages.slice(0, 6), ...instaImages.slice(0, 6), ...instaImages.slice(0, 6)].map((item, index) => (
             <Link 
               key={index} 
-              href="#"
+              href={item.link}
+              target="_blank"
+              rel="noopener noreferrer"
               className="marquee-item relative overflow-hidden group bg-gray-200 block"
               aria-label={`Instagram post ${index + 1}`}
             >
               <img
-                src={src}
+                src={item.src}
                 alt={`Instagram Post ${index + 1}`}
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
@@ -108,15 +146,17 @@ export default function InstagramFeed() {
 
         {/* Row 2: Sliding Right */}
         <div className="marquee-track marquee-right">
-          {[...instaImages.slice(6, 12), ...instaImages.slice(6, 12), ...instaImages.slice(6, 12), ...instaImages.slice(6, 12)].map((src, index) => (
+          {[...instaImages.slice(6, 12), ...instaImages.slice(6, 12), ...instaImages.slice(6, 12), ...instaImages.slice(6, 12)].map((item, index) => (
             <Link 
               key={index} 
-              href="#"
+              href={item.link}
+              target="_blank"
+              rel="noopener noreferrer"
               className="marquee-item relative overflow-hidden group bg-gray-200 block"
               aria-label={`Instagram post ${index + 1}`}
             >
               <img
-                src={src}
+                src={item.src}
                 alt={`Instagram Post ${index + 1}`}
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
