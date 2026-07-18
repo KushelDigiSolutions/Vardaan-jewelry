@@ -12,7 +12,7 @@ const GIFT_SOMEONE = [
     slug: "for-her",
     description: "Elegance she'll adore",
     icon: "👩",
-    image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783172993/for_her_ubgtck.jpg",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784371852/WhatsApp_Image_2026-07-18_at_12.36.55_PM_qpb2bc.jpg",
   },
   {
     id: "for-him",
@@ -28,7 +28,7 @@ const GIFT_SOMEONE = [
     slug: "for-sister",
     description: "A bond like no other",
     icon: "👧",
-    image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783172992/for_sister_q76fww.jpg",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784371852/WhatsApp_Image_2026-07-18_at_12.32.57_PM_korvzt.jpg",
   },
   {
     id: "for-brother",
@@ -44,7 +44,7 @@ const GIFT_SOMEONE = [
     slug: "for-mother",
     description: "Timeless love & grace",
     icon: "👩‍👧",
-    image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783172992/for_mother_oyxtui.jpg",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784372170/mother_r6ddst.jpg",
   },
   {
     id: "for-father",
@@ -60,7 +60,7 @@ const GIFT_SOMEONE = [
     slug: "for-friends",
     description: "Celebrate every friendship",
     icon: "🤝",
-    image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1783172992/for_friends_amiqyd.jpg",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784371852/WhatsApp_Image_2026-07-18_at_12.38.13_PM_cwepus.jpg",
   },
 ];
 
