@@ -28,7 +28,7 @@ export default function RoyallyCrafted() {
     },
     {
       id: "ring",
-      name: "Ring",
+      name: "Rings",
       slug: "rings",
       image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784281535/time_shop_by_category_-rings_yums3r.jpg",
     },
@@ -80,7 +80,7 @@ export default function RoyallyCrafted() {
 
       // Custom mappings
       if (targetNormalized === "necklaceset" && (catSlugNorm === "sets" || catSlugNorm === "necklaces")) return true;
-      if (targetNormalized === "jhumka" && (catSlugNorm === "earrings" || catSlugNorm === "earring")) return true;
+      if (targetNormalized === "jhumka" && (catSlugNorm === "jhumka" || catSlugNorm === "jhumka")) return true;
 
       return false;
     });
@@ -280,7 +280,7 @@ export default function RoyallyCrafted() {
               >
                 <path d="M20 6L9 17l-5-5" />
               </svg>
-              Easy Replacement
+              Easy Replacement / Return
             </div>
             <div className="flex items-center gap-2 text-[#07512E] font-medium text-[18px]">
               <svg
