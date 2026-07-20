@@ -17,12 +17,12 @@ const priceRanges = [
   {
     title: "₹900 - ₹1199",
     query: "?minPrice=900&maxPrice=1199",
-    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784353531/ChatGPT_Image_Jul_18_2026_11_15_07_AM_jiogew.png",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784538993/new3_c4nqjt.png",
   },
   {
     title: "₹1199 & Above",
     query: "?minPrice=1199",
-    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784353155/WhatsApp_Image_2026-07-18_at_10.59.52_AM_2_dmjpst.jpg",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784538993/new13_y6sl0m.png",
   },
 ];
 
@@ -47,7 +47,7 @@ export default function ShopByPrice() {
             <Link
               key={index}
               href={`/shop${range.query}`}
-              className="group relative h-[360px] overflow-hidden rounded-lg shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 block"
+              className="group relative h-[300px] overflow-hidden rounded-lg shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 block"
             >
               <img
                 src={range.image}

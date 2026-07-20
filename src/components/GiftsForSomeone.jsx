@@ -44,7 +44,7 @@ const GIFT_SOMEONE = [
     slug: "for-mother",
     description: "Timeless love & grace",
     icon: "👩‍👧",
-    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784372170/mother_r6ddst.jpg",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784537593/ChatGPT_Image_Jul_20_2026_02_19_16_PM8888_gqxret.png",
   },
   {
     id: "for-father",
