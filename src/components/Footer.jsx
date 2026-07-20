@@ -191,10 +191,10 @@ const GoogleGIcon = () => (
                 Categories
               </h4>
               <ul className="flex flex-col gap-5 text-[16px] text-[#FFFFFF] font-normal">
-                <li><Link href="/shop?category=rings" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Ring</Link></li>
+                <li><Link href="/shop?category=necklace" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Necklace</Link></li>
                 <li><Link href="/shop?category=jhumka" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Jhumka</Link></li>
                 <li><Link href="/shop?category=watch" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Watch</Link></li>
-                <li><Link href="/shop?category=wedding" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Wedding</Link></li>
+                <li><Link href="/shop?category=bracelet" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Bracelets</Link></li>
               </ul>
             </div>
           </div>
@@ -224,7 +224,7 @@ const GoogleGIcon = () => (
                 </div>
                 <div className="flex items-center gap-2.5">
                   <FiRefreshCw className="w-[24px] h-[24px] text-white stroke-[1.5]" />
-                  <span className="uppercase font-sans mt-0.5">EASY RETURNS</span>
+                  <span className="uppercase font-sans mt-0.5">EASY REPLACEMENT / RETURNS</span>
                 </div>
                 <div className="flex items-center gap-2.5">
                   <HiOutlineTruck className="w-[24px] h-[24px] text-white stroke-[1.5]" />
@@ -245,7 +245,7 @@ const GoogleGIcon = () => (
             </div>
             <div className="flex items-center gap-2.5">
               <FiRefreshCw className="w-[24px] h-[24px] text-white stroke-[1.5]" />
-              <span className="uppercase font-sans mt-0.5">EASY RETURNS</span>
+              <span className="uppercase font-sans mt-0.5">EASY REPLACEMENT / RETURN</span>
             </div>
             <div className="flex items-center gap-2.5">
               <HiOutlineTruck className="w-[24px] h-[24px] text-white stroke-[1.5]" />
