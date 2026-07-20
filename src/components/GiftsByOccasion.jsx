@@ -34,7 +34,7 @@ const GIFT_OCCASIONS = [
     icon: "",
     bg: "#FFF0F5",
     accent: "#C9487A",
-    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784354193/ChatGPT_Image_Jul_18_2026_11_26_11_AM_ilrtgg.png",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784527162/ChatGPT_Image_Jul_20_2026_11_27_58_AM_g3mxmk.png",
   },
   {
     id: "congratulations",
