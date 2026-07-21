@@ -18,7 +18,7 @@ import { useAuth } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
 import YouMayAlsoLike from "./YouMayAlsoLike";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+const API_URL =process.env.NEXT_PUBLIC_API_URL ||"https:localhost:5000/api";
 
 // ─── helpers ─────────────────────────────────────────────────────────────────
 /** Extract unique values of a key from the variants array */
@@ -1119,7 +1119,7 @@ export default function ProductDetails({ productId }) {
               {/* Show active variant details as select dropdowns if applicable */}
               {hasVariants && (
                 <>
-                  <li className="flex justify-between items-center py-1.5 border-b border-[#E5DCC5]/30">
+                  <li className="flex items-start py-2 border-b border-[#E5DCC5]/30">
                     <span className="font-semibold text-gray-500">Karat :</span>
                     <select
                       value={selectedKarat}
@@ -1239,7 +1239,7 @@ export default function ProductDetails({ productId }) {
                   .map((attr, idx) => (
                     <li
                       key={idx}
-                      className="flex justify-between py-1 border-b border-[#E5DCC5]/30"
+                      className="justify-between py-1 border-b border-[#E5DCC5]/30"
                     >
                       <span className="font-semibold text-gray-500">
                         {attr.key} :
