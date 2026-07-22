@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import {
   FiSliders,
   FiHeart,
@@ -22,6 +22,7 @@ export default function ShopProducts() {
   const { token } = useAuth();
   const toast = useToast();
   const searchParams = useSearchParams();
+  const router = useRouter();
   const categorySlugParam = searchParams ? searchParams.get("category") : null;
 
   // Categories list & selection states
@@ -493,6 +494,9 @@ export default function ShopProducts() {
                   setSearchInput("");
                   setCurrentPage(1);
                   setIsActive(false);
+                  const params = new URLSearchParams(searchParams.toString());
+                  params.delete("category");
+                  router.push(params.toString() ? `/shop?${params.toString()}` : "/shop");
                 }}
                 className={` border border-white rounded px-4 py-2 hover:bg-white/10 transition-colors flex items-center gap-2 text-sm sm:text-[17px] font-sans tracking-wider font-medium cursor-pointer ${isActive ? "" : "disabled: opacity-50 disabled:pointer-events-none"} `}
               >
@@ -522,7 +526,10 @@ export default function ShopProducts() {
             {(minPriceParam || maxPriceParam) && (
               <button
                 onClick={() => {
-                  window.location.href = "/shop";
+                  const params = new URLSearchParams(searchParams.toString());
+                  params.delete("minPrice");
+                  params.delete("maxPrice");
+                  router.push(params.toString() ? `/shop?${params.toString()}` : "/shop");
                 }}
                 className="border border-white rounded px-4 py-2 hover:bg-white/10 transition-colors flex items-center gap-2 text-sm sm:text-[17px] font-sans tracking-wider font-medium cursor-pointer bg-white/10"
                 title="Clear price filter"
@@ -721,12 +728,25 @@ export default function ShopProducts() {
                     </h3>
                   </Link>
 
-                  <p className="text-[#07512E] font-medium text-[16px] mb-6">
-                    ₹{" "}
-                    {(product.salePrice || product.price).toLocaleString(
-                      "en-IN",
-                    )}
-                  </p>
+                  {product.salePrice > 0 && product.price > product.salePrice ? (
+                    <p className="text-[#07512E] font-medium text-[16px] mb-6 flex items-center gap-2">
+                      <span className="text-gray-400 line-through text-[14px]">
+                        ₹ {(product.price || 0).toLocaleString("en-IN")}
+                      </span>
+                      <span>
+                        ₹ {(product.salePrice || 0).toLocaleString("en-IN")}
+                      </span>
+                      {product.price > 0 && (
+                        <span className="text-xs bg-green-50 text-green-600 border border-green-200 px-1.5 py-0.5 rounded font-bold ml-1">
+                          {Math.round((((product.price || 0) - (product.salePrice || 0)) / (product.price || 1)) * 100)}% OFF
+                        </span>
+                      )}
+                    </p>
+                  ) : (
+                    <p className="text-[#07512E] font-medium text-[16px] mb-6">
+                      ₹ {(product.price || 0).toLocaleString("en-IN")}
+                    </p>
+                  )}
 
                   <div className="mt-auto flex flex-col gap-2">
                     {isProductOutOfStock(product) ? (

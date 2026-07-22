@@ -6,22 +6,22 @@ import Link from "next/link";
 const priceRanges = [
   {
     title: "Under ₹599",
-    query: "?maxPrice=599",
+    query: "?category=time-less-tradition&maxPrice=599",
     image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784353155/WhatsApp_Image_2026-07-18_at_10.59.51_AM_tx9xl1.jpg",
   },
   {
     title: "₹600 - ₹899",
-    query: "?minPrice=600&maxPrice=899",
+    query: "?category=time-less-tradition&minPrice=600&maxPrice=899",
     image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784353155/WhatsApp_Image_2026-07-18_at_10.59.52_AM_mo262m.jpg",
   },
   {
     title: "₹900 - ₹1199",
-    query: "?minPrice=900&maxPrice=1199",
+    query: "?category=time-less-tradition&minPrice=900&maxPrice=1199",
     image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784538993/new3_c4nqjt.png",
   },
   {
     title: "₹1199 & Above",
-    query: "?minPrice=1199",
+    query: "?category=time-less-tradition&minPrice=1199",
     image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784538993/new13_y6sl0m.png",
   },
 ];
