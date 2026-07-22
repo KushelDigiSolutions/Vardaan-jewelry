@@ -193,7 +193,7 @@ const GoogleGIcon = () => (
               <ul className="flex flex-col gap-5 text-[16px] text-[#FFFFFF] font-normal">
                 <li><Link href="/shop?category=necklace" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Necklace</Link></li>
                 <li><Link href="/shop?category=jhumka" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Jhumka</Link></li>
-                <li><Link href="/shop?category=watch" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Watch</Link></li>
+                <li><Link href="/shop?category=watches" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Watches</Link></li>
                 <li><Link href="/shop?category=bracelet" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Bracelets</Link></li>
               </ul>
             </div>
