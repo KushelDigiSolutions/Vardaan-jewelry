@@ -68,24 +68,27 @@ export default function ShopProducts() {
             paramSingular === catSingular ||
             paramSingular === catNameSingular ||
             paramSingularEs === catSingularEs ||
-            paramSingularEs === catNameSingularEs ||
-            catSlugNorm.startsWith(paramSingular) ||
-            catNameNorm.startsWith(paramSingular) ||
-            paramNormalized.startsWith(catSingular) ||
-            paramNormalized.startsWith(catNameSingular)
+            paramSingularEs === catNameSingularEs
           );
         });
       }
 
       // 3. Custom mappings (like necklace set -> sets/necklaces, jhumka -> earrings, wedding -> bridal, ring -> rings)
       if (!matched) {
-        if (paramNormalized.includes("necklaceset") || paramNormalized.includes("necklace")) {
+        if (paramNormalized.includes("set")) {
           matched = categories.find(
             (cat) =>
+              normalizeStr(cat.slug) === "necklaceset" ||
+              normalizeStr(cat.slug) === "set" ||
               normalizeStr(cat.slug) === "sets" ||
+              normalizeStr(cat.name).toLowerCase().includes("set")
+          );
+        } else if (paramNormalized.includes("necklace")) {
+          matched = categories.find(
+            (cat) =>
               normalizeStr(cat.slug) === "necklaces" ||
-              normalizeStr(cat.name).includes("set") ||
-              normalizeStr(cat.name).includes("necklace"),
+              normalizeStr(cat.slug) === "necklace" ||
+              normalizeStr(cat.name).toLowerCase().includes("necklace")
           );
         } else if (
           paramNormalized.includes("jhumka") ||
@@ -736,11 +739,11 @@ export default function ShopProducts() {
                       <span>
                         ₹ {(product.salePrice || 0).toLocaleString("en-IN")}
                       </span>
-                      {product.price > 0 && (
-                        <span className="text-xs bg-green-50 text-green-600 border border-green-200 px-1.5 py-0.5 rounded font-bold ml-1">
-                          {Math.round((((product.price || 0) - (product.salePrice || 0)) / (product.price || 1)) * 100)}% OFF
-                        </span>
-                      )}
+                     {Math.round((((product.price || 0) - (product.salePrice || 0)) / (product.price || 1)) * 100) > 0 && (
+  <span className="text-xs bg-green-50 text-green-600 border border-green-200 px-1.5 py-0.5 rounded font-bold ml-1">
+    {Math.round((((product.price || 0) - (product.salePrice || 0)) / (product.price || 1)) * 100)}% OFF
+  </span>
+)}
                     </p>
                   ) : (
                     <p className="text-[#07512E] font-medium text-[16px] mb-6">

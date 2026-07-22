@@ -88,7 +88,7 @@ export default function YouMayAlsoLike({ categoryId, currentProductId }) {
                     <span>
                       ₹ {product.salePrice.toLocaleString("en-IN")}
                     </span>
-                    <span className="text-xs bg-red-50 text-red-600 border border-red-200 px-1.5 py-0.5 rounded font-bold">
+                    <span className="text-xs bg-green-50 text-green-600 border border-green-200 px-1.5 py-0.5 rounded font-bold">
                       {Math.round(((product.price - product.salePrice) / product.price) * 100)}% OFF
                     </span>
                   </p>
