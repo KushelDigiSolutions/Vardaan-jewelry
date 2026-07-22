@@ -185,9 +185,23 @@ export default function NewJewelry() {
                               {item.name}
                             </h3>
                           </Link>
-                          <p className="text-[#07512E] font-medium mb-4">
-                            ₹ {(item.salePrice || item.price).toLocaleString("en-IN")}
-                          </p>
+                          {item.salePrice > 0 && item.price > item.salePrice ? (
+                            <p className="text-[#07512E] font-medium mb-4 flex items-center gap-2 flex-wrap">
+                              <span className="text-gray-400 line-through text-[14px]">
+                                ₹ {item.price.toLocaleString("en-IN")}
+                              </span>
+                              <span>
+                                ₹ {item.salePrice.toLocaleString("en-IN")}
+                              </span>
+                              <span className="text-xs bg-red-50 text-red-600 border border-red-200 px-1.5 py-0.5 rounded font-bold">
+                                {Math.round(((item.price - item.salePrice) / item.price) * 100)}% OFF
+                              </span>
+                            </p>
+                          ) : (
+                            <p className="text-[#07512E] font-medium mb-4">
+                              ₹ {item.price.toLocaleString("en-IN")}
+                            </p>
+                          )}
                         </div>
                         <div className="mt-auto flex gap-4 w-full">
                           <Link href={`/product/${item._id}`} className="flex-1 h-[48px] flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap hover:bg-[#e6c543] transition-colors duration-300">

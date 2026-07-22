@@ -18,7 +18,7 @@ import { useAuth } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
 import YouMayAlsoLike from "./YouMayAlsoLike";
 
-const API_URL =process.env.NEXT_PUBLIC_API_URL ||"https:localhost:5000/api";
+const API_URL =process.env.NEXT_PUBLIC_API_URL ||"http://localhost:5000/api";
 
 // ─── helpers ─────────────────────────────────────────────────────────────────
 /** Extract unique values of a key from the variants array */
@@ -342,6 +342,11 @@ export default function ProductDetails({ productId }) {
     return product?.salePrice > 0 && product?.salePrice < product?.price;
   }, [activeVariant, product, selectedSizeObj]);
 
+  const discountPercentage = useMemo(() => {
+    if (!hasDiscount || originalPrice <= 0) return 0;
+    return Math.round(((originalPrice - displayPrice) / originalPrice) * 100);
+  }, [hasDiscount, originalPrice, displayPrice]);
+
   // Compute average rating and count dynamically
   const { averageRating, totalRatingsCount } = useMemo(() => {
     let totalScore = 0;
@@ -658,9 +663,9 @@ export default function ProductDetails({ productId }) {
                 <span className="font-light text-[24px]">
                   {displayPrice.toLocaleString("en-IN")}
                 </span>
-                {hasDiscount && (
-                  <span className="ml-2 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-semibold">
-                    SALE
+                {hasDiscount && discountPercentage > 0 && (
+                  <span className="ml-2 text-xs bg-green-50 text-green-600 border border-green-200 px-2 py-0.5 rounded font-bold">
+                    {discountPercentage}% OFF
                   </span>
                 )}
               </p>
@@ -1242,10 +1247,10 @@ export default function ProductDetails({ productId }) {
                       className="justify-between py-1 border-b border-[#E5DCC5]/30"
                     >
                       <span className="font-semibold text-gray-500">
-                        {attr.key} :
+                        {attr.key } :
                       </span>
                       <span className="text-gray-950 font-medium">
-                        {attr.value}
+                        { attr.value}
                       </span>
                     </li>
                   ))}

@@ -80,9 +80,23 @@ export default function YouMayAlsoLike({ categoryId, currentProductId }) {
                   </h3>
                 </Link>
                 
-                <p className="text-[16px] text-[#07512E] font-medium mb-6">
-                  ₹ {(product.salePrice || product.price).toLocaleString("en-IN")}
-                </p>
+                {product.salePrice > 0 && product.price > product.salePrice ? (
+                  <p className="text-[16px] text-[#07512E] font-medium mb-6 flex items-center gap-2 flex-wrap">
+                    <span className="text-gray-400 line-through text-[14px]">
+                      ₹ {product.price.toLocaleString("en-IN")}
+                    </span>
+                    <span>
+                      ₹ {product.salePrice.toLocaleString("en-IN")}
+                    </span>
+                    <span className="text-xs bg-red-50 text-red-600 border border-red-200 px-1.5 py-0.5 rounded font-bold">
+                      {Math.round(((product.price - product.salePrice) / product.price) * 100)}% OFF
+                    </span>
+                  </p>
+                ) : (
+                  <p className="text-[16px] text-[#07512E] font-medium mb-6">
+                    ₹ {product.price.toLocaleString("en-IN")}
+                  </p>
+                )}
 
                 {/* Buttons Container */}
                 <div className="mt-auto flex items-center gap-3 w-full">

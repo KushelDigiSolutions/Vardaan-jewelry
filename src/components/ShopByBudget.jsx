@@ -6,22 +6,22 @@ import Link from "next/link";
 const budgetRanges = [
   {
     title: "Under ₹499",
-    query: "?maxPrice=499",
+    query: "?category=everyday-icons&maxPrice=499",
     image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784281534/Everyday_icons_shop_by_price-under_499_pxj2k9.jpg",
   },
   {
     title: "₹500 - ₹699",
-    query: "?minPrice=500&maxPrice=699",
+    query: "?category=everyday-icons&minPrice=500&maxPrice=699",
     image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784281534/Everyday_icons_shop_by_price-500-699_izkztc.jpg",
   },
   {
     title: "₹700 - ₹999",
-    query: "?minPrice=700&maxPrice=999",
+    query: "?category=everyday-icons&minPrice=700&maxPrice=999",
     image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784281534/Everyday_icons_shop_by_price-700-999_olshxm.jpg",
   },
   {
     title: "₹999 & Above",
-    query: "?minPrice=999",
+    query: "?category=everyday-icons&minPrice=999",
     image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784281534/Everyday_icons_shop_by_price-above-999_wdpalr.jpg",
   },
 ];
@@ -43,7 +43,7 @@ export default function ShopByBudget() {
         {/* Budget Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {budgetRanges.map((range, index) => (
-            <Link
+            <Link 
               key={index}
               href={`/shop${range.query}`}
               className="group relative h-[360px] overflow-hidden shadow-sm hover:shadow-lg transition-all duration-500 ease-out flex flex-col bg-gray-100"
