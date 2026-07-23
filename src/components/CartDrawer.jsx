@@ -40,21 +40,24 @@ const RECOMMENDED_ITEMS = [];
 */
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-const PLACEHOLDER_IMAGE = "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png";
+const PLACEHOLDER_IMAGE =
+  "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png";
 
 export default function CartDrawer() {
   const { isCartOpen, closeCart, cartItems, addToCart } = useCart();
   const [navHeight, setNavHeight] = useState(180);
-  const [recommendedItems, setRecommendedItems] = useState(RECOMMENDED_ITEMS.slice(0, 0));
+  const [recommendedItems, setRecommendedItems] = useState(
+    RECOMMENDED_ITEMS.slice(0, 0),
+  );
   const [isRecommendedLoading, setIsRecommendedLoading] = useState(false);
 
   // Prevent background scrolling when cart is open and calculate exact navbar offset
   useEffect(() => {
     if (isCartOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
 
       // Calculate precise navbar height to position drawer right below it
-      const headers = document.querySelectorAll('header');
+      const headers = document.querySelectorAll("header");
       if (headers.length >= 2) {
         const staticNav = headers[0];
         const stickyNav = headers[1];
@@ -68,10 +71,10 @@ export default function CartDrawer() {
         setNavHeight(calculatedHeight > 0 ? calculatedHeight : 0);
       }
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     };
   }, [isCartOpen]);
   useEffect(() => {
@@ -99,17 +102,24 @@ export default function CartDrawer() {
     <>
       {/* Backdrop overlay */}
       <div
-        className={`fixed inset-0 bg-black/40 z-[55] transition-opacity  duration-300 ${isCartOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-          }`}
+        className={`fixed inset-0 bg-black/40 z-[55] transition-opacity  duration-300 ${
+          isCartOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
         style={{ top: `${navHeight}px` }}
         onClick={closeCart}
       />
 
       {/* Side Drawer */}
       <div
-        className={`fixed right-0 w-[640px] max-w-[100vw] bg-white shadow-2xl z-[55] transform transition-transform duration-300 ease-in-out flex flex-col ${isCartOpen ? "translate-x-0" : "translate-x-full"
-          }`}
-        style={{ top: `${navHeight}px`, height: `calc(100vh - ${navHeight}px)` }}
+        className={`fixed right-0 w-[640px] max-w-[100vw] bg-white shadow-2xl z-[55] transform transition-transform duration-300 ease-in-out flex flex-col ${
+          isCartOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+        style={{
+          top: `${navHeight}px`,
+          height: `calc(100vh - ${navHeight}px)`,
+        }}
       >
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-gray-100">
@@ -133,44 +143,78 @@ export default function CartDrawer() {
         <div className="flex-1 overflow-y-auto">
           <div className="py-5 w-full max-w-[512px] px-4 mx-auto">
             {/* Last Added Item Preview */}
-            {cartItems.length > 0 ? (() => {
-              const lastItem = cartItems[cartItems.length - 1];
-              return (
-                <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                  <div className="w-[120px] sm:w-[220px] h-[100px] sm:h-[186px] bg-[#F7F5F0] shrink-0 mx-auto sm:mx-0 overflow-hidden rounded">
-                    <img
-                      src={lastItem.image || "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781529483/Lucy_Williams_Engravable_Arco_Cord_Ring_fp3lgn.png"}
-                      alt={lastItem.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="flex flex-col w-full sm:w-[276px] h-auto sm:h-[186px] py-1 shrink-0 text-center sm:text-left">
-                    <h3 className="text-[20px] font-sans font-medium text-[#111827] mb-1 leading-snug">
-                      {lastItem.name}
-                    </h3>
-                    {lastItem.variant && lastItem.variant !== "default" && (
-                      <p className="text-[13px] text-[#6B7280] font-normal font-sans leading-relaxed mb-1 italic">
-                        {lastItem.variant.startsWith("Size:") || lastItem.variant.startsWith("Size :")
-                          ? lastItem.variant
-                          : `Size : ${lastItem.variant}`}
+            {cartItems.length > 0 ? (
+              (() => {
+                const lastItem = cartItems[cartItems.length - 1];
+                const originalPrice = lastItem.product?.price || lastItem.price;
+                const salePrice = lastItem.product?.salePrice || lastItem.price;
+                const discount = Math.round(
+                  ((originalPrice - salePrice) / originalPrice) * 100,
+                );
+                return (
+                  <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                    <div className="w-[120px] sm:w-[220px] h-[100px] sm:h-[186px] bg-[#F7F5F0] shrink-0 mx-auto sm:mx-0 overflow-hidden rounded">
+                      <img
+                        src={
+                          lastItem.image ||
+                          "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781529483/Lucy_Williams_Engravable_Arco_Cord_Ring_fp3lgn.png"
+                        }
+                        alt={lastItem.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="flex flex-col w-full sm:w-[276px] h-auto sm:h-[186px] py-1 shrink-0 text-center sm:text-left">
+                      <h3 className="text-[20px] font-sans font-medium text-[#111827] mb-1 leading-snug">
+                        {lastItem.name}
+                      </h3>
+                      {lastItem.variant && lastItem.variant !== "default" && (
+                        <p className="text-[13px] text-[#6B7280] font-normal font-sans leading-relaxed mb-1 italic">
+                          {lastItem.variant.startsWith("Size:") ||
+                          lastItem.variant.startsWith("Size :")
+                            ? lastItem.variant
+                            : `Size : ${lastItem.variant}`}
+                        </p>
+                      )}
+                      <p className="text-[13px] text-[#9CA3AF] font-sans mb-2">
+                        Qty: {lastItem.quantity}
                       </p>
-                    )}
-                    <p className="text-[13px] text-[#9CA3AF] font-sans mb-2">
-                      Qty: {lastItem.quantity}
-                    </p>
-                    <div className="flex flex-col gap-1 mt-2 items-center sm:items-start">
-                      <span className="text-[24px] font-semibold font-sans text-[#111827]">
-                        ₹ {(lastItem.price * lastItem.quantity).toLocaleString("en-IN")}
-                      </span>
-                      <span className="text-[12px] text-gray-400 font-sans">
-                        ₹ {lastItem.price.toLocaleString("en-IN")} each
-                      </span>
+                      <div className="flex flex-col gap-1 mt-2 items-center sm:items-start">
+                        {/* Total Sale Price */}
+                        <span className="text-[24px] font-semibold font-sans text-[#111827]">
+                          ₹{" "}
+                          {(salePrice * lastItem.quantity).toLocaleString(
+                            "en-IN",
+                          )}
+                        </span>
+
+                        {/* Original Price + Discount */}
+                        {discount > 0 && (
+                          <div className="flex items-center gap-2">
+                            <span className="text-[14px] text-gray-400 line-through">
+                              ₹{" "}
+                              {(
+                                originalPrice * lastItem.quantity
+                              ).toLocaleString("en-IN")}
+                            </span>
+
+                            <span className="text-[13px] font-semibold text-[#0B7A4B]">
+                              {discount}% OFF
+                            </span>
+                          </div>
+                        )}
+
+                        <span className="text-[12px] text-gray-400 font-sans">
+                          ₹ {salePrice.toLocaleString("en-IN")} each
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })() : (
-              <p className="text-center text-gray-400 font-sans py-8">No items in your bag yet.</p>
+                );
+              })()
+            ) : (
+              <p className="text-center text-gray-400 font-sans py-8">
+                No items in your bag yet.
+              </p>
             )}
 
             <div className="flex flex-col gap-2.5 mb-8">
@@ -194,52 +238,107 @@ export default function CartDrawer() {
             {/* Recommended Items */}
             <div className="flex flex-col gap-3">
               {isRecommendedLoading ? (
-                <p className="text-center text-gray-400 font-sans py-6">Loading recommendations...</p>
+                <p className="text-center text-gray-400 font-sans py-6">
+                  Loading recommendations...
+                </p>
               ) : recommendedItems.length > 0 ? (
-              recommendedItems.map((item) => (
-                <div key={item._id} className="flex flex-col sm:flex-row gap-4 p-3 border border-gray-100 hover:border-gray-200 transition-colors bg-white group cursor-pointer">
-                  <Link href={`/product/${item._id}`} onClick={closeCart} className="w-full sm:w-[190px] h-[140px] bg-[#F7F5F0] shrink-0">
-                    <img src={item.images?.[0] || PLACEHOLDER_IMAGE} alt={item.name} className="w-full h-full object-cover mix-blend-multiply" />
-                  </Link>
-                  <div className="flex flex-col justify-center py-1 w-full gap-3 text-center sm:text-left">
-                    <Link href={`/product/${item._id}`} onClick={closeCart}>
-                      <h4 className="text-[18px] sm:text-[24px] font-medium font-serif text-[#303030] leading-snug group-hover:text-[#07512E] transition-colors">
-                        {item.name}
-                      </h4>
+                recommendedItems.map((item) => (
+                  <div
+                    key={item._id}
+                    className="flex flex-col sm:flex-row gap-4 p-3 border border-gray-100 hover:border-gray-200 transition-colors bg-white group cursor-pointer"
+                  >
+                    <Link
+                      href={`/product/${item._id}`}
+                      onClick={closeCart}
+                      className="w-full sm:w-[190px] h-[140px] bg-[#F7F5F0] shrink-0"
+                    >
+                      <img
+                        src={item.images?.[0] || PLACEHOLDER_IMAGE}
+                        alt={item.name}
+                        className="w-full h-full object-cover mix-blend-multiply"
+                      />
                     </Link>
-                    <div className="flex items-center justify-between px-2 sm:px-0">
-                      <p className="text-[18px] sm:text-[20px] text-[#07512E] font-medium font-sans">
-                        Rs. {(item.salePrice || item.price || 0).toLocaleString("en-IN")}
-                      </p>
-                      {item.inventory <= 0 ? (
-                        <span className="text-[12px] font-bold uppercase tracking-wider text-red-500 bg-red-50 px-3 py-1.5 rounded-sm border border-red-200">
-                          Out of Stock
-                        </span>
-                      ) : cartItems.some((cartItem) => cartItem.id === item._id || cartItem._id === item._id) ? (
-                        <Link 
-                          href="/cart"
-                          onClick={closeCart}
-                          className="text-[12px] font-bold uppercase tracking-wider text-white bg-[#07512E] border border-[#07512E] px-3 py-1.5 rounded-sm hover:bg-[#054024] transition-colors"
-                        >
-                          View Cart
-                        </Link>
-                      ) : (
-                        <button 
-                          onClick={() => addToCart(item)}
-                          className="text-[12px] font-bold uppercase tracking-wider cursor-pointer text-[#07512E] border border-[#07512E] px-3 py-1.5 rounded-sm hover:bg-[#07512E] hover:text-white transition-colors"
-                        >
-                          Add to Cart
-                        </button>
-                      )}
+                    <div className="flex flex-col justify-center py-1 w-full gap-3 text-center sm:text-left">
+                      <Link href={`/product/${item._id}`} onClick={closeCart}>
+                        <h4 className="text-[18px] sm:text-[24px] font-medium font-serif text-[#303030] leading-snug group-hover:text-[#07512E] transition-colors">
+                          {item.name}
+                        </h4>
+                      </Link>
+                      <div className="flex items-center justify-between px-2 sm:px-0">
+                        {/* Price Section */}
+                        <div className="flex flex-col">
+                          {/* Sale Price */}
+                          <span className="text-[18px] sm:text-[20px] font-semibold text-[#07512E]">
+                            ₹{" "}
+                            {(item.salePrice || item.price || 0).toLocaleString(
+                              "en-IN",
+                            )}
+                          </span>
+
+                          {/* Original Price + Discount */}
+                          {item.salePrice &&
+                            item.price &&
+                            item.salePrice < item.price && (
+                              <div className="flex items-center gap-2 mt-1">
+                                <span className="text-[14px] text-gray-400 line-through">
+                                  ₹ {item.price.toLocaleString("en-IN")}
+                                </span>
+
+                                <span className="text-[13px] font-semibold text-[#0B7A4B]">
+                                  {Math.round(
+                                    ((item.price - item.salePrice) /
+                                      item.price) *
+                                      100,
+                                  ) > 0 && (
+                                    <span className="text-[13px] font-semibold text-[#0B7A4B]">
+                                      {Math.round(
+                                        ((item.price - item.salePrice) /
+                                          item.price) *
+                                          100,
+                                      )}
+                                      % OFF
+                                    </span>
+                                  )}
+                                </span>
+                              </div>
+                            )}
+                        </div>
+
+                        {/* Button */}
+                        {item.inventory <= 0 ? (
+                          <span className="text-[12px] font-bold uppercase tracking-wider text-red-500 bg-red-50 px-3 py-1.5 rounded-sm border border-red-200 whitespace-nowrap">
+                            Out of Stock
+                          </span>
+                        ) : cartItems.some(
+                            (cartItem) =>
+                              cartItem.id === item._id ||
+                              cartItem._id === item._id,
+                          ) ? (
+                          <Link
+                            href="/cart"
+                            onClick={closeCart}
+                            className="text-[12px] font-bold uppercase tracking-wider text-white bg-[#07512E] border border-[#07512E] px-3 py-1.5 rounded-sm hover:bg-[#054024] transition-colors whitespace-nowrap"
+                          >
+                            View Cart
+                          </Link>
+                        ) : (
+                          <button
+                            onClick={() => addToCart(item)}
+                            className="text-[12px] font-bold uppercase tracking-wider text-[#07512E] border border-[#07512E] px-3 py-1.5 rounded-sm hover:bg-[#07512E] hover:text-white transition-colors whitespace-nowrap"
+                          >
+                            Add to Cart
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))
+                ))
               ) : (
-                <p className="text-center text-gray-400 font-sans py-6">No recommendations found.</p>
+                <p className="text-center text-gray-400 font-sans py-6">
+                  No recommendations found.
+                </p>
               )}
             </div>
-
           </div>
         </div>
       </div>
