@@ -5,10 +5,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "../context/CartContext";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://vardaan-backend.vercel.app/api";
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "https://vardaan-backend.vercel.app/api";
 
 export default function LatestCollection() {
-  const { addToCart, cartItems, isProductOutOfStock, getCartItemDetailsForListing } = useCart();
+  const {
+    addToCart,
+    cartItems,
+    isProductOutOfStock,
+    getCartItemDetailsForListing,
+  } = useCart();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -65,8 +71,8 @@ export default function LatestCollection() {
       }
     };
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const nextSlide = useCallback(() => {
@@ -116,7 +122,6 @@ export default function LatestCollection() {
   return (
     <section className="py-10 md:py-16 bg-[#F5F5F7] overflow-hidden">
       <div className="w-full max-w-[1192px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0 flex flex-col xl:flex-row gap-8 xl:gap-[24px]">
-
         {/* Left Side: Large Promotional Banner */}
         <div className="w-full xl:w-[584px] relative h-[400px] xl:h-[600px] flex-shrink-0 overflow-hidden group">
           {/* Placeholder for the user's banner image */}
@@ -135,7 +140,9 @@ export default function LatestCollection() {
           {/* Overlay Content */}
           <div className="absolute z-10 flex flex-col justify-between w-max h-auto gap-6 left-8 lg:left-[32px] top-1/2 -translate-y-1/2 pointer-events-none">
             <h2 className="text-[#FFFFFF] font-serif text-[32px] sm:text-[40px] font-medium leading-[1.1] drop-shadow-md whitespace-nowrap">
-              Let Your Love<br />Tick Forever
+              Let Your Love
+              <br />
+              Tick Forever
             </h2>
             <Link
               href="/shop"
@@ -154,8 +161,17 @@ export default function LatestCollection() {
               <h2 className="text-[28px] sm:text-[32px] text-[#303030] font-medium tracking-wide leading-none">
                 Latest Collection
               </h2>
-              <Link href="/shop?category=latest" className="text-[20px] text-[#101010] font-medium hover:text-[#07512E] active:text-[#07512E] focus:text-[#07512E] no-underline hover:no-underline active:no-underline focus:no-underline flex items-center gap-1 leading-none group">
-                View All <span aria-hidden="true" className="text-gray-400 group-hover:text-[#07512E] group-active:text-[#07512E] group-focus:text-[#07512E] font-sans no-underline">&rarr;</span>
+              <Link
+                href="/shop?category=latest"
+                className="text-[20px] text-[#101010] font-medium hover:text-[#07512E] active:text-[#07512E] focus:text-[#07512E] no-underline hover:no-underline active:no-underline focus:no-underline flex items-center gap-1 leading-none group"
+              >
+                View All{" "}
+                <span
+                  aria-hidden="true"
+                  className="text-gray-400 group-hover:text-[#07512E] group-active:text-[#07512E] group-focus:text-[#07512E] font-sans no-underline"
+                >
+                  &rarr;
+                </span>
               </Link>
             </div>
 
@@ -165,7 +181,16 @@ export default function LatestCollection() {
                 className="w-10 h-10 rounded-full cursor-pointer border border-[#07512E] flex items-center justify-center text-[#07512E] hover:bg-[#07512E] hover:text-white transition-colors"
                 aria-label="Previous products"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d="M19 12H5M12 19l-7-7 7-7" />
                 </svg>
               </button>
@@ -174,7 +199,16 @@ export default function LatestCollection() {
                 className="w-10 h-10 rounded-full cursor-pointer bg-[#07512E] flex items-center justify-center text-white hover:bg-[#04361E] transition-colors"
                 aria-label="Next products"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
               </button>
@@ -182,7 +216,7 @@ export default function LatestCollection() {
           </div>
 
           {/* Carousel Viewport */}
-          <div 
+          <div
             className="w-full flex-grow relative overflow-hidden min-h-[490px] flex items-center justify-center"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
@@ -190,25 +224,33 @@ export default function LatestCollection() {
             {loading ? (
               <div className="text-center py-20">
                 <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#07512E] mx-auto mb-3"></div>
-                <p className="text-gray-500 text-sm">Loading latest jewelry...</p>
+                <p className="text-gray-500 text-sm">
+                  Loading latest jewelry...
+                </p>
               </div>
             ) : products.length > 0 ? (
               <div
-                className={`flex gap-6 h-full w-full ${isTransitioning ? 'transition-transform duration-500 ease-in-out' : ''}`}
+                className={`flex gap-6 h-full w-full ${isTransitioning ? "transition-transform duration-500 ease-in-out" : ""}`}
                 style={{
-                  transform: `translateX(calc(-${currentIndex} * (${slideWidth}px + 24px)))`
+                  transform: `translateX(calc(-${currentIndex} * (${slideWidth}px + 24px)))`,
                 }}
               >
                 {[...products, ...products, ...products].map((product, idx) => (
-                  <div 
-                    key={idx} 
+                  <div
+                    key={idx}
                     className="flex-shrink-0 h-[490px] flex flex-col bg-white p-4 shadow-sm border border-gray-100 text-left"
                     style={{ width: `${slideWidth}px` }}
                   >
                     {/* Product Image */}
-                    <Link href={`/product/${product._id}`} className="relative w-full h-[280px] flex-shrink-0 mb-4 bg-gray-50 overflow-hidden group block">
+                    <Link
+                      href={`/product/${product._id}`}
+                      className="relative w-full h-[280px] flex-shrink-0 mb-4 bg-gray-50 overflow-hidden group block"
+                    >
                       <img
-                        src={product.images?.[0] || "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png"}
+                        src={
+                          product.images?.[0] ||
+                          "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png"
+                        }
                         alt={product.name}
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
@@ -221,38 +263,80 @@ export default function LatestCollection() {
                           {product.name}
                         </h3>
                       </Link>
-                      <p className="text-[#07512E] font-medium mb-4">
-                        ₹ {(product.salePrice || product.price).toLocaleString("en-IN")}
+                      <p className="text-[22px] text-[#303030] font-medium font-sans flex items-center gap-2 flex-wrap">
+                        <span className="text-base font-medium">INR:</span>
+
+                        {product.salePrice > 0 &&
+                        product.salePrice < product.price ? (
+                          <>
+                            <span className="text-gray-400 line-through text-[16px]">
+                              ₹ {product.price.toLocaleString("en-IN")}
+                            </span>
+
+                            <span className="font-light text-[#303030]">
+                              ₹ {product.salePrice.toLocaleString("en-IN")}
+                            </span>
+
+                            <span className="text-xs bg-green-50 text-green-600 border border-green-200 px-2 py-0.5 rounded font-bold">
+                              {product.price > 0 &&
+                                Math.round(
+                                  ((product.price - product.salePrice) /
+                                    product.price) *100,
+                                ) > 0 && (
+                                  <span>
+                                    {Math.round(
+                                      ((product.price - product.salePrice) /
+                                        product.price) *
+                                        100,
+                                    )}
+                                    % OFF
+                                  </span>
+                                )}
+                            </span>
+                          </>
+                        ) : (
+                          <span className="font-semibold text-[#303030]">
+                            ₹{" "}
+                            {(
+                              product.salePrice || product.price
+                            ).toLocaleString("en-IN")}
+                          </span>
+                        )}
                       </p>
                       <div className="mt-auto flex gap-4">
-                        <Link href={`/product/${product._id}`} className="flex-1 h-[48px] flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap hover:bg-[#e6c543] transition-colors duration-300">
+                        <Link
+                          href={`/product/${product._id}`}
+                          className="flex-1 h-[48px] flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap hover:bg-[#e6c543] transition-colors duration-300"
+                        >
                           Shop Now
                         </Link>
                         {isProductOutOfStock(product) ? (
-                            <button
-                              disabled
-                              className="flex-1 h-[48px] cursor-not-allowed flex items-center justify-center bg-gray-100 border border-gray-300 text-gray-400 font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap"
-                            >
-                              Out of Stock
-                            </button>
-                          ) : cartItems && cartItems.some((item) => item.id === product._id) ? (
+                          <button
+                            disabled
+                            className="flex-1 h-[48px] cursor-not-allowed flex items-center justify-center bg-gray-100 border border-gray-300 text-gray-400 font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap"
+                          >
+                            Out of Stock
+                          </button>
+                        ) : cartItems &&
+                          cartItems.some((item) => item.id === product._id) ? (
                           <Link
                             href="/cart"
                             className="flex-1 h-[48px] cursor-pointer flex items-center justify-center bg-[#07512E] border border-[#07512E] text-white font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap hover:bg-[#054024] hover:border-[#054024] transition-colors duration-300 text-center"
                           >
                             View Cart
                           </Link>
-                          ) : (
-                            <button
-                              onClick={() => {
-                                const { variantStr, variantDetails } = getCartItemDetailsForListing(product);
-                                addToCart(product, 1, variantStr, variantDetails);
-                              }}
-                              className="flex-1 h-[48px] cursor-pointer flex items-center justify-center bg-white border border-[#07512E] text-[#07512E] font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap hover:bg-[#07512E] hover:text-white transition-colors duration-300"
-                            >
-                              Add to Cart
-                            </button>
-                          )}
+                        ) : (
+                          <button
+                            onClick={() => {
+                              const { variantStr, variantDetails } =
+                                getCartItemDetailsForListing(product);
+                              addToCart(product, 1, variantStr, variantDetails);
+                            }}
+                            className="flex-1 h-[48px] cursor-pointer flex items-center justify-center bg-white border border-[#07512E] text-[#07512E] font-sans font-medium text-[20px] lg:text-[16px] xl:text-[20px] whitespace-nowrap hover:bg-[#07512E] hover:text-white transition-colors duration-300"
+                          >
+                            Add to Cart
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -264,7 +348,6 @@ export default function LatestCollection() {
               </div>
             )}
           </div>
-
         </div>
       </div>
     </section>
