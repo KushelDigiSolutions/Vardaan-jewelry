@@ -162,7 +162,7 @@ export default function LatestCollection() {
                 Latest Collection
               </h2>
               <Link
-                href="/shop?category=latest"
+                href="/shop?limit=6"
                 className="text-[20px] text-[#101010] font-medium hover:text-[#07512E] active:text-[#07512E] focus:text-[#07512E] no-underline hover:no-underline active:no-underline focus:no-underline flex items-center gap-1 leading-none group"
               >
                 View All{" "}

@@ -308,6 +308,7 @@ export default function ShopProducts() {
 
   const minPriceParam = searchParams ? searchParams.get("minPrice") : null;
   const maxPriceParam = searchParams ? searchParams.get("maxPrice") : null;
+  const limitParam = searchParams ? searchParams.get("limit") : null;
 
   // Track whether categories have been resolved for the current URL param
   const [categoriesReady, setCategoriesReady] = useState(false);
@@ -322,7 +323,8 @@ export default function ShopProducts() {
     try {
       const params = new URLSearchParams();
       params.append("page", currentPage);
-      params.append("limit", 9); // Grid layout limit
+      const limitVal = limitParam ? parseInt(limitParam, 10) || 9 : 9;
+      params.append("limit", limitVal); // Grid layout limit
 
       if (selectedCategory !== "all") {
         params.append("category", selectedCategory);
@@ -360,7 +362,7 @@ export default function ShopProducts() {
     } finally {
       setLoading(false);
     }
-  }, [currentPage, selectedCategory, search, priceFilter, sortOrder, minPriceParam, maxPriceParam, categorySlugParam, categoriesReady]);
+  }, [currentPage, selectedCategory, search, priceFilter, sortOrder, minPriceParam, maxPriceParam, categorySlugParam, categoriesReady, limitParam]);
 
   // Trigger load when filters update
   useEffect(() => {
@@ -827,7 +829,7 @@ export default function ShopProducts() {
         )}
 
         {/* Pagination Controls */}
-        {totalPages > 1 && (
+        {totalPages > 1 && !limitParam && (
           <div className="flex items-center justify-between w-full pb-4 border-[#F0ECE3] mt-12 text-gray-950 font-sans">
             <button
               onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
