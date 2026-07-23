@@ -168,28 +168,18 @@ export default function HeroSlider() {
                 {idx !== 2 && (
                   <div className="flex flex-col items-start w-full mb-1 sm:mb-2 select-none">
                     {/* Brand Title (Letter-by-Letter Reveal) */}
-                    <h1 className="text-[28px] sm:text-[34px] md:text-[40px] lg:text-[44px] font-medium font-serif font-black uppercase leading-none drop-shadow-[0_4px_12px_rgba(0,0,0,0.7)]">
-                      {"VARDAAN".split("").map((letter, lIdx) => (
-                        <span
-                          key={lIdx}
-                          style={{ animationDelay: `${lIdx * 80}ms` }}
-                          className={`inline-block mr-[0.08em] bg-gradient-to-r from-[#eca636] to-[#fdd967] bg-clip-text text-transparent ${
-                            lIdx === 0 ? "text-[1.8em]" : ""
-                          } ${
-                            idx === current
-                              ? "animate-letter-reveal"
-                              : "opacity-0"
-                          }`}
-                        >
-                          {letter}
-                        </span>
-                      ))}
-                    </h1>
+                    <img
+  src="https://res.cloudinary.com/dxlykgx6w/image/upload/v1783322584/Vardaan_jewel_logo-removebg-preview_q2mgqj.png"
+  alt="Vardaan Logo"
+  className={`w-[100px] xs:w-[120px] sm:w-[160px] md:w-[170px] lg:w-[200px] xl:w-[220px] h-auto object-contain drop-shadow-[0_6px_16px_rgba(0,0,0,0.6)] ${
+    idx === current ? "animate-slide-up" : "opacity-0"
+  }`}
+/>
 
                     {/* Shimmer/glowing Divider Line */}
                     <div
                       style={{ animationDelay: "560ms" }}
-                      className={`h-[1px] bg-gradient-to-r from-[#eca636] via-[#fdd967]/40 to-transparent my-2 transition-all duration-1000 ${
+                      className={`h-[1px] bg-gradient-to-r from-[#eca636] via-[#fdd967]/40 to-transparent  transition-all duration-1000 ${
                         idx === current
                           ? "w-full animate-reveal-width"
                           : "w-0 opacity-0"
@@ -197,7 +187,7 @@ export default function HeroSlider() {
                     />
 
                     {/* Brand Subtext (Word-by-Word Reveal) */}
-                    <p className="text-[12px] sm:text-[13px] md:text-[15px] font-sans font-light tracking-[0.08em] flex flex-wrap gap-x-1.5 leading-relaxed drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)]">
+                    {/* <p className="text-[12px] sm:text-[13px] md:text-[15px] font-sans font-light tracking-[0.08em] flex flex-wrap gap-x-1.5 leading-relaxed drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)]">
                       {[
                         { text: "More", highlight: false },
                         { text: "Than", highlight: false },
@@ -222,7 +212,7 @@ export default function HeroSlider() {
                           {word.text}
                         </span>
                       ))}
-                    </p>
+                    </p> */}
                   </div>
                 )}
 
