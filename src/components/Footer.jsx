@@ -12,13 +12,15 @@ export default function Footer() {
   const [email, setEmail] = useState("");
   const pathname = usePathname();
 
-  const scrollShopToTop = () => {
-    if (pathname === "/shop") {
-      window.requestAnimationFrame(() => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
-    }
-  };
+const scrollShopToTop = () => {
+  setTimeout(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, 100);
+};
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -163,9 +165,9 @@ const GoogleGIcon = () => (
                 Customer Service
               </h4>
               <ul className="flex flex-col gap-5 text-[16px] text-[#FFFFFF] font-normal">
-                <li><Link href="/contact" className="hover:text-[#FFDE59] transition-colors">Contact Us</Link></li>
-                <li><Link href="/shipping-policy" className="hover:text-[#FFDE59] transition-colors">Shipping Policy</Link></li>
-                <li><Link href="/return-refund-policy" className="hover:text-[#FFDE59] transition-colors">Return & Refund Policy</Link></li>
+                <li><Link href="/contact" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Contact Us</Link></li>
+                <li><Link href="/shipping-policy" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Shipping Policy</Link></li>
+                <li><Link href="/return-refund-policy" onClick={scrollShopToTop} className="hover:text-[#FFDE59] transition-colors">Return & Refund Policy</Link></li>
               </ul>
             </div>
           </div>

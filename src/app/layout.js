@@ -6,6 +6,7 @@ import { ToastProvider } from "../context/ToastContext";
 // import { LoaderProvider } from "../context/LoaderContext";
 import CartDrawer from "../components/CartDrawer";
 import LoaderProvider from "@/context/LoaderContext";
+import ScrollToTop from "@/components/ScrollToTop";
 
 export const metadata = {
   title: "Vardaan - More than a Jewel, a Blessing",
@@ -22,6 +23,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full flex flex-col font-sans bg-[#111111] text-gray-900 overflow-x-hidden">
+        <ScrollToTop />
         <AuthProvider>
           <ToastProvider>
             <LoaderProvider>

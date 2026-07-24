@@ -5,7 +5,7 @@ import React from "react";
 export default function AboutHero() {
   return (
     <section
-      className="relative w-full min-h-[600px] lg:h-[60vh] flex items-center bg-cover bg-center overflow-hidden mt-[120px]"
+      className="relative w-full min-h-[600px] lg:h-[60vh] flex items-center bg-cover bg-center overflow-hidden mt-[118px]"
       style={{
         backgroundImage:
           "url('https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?q=80&w=1200&auto=format&fit=crop')",
