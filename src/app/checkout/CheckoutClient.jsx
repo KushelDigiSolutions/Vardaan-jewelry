@@ -379,7 +379,7 @@ export default function CheckoutClient() {
 
   if (cartItems.length === 0 && step !== 4) {
     return (
-      <section className="flex-1 flex justify-center py-20 px-5 bg-[#fdfbf6]">
+      <section className="flex-1 flex justify-center py-20 px-5 bg-[#fdfbf6] mt-[120px]">
         <div className="bg-white border border-[#F0ECE3] rounded-lg shadow-sm p-8 max-w-md w-full text-center">
           <h3 className="text-2xl font-serif text-[#07512E] mb-3">
             Your cart is empty
