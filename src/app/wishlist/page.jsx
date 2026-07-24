@@ -99,7 +99,7 @@ export default function WishlistPage() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col bg-[#FCFCF9] mt-[120px]">
+    <main className="min-h-screen flex flex-col bg-[#FCFCF9] mt-[110px]">
       <Navbar />
       
       <div className="flex-1 w-full max-w-[1280px] mx-auto px-4 md:px-8 lg:px-12 py-10 lg:py-16">

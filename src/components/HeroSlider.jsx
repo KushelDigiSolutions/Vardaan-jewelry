@@ -97,7 +97,7 @@ export default function HeroSlider() {
   }, []);
 
   return (
-    <section className="relative w-full h-[50vh] sm:h-[65vh] lg:h-[550px] min-h-[400px] overflow-hidden bg-[#04361E] mt-[120px]">
+    <section className="relative w-full h-[50vh] sm:h-[65vh] lg:h-[570px] min-h-[400px] overflow-hidden bg-[#04361E] mt-[115px]">
       {/* Slides Container */}
       <div className="relative w-full h-full">
         {slides.map((slide, idx) => (
