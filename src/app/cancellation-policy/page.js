@@ -48,7 +48,7 @@ export default function CancellationPolicyPage() {
   return (
     <>
       <Navbar />
-      <main className="flex-grow">
+      <main className="flex-grow mt-[110px]">
         <PolicyPage
           eyebrow="Cancellation Policy"
           title="Cancellation Policy"

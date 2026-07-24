@@ -92,7 +92,7 @@ const GoogleGIcon = () => (
         </a>
       </div>
      
-      <div className="flex items-center justify-center md:justify-end gap-6 font-sans">
+      {/* <div className="flex items-center justify-center md:justify-end gap-6 font-sans">
      
         {user ? (
           <Link href="/profile" className="flex items-center gap-1.5 cursor-pointer hover:opacity-85 transition-opacity" title="My Account">
@@ -116,7 +116,7 @@ const GoogleGIcon = () => (
           </Link>
         )}
 
-        {/* Wishlist */}
+        
         <Link 
           href="/wishlist" 
           className="flex items-center gap-1.5  transition-opacity"
@@ -125,7 +125,7 @@ const GoogleGIcon = () => (
           <span className="hidden sm:inline font-semibold">Wishlist</span>
         </Link>
 
-        {/* Cart */}
+        
         <Link 
           href="/cart" 
           className="flex items-center gap-2  transition-opacity"
@@ -140,7 +140,7 @@ const GoogleGIcon = () => (
           </div>
           <span className="hidden sm:inline font-semibold">Cart</span>
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 
@@ -168,7 +168,7 @@ const GoogleGIcon = () => (
   return (
     <>
      
-      <header className="w-full z-[60] relative">
+      {/* <header className="w-full z-[60] relative">
         {renderTopBar()}
 
        
@@ -192,7 +192,7 @@ const GoogleGIcon = () => (
             {renderNavLinks()}
           </nav>
 
-          {/* Mobile Menu Button */}
+          
           <div className="md:hidden absolute right-4 z-20">
             <button 
               onClick={() => setIsMobileMenuOpen(true)}
@@ -203,15 +203,13 @@ const GoogleGIcon = () => (
             </button>
           </div>
         </div>
-      </header>
+      </header> */}
 
-      {/* --- STICKY NAVBAR (Scrolled State) --- */}
+      
       <header 
-        className={`fixed top-0 left-0 w-full z-[60] shadow-2xl transition-all duration-[600ms] ease-in-out transform ${
-          isScrolled ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
-        }`}
+        className={`fixed top-0 left-0 w-full z-[60]`}
       >
-        {/* {renderTopBar()} */}
+        {renderTopBar()}
 
   
         <div className="relative bg-[#07512E] text-white px-4 md:px-8 lg:px-12 py-3 flex items-center justify-between overflow-hidden">

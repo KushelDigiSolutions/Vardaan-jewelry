@@ -23,7 +23,7 @@ import GoogleReviewCTA from "@/components/GoogleReviewCTA";
 export default function Home() {
   return (
     <>
-      <Navbar />
+      <Navbar/>
       <main className="flex-grow">
         <HeroSlider />
         <CosmicCreations />

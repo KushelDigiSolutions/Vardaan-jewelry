@@ -22,7 +22,7 @@ export default function CartPage() {
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   return (
-    <main className="min-h-screen flex flex-col bg-[#FCFCF9]">
+    <main className="min-h-screen flex flex-col bg-[#FCFCF9] mt-[120px]">
       <Navbar />
 
       <div className="flex-1 w-full max-w-[1280px] mx-auto px-4 md:px-8 lg:px-12 py-10 lg:py-16">
@@ -75,7 +75,7 @@ export default function CartPage() {
                         </button>
                       </div>
 
-                      <div className="flex flex-wrap sm:flex-nowrap items-center justify-between mt-4 sm:mt-auto">
+                      <div className="flex flex-wrap sm:flex-nowrap items-center justify-start gap-4 mt-4 sm:mt-auto">
                         <div className="flex items-center border border-[#E5E7EB] rounded-full h-[42px] px-3 box-border w-fit">
                           <button 
                             className="bg-transparent border-none px-2 cursor-pointer text-[18px] text-[#333] hover:text-[#07512E]" 
@@ -91,8 +91,31 @@ export default function CartPage() {
                             +
                           </button>
                         </div>
-                        <div className="font-semibold text-[20px] text-[#111827] font-sans mt-2 sm:mt-0">
-                          ₹ {(item.price * item.quantity).toLocaleString("en-IN")}
+                        <div className="flex gap-5 font-semibold text-[20px] text-[#111827] font-sans mt-2 sm:mt-0 ">
+                          <p className="font-semibold text-gray-900 text-[15px] md:text-[16px]">
+                      ₹ {(item.price * item.quantity).toLocaleString("en-IN")}
+                    </p>
+
+                    {/* Original Price + Discount */}
+                    {item.product && item.product.price > item.price && (
+                      <div className="flex items-center gap-2 md:justify-end mt-1 flex-wrap">
+                        <span className="text-[12px] md:text-[13px] text-gray-400 line-through">
+                          ₹{" "}
+                          {(item.product.price * item.quantity).toLocaleString(
+                            "en-IN",
+                          )}
+                        </span>
+
+                        <span className="text-[11px] md:text-[12px] font-semibold text-[#0B7A4B] whitespace-nowrap">
+                          {Math.round(
+                            ((item.product.price - item.price) /
+                              item.product.price) *
+                              100,
+                          )}
+                          % OFF
+                        </span>
+                      </div>
+                    )}
                         </div>
                       </div>
                     </div>

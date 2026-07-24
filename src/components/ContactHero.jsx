@@ -4,7 +4,7 @@ import React from "react";
 
 export default function ContactHero() {
   return (
-    <section className="relative min-h-[550px] lg:h-[65vh] lg:min-h-[500px] py-24 lg:py-0 flex items-center justify-center overflow-hidden bg-[#04361E] px-6">
+    <section className="relative min-h-[550px] lg:h-[65vh] lg:min-h-[500px] py-24 lg:py-0 flex items-center justify-center overflow-hidden bg-[#04361E] px-6 mt-[120px]">
       
       {/* Outer Golden Border Frames */}
       <div className="absolute inset-4 border border-[#FFDE59]/20 pointer-events-none z-20" />

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCart } from "@/context/CartContext";
+import { useCart } from "@/context/CartContext"; 
 import { useAuth } from "@/context/AuthContext";
 import { LuShieldCheck } from "react-icons/lu";
 import {
@@ -357,7 +357,7 @@ export default function CheckoutClient() {
 
   if (!token) {
     return (
-      <section className="flex-1 flex justify-center py-20 px-5 bg-[#fdfbf6]">
+      <section className="flex-1 flex justify-center py-20 px-5 bg-[#fdfbf6] mt-[120px]">
         <div className="bg-white border border-[#F0ECE3] rounded-lg shadow-sm p-8 max-w-md w-full text-center">
           <h3 className="text-2xl font-serif text-[#07512E] mb-3">
             Sign In to Continue
@@ -399,7 +399,7 @@ export default function CheckoutClient() {
   }
 
   return (
-    <section className="flex-1 flex justify-center py-10 px-5 bg-[#fdfbf6] text-left">
+    <section className="flex-1 flex justify-center py-10 px-5 bg-[#fdfbf6] text-left mt-[120px]">
       <div className="w-full max-w-[1280px] flex flex-col xl:flex-row gap-8 items-start">
         {/* Left Column: Wizard Forms */}
         <div className="flex-[2] bg-white p-6 sm:p-8 rounded-lg shadow-sm w-full border border-[#F0ECE3]">

@@ -56,7 +56,7 @@ export default function PrivacyPolicyPage() {
   return (
     <>
       <Navbar />
-      <main className="flex-grow">
+      <main className="flex-grow mt-[120px]">
         <PolicyPage
           eyebrow="Privacy Policy"
           title="Privacy Policy"

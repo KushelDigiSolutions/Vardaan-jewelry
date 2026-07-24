@@ -158,7 +158,7 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col bg-[#FCFCF9]">
+    <main className="min-h-screen flex flex-col bg-[#FCFCF9] mt-[120px]">
       <Navbar />
 
       <div className="flex-1 flex items-center justify-center py-16 px-4">
