@@ -13,7 +13,7 @@ const API_URL =
 const defaultSlides = [
   {
     image:
-      "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781603449/hero_banner_optimized_jkbhox.png",
+      "https://res.cloudinary.com/vykqb6hs/image/upload/v1784369804/ecom-uploads/vr3d05mgqswoooeudhyn.jpg",
     subtitle: "NEW LAUNCH",
     title: "STYLED BY\nNATURE",
     ctaText: "Shop Now",
@@ -21,7 +21,7 @@ const defaultSlides = [
   },
   {
     image:
-      "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1782281607/home_page_banner_dmb1bp.jpg",
+      "https://res.cloudinary.com/vykqb6hs/image/upload/v1784369781/ecom-uploads/gltxtqludlhqyzxseomn.jpg",
     subtitle: "SIGNATURE PIECES",
     title: "THE HARMONY\nSERIES",
     ctaText: "Explore Collection",
@@ -30,7 +30,7 @@ const defaultSlides = [
   },
   {
     image:
-      "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1782281607/home_page_banner_image_czgpzk.jpg",
+      "https://res.cloudinary.com/vykqb6hs/image/upload/v1784805181/WhatsApp_Image_2026-07-21_at_10.49.56_AM_xvzxxn.jpg",
     subtitle: "LEGACY CRAFT",
     title: "BLESSINGS OF\nLIGHT",
     ctaText: "Book Appointment",
@@ -97,7 +97,7 @@ export default function HeroSlider() {
   }, []);
 
   return (
-    <section className="relative w-full h-[50vh] sm:h-[65vh] lg:h-[582px] min-h-[400px] overflow-hidden bg-[#04361E]">
+    <section className="relative w-full h-[50vh] sm:h-[65vh] lg:h-[550px] min-h-[400px] overflow-hidden bg-[#04361E] mt-[120px]">
       {/* Slides Container */}
       <div className="relative w-full h-full">
         {slides.map((slide, idx) => (

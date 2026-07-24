@@ -48,7 +48,7 @@ export default function TermsAndConditionsPage() {
   return (
     <>
       <Navbar />
-      <main className="flex-grow">
+      <main className="flex-grow mt-[120px]">
         <PolicyPage
           eyebrow="Terms & Conditions"
           title="Terms & Conditions"

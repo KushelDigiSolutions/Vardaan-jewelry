@@ -45,7 +45,7 @@ const PLACEHOLDER_IMAGE =
 
 export default function CartDrawer() {
   const { isCartOpen, closeCart, cartItems, addToCart } = useCart();
-  const [navHeight, setNavHeight] = useState(180);
+  const [navHeight, setNavHeight] = useState(135);
   const [recommendedItems, setRecommendedItems] = useState(
     RECOMMENDED_ITEMS.slice(0, 0),
   );
@@ -107,18 +107,18 @@ export default function CartDrawer() {
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
         }`}
-        style={{ top: `${navHeight}px` }}
+        style={{ top: `${navHeight-15}px` }}
         onClick={closeCart}
       />
 
       {/* Side Drawer */}
       <div
-        className={`fixed right-0 w-[640px] max-w-[100vw] bg-white shadow-2xl z-[55] transform transition-transform duration-300 ease-in-out flex flex-col ${
+        className={`fixed right-0 w-[640px] md:pt-[20px] max-w-[100vw] bg-white shadow-2xl z-[55] transform transition-transform duration-300 ease-in-out flex flex-col ${
           isCartOpen ? "translate-x-0" : "translate-x-full"
         }`}
         style={{
-          top: `${navHeight}px`,
-          height: `calc(100vh - ${navHeight}px)`,
+          top: `${navHeight-15}px`,
+          height: `calc(100vh - ${navHeight-15}px)`,
         }}
       >
         {/* Header */}
@@ -268,7 +268,7 @@ export default function CartDrawer() {
                         {/* Price Section */}
                         <div className="flex flex-col">
                           {/* Sale Price */}
-                          <span className="text-[18px] sm:text-[20px] font-semibold text-[#07512E]">
+                          <span className="text-[14px] sm:text-[20px] font-semibold text-black">
                             ₹{" "}
                             {(item.salePrice || item.price || 0).toLocaleString(
                               "en-IN",

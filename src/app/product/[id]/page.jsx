@@ -11,7 +11,7 @@ export default async function ProductPage({ params }) {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-white">
+      <main className="min-h-screen bg-white mt-[120px]">
         <ProductDetails productId={id} />
       </main>
       <Footer />
