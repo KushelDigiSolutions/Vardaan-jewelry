@@ -51,6 +51,7 @@ export default function ProductDetails({ productId }) {
   // Product reviews and rating states
   const [reviews, setReviews] = useState([]);
   const [reviewsLoading, setReviewsLoading] = useState(false);
+  const [selectedColorImageIdx, setSelectedColorImageIdx] = useState(-1);
 
   // ── Fetch product ──────────────────────────────────────────────────────────
   useEffect(() => {
@@ -63,6 +64,8 @@ export default function ProductDetails({ productId }) {
           const json = await res.json();
           const p = json.data;
           setProduct(p);
+
+          setSelectedColorImageIdx(-1);
 
           // Pre-select karat, color, type, and weights, but NOT size
           if (p.variants && p.variants.length > 0) {
@@ -636,8 +639,12 @@ export default function ProductDetails({ productId }) {
   }
 
   const activeImage =
-    product.images?.[selectedImageIdx] ||
-    "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png";
+    (selectedColorImageIdx !== -1 && product.colorImages?.[selectedColorImageIdx]?.mainImage)
+      ? product.colorImages[selectedColorImageIdx].mainImage
+      : product.images?.[selectedImageIdx] ||
+        product.mainImage ||
+        product.images?.[0] ||
+        "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png";
 
   // ── Render ────────────────────────────────────────────────────────────────
   return (
@@ -701,6 +708,58 @@ export default function ProductDetails({ productId }) {
               MRP (INCL. OF ALL TAXES)
             </p>
           </div>
+
+          {/* ── Color Swatches (Dynamic Color Images) ── */}
+          {product.colorImages && product.colorImages.length > 0 && (
+            <div className="mb-6">
+              <div className="flex justify-between items-center mb-2.5">
+                <span className="text-[14px] font-semibold font-sans text-gray-700 uppercase tracking-wide">
+                  Color Options
+                </span>
+                <span className="text-[13px] font-sans text-gray-400 italic">
+                  {product.colorImages[selectedColorImageIdx]?.color || "Standard View"}
+                </span>
+              </div>
+              <div className="flex gap-3 flex-wrap items-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedColorImageIdx(-1);
+                    setSelectedWearableIdx(0);
+                  }}
+                  className={`px-3.5 py-1 border text-[13px] font-sans rounded transition-all cursor-pointer font-medium tracking-wide uppercase ${
+                    selectedColorImageIdx === -1
+                      ? "bg-[#07512E] border-[#07512E] text-white shadow-sm"
+                      : "bg-white border-gray-300 text-gray-700 hover:border-[#07512E]"
+                  }`}
+                >
+                  Standard View
+                </button>
+                {product.colorImages.map((colorObj, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      setSelectedColorImageIdx(idx);
+                      setSelectedWearableIdx(0);
+                    }}
+                    title={colorObj.color}
+                    className={`w-8 h-8 rounded-full border-2 transition-all cursor-pointer relative flex items-center justify-center ${
+                      selectedColorImageIdx === idx
+                        ? "border-[#07512E] scale-110 shadow-sm"
+                        : "border-gray-300 hover:border-gray-400"
+                    }`}
+                    style={{
+                      backgroundColor: colorObj.color,
+                    }}
+                  >
+                    {selectedColorImageIdx === idx && (
+                      <span className="w-2 h-2 rounded-full bg-white border border-gray-300" />
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* ── Variant Selectors (only when variants exist) ── */}
           {hasVariants && (
@@ -933,27 +992,8 @@ export default function ProductDetails({ productId }) {
             </span>
           </div>
 
-          {/* ── Delivery Estimate Box ── */}
-          {/* <div className="border border-[#FBEF9A] rounded px-4 py-3 mb-8 bg-[#fffff8]">
-            <div className="flex justify-between items-center mb-2.5 text-[15px] text-[#333333] font-sans">
-              <span>Delhi / NCR :</span>
-              <span className="font-medium">2 - 4 Days</span>
-            </div>
-            <div className="flex justify-between items-center mb-2.5 text-[15px] text-[#333333] font-sans">
-              <span>Rest of India :</span>
-              <span className="font-medium">3 - 6 Days</span>
-            </div>
-            <div className="flex justify-between items-center mb-2.5 text-[15px] text-[#333333] font-sans">
-              <span>International :</span>
-              <span className="font-medium">7 - 14 Days</span>
-            </div>
-            <p className="text-red-500 text-[14px] font-light font-sans mt-1">
-              COD available. Beware of fake websites.
-            </p>
-          </div> */}
-
           {/* ── Action Links ── */}
-          <div className="flex items-center gap-6 text-[#606060]">
+          <div className="flex items-center gap-6 text-[#606060] mb-8 pl-1">
             <button
               onClick={handleToggleWishlist}
               className="flex items-center gap-2 text-[16px] font-sans hover:text-[#07512E] transition-colors cursor-pointer font-medium"
@@ -980,87 +1020,104 @@ export default function ProductDetails({ productId }) {
           <div className="w-full">
             <div className="w-full aspect-square bg-white overflow-hidden relative border border-gray-100 rounded-lg shadow-sm">
               <img
-                src={
-                  product.mainImage ||
-                  product.images?.[0] ||
-                  "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png"
-                }
+                src={activeImage}
                 alt={product.name}
                 className="absolute inset-0 w-full h-full object-contain object-center transition-transform duration-300 hover:scale-105"
               />
             </div>
           </div>
-
+ 
           {/* Bottom Section Wrapper for side-by-side view on lg */}
           <div className="w-full flex flex-col gap-6">
-
+ 
           {/* Bottom Section: Wearable Media (Images & Videos showing the product being worn) */}
-          {product.wearableMedia && product.wearableMedia.length > 0 && (
+          {((selectedColorImageIdx !== -1 && product.colorImages?.[selectedColorImageIdx]?.wearableMedia?.length > 0) || (product.wearableMedia && product.wearableMedia.length > 0)) && (
             <div className="flex flex-col gap-3 pt-4 lg:pt-0 border-t lg:border-t-0 xl:pt-4 xl:border-t border-gray-200">
-
+  
               {/* Active Wearable Media Display Area */}
               <div className="w-full aspect-[4/5] lg:aspect-square xl:aspect-[4/5] bg-white overflow-hidden relative border border-gray-100 rounded-lg shadow-sm">
-                {product.wearableMedia[selectedWearableIdx]?.mediaType ===
-                  "video" ? (
-                  <video
-                    key={product.wearableMedia[selectedWearableIdx]?.url}
-                    src={product.wearableMedia[selectedWearableIdx]?.url}
-                    autoPlay
-                    loop
-                    muted
-                    controls
-                    playsInline
-                    className="absolute inset-0 w-full h-full object-contain object-center"
-                  />
-                ) : (
-                  <img
-                    src={product.wearableMedia[selectedWearableIdx]?.url}
-                    alt={`${product.name} on body`}
-                    className="absolute inset-0 w-full h-full object-contain object-center"
-                  />
-                )}
+                {(() => {
+                  const mediaList = selectedColorImageIdx !== -1 && product.colorImages?.[selectedColorImageIdx]?.wearableMedia?.length > 0
+                    ? product.colorImages[selectedColorImageIdx].wearableMedia
+                    : product.wearableMedia || [];
+                  const activeMedia = mediaList[selectedWearableIdx] || mediaList[0];
+                  
+                  if (!activeMedia) return null;
+                  
+                  return activeMedia.mediaType === "video" ? (
+                    <video
+                      key={activeMedia.url}
+                      src={activeMedia.url}
+                      autoPlay
+                      loop
+                      muted
+                      controls
+                      playsInline
+                      className="absolute inset-0 w-full h-full object-contain object-center"
+                    />
+                  ) : (
+                    <img
+                      src={activeMedia.url}
+                      alt={`${product.name} on body`}
+                      className="absolute inset-0 w-full h-full object-contain object-center"
+                    />
+                  );
+                })()}
               </div>
-
+  
               {/* Thumbnails below the wearable display */}
-              <div className="flex items-center justify-start gap-2 overflow-x-auto py-1">
-                {product.wearableMedia.map((media, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setSelectedWearableIdx(idx)}
-                    className={`w-16 h-16 bg-gray-50 border-[2px] border-solid cursor-pointer shrink-0 rounded overflow-hidden relative transition-all ${selectedWearableIdx === idx
-                      ? "border-[#07512E] shadow-sm z-10"
-                      : "border-transparent opacity-80 hover:opacity-100"
-                      }`}
-                  >
-                    {media.mediaType === "video" ? (
-                      <div className="w-full h-full relative">
-                        <video
-                          src={media.url}
-                          muted
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                          <svg
-                            className="w-6 h-6 text-white fill-white"
-                            viewBox="0 0 24 24"
-                          >
-                            <path d="M8 5v14l11-7z" />
-                          </svg>
-                        </div>
-                      </div>
-                    ) : (
-                      <img
-                        src={media.url}
-                        alt={`Wearable thumbnail ${idx + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                    )}
-                  </button>
-                ))}
-              </div>
+              {(() => {
+                const mediaList = selectedColorImageIdx !== -1 && product.colorImages?.[selectedColorImageIdx]?.wearableMedia?.length > 0
+                  ? product.colorImages[selectedColorImageIdx].wearableMedia
+                  : product.wearableMedia || [];
+                
+                if (mediaList.length === 0) return null;
+                
+                return (
+                  <div className="flex items-center justify-start gap-2 overflow-x-auto py-1">
+                    {mediaList.map((media, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => {
+                          setSelectedWearableIdx(idx);
+                        }}
+                        className={`w-16 h-16 bg-gray-50 border-[2px] border-solid cursor-pointer shrink-0 rounded overflow-hidden relative transition-all ${
+                          selectedWearableIdx === idx
+                            ? "border-[#07512E] shadow-sm z-10"
+                            : "border-transparent opacity-80 hover:opacity-100"
+                          }`}
+                      >
+                        {media.mediaType === "video" ? (
+                          <div className="w-full h-full relative">
+                            <video
+                              src={media.url}
+                              muted
+                              className="w-full h-full object-cover"
+                            />
+                            <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                              <svg
+                                className="w-6 h-6 text-white fill-white"
+                                viewBox="0 0 24 24"
+                              >
+                                <path d="M8 5v14l11-7z" />
+                              </svg>
+                            </div>
+                          </div>
+                        ) : (
+                          <img
+                            src={media.url}
+                            alt={`Wearable thumbnail ${idx + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                );
+              })()}
             </div>
           )}
-
+ 
           {/* Fallback to traditional multiple images gallery if wearable media is not specified */}
           {(!product.wearableMedia || product.wearableMedia.length === 0) &&
             product.images &&
@@ -1073,10 +1130,14 @@ export default function ProductDetails({ productId }) {
                   {product.images.map((img, idx) => (
                     <button
                       key={idx}
-                      onClick={() => setSelectedImageIdx(idx)}
-                      className={`w-16 h-14 bg-gray-50 border-[2px] border-solid cursor-pointer shrink-0 rounded overflow-hidden transition-all ${selectedImageIdx === idx
-                        ? "border-[#07512E] z-10"
-                        : "border-transparent hover:border-gray-200"
+                      onClick={() => {
+                        setSelectedImageIdx(idx);
+                        setSelectedColorImageIdx(-1);
+                      }}
+                      className={`w-16 h-14 bg-gray-50 border-[2px] border-solid cursor-pointer shrink-0 rounded overflow-hidden transition-all ${
+                        selectedColorImageIdx === -1 && selectedImageIdx === idx
+                          ? "border-[#07512E] z-10"
+                          : "border-transparent hover:border-gray-200"
                         }`}
                     >
                       <img
