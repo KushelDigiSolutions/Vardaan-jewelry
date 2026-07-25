@@ -8,6 +8,7 @@ on:
 
 jobs:
   deploy:
+    name: Deploy Frontend
     runs-on: ubuntu-latest
 
     steps:
@@ -18,27 +19,29 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "24"
-          cache: npm
+          cache: "npm"
 
       - name: Install Dependencies
         run: npm ci
 
-      - name: Build Application
+      - name: Build Next.js Application
         run: npm run build
 
       - name: Deploy to Production Server
         uses: appleboy/ssh-action@v1.2.2
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
+          host: ${{ vars.HOST }}
+          username: ${{ vars.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.PORT }}
+          port: ${{ vars.PORT }}
           script: |
             set -e
 
+            echo "===== Frontend Deployment Started ====="
+
             cd /home/ubuntu/frontend
 
-            echo "Pulling latest code..."
+            echo "Fetching latest code..."
             git fetch origin
             git reset --hard origin/master
 
@@ -51,6 +54,15 @@ jobs:
             echo "Reloading PM2..."
             pm2 reload frontend
 
+            echo "Saving PM2..."
             pm2 save
 
-            echo "Frontend deployment completed successfully!"
+            echo "===== Deployment Completed Successfully ====="
+
+      - name: Deployment Successful
+        if: success()
+        run: echo "Frontend deployed successfully."
+
+      - name: Deployment Failed
+        if: failure()
+        run: echo "Frontend deployment failed."
