@@ -24,6 +24,64 @@ const API_URL =process.env.NEXT_PUBLIC_API_URL ||"http://localhost:5000/api";
 /** Extract unique values of a key from the variants array */
 const unique = (arr) => [...new Set(arr.filter(Boolean))];
 
+// ─── Image Magnifier Component (Jeweler's Loupe) ──────────────────────────────
+function ImageZoom({ src, alt, zoomLevel = 2.5, lensSize = 180 }) {
+  const [showMagnifier, setShowMagnifier] = useState(false);
+  const [[x, y], setXY] = useState([0, 0]);
+  const [[imgWidth, imgHeight], setSize] = useState([0, 0]);
+
+  const handleMouseEnter = (e) => {
+    const elem = e.currentTarget;
+    const { width, height } = elem.getBoundingClientRect();
+    setSize([width, height]);
+    setShowMagnifier(true);
+  };
+
+  const handleMouseMove = (e) => {
+    const elem = e.currentTarget;
+    const { top, left } = elem.getBoundingClientRect();
+    // Calculate cursor position relative to the image container
+    const xPercent = e.clientX - left;
+    const yPercent = e.clientY - top;
+    setXY([xPercent, yPercent]);
+  };
+
+  const handleMouseLeave = () => {
+    setShowMagnifier(false);
+  };
+
+  return (
+    <div
+      className="w-full h-full relative cursor-zoom-in overflow-hidden select-none"
+      onMouseEnter={handleMouseEnter}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      <img
+        src={src}
+        alt={alt}
+        className="absolute inset-0 w-full h-full object-contain object-center pointer-events-none"
+      />
+      {showMagnifier && (
+        <div
+          className="absolute pointer-events-none border border-amber-500/20 rounded-full bg-white transition-opacity duration-200 hidden md:block"
+          style={{
+            width: `${lensSize}px`,
+            height: `${lensSize}px`,
+            left: `${x - lensSize / 2}px`,
+            top: `${y - lensSize / 2}px`,
+            backgroundImage: `url('${src}')`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: `${imgWidth * zoomLevel}px ${imgHeight * zoomLevel}px`,
+            backgroundPosition: `${-x * zoomLevel + lensSize / 2}px ${-y * zoomLevel + lensSize / 2}px`,
+            boxShadow: "0 0 0 4px rgba(255, 255, 255, 0.4), 0 15px 30px rgba(0, 0, 0, 0.2), inset 0 0 15px rgba(0, 0, 0, 0.15)",
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
 export default function ProductDetails({ productId }) {
   const { addToCart, cartItems, updateQuantity } = useCart();
   const { token } = useAuth();
@@ -299,7 +357,7 @@ export default function ProductDetails({ productId }) {
     selectedGrossWeight,
     selectedNetWeight,
     selectedColorImageIdx,
-    product?.colorImages
+    product
   ]);
 
   /** Is currently selected variant in cart */
@@ -332,7 +390,7 @@ export default function ProductDetails({ productId }) {
       return null;
     }
     return product.sizes.find(s => s.size === selectedSize) || null;
-  }, [product?.sizes, selectedSize]);
+  }, [product, selectedSize]);
 
   /** Current display price */
   const displayPrice = useMemo(() => {
@@ -1034,10 +1092,9 @@ export default function ProductDetails({ productId }) {
           {/* Top Section: Main product image */}
           <div className="w-full">
             <div className="w-full aspect-square bg-white overflow-hidden relative border border-gray-100 rounded-lg shadow-sm">
-              <img
+              <ImageZoom
                 src={activeImage}
                 alt={product.name}
-                className="absolute inset-0 w-full h-full object-contain object-center transition-transform duration-300 hover:scale-105"
               />
             </div>
           </div>
