@@ -2221,6 +2221,12 @@ function ProfileContent() {
                     {selectedDetailedOrder.paymentMethod ||
                       "UPI/Online payment"}
                   </p>
+                  
+                  <div className="pt-2">
+                    <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">Seller Details</p>
+                    <p className="text-sm font-semibold text-gray-800 mt-0.5">Vardaan Jewels</p>
+                    <p className="text-xs text-gray-500 font-mono">GSTIN: 09BDEPJ1387D1ZN</p>
+                  </div>
 
                   {/* Cost Summary Breakdown */}
                   <div className="pt-4 space-y-1 text-sm">
@@ -2286,8 +2292,11 @@ function ProfileContent() {
                     })()}
                     
                     <div className="flex justify-between font-bold text-gray-900 border-t pt-1 text-sm mt-1">
-                      <span className="text-[16px]">Grand Total:</span>
-                      <span className="text-[16px]">
+                      <span className="text-[16px] flex flex-col">
+                        <span>Grand Total:</span>
+                        <span className="text-xs font-normal text-gray-500 mt-0.5">(Inclusive of GST)</span>
+                      </span>
+                      <span className="text-[16px] self-end">
                         ₹ {selectedDetailedOrder.totalAmount.toLocaleString("en-IN")}
                       </span>
                     </div>

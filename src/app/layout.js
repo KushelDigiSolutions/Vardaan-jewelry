@@ -11,9 +11,9 @@ import ScrollToTop from "@/components/ScrollToTop";
 export const metadata = {
   title: "Vardaan - More than a Jewel, a Blessing",
   description:
-    "Discover Vardaan's exquisite collection of fine jewelry. Handcrafted gold, diamond, and precious gemstone designs styled by nature.",
+    "Explore Vardaan's premium collection of roll gold artificial jewellery, featuring elegant necklaces, earrings, rings, bangles, bracelets, and stylish accessories crafted for every occasion.",
   keywords:
-    "fine jewelry, gold rings, diamond necklace, vardaan, collections, luxury jewelry, blessings",
+    "roll gold jewellery, artificial jewellery, fashion jewellery, imitation jewellery, women's jewellery, necklaces, earrings, rings, bangles, bracelets, Vardaan",
   icons: {
     icon: "/favicon.ico",
   },
