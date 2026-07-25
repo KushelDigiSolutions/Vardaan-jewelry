@@ -25,7 +25,7 @@ export default function GiftingCollection() {
            Discover curated pieces that say it all — from subtle accents to statement-making designs, find the perfect expression of your affection.
           </p>
           <Link
-            href="/shop"
+            href="/shop?category=vardaan-s-gifting"
             className="inline-flex items-center justify-center bg-[#FFDE59] text-[#101010] font-sans font-medium text-[20px] w-[184px] h-[48px] hover:bg-[#e6c543] transition-colors duration-300"
           >
             Explore Now

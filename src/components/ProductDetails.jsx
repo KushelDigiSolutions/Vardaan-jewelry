@@ -335,6 +335,8 @@ export default function ProductDetails({ productId }) {
     const parts = [];
     if (selectedColorImageIdx !== -1 && product?.colorImages?.[selectedColorImageIdx]) {
       parts.push(`Color Option: ${product.colorImages[selectedColorImageIdx].color}`);
+    } else if (product?.color) {
+      parts.push(`Color Option: ${product.color}`);
     }
     if (hasVariants && activeVariant) {
       parts.push(`Size: ${selectedSize || "Standard"}`);
@@ -588,6 +590,11 @@ export default function ProductDetails({ productId }) {
         ...variantDetails,
         colorOption: product.colorImages[selectedColorImageIdx].color,
       };
+    } else if (product?.color) {
+      variantDetails = {
+        ...variantDetails,
+        colorOption: product.color,
+      };
     }
 
     setAddedFeedback(true);
@@ -782,7 +789,7 @@ export default function ProductDetails({ productId }) {
                   Color Options
                 </span>
                 <span className="text-[13px] font-sans text-gray-400 italic">
-                  {product.colorImages[selectedColorImageIdx]?.color || "Standard View"}
+                  {product.colorImages[selectedColorImageIdx]?.color || product.color || "Standard View"}
                 </span>
               </div>
               <div className="flex gap-3 flex-wrap items-center">
@@ -792,13 +799,19 @@ export default function ProductDetails({ productId }) {
                     setSelectedColorImageIdx(-1);
                     setSelectedWearableIdx(0);
                   }}
-                  className={`px-3.5 py-1 border text-[13px] font-sans rounded transition-all cursor-pointer font-medium tracking-wide uppercase ${
+                  title={product.color || "Classic"}
+                  className={`w-8 h-8 rounded-full border-2 transition-all cursor-pointer relative flex items-center justify-center ${
                     selectedColorImageIdx === -1
-                      ? "bg-[#07512E] border-[#07512E] text-white shadow-sm"
-                      : "bg-white border-gray-300 text-gray-700 hover:border-[#07512E]"
+                      ? "border-[black] border-3 scale-110 shadow-sm"
+                      : "border-gray-300 hover:border-gray-400"
                   }`}
+                  style={{
+                    backgroundColor: product.color || "#D4AF37",
+                  }}
                 >
-                  Classic
+                  {selectedColorImageIdx === -1 && (
+                    <span className="w-2 h-2 rounded-full bg-white border border-gray-300" />
+                  )}
                 </button>
                 {product.colorImages.map((colorObj, idx) => {
                   const isColorOutOfStock = (colorObj.inventory || 0) <= 0;

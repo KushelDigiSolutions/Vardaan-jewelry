@@ -836,8 +836,14 @@ export default function CheckoutClient() {
                   </p>
                 )}
 
+                <div className="border-b border-gray-200 pb-3 mb-3">
+                  <p className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1">Seller Information</p>
+                  <p className="text-sm font-semibold text-gray-900">Vardaan Jewels</p>
+                  <p className="text-xs text-gray-500 font-mono mt-0.5">GSTIN: 09BDEPJ1387D1ZN</p>
+                </div>
+
                 <p className="border-t border-gray-200 pt-3 mt-3 font-semibold text-gray-900 flex justify-between">
-                  <span>Grand Total Paid:</span>
+                  <span>Grand Total Paid <span className="text-xs font-normal text-gray-500">(Inclusive of GST)</span>:</span>
                   <span>₹ {orderData.totalAmount.toLocaleString("en-IN")}</span>
                 </p>
               </div>
@@ -1065,8 +1071,11 @@ export default function CheckoutClient() {
               </span>
             </div>
 
-            <div className="border-t border-gray-150 my-4 pt-4 flex justify-between text-[18px] font-bold text-[#111827]">
-              <span>Estimated Grand Total</span>
+            <div className="border-t border-gray-150 my-4 pt-4 flex justify-between text-[18px] font-bold text-[#111827] items-baseline">
+              <span className="flex flex-col">
+                <span>Estimated Grand Total</span>
+                <span className="text-xs font-normal text-gray-500 mt-0.5">(Inclusive of GST)</span>
+              </span>
               <span>₹ {grandTotal.toLocaleString("en-IN")}</span>
             </div>
 
