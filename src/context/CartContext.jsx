@@ -38,12 +38,21 @@ export function CartProvider({ children }) {
         // Backend returns cart document, which has items: [{ product: {...}, quantity, variant }]
         const formatted = (cartData.items || []).map(item => {
           if (!item.product) return null;
+
+          let itemImage = item.product.images?.[0] || "";
+          if (item.variantDetails?.colorOption && item.product.colorImages && item.product.colorImages.length > 0) {
+            const colorMatch = item.product.colorImages.find(c => c.color === item.variantDetails.colorOption);
+            if (colorMatch && colorMatch.mainImage) {
+              itemImage = colorMatch.mainImage;
+            }
+          }
+
           return {
             id: item.product._id,
             productId: item.product._id,
             name: item.product.name,
             price: (item.variantDetails?.salePrice > 0 ? item.variantDetails.salePrice : item.variantDetails?.price) || item.product.salePrice || item.product.price,
-            image: item.product.images?.[0] || "",
+            image: itemImage,
             quantity: item.quantity,
             variant: item.variant || "50",
             variantDetails: item.variantDetails || null,
@@ -127,7 +136,13 @@ export function CartProvider({ children }) {
     if (typeof priceVal === "string") {
       priceVal = parseFloat(priceVal.replace(/[^0-9.]/g, "")) || 0;
     }
-    const imageVal = product.images?.[0] || product.image || "";
+    let imageVal = product.images?.[0] || product.image || "";
+    if (variantDetails?.colorOption && product.colorImages && product.colorImages.length > 0) {
+      const colorMatch = product.colorImages.find(c => c.color === variantDetails.colorOption);
+      if (colorMatch && colorMatch.mainImage) {
+        imageVal = colorMatch.mainImage;
+      }
+    }
 
     const newItem = {
       id: productId,
@@ -251,6 +266,12 @@ export function CartProvider({ children }) {
         availableInventory = sizeMatch.inventory;
       }
     }
+    if (item.variantDetails?.colorOption && item.product?.colorImages?.length > 0) {
+      const colorMatch = item.product.colorImages.find(c => c.color === item.variantDetails.colorOption);
+      if (colorMatch && colorMatch.inventory !== undefined) {
+        availableInventory = colorMatch.inventory;
+      }
+    }
 
     const newQty = item.quantity + delta;
     if (newQty < 1) return false; // Do not allow quantity less than 1
@@ -321,13 +342,18 @@ export function CartProvider({ children }) {
 
     const hasVariants = product.variants && product.variants.length > 0;
     const hasSizes = product.sizes && product.sizes.length > 0;
+    const hasColors = product.colorImages && product.colorImages.length > 0;
 
     if (hasVariants) {
-      return product.variants.every(v => (v.inventory || 0) <= 0);
+      if (product.variants.some(v => (v.inventory || 0) > 0)) return false;
     }
     if (hasSizes) {
-      return product.sizes.every(s => (s.inventory || 0) <= 0);
+      if (product.sizes.some(s => (s.inventory || 0) > 0)) return false;
     }
+    if (hasColors) {
+      if (product.colorImages.some(c => (c.inventory || 0) > 0)) return false;
+    }
+
     return true;
   }, []);
 
@@ -335,6 +361,7 @@ export function CartProvider({ children }) {
     if (!product) return { variantStr: "Standard", variantDetails: null };
     const hasVariants = product.variants && product.variants.length > 0;
     const hasSizes = product.sizes && product.sizes.length > 0;
+    const hasColors = product.colorImages && product.colorImages.length > 0;
 
     if (hasVariants) {
       const availableVar = product.variants.find(v => (v.inventory || 0) > 0);
@@ -372,6 +399,21 @@ export function CartProvider({ children }) {
           price: availableSize.price || product.price,
           salePrice: 0,
           inventory: availableSize.inventory || 0
+        };
+        return { variantStr, variantDetails };
+      }
+    }
+
+    if (hasColors) {
+      const availableColor = product.colorImages.find(c => (c.inventory || 0) > 0);
+      if (availableColor) {
+        const variantStr = `Color Option: ${availableColor.color} | Size: Standard`;
+        const variantDetails = {
+          size: "Standard",
+          price: product.salePrice > 0 ? product.salePrice : product.price,
+          salePrice: 0,
+          inventory: availableColor.inventory || 0,
+          colorOption: availableColor.color
         };
         return { variantStr, variantDetails };
       }

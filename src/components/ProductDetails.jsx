@@ -65,7 +65,18 @@ export default function ProductDetails({ productId }) {
           const p = json.data;
           setProduct(p);
 
-          setSelectedColorImageIdx(-1);
+          let defaultColorIdx = -1;
+          const isStandardOutOfStock = (p.inventory || 0) <= 0 && 
+            (!p.sizes || p.sizes.length === 0 || p.sizes.every(s => (s.inventory || 0) <= 0)) &&
+            (!p.variants || p.variants.length === 0 || p.variants.every(v => (v.inventory || 0) <= 0));
+
+          if (isStandardOutOfStock && p.colorImages && p.colorImages.length > 0) {
+            const firstInStockIdx = p.colorImages.findIndex(c => (c.inventory || 0) > 0);
+            if (firstInStockIdx !== -1) {
+              defaultColorIdx = firstInStockIdx;
+            }
+          }
+          setSelectedColorImageIdx(defaultColorIdx);
 
           // Pre-select karat, color, type, and weights, but NOT size
           if (p.variants && p.variants.length > 0) {
@@ -263,17 +274,21 @@ export default function ProductDetails({ productId }) {
 
   /** Human-readable variant string */
   const variantStr = useMemo(() => {
+    const parts = [];
+    if (selectedColorImageIdx !== -1 && product?.colorImages?.[selectedColorImageIdx]) {
+      parts.push(`Color Option: ${product.colorImages[selectedColorImageIdx].color}`);
+    }
     if (hasVariants && activeVariant) {
-      const parts = [];
       parts.push(`Size: ${selectedSize || "Standard"}`);
       if (selectedKarat) parts.push(`Karat: ${selectedKarat}`);
       if (selectedColor) parts.push(`Color: ${selectedColor}`);
       if (selectedMetalType) parts.push(`Metal Type: ${selectedMetalType}`);
       if (selectedGrossWeight) parts.push(`Gross Wt: ${selectedGrossWeight}`);
       if (selectedNetWeight) parts.push(`Net Wt: ${selectedNetWeight}`);
-      return parts.join(" | ") || "Standard";
+    } else {
+      parts.push(`Size: ${selectedSize || "Standard"}`);
     }
-    return selectedSize || "Standard";
+    return parts.join(" | ") || "Standard";
   }, [
     hasVariants,
     activeVariant,
@@ -283,6 +298,8 @@ export default function ProductDetails({ productId }) {
     selectedMetalType,
     selectedGrossWeight,
     selectedNetWeight,
+    selectedColorImageIdx,
+    product?.colorImages
   ]);
 
   /** Is currently selected variant in cart */
@@ -370,45 +387,41 @@ export default function ProductDetails({ productId }) {
     };
   }, [reviews, product]);
 
-  /** Out-of-stock flag */
-  const isOutOfStock = useMemo(() => {
-    if (!selectedSize) {
-      return (product?.inventory || 0) <= 0;
+  /** Active inventory based on variant/size/color selection */
+  const activeInventory = useMemo(() => {
+    // If a color variant is selected, check its custom inventory
+    if (selectedColorImageIdx !== -1 && product?.colorImages?.[selectedColorImageIdx]) {
+      return product.colorImages[selectedColorImageIdx].inventory !== undefined
+        ? product.colorImages[selectedColorImageIdx].inventory
+        : 0;
     }
-    if (hasVariants) {
-      return activeVariant
-        ? activeVariant.inventory <= 0
-        : (product?.inventory || 0) <= 0;
+    if (hasVariants && activeVariant) {
+      return activeVariant.inventory;
     }
     if (selectedSizeObj) {
-      return selectedSizeObj.inventory <= 0;
+      return selectedSizeObj.inventory;
     }
-    return (product?.inventory || 0) <= 0;
-  }, [hasVariants, activeVariant, selectedSizeObj, product, selectedSize]);
+    return product?.inventory || 0;
+  }, [selectedColorImageIdx, product, hasVariants, activeVariant, selectedSizeObj]);
+
+  /** Out-of-stock flag */
+  const isOutOfStock = useMemo(() => {
+    return activeInventory <= 0;
+  }, [activeInventory]);
 
   /** Stock availability label */
   const stockLabel = useMemo(() => {
-    if (!selectedSize) {
-      const inv = product?.inventory || 0;
-      if (inv <= 0) return { text: "Out of Stock", color: "text-red-600" };
-      if (inv <= 5) return { text: `Only ${inv} left!`, color: "text-amber-700" };
-      return { text: `${inv} in stock`, color: "text-green-700" };
+    if (hasVariants && !activeVariant && selectedColorImageIdx === -1) {
+      return { text: "Select options above", color: "text-gray-400" };
     }
-
-    if (hasVariants) {
-      if (!activeVariant)
-        return { text: "Select options above", color: "text-gray-400" };
-      const inv = activeVariant.inventory || 0;
-      if (inv <= 0) return { text: "Out of Stock", color: "text-red-600" };
-      if (inv <= 5) return { text: `Only ${inv} left!`, color: "text-amber-700" };
-      return { text: `${inv} in stock`, color: "text-green-700" };
+    if (activeInventory <= 0) {
+      return { text: "Out of Stock", color: "text-red-600" };
     }
-    // For non-variants (including custom sizes or simple products)
-    const inv = selectedSizeObj ? (selectedSizeObj.inventory || 0) : (product?.inventory || 0);
-    if (inv <= 0) return { text: "Out of Stock", color: "text-red-600" };
-    if (inv <= 5) return { text: `Only ${inv} left!`, color: "text-amber-700" };
-    return { text: `${inv} in stock`, color: "text-green-700" };
-  }, [hasVariants, activeVariant, selectedSizeObj, product, selectedSize]);
+    if (activeInventory <= 5) {
+      return { text: `Only ${activeInventory} left!`, color: "text-amber-700" };
+    }
+    return { text: `${activeInventory} in stock`, color: "text-green-700" };
+  }, [hasVariants, activeVariant, selectedColorImageIdx, activeInventory]);
 
   // ── Selection Change Sync (Score-based Matching) ──────────────────────────
   const handleSelectionChange = useCallback(
@@ -478,14 +491,6 @@ export default function ProductDetails({ productId }) {
     if (!product) return;
 
     // Size selection is optional; commented out mandatory validation
-    /*
-    const requiresSize = (isRingProduct && !hasVariants) || (product.sizes && product.sizes.length > 0);
-    if (requiresSize && !selectedSize) {
-      toast.error("Please select a size first!");
-      return;
-    }
-    */
-
     if (isOutOfStock) {
       toast.error("This variant is currently out of stock!");
       return;
@@ -502,21 +507,28 @@ export default function ProductDetails({ productId }) {
         size: selectedSize || "Standard",
         price: activeVariant.price,
         salePrice: activeVariant.salePrice || 0,
-        inventory: selectedSize ? activeVariant.inventory : (product?.inventory || 0),
+        inventory: activeInventory,
       };
     } else if (selectedSizeObj) {
       variantDetails = {
         size: selectedSize || "Standard",
         price: displayPrice,
         salePrice: 0,
-        inventory: selectedSize ? selectedSizeObj.inventory : (product?.inventory || 0)
+        inventory: activeInventory
       };
     } else {
       variantDetails = {
         size: "Standard",
         price: displayPrice,
         salePrice: 0,
-        inventory: product?.inventory || 0
+        inventory: activeInventory
+      };
+    }
+
+    if (selectedColorImageIdx !== -1 && product?.colorImages?.[selectedColorImageIdx]) {
+      variantDetails = {
+        ...variantDetails,
+        colorOption: product.colorImages[selectedColorImageIdx].color,
       };
     }
 
@@ -528,13 +540,8 @@ export default function ProductDetails({ productId }) {
 
   // ── Quantity API Trigger ──
   const handleQuantityChange = async (delta) => {
-    // Get available inventory based on variant/size selections
-    let availableInventory = product?.inventory || 0;
-    if (hasVariants && activeVariant) {
-      availableInventory = activeVariant.inventory;
-    } else if (selectedSizeObj) {
-      availableInventory = selectedSizeObj.inventory;
-    }
+    // Get available inventory based on variant/size/color selections
+    const availableInventory = activeInventory;
 
     const newQty = quantity + delta;
     if (newQty < 1) return; // Do not allow quantity less than 1
@@ -733,30 +740,38 @@ export default function ProductDetails({ productId }) {
                       : "bg-white border-gray-300 text-gray-700 hover:border-[#07512E]"
                   }`}
                 >
-                  Standard View
+                  Classic
                 </button>
-                {product.colorImages.map((colorObj, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => {
-                      setSelectedColorImageIdx(idx);
-                      setSelectedWearableIdx(0);
-                    }}
-                    title={colorObj.color}
-                    className={`w-8 h-8 rounded-full border-2 transition-all cursor-pointer relative flex items-center justify-center ${
-                      selectedColorImageIdx === idx
-                        ? "border-[#07512E] scale-110 shadow-sm"
-                        : "border-gray-300 hover:border-gray-400"
-                    }`}
-                    style={{
-                      backgroundColor: colorObj.color,
-                    }}
-                  >
-                    {selectedColorImageIdx === idx && (
-                      <span className="w-2 h-2 rounded-full bg-white border border-gray-300" />
-                    )}
-                  </button>
-                ))}
+                {product.colorImages.map((colorObj, idx) => {
+                  const isColorOutOfStock = (colorObj.inventory || 0) <= 0;
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => {
+                        setSelectedColorImageIdx(idx);
+                        setSelectedWearableIdx(0);
+                      }}
+                      title={`${colorObj.color}${isColorOutOfStock ? " (Out of Stock)" : ""}`}
+                      className={`w-8 h-8 rounded-full border-2 transition-all cursor-pointer relative flex items-center justify-center ${
+                        selectedColorImageIdx === idx
+                          ? "border-[black] border-4  scale-110 shadow-sm"
+                          : "border-gray-300 hover:border-gray-400"
+                      } ${isColorOutOfStock ? "opacity-60" : ""}`}
+                      style={{
+                        backgroundColor: colorObj.color,
+                      }}
+                    >
+                      {selectedColorImageIdx === idx && (
+                        <span className="w-2 h-2 rounded-full bg-white border border-gray-300" />
+                      )}
+                      {/* {isColorOutOfStock && (
+                        <span className="absolute inset-0 flex items-center justify-center text-red-500 font-extrabold text-[16px] pointer-events-none select-none">
+                          ×
+                        </span>
+                      )} */}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           )}

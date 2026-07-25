@@ -29,14 +29,34 @@ import { useToast } from "@/context/ToastContext";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
-const getImageUrl = (imagePath) => {
-  if (!imagePath)
+const getImageUrl = (itemOrPath) => {
+  if (!itemOrPath)
     return "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png";
-  
-  let actualPath = imagePath;
-  if (Array.isArray(imagePath)) {
-    if (imagePath.length > 0) {
-      actualPath = imagePath[0];
+
+  let actualPath = "";
+
+  if (typeof itemOrPath === "object" && !Array.isArray(itemOrPath)) {
+    // It's an item object
+    if (itemOrPath.variantDetails?.colorOption && itemOrPath.product?.colorImages && itemOrPath.product.colorImages.length > 0) {
+      const colorMatch = itemOrPath.product.colorImages.find(c => c.color === itemOrPath.variantDetails.colorOption);
+      if (colorMatch && colorMatch.mainImage) {
+        actualPath = colorMatch.mainImage;
+      }
+    }
+    if (!actualPath) {
+      actualPath = itemOrPath.product?.images?.[0] || itemOrPath.product?.images || itemOrPath.images?.[0] || "";
+    }
+  } else {
+    // It's a raw string or array of strings
+    actualPath = itemOrPath;
+  }
+
+  if (!actualPath)
+    return "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png";
+
+  if (Array.isArray(actualPath)) {
+    if (actualPath.length > 0) {
+      actualPath = actualPath[0];
     } else {
       return "https://res.cloudinary.com/dlzxiy0tl/image/upload/v1781525765/Rectangle_23_10_roxkwo.png";
     }
@@ -1731,11 +1751,7 @@ function ProfileContent() {
                           {/* Items summary with images */}
                           <div className="space-y-3">
                             {o.items.map((item, idx) => {
-                              const prodImg = getImageUrl(
-                                item.product?.images?.[0] ||
-                                  item.product?.images ||
-                                  item.images?.[0],
-                              );
+                              const prodImg = getImageUrl(item);
                               return (
                                 <div
                                   key={idx}
@@ -2137,11 +2153,7 @@ function ProfileContent() {
                   Product Details
                 </h4>
                 {selectedDetailedOrder.items.map((item, idx) => {
-                  const prodImg = getImageUrl(
-                    item.product?.images?.[0] ||
-                      item.product?.images ||
-                      item.images?.[0],
-                  );
+                  const prodImg = getImageUrl(item);
                   return (
                     <div
                       key={idx}
