@@ -266,14 +266,14 @@ const GoogleGIcon = () => (
               <span className="md:ml-1 mt-0.5 md:mt-0 text-[16px] font-normal">All Rights Reserved.</span>
             </div>
             <div className="text-center md:text-right flex flex-col md:flex-row md:items-center">
-              <span className="text-[16px] font-normal">Designed and developed by</span>
+              <span className="text-[16px] font-normal">Designed and Developed by</span>
               <a
                 href="https://kusheldigi.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className=" md:ml-1 mt-0.5 md:mt-0 text-[16px] font-semibold"
               >
-                kusheldigi.com
+                Kushel Digi Solutions
               </a>
             </div>
           </div>
