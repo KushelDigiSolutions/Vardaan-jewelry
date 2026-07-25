@@ -32,7 +32,7 @@ jobs:
         with:
           host: ${{ vars.HOST }}
           username: ${{ vars.USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
+          key: ${{ vars.SSH_KEY }}
           port: ${{ vars.PORT }}
           script: |
             set -e
