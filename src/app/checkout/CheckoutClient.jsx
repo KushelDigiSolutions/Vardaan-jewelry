@@ -283,9 +283,9 @@ export default function CheckoutClient() {
         key: session.key,
         amount: Math.round(session.amount * 100),
         currency: session.currency,
-        name: "Vardaan Store",
+        name: "Vardaan Jewel",
         description: `Order #${order._id.substring(18)} Checkout`,
-        image: "/icon.png",
+        image: "https://res.cloudinary.com/dxlykgx6w/image/upload/v1782555331/favicon.png_eqzolm.png",
         order_id: session.gatewayOrderId,
         handler: async function (response) {
           setLoading(true);
