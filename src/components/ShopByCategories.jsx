@@ -32,8 +32,8 @@ const STATIC_CATEGORIES = [
       "https://res.cloudinary.com/vykqb6hs/image/upload/v1784273397/shop_by_category-Bracelets_cptpsc.jpg",
   },
   {
-    name: "Watches",
-    slug: "watches",
+    name: "Watch",
+    slug: "watch",
     image:
       "https://res.cloudinary.com/vykqb6hs/image/upload/v1784273396/shop_by_category-watches_b6imki.jpg",
       
