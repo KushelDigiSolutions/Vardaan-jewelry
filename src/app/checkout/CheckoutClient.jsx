@@ -12,6 +12,7 @@ import {
   FiPlus,
   FiChevronLeft,
   FiCreditCard,
+  FiInfo,
 } from "react-icons/fi";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
@@ -117,6 +118,15 @@ export default function CheckoutClient() {
     0,
   );
 
+  const taxableValue = cartItems.reduce(
+    (acc, item) => {
+      const itemGst = Number((item.price * 0.03).toFixed(2));
+      const itemTaxable = Number((item.price - itemGst).toFixed(2));
+      return acc + itemTaxable * item.quantity;
+    },
+    0,
+  );
+
   // Fetch available coupons for suggestions
   const fetchAvailableCoupons = async () => {
     if (availableCoupons.length > 0) return; // already fetched
@@ -137,6 +147,13 @@ export default function CheckoutClient() {
     }
   };
 
+  // Helper to check if address state is Uttar Pradesh
+  const isUttarPradesh = (state) => {
+    if (!state) return false;
+    const clean = state.trim().toLowerCase().replace(/[^a-z]/g, "");
+    return clean === "uttarpradesh" || clean === "up";
+  };
+
   // Apply Coupon code
   const handleApplyCoupon = async (codeOverride) => {
     setCouponError("");
@@ -149,7 +166,7 @@ export default function CheckoutClient() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ code, orderAmount: subtotal }),
+        body: JSON.stringify({ code, orderAmount: taxableValue }),
       });
       const json = await res.json();
       if (!res.ok) {
@@ -169,12 +186,12 @@ export default function CheckoutClient() {
 
   // Compute Shipping Fees (applicable only on orders below 399 after discount)
   const discountVal = appliedCoupon ? appliedCoupon.discount : 0;
-  const amountBeforeShipping = Math.max(0, subtotal - discountVal);
+  const amountBeforeShipping = Math.max(0, taxableValue - discountVal);
 
   // Calculate online discount and COD charge
   const codCharge = paymentMethod === "COD" ? 100 : 0;
   const onlineDiscount =
-    paymentMethod !== "COD" ? Math.round(amountBeforeShipping * 0.05) : 0;
+    paymentMethod !== "COD" ? Number((amountBeforeShipping * 0.05).toFixed(2)) : 0;
 
   const amountAfterPaymentAdjustments =
     amountBeforeShipping + codCharge - onlineDiscount;
@@ -185,8 +202,10 @@ export default function CheckoutClient() {
         ? 50
         : 0;
 
-  // Compute Grand Total
-  const grandTotal = amountAfterPaymentAdjustments + shippingCost;
+  // Compute Subtotal for GST, GST, and Grand Total
+  const subtotalForGst = Number((amountAfterPaymentAdjustments + shippingCost).toFixed(2));
+  const gstAmount = Number((subtotal - taxableValue).toFixed(2));
+  const grandTotal = Number((subtotalForGst + gstAmount).toFixed(2));
 
   // Submit Order Checkout
   const handlePlaceOrder = async () => {
@@ -740,6 +759,17 @@ export default function CheckoutClient() {
                   </label>
                 </div>
               </div>
+
+              {/* Policy Disclaimer Alert */}
+              <div className="mt-6 p-4.5 bg-amber-50/50 border border-amber-200 rounded-lg text-amber-800 text-sm font-sans flex items-start gap-3">
+                <FiInfo className="w-5 h-5 shrink-0 text-amber-700 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-[15px] mb-0.5 text-amber-900">Replacement & Refund Policy Notice</p>
+                  <p className="text-[13px] leading-relaxed text-amber-800">
+                    Product replacement and refund are <strong>only applicable for online orders</strong> and must be requested <strong>within 24 hours of delivery</strong>. Cash on Delivery (COD) orders are not eligible for replacements or refunds.
+                  </p>
+                </div>
+              </div>
               {/* Back & Place Buttons */}{" "}
               <div className="flex flex-col gap-4 justify-between border-t border-gray-100 pt-6 mt-6">
                 <button
@@ -819,22 +849,73 @@ export default function CheckoutClient() {
                   </span>
                 </p>
 
-                {orderData.codCharge > 0 && (
-                  <p className="mb-2 text-red-600">
-                    <b>Handling Charge:</b>{" "}
-                    <span>
-                      + ₹ {orderData.codCharge.toLocaleString("en-IN")}
-                    </span>
-                  </p>
-                )}
-                {orderData.onlineDiscount > 0 && (
-                  <p className="mb-2 text-green-750">
-                    <b>Online Payment Discount (5%):</b>{" "}
-                    <span>
-                      - ₹ {orderData.onlineDiscount.toLocaleString("en-IN")}
-                    </span>
-                  </p>
-                )}
+                {(() => {
+                  const successItemsSubtotal = orderData.items ? orderData.items.reduce((sum, item) => sum + (item.price * item.quantity), 0) : 0;
+                  const successTaxableValue = orderData.taxableValue !== undefined && orderData.taxableValue !== null ? orderData.taxableValue : Number((orderData.totalAmount / 1.03).toFixed(2));
+                  const successDiscount = orderData.discount || 0;
+                  const successOnlineDiscount = orderData.onlineDiscount || 0;
+                  const successCodCharge = orderData.codCharge || 0;
+                  const successShippingCost = orderData.shippingCost || 0;
+                  const successSubtotalForGst = Number((successTaxableValue - successDiscount - successOnlineDiscount + successCodCharge + successShippingCost).toFixed(2));
+                  const successGstAmount = orderData.gstAmount !== undefined && orderData.gstAmount !== null ? orderData.gstAmount : Number((orderData.totalAmount - successSubtotalForGst).toFixed(2));
+                  const successIsUP = orderData.shippingAddress ? isUttarPradesh(orderData.shippingAddress.state) : false;
+
+                  return (
+                    <div className="space-y-1.5 mt-2 border-t pt-2 text-xs text-gray-600">
+                      <div className="flex justify-between">
+                        <span>Product Price (Incl. GST):</span>
+                        <span>₹ {successItemsSubtotal.toLocaleString("en-IN")}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Taxable Value:</span>
+                        <span>₹ {successTaxableValue.toLocaleString("en-IN")}</span>
+                      </div>
+                      {successDiscount > 0 && (
+                        <div className="flex justify-between text-green-750 font-semibold">
+                          <span>Coupon Discount:</span>
+                          <span>- ₹ {successDiscount.toLocaleString("en-IN")}</span>
+                        </div>
+                      )}
+                      {successOnlineDiscount > 0 && (
+                        <div className="flex justify-between text-green-750 font-semibold">
+                          <span>Online Payment Discount (5%):</span>
+                          <span>- ₹ {successOnlineDiscount.toLocaleString("en-IN")}</span>
+                        </div>
+                      )}
+                      {successCodCharge > 0 && (
+                        <div className="flex justify-between text-red-650 font-semibold">
+                          <span>Handling Charge:</span>
+                          <span>+ ₹ {successCodCharge.toLocaleString("en-IN")}</span>
+                        </div>
+                      )}
+                      <div className="flex justify-between">
+                        <span>Shipping cost:</span>
+                        <span>₹ {successShippingCost.toLocaleString("en-IN")}</span>
+                      </div>
+                      <div className="flex justify-between font-semibold border-t pt-1">
+                        <span>Subtotal (before GST):</span>
+                        <span>₹ {successSubtotalForGst.toLocaleString("en-IN")}</span>
+                      </div>
+                      {successIsUP ? (
+                        <>
+                          <div className="flex justify-between">
+                            <span>CGST @1.5%:</span>
+                            <span>₹ {(successGstAmount / 2).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>SGST @1.5%:</span>
+                            <span>₹ {(successGstAmount - successGstAmount / 2).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                          </div>
+                        </>
+                      ) : (
+                        <div className="flex justify-between">
+                          <span>IGST @3%:</span>
+                          <span>₹ {successGstAmount.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
 
                 <div className="border-b border-gray-200 pb-3 mb-3">
                   <p className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1">Seller Information</p>
@@ -1041,9 +1122,15 @@ export default function CheckoutClient() {
             )}
 
             <div className="flex justify-between mb-3 text-[16px] text-gray-600">
-              <span>Subtotal</span>
+              <span>Product Price (Incl. GST)</span>
               <span className="font-semibold text-gray-900">
                 ₹ {subtotal.toLocaleString("en-IN")}
+              </span>
+            </div>
+            <div className="flex justify-between mb-3 text-[16px] text-gray-600">
+              <span>Taxable Value</span>
+              <span className="font-semibold text-gray-900">
+                ₹ {taxableValue.toLocaleString("en-IN")}
               </span>
             </div>
             {discountVal > 0 && (
@@ -1052,24 +1139,62 @@ export default function CheckoutClient() {
                 <span>- ₹ {discountVal.toLocaleString("en-IN")}</span>
               </div>
             )}
-            {codCharge > 0 && (
-              <div className="flex justify-between mb-3 text-[16px] text-red-600 font-semibold">
-                <span>Handling Charge</span>
-                <span>+ ₹ {codCharge.toLocaleString("en-IN")}</span>
-              </div>
-            )}
             {onlineDiscount > 0 && (
               <div className="flex justify-between mb-3 text-[16px] text-green-700 font-semibold">
                 <span>Online Payment Discount (5%)</span>
                 <span>- ₹ {onlineDiscount.toLocaleString("en-IN")}</span>
               </div>
             )}
+            {codCharge > 0 && (
+              <div className="flex justify-between mb-3 text-[16px] text-red-600 font-semibold">
+                <span>Handling Charge</span>
+                <span>+ ₹ {codCharge.toLocaleString("en-IN")}</span>
+              </div>
+            )}
             <div className="flex justify-between mb-3 text-[16px] text-gray-600">
               <span>Shipping cost</span>
               <span>
-                {shippingCost > 0 ? `₹ ${shippingCost.toFixed(2)}` : "Free"}
+                {shippingCost > 0 ? `₹ ${shippingCost.toLocaleString("en-IN")}` : "Free"}
               </span>
             </div>
+            <div className="flex justify-between mb-3 text-[16px] text-gray-600 border-t pt-2">
+              <span>Subtotal (before GST)</span>
+              <span className="font-semibold text-gray-900">
+                ₹ {subtotalForGst.toLocaleString("en-IN")}
+              </span>
+            </div>
+
+            {(() => {
+              const addressDetails = addresses.find((a) => a._id === selectedAddressId);
+              const isUP = addressDetails ? isUttarPradesh(addressDetails.state) : false;
+              if (isUP) {
+                return (
+                  <>
+                    <div className="flex justify-between mb-3 text-[16px] text-gray-600">
+                      <span>CGST @1.5%</span>
+                      <span className="font-semibold text-gray-900">
+                        ₹ {(gstAmount / 2).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </span>
+                    </div>
+                    <div className="flex justify-between mb-3 text-[16px] text-gray-600">
+                      <span>SGST @1.5%</span>
+                      <span className="font-semibold text-gray-900">
+                        ₹ {(gstAmount - gstAmount / 2).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </span>
+                    </div>
+                  </>
+                );
+              } else {
+                return (
+                  <div className="flex justify-between mb-3 text-[16px] text-gray-600">
+                    <span>IGST @3%</span>
+                    <span className="font-semibold text-gray-900">
+                      ₹ {gstAmount.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </span>
+                  </div>
+                );
+              }
+            })()}
 
             <div className="border-t border-gray-150 my-4 pt-4 flex justify-between text-[18px] font-bold text-[#111827] items-baseline">
               <span className="flex flex-col">
