@@ -893,7 +893,7 @@ export default function CheckoutClient() {
                         <span>₹ {successShippingCost.toLocaleString("en-IN")}</span>
                       </div>
                       <div className="flex justify-between font-semibold border-t pt-1">
-                        <span>Subtotal (before GST):</span>
+                        <span>Subtotal (Excl. GST):</span>
                         <span>₹ {successSubtotalForGst.toLocaleString("en-IN")}</span>
                       </div>
                       {successIsUP ? (
@@ -1158,7 +1158,7 @@ export default function CheckoutClient() {
               </span>
             </div>
             <div className="flex justify-between mb-3 text-[16px] text-gray-600 border-t pt-2">
-              <span>Subtotal (before GST)</span>
+              <span>Subtotal (Excl. GST)</span>
               <span className="font-semibold text-gray-900">
                 ₹ {subtotalForGst.toLocaleString("en-IN")}
               </span>
