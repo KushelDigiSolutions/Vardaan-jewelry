@@ -2346,7 +2346,7 @@ function ProfileContent() {
                           </div>
                           
                           <div className="flex justify-between text-gray-600 border-t pt-1.5 my-1.5">
-                            <span className="text-[16px] font-semibold">Subtotal (before GST):</span>
+                            <span className="text-[16px] font-semibold">Subtotal (Excl. GST):</span>
                             <span className="text-[16px] font-semibold">
                               ₹ {subtotalForGst.toLocaleString("en-IN")}
                             </span>
