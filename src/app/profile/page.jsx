@@ -771,7 +771,7 @@ function ProfileContent() {
                   : "text-gray-600 hover:bg-gray-50"
               }`}
             >
-              <FiRefreshCw /> Track Replacements
+              <FiRefreshCw />Replacement/Refund
             </button>
             <button
               onClick={() => {
@@ -1859,6 +1859,16 @@ function ProfileContent() {
                             <div className="flex gap-2  text-left">
                               {o.orderStatus === "delivered" &&
                                 (() => {
+                                  if (o.paymentMethod === "COD") {
+                                    return null;
+                                  }
+
+                                  const deliveredStatus = o.tracking?.statusHistory?.find(
+                                    (h) => h.status && h.status.toLowerCase() === "delivered"
+                                  );
+                                  const deliveryTime = deliveredStatus ? new Date(deliveredStatus.timestamp) : new Date(o.updatedAt);
+                                  const hoursSinceDelivery = (new Date() - deliveryTime) / (1000 * 60 * 60);
+
                                   const orderReturn = returns.find(
                                     (r) =>
                                       (r.orderId?._id ||
@@ -1866,6 +1876,28 @@ function ProfileContent() {
                                         r.order?._id ||
                                         r.order) === o._id,
                                   );
+
+                                  if (hoursSinceDelivery > 24) {
+                                    if (orderReturn) {
+                                      return (
+                                        <div className="flex flex-col md:flex-row items-center gap-2">
+                                          <span
+                                            className={`px-2.5 py-1.5 sm:w-full rounded text-[11px] font-bold text-white capitalize ${
+                                              orderReturn.status === "replaced"
+                                                ? "bg-green-700"
+                                                : orderReturn.status === "rejected"
+                                                  ? "bg-red-600"
+                                                  : "bg-amber-600"
+                                            }`}
+                                          >
+                                            Replacement: {orderReturn.status}
+                                          </span>
+                                        </div>
+                                      );
+                                    }
+                                    return null;
+                                  }
+
                                   if (orderReturn) {
                                     return (
                                       <div className="flex flex-col md:flex-row items-center gap-2">
@@ -1936,7 +1968,7 @@ function ProfileContent() {
             {activeTab === "returns" && (
               <div className="animate-fade-in space-y-6">
                 <h3 className="text-[24px] font-serif text-[#07512E] font-semibold">
-                  My Replacement Requests
+                  My Replacement/Refund Requests
                 </h3>
 
                 {returnsLoading ? (
@@ -2231,6 +2263,12 @@ function ProfileContent() {
                   {/* Cost Summary Breakdown */}
                   <div className="pt-4 space-y-1 text-sm">
                     {(() => {
+                      const isUttarPradesh = (state) => {
+                        if (!state) return false;
+                        const clean = state.trim().toLowerCase().replace(/[^a-z]/g, "");
+                        return clean === "uttarpradesh" || clean === "up";
+                      };
+
                       const itemsSubtotal = selectedDetailedOrder.items.reduce(
                         (sum, item) => sum + (item.price * item.quantity),
                         0
@@ -2239,14 +2277,33 @@ function ProfileContent() {
                       const discount = selectedDetailedOrder.discount || 0;
                       const couponCode = selectedDetailedOrder.couponCode;
                       const codCharge = selectedDetailedOrder.codCharge !== undefined && selectedDetailedOrder.codCharge !== null ? selectedDetailedOrder.codCharge : (selectedDetailedOrder.paymentMethod === 'COD' ? 100 : 0);
-                      const onlineDiscount = selectedDetailedOrder.onlineDiscount !== undefined && selectedDetailedOrder.onlineDiscount !== null ? selectedDetailedOrder.onlineDiscount : (selectedDetailedOrder.paymentMethod !== 'COD' ? Math.round((itemsSubtotal - discount) * 0.05) : 0);
+                      const onlineDiscount = selectedDetailedOrder.onlineDiscount !== undefined && selectedDetailedOrder.onlineDiscount !== null ? selectedDetailedOrder.onlineDiscount : (selectedDetailedOrder.paymentMethod !== 'COD' ? Number(((itemsSubtotal - discount) * 0.05).toFixed(2)) : 0);
+
+                      const taxableValue = selectedDetailedOrder.taxableValue !== undefined && selectedDetailedOrder.taxableValue !== null
+                        ? selectedDetailedOrder.taxableValue
+                        : Number((itemsSubtotal * 0.97).toFixed(2));
+
+                      const subtotalForGst = Number((taxableValue - discount - onlineDiscount + codCharge + shippingCost).toFixed(2));
+
+                      const gstAmount = selectedDetailedOrder.gstAmount !== undefined && selectedDetailedOrder.gstAmount !== null
+                        ? selectedDetailedOrder.gstAmount
+                        : Number((itemsSubtotal - taxableValue).toFixed(2));
+
+                      const isUP = selectedDetailedOrder.shippingAddress ? isUttarPradesh(selectedDetailedOrder.shippingAddress.state) : false;
 
                       return (
                         <>
                           <div className="flex justify-between text-gray-600">
-                            <span className="text-[16px]">Items Subtotal:</span>
+                            <span className="text-[16px]">Product Price (Incl. GST):</span>
                             <span className="text-[16px]">
                               ₹ {itemsSubtotal.toLocaleString("en-IN")}
+                            </span>
+                          </div>
+                          
+                          <div className="flex justify-between text-gray-600 my-1">
+                            <span className="text-[16px]">Taxable Value:</span>
+                            <span className="text-[16px]">
+                              ₹ {taxableValue.toLocaleString("en-IN")}
                             </span>
                           </div>
                           
@@ -2257,15 +2314,6 @@ function ProfileContent() {
                               </span>
                               <span className="text-[16px]">
                                 - ₹ {discount.toLocaleString("en-IN")}
-                              </span>
-                            </div>
-                          )}
-
-                          {codCharge > 0 && (
-                            <div className="flex justify-between text-red-600 font-medium my-1">
-                              <span className="text-[16px]">Handling Charge:</span>
-                              <span className="text-[16px]">
-                                + ₹ {codCharge.toLocaleString("en-IN")}
                               </span>
                             </div>
                           )}
@@ -2281,12 +2329,52 @@ function ProfileContent() {
                             </div>
                           )}
 
+                          {codCharge > 0 && (
+                            <div className="flex justify-between text-red-600 font-medium my-1">
+                              <span className="text-[16px]">Handling Charge:</span>
+                              <span className="text-[16px]">
+                                + ₹ {codCharge.toLocaleString("en-IN")}
+                              </span>
+                            </div>
+                          )}
+
                           <div className="flex justify-between text-gray-600">
                             <span className="text-[16px]">Shipping Fee:</span>
                             <span className="text-[16px]">
                               ₹ {shippingCost.toLocaleString("en-IN")}
                             </span>
                           </div>
+                          
+                          <div className="flex justify-between text-gray-600 border-t pt-1.5 my-1.5">
+                            <span className="text-[16px] font-semibold">Subtotal (before GST):</span>
+                            <span className="text-[16px] font-semibold">
+                              ₹ {subtotalForGst.toLocaleString("en-IN")}
+                            </span>
+                          </div>
+
+                          {isUP ? (
+                            <>
+                              <div className="flex justify-between text-gray-600">
+                                <span className="text-[16px]">CGST @1.5%:</span>
+                                <span className="text-[16px]">
+                                  ₹ {(gstAmount / 2).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                </span>
+                              </div>
+                              <div className="flex justify-between text-gray-600">
+                                <span className="text-[16px]">SGST @1.5%:</span>
+                                <span className="text-[16px]">
+                                  ₹ {(gstAmount - gstAmount / 2).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                </span>
+                              </div>
+                            </>
+                          ) : (
+                            <div className="flex justify-between text-gray-600">
+                              <span className="text-[16px]">IGST @3%:</span>
+                              <span className="text-[16px]">
+                                ₹ {gstAmount.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                              </span>
+                            </div>
+                          )}
                         </>
                       );
                     })()}
