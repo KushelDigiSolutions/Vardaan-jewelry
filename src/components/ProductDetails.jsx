@@ -24,6 +24,108 @@ const API_URL =process.env.NEXT_PUBLIC_API_URL ||"http://localhost:5000/api";
 /** Extract unique values of a key from the variants array */
 const unique = (arr) => [...new Set(arr.filter(Boolean))];
 
+/** Standard color palette for hex matching */
+const COLOR_PALETTE = [
+  { name: "White", r: 255, g: 255, b: 255 },
+  { name: "Black", r: 0, g: 0, b: 0 },
+  { name: "Red", r: 255, g: 0, b: 0 },
+  { name: "Crimson", r: 220, g: 20, b: 60 },
+  { name: "Dark Red", r: 139, g: 0, b: 0 },
+  { name: "Green", r: 0, g: 128, b: 0 },
+  { name: "Emerald Green", r: 7, g: 81, b: 46 },
+  { name: "Lime Green", r: 50, g: 205, b: 50 },
+  { name: "Blue", r: 0, g: 0, b: 255 },
+  { name: "Navy Blue", r: 0, g: 0, b: 128 },
+  { name: "Sky Blue", r: 135, g: 206, b: 235 },
+  { name: "Royal Blue", r: 65, g: 105, b: 225 },
+  { name: "Yellow", r: 255, g: 255, b: 0 },
+  { name: "Yellow Gold", r: 255, g: 215, b: 0 },
+  { name: "Gold", r: 212, g: 175, b: 55 },
+  { name: "Rose Gold", r: 232, g: 160, b: 144 },
+  { name: "Orange", r: 255, g: 165, b: 0 },
+  { name: "Pink", r: 255, g: 192, b: 203 },
+  { name: "Hot Pink", r: 255, g: 105, b: 180 },
+  { name: "Purple", r: 128, g: 0, b: 128 },
+  { name: "Violet", r: 238, g: 130, b: 238 },
+  { name: "Lavender", r: 230, g: 230, b: 250 },
+  { name: "Brown", r: 165, g: 42, b: 42 },
+  { name: "Maroon", r: 128, g: 0, b: 0 },
+  { name: "Silver", r: 192, g: 192, b: 192 },
+  { name: "White Gold", r: 232, g: 232, b: 232 },
+  { name: "Platinum", r: 229, g: 228, b: 226 },
+  { name: "Grey", r: 128, g: 128, b: 128 },
+  { name: "Dark Grey", r: 169, g: 169, b: 169 },
+  { name: "Light Grey", r: 211, g: 211, b: 211 },
+  { name: "Beige", r: 245, g: 245, b: 220 },
+  { name: "Teal", r: 0, g: 128, b: 128 },
+  { name: "Cyan", r: 0, g: 255, b: 255 },
+  { name: "Turquoise", r: 64, g: 224, b: 208 },
+  { name: "Bronze", r: 205, g: 127, b: 50 },
+  { name: "Copper", r: 184, g: 115, b: 51 },
+];
+
+/** Helper to convert hex / color code / color object to human-readable color name */
+function getColorName(colorInput) {
+  if (!colorInput) return "";
+
+  let colorStr = "";
+  if (typeof colorInput === "object") {
+    if (colorInput.colorName && typeof colorInput.colorName === "string" && !colorInput.colorName.startsWith("#")) {
+      return colorInput.colorName;
+    }
+    if (colorInput.name && typeof colorInput.name === "string" && !colorInput.name.startsWith("#")) {
+      return colorInput.name;
+    }
+    colorStr = colorInput.color || "";
+  } else if (typeof colorInput === "string") {
+    colorStr = colorInput;
+  }
+
+  colorStr = colorStr.trim();
+  if (!colorStr) return "";
+
+  if (!colorStr.startsWith("#") && !colorStr.toLowerCase().startsWith("rgb")) {
+    return colorStr
+      .split(/\s+/)
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  }
+
+  let hex = colorStr.replace("#", "");
+  if (hex.length === 3) {
+    hex = hex.split("").map((c) => c + c).join("");
+  }
+  if (hex.length !== 6) return colorStr;
+
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+
+  if (isNaN(r) || isNaN(g) || isNaN(b)) return colorStr;
+
+  let closest = null;
+  let minDistance = Infinity;
+
+  for (const item of COLOR_PALETTE) {
+    const rMean = (r + item.r) / 2;
+    const dR = r - item.r;
+    const dG = g - item.g;
+    const dB = b - item.b;
+    const distance = Math.sqrt(
+      (2 + rMean / 256) * dR * dR +
+        4 * dG * dG +
+        (2 + (255 - rMean) / 256) * dB * dB
+    );
+
+    if (distance < minDistance) {
+      minDistance = distance;
+      closest = item.name;
+    }
+  }
+
+  return closest || colorStr;
+}
+
 // ─── Image Magnifier Component (Jeweler's Loupe) ──────────────────────────────
 function ImageZoom({ src, alt, zoomLevel = 2.5, lensSize = 180 }) {
   const [showMagnifier, setShowMagnifier] = useState(false);
@@ -334,9 +436,9 @@ export default function ProductDetails({ productId }) {
   const variantStr = useMemo(() => {
     const parts = [];
     if (selectedColorImageIdx !== -1 && product?.colorImages?.[selectedColorImageIdx]) {
-      parts.push(`Color Option: ${product.colorImages[selectedColorImageIdx].color}`);
+      parts.push(`Color Option: ${getColorName(product.colorImages[selectedColorImageIdx])}`);
     } else if (product?.color) {
-      parts.push(`Color Option: ${product.color}`);
+      parts.push(`Color Option: ${getColorName(product.color)}`);
     }
     if (hasVariants && activeVariant) {
       parts.push(`Size: ${selectedSize || "Standard"}`);
@@ -789,7 +891,11 @@ export default function ProductDetails({ productId }) {
                   Color Options
                 </span>
                 <span className="text-[13px] font-sans text-gray-400 italic">
-                  {product.colorImages[selectedColorImageIdx]?.color || product.color || "Standard View"}
+                  {getColorName(
+                    selectedColorImageIdx !== -1
+                      ? product.colorImages[selectedColorImageIdx]
+                      : product.color
+                  ) || "Standard View"}
                 </span>
               </div>
               <div className="flex gap-3 flex-wrap items-center">
@@ -799,14 +905,14 @@ export default function ProductDetails({ productId }) {
                     setSelectedColorImageIdx(-1);
                     setSelectedWearableIdx(0);
                   }}
-                  title={product.color || "Classic"}
+                  title={getColorName(product.color) || "Classic"}
                   className={`w-8 h-8 rounded-full border-2 transition-all cursor-pointer relative flex items-center justify-center ${
                     selectedColorImageIdx === -1
                       ? "border-[black] border-3 scale-110 shadow-sm"
                       : "border-gray-300 hover:border-gray-400"
                   }`}
                   style={{
-                    backgroundColor: product.color || "#D4AF37",
+                    backgroundColor: typeof product.color === "object" ? product.color.color : (product.color || "#D4AF37"),
                   }}
                 >
                   {selectedColorImageIdx === -1 && (
@@ -815,6 +921,7 @@ export default function ProductDetails({ productId }) {
                 </button>
                 {product.colorImages.map((colorObj, idx) => {
                   const isColorOutOfStock = (colorObj.inventory || 0) <= 0;
+                  const colorName = getColorName(colorObj);
                   return (
                     <button
                       key={idx}
@@ -822,7 +929,7 @@ export default function ProductDetails({ productId }) {
                         setSelectedColorImageIdx(idx);
                         setSelectedWearableIdx(0);
                       }}
-                      title={`${colorObj.color}${isColorOutOfStock ? " (Out of Stock)" : ""}`}
+                      title={`${colorName}${isColorOutOfStock ? " (Out of Stock)" : ""}`}
                       className={`w-8 h-8 rounded-full border-2 transition-all cursor-pointer relative flex items-center justify-center ${
                         selectedColorImageIdx === idx
                           ? "border-[black] border-4  scale-110 shadow-sm"
