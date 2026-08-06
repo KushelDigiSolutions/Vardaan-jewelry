@@ -977,8 +977,9 @@ export default function CheckoutClient() {
                     </p>
                     <p className="text-gray-500 text-[16px]">
                       Qty: {item.quantity} |{" "}
-                      {item.variant.startsWith("Size:") ||
-                      item.variant.startsWith("Size :")
+                      {item.variant.includes(":") ||
+                      item.variant.startsWith("Color Option") ||
+                      item.variant.startsWith("Size")
                         ? item.variant
                         : `Size: ${item.variant}`}
                     </p>
