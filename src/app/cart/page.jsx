@@ -62,7 +62,13 @@ export default function CartPage() {
                             <h3 className="text-[20px] font-medium text-[#111827] mb-1 hover:text-[#07512E] transition-colors font-sans">{item.name}</h3>
                           </Link>
                           {item.variant && item.variant !== "default" && (
-                            <p className="text-[13px] text-amber-700 font-medium mb-1 font-sans italic">Size : {item.variant}</p>
+                            <p className="text-[13px] text-amber-700 font-medium mb-1 font-sans italic">
+                              {item.variant.includes(":") ||
+                              item.variant.startsWith("Color Option") ||
+                              item.variant.startsWith("Size")
+                                ? item.variant
+                                : `Size : ${item.variant}`}
+                            </p>
                           )}
                           <p className="text-[13px] text-gray-400 font-normal m-0 font-sans line-clamp-2">{item.desc}</p>
                         </div>
