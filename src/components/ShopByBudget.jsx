@@ -5,23 +5,23 @@ import Link from "next/link";
 
 const budgetRanges = [
   {
-    title: "Under ₹499",
-    query: "?category=everyday-icons&maxPrice=499",
+    title: "Under ₹299",
+    query: "?category=everyday-icons&maxPrice=299",
     image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784281534/Everyday_icons_shop_by_price-under_499_pxj2k9.jpg",
+  },
+  {
+    title: "₹300 - ₹499",
+    query: "?category=everyday-icons&minPrice=300&maxPrice=499",
+    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784281534/Everyday_icons_shop_by_price-500-699_izkztc.jpg",
   },
   {
     title: "₹500 - ₹699",
     query: "?category=everyday-icons&minPrice=500&maxPrice=699",
-    image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784281534/Everyday_icons_shop_by_price-500-699_izkztc.jpg",
-  },
-  {
-    title: "₹700 - ₹999",
-    query: "?category=everyday-icons&minPrice=700&maxPrice=999",
     image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784281534/Everyday_icons_shop_by_price-700-999_olshxm.jpg",
   },
   {
-    title: "₹999 & Above",
-    query: "?category=everyday-icons&minPrice=999",
+    title: "₹700 & Above",
+    query: "?category=everyday-icons&minPrice=700",
     image: "https://res.cloudinary.com/vykqb6hs/image/upload/v1784281534/Everyday_icons_shop_by_price-above-999_wdpalr.jpg",
   },
 ];

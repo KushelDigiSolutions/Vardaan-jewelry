@@ -1729,7 +1729,7 @@ function ProfileContent() {
                                       : "bg-red-600"
                                 }`}
                               >
-                                {o.paymentStatus === "paid" ? "Paid" : o.paymentStatus}
+                                Payment Status: {o.paymentStatus === "paid" ? "Paid" : o.paymentStatus}
                               </span>
                               <span
                                 className={`px-2.5 py-1 rounded text-[14px] font-bold text-white capitalize ${
@@ -1740,7 +1740,7 @@ function ProfileContent() {
                                       : "bg-amber-600"
                                 }`}
                               >
-                                {o.orderStatus}
+                                Order Status: {o.orderStatus}
                               </span>
                               <span className="font-bold text-[16px] text-gray-900">
                                 Total: ₹ {o.totalAmount.toLocaleString("en-IN")}
