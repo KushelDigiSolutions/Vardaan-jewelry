@@ -184,7 +184,7 @@ export default function CheckoutClient() {
     }
   };
 
-  // Compute Shipping Fees (applicable only on orders below 399 after discount)
+  // Compute Shipping Fees (flat 100 for standard delivery)
   const discountVal = appliedCoupon ? appliedCoupon.discount : 0;
   const amountBeforeShipping = Math.max(0, taxableValue - discountVal);
 
@@ -198,9 +198,7 @@ export default function CheckoutClient() {
   const shippingCost =
     shippingMethod === "Express Delivery"
       ? 150
-      : amountAfterPaymentAdjustments <= 399
-        ? 50
-        : 0;
+      : 100;
 
   // Compute Subtotal for GST, GST, and Grand Total
   const subtotalForGst = Number((amountAfterPaymentAdjustments + shippingCost).toFixed(2));
@@ -685,8 +683,8 @@ export default function CheckoutClient() {
                         </p>
                       </div>
                     </div>
-                    <span className="font-medium text-[18px] text-[#2e8b57]">
-                      Free
+                    <span className="font-medium text-[18px] text-gray-900">
+                      ₹ 100.00
                     </span>
                   </label>
 

@@ -1507,6 +1507,25 @@ export default function ProductDetails({ productId }) {
                       </span>
                     </li>
                   ))}
+
+              {/* Static Care Instructions (shows at the end if not present in dynamic attributes) */}
+              {!(
+                product.attributes &&
+                product.attributes.some(
+                  (attr) =>
+                    attr.key &&
+                    attr.key.trim().toLowerCase().includes("care")
+                )
+              ) && (
+                <li className="justify-between py-1 border-b border-[#E5DCC5]/30">
+                  <span className="font-semibold text-gray-500">
+                    Care Instructions : 
+                  </span>
+                  <span className="text-gray-950 font-medium">
+                    Keep away from water, perfume, sweat, lotions, and harsh chemicals. Wipe gently with a soft, dry cloth after use and store properly in the Vardaan box to retain its shine and prevent tangling or scratches.
+                  </span>
+                </li>
+              )}
             </ul>
           </div>
 
