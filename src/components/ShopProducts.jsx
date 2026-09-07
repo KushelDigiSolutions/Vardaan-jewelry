@@ -455,7 +455,7 @@ export default function ShopProducts() {
           >
             <input
               type="text"
-              placeholder="Search fine jewelry products..."
+              placeholder="Search preferred jewellery product..."
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               className="flex-grow px-4 py-2.5 text-[16px] text-gray-800 focus:outline-none placeholder-gray-400 bg-transparent font-sans"
