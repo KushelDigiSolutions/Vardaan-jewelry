@@ -6,8 +6,8 @@ import ShopProducts from "@/components/ShopProducts";
 import FAQ from "@/components/FAQ";
 
 export const metadata = {
-  title: "Shop Collection | Vardaan - Fine Handcrafted Jewelry",
-  description: "Browse Vardaan's collection of fine handcrafted jewelry. Shop certified gold rings, earrings, signature necklaces, and bespoke bridal heirloom sets.",
+  title: "Shop Collection | Vardaan - Latest collection of Jewelry",
+  description: "Browse Vardaan's latest collection of jewelry. Shop certified gold rings, earrings, signature necklaces, and bespoke bridal heirloom sets.",
   keywords: "shop vardaan jewelry, gold rings, diamond earrings, gold sets, luxury emerald necklaces, certified bridal jewelry",
 };
 
