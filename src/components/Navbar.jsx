@@ -151,6 +151,17 @@ const GoogleGIcon = () => (
         <Link 
           key={idx} 
           href={link.href}
+          onClick={() => {
+            if (link.href === "/shop" && pathname === "/shop") {
+              const el = document.getElementById("shop-products-section");
+              if (el) {
+                const header = document.querySelector("header");
+                const headerHeight = header ? header.offsetHeight : 118;
+                const targetY = Math.max(0, el.getBoundingClientRect().top + window.pageYOffset - headerHeight);
+                window.scrollTo({ top: targetY, left: 0, behavior: "smooth" });
+              }
+            }
+          }}
           className={`text-[14px] lg:text-[20px] font-serif transition-colors relative pb-2 duration-200 group whitespace-nowrap ${
             isActive ? "text-[#FFDE59]" : "text-white hover:text-[#FFDE59]"
           }`}
@@ -331,7 +342,18 @@ const GoogleGIcon = () => (
                   <Link 
                     key={idx} 
                     href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      if (link.href === "/shop" && pathname === "/shop") {
+                        const el = document.getElementById("shop-products-section");
+                        if (el) {
+                          const header = document.querySelector("header");
+                          const headerHeight = header ? header.offsetHeight : 118;
+                          const targetY = Math.max(0, el.getBoundingClientRect().top + window.pageYOffset - headerHeight);
+                          window.scrollTo({ top: targetY, left: 0, behavior: "smooth" });
+                        }
+                      }
+                    }}
                     className={`text-base tracking-widest font-serif py-1.5 border-b border-white/5 uppercase ${
                       isActive ? "text-[#FFDE59] font-medium" : "text-white/80 hover:text-[#FFDE59]"
                     }`}
