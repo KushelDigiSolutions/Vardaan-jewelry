@@ -39,6 +39,7 @@ export default function ShopProducts() {
   const maxPriceParam = searchParams ? searchParams.get("maxPrice") : null;
   const limitParam = searchParams ? searchParams.get("limit") : null;
   const searchParam = searchParams ? searchParams.get("search") : null;
+  const sortParam = searchParams ? searchParams.get("sort") : null;
 
   // Categories list & selection states
   const [categories, setCategories] = useState([]);
@@ -286,7 +287,10 @@ export default function ShopProducts() {
   const [search, setSearch] = useState(() => (searchParams ? searchParams.get("search") || "" : ""));
   const [searchInput, setSearchInput] = useState(() => (searchParams ? searchParams.get("search") || "" : ""));
   const [priceFilter, setPriceFilter] = useState("all"); // 'all' | 'under-2k' | 'over-2k'
-  const [sortOrder, setSortOrder] = useState("newest"); // 'newest' | 'price_asc' | 'price_desc'
+  const [sortOrder, setSortOrder] = useState(() => {
+    const s = searchParams ? searchParams.get("sort") : null;
+    return s && ["newest", "price_asc", "price_desc"].includes(s) ? s : "newest";
+  });
   const [isActive, setIsActive] = useState(false);
   const [filterShow, setFilterShow] = useState("");
   const [openCategories, setOpenCategories] = useState({});
@@ -315,6 +319,17 @@ export default function ShopProducts() {
       setSearchInput(urlSearch);
     }
   }, [searchParam]);
+
+  // Sync sortOrder state from URL query parameter (handles back/forward browser buttons)
+  useEffect(() => {
+    if (sortParam && ["newest", "price_asc", "price_desc"].includes(sortParam)) {
+      if (sortParam !== sortOrder) {
+        setSortOrder(sortParam);
+      }
+    } else if (!sortParam && sortOrder !== "newest") {
+      setSortOrder("newest");
+    }
+  }, [sortParam]);
 
   // Sync priceFilter state from URL minPrice / maxPrice query params
   useEffect(() => {
@@ -424,11 +439,22 @@ export default function ShopProducts() {
     updateUrl({ search: null, page: 1 });
   };
 
+  const handleSelectSortOrder = (newSort) => {
+    setSortOrder(newSort);
+    setCurrentPage(1);
+    setIsSortOpen(false);
+    updateUrl({
+      sort: newSort === "newest" ? null : newSort,
+      page: 1,
+    });
+  };
+
   const handleClearAll = () => {
     setSelectedCategory("all");
     setPriceFilter("all");
     setSearch("");
     setSearchInput("");
+    setSortOrder("newest");
     setCurrentPage(1);
     setIsActive(false);
     setFilterShow("");
@@ -668,8 +694,12 @@ export default function ShopProducts() {
         params.append("maxPrice", activeMax);
       }
 
-      if (sortOrder !== "price-range") {
-        params.append("sort", sortOrder);
+      const effectiveSort =
+        sortParam && ["newest", "price_asc", "price_desc"].includes(sortParam)
+          ? sortParam
+          : sortOrder;
+      if (effectiveSort && effectiveSort !== "price-range") {
+        params.append("sort", effectiveSort);
       }
 
       const res = await fetch(`${API_URL}/products?${params.toString()}`);
@@ -684,7 +714,20 @@ export default function ShopProducts() {
     } finally {
       setLoading(false);
     }
-  }, [currentPage, selectedCategory, search, searchParam, priceFilter, sortOrder, minPriceParam, maxPriceParam, categorySlugParam, categoriesReady, limitParam]);
+  }, [
+    currentPage,
+    selectedCategory,
+    search,
+    searchParam,
+    priceFilter,
+    sortOrder,
+    sortParam,
+    minPriceParam,
+    maxPriceParam,
+    categorySlugParam,
+    categoriesReady,
+    limitParam,
+  ]);
 
   // Trigger load when filters update
   useEffect(() => {
@@ -901,11 +944,7 @@ export default function ShopProducts() {
                       ].map((opt) => (
                         <button
                           key={opt.id}
-                          onClick={() => {
-                            setSortOrder(opt.id);
-                            setCurrentPage(1);
-                            setIsSortOpen(false);
-                          }}
+                          onClick={() => handleSelectSortOrder(opt.id)}
                           className={`w-full text-left px-4 py-3 text-sm transition-colors cursor-pointer flex items-center justify-between ${
                             sortOrder === opt.id
                               ? "bg-[#07512E]/10 text-[#07512E] font-semibold"
@@ -968,11 +1007,7 @@ export default function ShopProducts() {
                       ].map((opt) => (
                         <button
                           key={opt.id}
-                          onClick={() => {
-                            setSortOrder(opt.id);
-                            setCurrentPage(1);
-                            setIsSortOpen(false);
-                          }}
+                          onClick={() => handleSelectSortOrder(opt.id)}
                           className={`w-full text-left px-4 py-3 text-sm transition-colors cursor-pointer flex items-center justify-between ${
                             sortOrder === opt.id
                               ? "bg-[#07512E]/10 text-[#07512E] font-semibold"
