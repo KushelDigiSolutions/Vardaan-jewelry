@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import {
@@ -10,12 +10,22 @@ import {
   FiCheck,
   FiShoppingBag,
   FiSearch,
+  FiChevronDown,
+  FiChevronRight,
 } from "react-icons/fi";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL?.trim() || "https://vardaan-backend.vercel.app/api";
+
+const PRICE_RANGES = [
+  { id: "all", label: "All Prices", min: null, max: null },
+  { id: "under-299", label: "Under ₹ 299", min: null, max: 299 },
+  { id: "300-499", label: "₹ 300 - ₹ 499", min: 300, max: 499 },
+  { id: "500-699", label: "₹ 500 - ₹ 699", min: 500, max: 699 },
+  { id: "700-above", label: "₹ 700 & Above", min: 700, max: null },
+];
 
 export default function ShopProducts() {
   const { addToCart, cartItems, isProductOutOfStock, getCartItemDetailsForListing } = useCart();
@@ -24,6 +34,11 @@ export default function ShopProducts() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const categorySlugParam = searchParams ? searchParams.get("category") : null;
+  const pageParam = searchParams ? searchParams.get("page") : null;
+  const minPriceParam = searchParams ? searchParams.get("minPrice") : null;
+  const maxPriceParam = searchParams ? searchParams.get("maxPrice") : null;
+  const limitParam = searchParams ? searchParams.get("limit") : null;
+  const searchParam = searchParams ? searchParams.get("search") : null;
 
   // Categories list & selection states
   const [categories, setCategories] = useState([]);
@@ -192,11 +207,25 @@ export default function ShopProducts() {
         }
       }
 
+      const urlPage = pageParam ? parseInt(pageParam, 10) : 1;
+      const initialPage = urlPage > 0 ? urlPage : 1;
+
       if (matched) {
         setSelectedCategory(matched._id);
-        setCurrentPage(1);
+        setCurrentPage(initialPage);
         setIsActive(true);
         setFilterShow(matched.name);
+        if (matched.parentCategory?._id) {
+          setOpenCategories((prev) => ({
+            ...prev,
+            [matched.parentCategory._id]: true,
+          }));
+        } else {
+          setOpenCategories((prev) => ({
+            ...prev,
+            [matched._id]: true,
+          }));
+        }
       } else {
         // Fallback to text search if no category ID matches the URL query param
         setSelectedCategory("all");
@@ -223,7 +252,7 @@ export default function ShopProducts() {
 
         setSearch(searchKeyword);
         setSearchInput(searchKeyword);
-        setCurrentPage(1);
+        setCurrentPage(initialPage);
         setIsActive(true);
         setFilterShow(categorySlugParam);
       }
@@ -231,27 +260,317 @@ export default function ShopProducts() {
       setCategoriesReady(true);
     } else if (!categorySlugParam && categories.length > 0) {
       setSelectedCategory("all");
+      const urlPage = pageParam ? parseInt(pageParam, 10) : 1;
+      setCurrentPage(urlPage > 0 ? urlPage : 1);
       setCategoriesReady(true);
     } else if (!categorySlugParam) {
       // No category param at all, always ready
+      const urlPage = pageParam ? parseInt(pageParam, 10) : 1;
+      setCurrentPage(urlPage > 0 ? urlPage : 1);
       setCategoriesReady(true);
     }
-  }, [categorySlugParam, categories]);
+  }, [categorySlugParam, categories, pageParam]);
 
   // Products listing states
+  const productsSectionRef = useRef(null);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [totalResults, setTotalResults] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(() => {
+    const p = searchParams ? parseInt(searchParams.get("page"), 10) : 1;
+    return p > 0 ? p : 1;
+  });
   const [totalPages, setTotalPages] = useState(1);
 
   // Filters & sorting states
-  const [search, setSearch] = useState("");
-  const [searchInput, setSearchInput] = useState("");
+  const [search, setSearch] = useState(() => (searchParams ? searchParams.get("search") || "" : ""));
+  const [searchInput, setSearchInput] = useState(() => (searchParams ? searchParams.get("search") || "" : ""));
   const [priceFilter, setPriceFilter] = useState("all"); // 'all' | 'under-2k' | 'over-2k'
   const [sortOrder, setSortOrder] = useState("newest"); // 'newest' | 'price_asc' | 'price_desc'
   const [isActive, setIsActive] = useState(false);
   const [filterShow, setFilterShow] = useState("");
+  const [openCategories, setOpenCategories] = useState({});
+
+  const toggleCategoryOpen = (catId) => {
+    setOpenCategories((prev) => ({
+      ...prev,
+      [catId]: !prev[catId],
+    }));
+  };
+
+  // Sync currentPage from URL query parameter (handles back/forward browser buttons)
+  useEffect(() => {
+    const p = pageParam ? parseInt(pageParam, 10) : 1;
+    const validPage = p > 0 ? p : 1;
+    if (validPage !== currentPage) {
+      setCurrentPage(validPage);
+    }
+  }, [pageParam]);
+
+  // Sync search state from URL query parameter (handles back/forward browser buttons)
+  useEffect(() => {
+    const urlSearch = searchParam ? searchParam.trim() : "";
+    if (urlSearch !== search) {
+      setSearch(urlSearch);
+      setSearchInput(urlSearch);
+    }
+  }, [searchParam]);
+
+  // Sync priceFilter state from URL minPrice / maxPrice query params
+  useEffect(() => {
+    if (!minPriceParam && !maxPriceParam) {
+      setPriceFilter("all");
+      return;
+    }
+
+    const matchedRange = PRICE_RANGES.find((r) => {
+      if (r.id === "all") return false;
+      const minMatch = r.min === null ? !minPriceParam : minPriceParam === String(r.min);
+      const maxMatch = r.max === null ? !maxPriceParam : maxPriceParam === String(r.max);
+      return minMatch && maxMatch;
+    });
+
+    if (matchedRange) {
+      setPriceFilter(matchedRange.id);
+    } else {
+      setPriceFilter("custom");
+    }
+  }, [minPriceParam, maxPriceParam]);
+
+  // URL query updater helper
+  const updateUrl = useCallback(
+    (updates) => {
+      const params = new URLSearchParams(searchParams ? searchParams.toString() : "");
+
+      Object.entries(updates).forEach(([key, value]) => {
+        if (
+          value === null ||
+          value === undefined ||
+          value === "" ||
+          (key === "page" && (value === 1 || value === "1"))
+        ) {
+          params.delete(key);
+        } else {
+          params.set(key, value.toString());
+        }
+      });
+
+      const queryString = params.toString();
+      const newUrl = queryString ? `/shop?${queryString}` : "/shop";
+      router.push(newUrl, { scroll: false });
+    },
+    [searchParams, router],
+  );
+
+  // Handlers for category & filter selection
+  const handleSelectCategory = (cat) => {
+    const slug = cat.slug || cat.name.toLowerCase().replace(/\s+/g, "-");
+    setSelectedCategory(cat._id);
+    setFilterShow(cat.name);
+    setIsActive(true);
+    setCurrentPage(1);
+
+    updateUrl({
+      category: slug,
+      page: 1,
+    });
+  };
+
+  const handleSelectAllCategories = () => {
+    setSelectedCategory("all");
+    setIsActive(false);
+    setFilterShow("");
+    setCurrentPage(1);
+
+    updateUrl({
+      category: null,
+      page: 1,
+    });
+  };
+
+  const handleSelectPrice = (range) => {
+    setPriceFilter(range.id);
+    setCurrentPage(1);
+
+    if (range.id === "all") {
+      updateUrl({ minPrice: null, maxPrice: null, page: 1 });
+    } else {
+      updateUrl({
+        minPrice: range.min !== null ? String(range.min) : null,
+        maxPrice: range.max !== null ? String(range.max) : null,
+        page: 1,
+      });
+    }
+  };
+
+  const handleClearCategory = () => {
+    setSelectedCategory("all");
+    setIsActive(false);
+    setFilterShow("");
+    setCurrentPage(1);
+    updateUrl({ category: null, page: 1 });
+  };
+
+  const handleClearPrice = () => {
+    setPriceFilter("all");
+    setCurrentPage(1);
+    updateUrl({ minPrice: null, maxPrice: null, page: 1 });
+  };
+
+  const handleClearSearch = () => {
+    setSearch("");
+    setSearchInput("");
+    setCurrentPage(1);
+    updateUrl({ search: null, page: 1 });
+  };
+
+  const handleClearAll = () => {
+    setSelectedCategory("all");
+    setPriceFilter("all");
+    setSearch("");
+    setSearchInput("");
+    setCurrentPage(1);
+    setIsActive(false);
+    setFilterShow("");
+    setIsFilterDrawerOpen(false);
+
+    router.push("/shop", { scroll: false });
+  };
+
+  const handleRemoveActiveFilter = () => {
+    handleClearAll();
+  };
+
+  // Compute category badge label
+  const categoryBadgeLabel = (() => {
+    if (selectedCategory && selectedCategory !== "all") {
+      const cat = categories.find((c) => c._id === selectedCategory);
+      if (cat) return cat.name;
+    }
+    if (categorySlugParam && selectedCategory !== "all") {
+      const cat = categories.find(
+        (c) =>
+          c.slug?.toLowerCase() === categorySlugParam.toLowerCase() ||
+          c.name?.toLowerCase() === categorySlugParam.toLowerCase()
+      );
+      if (cat) return cat.name;
+      return filterShow || categorySlugParam;
+    }
+    if (filterShow && selectedCategory !== "all") {
+      return filterShow;
+    }
+    return null;
+  })();
+
+  // Compute price badge label - ONLY ONE BADGE
+  const priceBadgeLabel = (() => {
+    if (!minPriceParam && !maxPriceParam && priceFilter === "all") return null;
+
+    const matchedRange = PRICE_RANGES.find((r) => {
+      if (r.id === "all") return false;
+      const minMatch = r.min === null ? !minPriceParam : minPriceParam === String(r.min);
+      const maxMatch = r.max === null ? !maxPriceParam : maxPriceParam === String(r.max);
+      return minMatch && maxMatch;
+    });
+
+    if (matchedRange) return matchedRange.label;
+
+    if (minPriceParam && maxPriceParam) {
+      return `₹ ${minPriceParam} - ₹ ${maxPriceParam}`;
+    }
+    if (minPriceParam) {
+      return `₹ ${minPriceParam} & Above`;
+    }
+    if (maxPriceParam) {
+      return `Under ₹ ${maxPriceParam}`;
+    }
+    return null;
+  })();
+
+  const hasCategory = Boolean(categoryBadgeLabel);
+  const hasPrice = Boolean(priceBadgeLabel);
+  const hasSearch = Boolean((searchParam && searchParam.trim()) || search.trim());
+  const searchBadgeLabel = (searchParam && searchParam.trim()) || search.trim();
+  const hasAnyActiveFilter = hasCategory || hasPrice || hasSearch;
+
+  const scrollToProductsSection = useCallback((smooth = false) => {
+    const el = productsSectionRef.current || document.getElementById("shop-products-section");
+    if (!el) return;
+    const header = document.querySelector("header");
+    const headerHeight = header ? header.offsetHeight : 118;
+    const elPosition = el.getBoundingClientRect().top + window.pageYOffset;
+    const targetY = Math.max(0, elPosition - headerHeight);
+
+    window.scrollTo({
+      top: targetY,
+      left: 0,
+      behavior: smooth ? "smooth" : "instant",
+    });
+  }, []);
+
+  const handlePageChange = (newPage) => {
+    if (newPage < 1 || newPage > totalPages || newPage === currentPage) return;
+    setCurrentPage(newPage);
+    scrollToProductsSection(true);
+
+    updateUrl({ page: newPage });
+  };
+
+  // Industry-standard pagination items calculation (ellipsis)
+  const getPaginationItems = () => {
+    if (totalPages <= 7) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+
+    if (currentPage <= 4) {
+      return [1, 2, 3, 4, 5, "...", totalPages];
+    }
+
+    if (currentPage >= totalPages - 3) {
+      return [
+        1,
+        "...",
+        totalPages - 4,
+        totalPages - 3,
+        totalPages - 2,
+        totalPages - 1,
+        totalPages,
+      ];
+    }
+
+    return [
+      1,
+      "...",
+      currentPage - 1,
+      currentPage,
+      currentPage + 1,
+      "...",
+      totalPages,
+    ];
+  };
+
+  // Auto scroll to products/filter section when Shop page loads, category URL changes, or search URL changes
+  useEffect(() => {
+    scrollToProductsSection(false);
+    const t1 = setTimeout(() => scrollToProductsSection(false), 50);
+    const t2 = setTimeout(() => scrollToProductsSection(false), 150);
+    const t3 = setTimeout(() => scrollToProductsSection(false), 400);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
+  }, [categorySlugParam, searchParam, scrollToProductsSection]);
+
+  // Scroll smoothly to products section when pagination changes
+  const isFirstPaginationRender = useRef(true);
+  useEffect(() => {
+    if (isFirstPaginationRender.current) {
+      isFirstPaginationRender.current = false;
+      return;
+    }
+    scrollToProductsSection(true);
+  }, [currentPage, scrollToProductsSection]);
 
   // UI states
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
@@ -306,10 +625,6 @@ export default function ShopProducts() {
     fetchWishlist();
   }, [token]);
 
-  const minPriceParam = searchParams ? searchParams.get("minPrice") : null;
-  const maxPriceParam = searchParams ? searchParams.get("maxPrice") : null;
-  const limitParam = searchParams ? searchParams.get("limit") : null;
-
   // Track whether categories have been resolved for the current URL param
   const [categoriesReady, setCategoriesReady] = useState(false);
 
@@ -330,20 +645,27 @@ export default function ShopProducts() {
         params.append("category", selectedCategory);
       }
 
-      if (search.trim()) {
-        params.append("search", search.trim());
+      const effectiveSearch = searchParam ? searchParam.trim() : search.trim();
+      if (effectiveSearch) {
+        params.append("search", effectiveSearch);
       }
 
-      if (minPriceParam) {
-        params.append("minPrice", minPriceParam);
-      } else if (priceFilter === "over-2k") {
-        params.append("minPrice", 2000);
+      let activeMin = minPriceParam;
+      let activeMax = maxPriceParam;
+
+      if (!activeMin && !activeMax && priceFilter !== "all") {
+        const found = PRICE_RANGES.find((r) => r.id === priceFilter);
+        if (found) {
+          if (found.min !== null) activeMin = String(found.min);
+          if (found.max !== null) activeMax = String(found.max);
+        }
       }
 
-      if (maxPriceParam) {
-        params.append("maxPrice", maxPriceParam);
-      } else if (priceFilter === "under-2k") {
-        params.append("maxPrice", 2000);
+      if (activeMin) {
+        params.append("minPrice", activeMin);
+      }
+      if (activeMax) {
+        params.append("maxPrice", activeMax);
       }
 
       if (sortOrder !== "price-range") {
@@ -362,7 +684,7 @@ export default function ShopProducts() {
     } finally {
       setLoading(false);
     }
-  }, [currentPage, selectedCategory, search, priceFilter, sortOrder, minPriceParam, maxPriceParam, categorySlugParam, categoriesReady, limitParam]);
+  }, [currentPage, selectedCategory, search, searchParam, priceFilter, sortOrder, minPriceParam, maxPriceParam, categorySlugParam, categoriesReady, limitParam]);
 
   // Trigger load when filters update
   useEffect(() => {
@@ -420,32 +742,42 @@ export default function ShopProducts() {
     }, 3000);
   };
 
+  // Debounce search input and sync with URL query parameter
   useEffect(() => {
     const timer = setTimeout(() => {
       const value = searchInput.trim();
+      const currentUrlSearch = searchParam ? searchParam.trim() : "";
 
       if (value.length >= 3) {
-        setSearch(value);
-        setCurrentPage(1);
-      } else if (value.length < 3) {
+        if (value !== currentUrlSearch) {
+          setSearch(value);
+          setCurrentPage(1);
+          updateUrl({ search: value, page: 1 });
+        }
+      } else if (value.length === 0 && currentUrlSearch) {
         setSearch("");
         setCurrentPage(1);
+        updateUrl({ search: null, page: 1 });
       }
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [searchInput]);
+  }, [searchInput, searchParam, updateUrl]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    setSearch(searchInput);
+    const value = searchInput.trim();
+    setSearch(value);
     setCurrentPage(1);
+    updateUrl({ search: value || null, page: 1 });
   };
 
-  // console.log("IS ACTIVE : " , isActive)
-
   return (
-    <section className="py-8 bg-[#FFFDF9] ">
+    <section
+      id="shop-products-section"
+      ref={productsSectionRef}
+      className="py-8 bg-[#FFFDF9] scroll-mt-[118px]"
+    >
       <div className="w-full max-w-[1192px] mx-auto px-4 md:px-8 lg:px-12 xl:px-0">
         {/* Dynamic Search Bar */}
         <div className="mb-6 flex justify-center">
@@ -464,7 +796,12 @@ export default function ShopProducts() {
               <button
                 type="button"
                 className="p-2 text-gray-500 hover:text-gray-800 flex items-center justify-center cursor-pointer mr-2 shrink-0 bg-transparent border-none outline-none"
-                onClick={() => setSearchInput("")}
+                onClick={() => {
+                  setSearchInput("");
+                  setSearch("");
+                  setCurrentPage(1);
+                  updateUrl({ search: null, page: 1 });
+                }}
                 aria-label="Clear search"
               >
                 <FiX className="w-5 h-5 stroke-[2.5]" />
@@ -490,70 +827,44 @@ export default function ShopProducts() {
               <FiSliders className="w-4 h-4" />
               <span>Filters</span>
             </button>
-            {isActive && (
+            {/* Category Filter Badge */}
+            {hasCategory && categoryBadgeLabel && (
               <button
-                onClick={() => {
-                  setSelectedCategory("all");
-                  setPriceFilter("all");
-                  setSearch("");
-                  setSearchInput("");
-                  setCurrentPage(1);
-                  setIsActive(false);
-                  const params = new URLSearchParams(searchParams.toString());
-                  params.delete("category");
-                  router.push(params.toString() ? `/shop?${params.toString()}` : "/shop");
-                }}
-                className={` border border-white rounded px-4 py-2 hover:bg-white/10 transition-colors flex items-center gap-2 text-sm sm:text-[17px] font-sans tracking-wider font-medium cursor-pointer ${isActive ? "" : "disabled: opacity-50 disabled:pointer-events-none"} `}
+                onClick={handleClearCategory}
+                className="border border-white rounded px-4 py-2 hover:bg-white/10 transition-colors flex items-center gap-2 text-sm sm:text-[17px] font-sans tracking-wider font-medium cursor-pointer bg-white/10"
+                title="Remove category filter"
               >
-                {/* <FiSliders className="w-4 h-4" /> */}
-                <span>{filterShow}</span>{" "}
-                <span>
-                  <FiX className="w-5 h-5" />{" "}
-                </span>
+                <span>{categoryBadgeLabel}</span>
+                <FiX className="w-5 h-5" />
               </button>
             )}
-            {search.trim() && (
+
+            {/* Price Filter Badge - EXACTLY ONE */}
+            {hasPrice && priceBadgeLabel && (
               <button
-                onClick={() => {
-                  setSearch("");
-                  setSearchInput("");
-                  setCurrentPage(1);
-                }}
+                onClick={handleClearPrice}
+                className="border border-white rounded px-4 py-2 hover:bg-white/10 transition-colors flex items-center gap-2 text-sm sm:text-[17px] font-sans tracking-wider font-medium cursor-pointer bg-white/10"
+                title="Remove price filter"
+              >
+                <span>{priceBadgeLabel}</span>
+                <FiX className="w-5 h-5" />
+              </button>
+            )}
+
+            {/* Search Filter Badge */}
+            {hasSearch && (
+              <button
+                onClick={handleClearSearch}
                 className="border border-white rounded px-4 py-2 hover:bg-white/10 transition-colors flex items-center gap-2 text-sm sm:text-[17px] font-sans tracking-wider font-medium cursor-pointer bg-white/10"
                 title="Clear search text"
               >
-                <span>{search}</span>
-                <span>
-                  <FiX className="w-5 h-5" />
-                </span>
-              </button>
-            )}
-            {(minPriceParam || maxPriceParam) && (
-              <button
-                onClick={() => {
-                  const params = new URLSearchParams(searchParams.toString());
-                  params.delete("minPrice");
-                  params.delete("maxPrice");
-                  router.push(params.toString() ? `/shop?${params.toString()}` : "/shop");
-                }}
-                className="border border-white rounded px-4 py-2 hover:bg-white/10 transition-colors flex items-center gap-2 text-sm sm:text-[17px] font-sans tracking-wider font-medium cursor-pointer bg-white/10"
-                title="Clear price filter"
-              >
-                <span>
-                  {minPriceParam && maxPriceParam
-                    ? `₹${minPriceParam} - ₹${maxPriceParam}`
-                    : minPriceParam
-                    ? `₹${minPriceParam} & Above`
-                    : `Under ₹${maxPriceParam}`}
-                </span>
-                <span>
-                  <FiX className="w-5 h-5" />
-                </span>
+                <span>{searchBadgeLabel}</span>
+                <FiX className="w-5 h-5" />
               </button>
             )}
 
             {/* If no filter is selected, show Price Sort Dropdown next to Filters button */}
-            {!isActive && !search.trim() && (
+            {!hasAnyActiveFilter && (
               <div className="relative">
                 <button
                   onClick={() => setIsSortOpen(!isSortOpen)}
@@ -619,8 +930,8 @@ export default function ShopProducts() {
               ({totalResults} total results)
             </span>
 
-            {/* Custom Sort Dropdown (shown here when a filter IS selected) */}
-            {(isActive || search.trim()) && (
+            {/* Custom Sort Dropdown (shown here when any filter IS selected) */}
+            {hasAnyActiveFilter && (
               <div className="relative">
                 <button
                   onClick={() => setIsSortOpen(!isSortOpen)}
@@ -814,13 +1125,7 @@ export default function ShopProducts() {
               your criteria.
             </p>
             <button
-              onClick={() => {
-                setSelectedCategory("all");
-                setPriceFilter("all");
-                setSearch("");
-                setSearchInput("");
-                setCurrentPage(1);
-              }}
+              onClick={handleClearAll}
               className="mt-6 bg-[#07512E] text-white px-6 py-2.5 text-sm uppercase tracking-wider font-serif hover:bg-[#04361E] transition-colors cursor-pointer"
             >
               Clear Filters
@@ -830,33 +1135,70 @@ export default function ShopProducts() {
 
         {/* Pagination Controls */}
         {totalPages > 1 && !limitParam && (
-          <div className="flex items-center justify-between w-full pb-4 border-[#F0ECE3] mt-12 text-gray-950 font-sans">
+          <div className="flex items-center justify-between w-full pb-4 border-t border-[#F0ECE3] pt-6 mt-12 text-gray-950 font-sans gap-2 select-none">
+            {/* Previous */}
             <button
-              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+              onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className={`flex items-center gap-2 transition-colors cursor-pointer text-[15px] sm:text-[18px] ${currentPage === 1 ? "opacity-35 cursor-not-allowed text-gray-400" : "text-gray-900 hover:text-[#0A5230]"}`}
+              className={`flex items-center gap-1 sm:gap-2 transition-colors cursor-pointer text-[14px] sm:text-[17px] font-medium py-1.5 px-2 sm:px-3 rounded-lg hover:bg-gray-100 ${
+                currentPage === 1
+                  ? "opacity-30 cursor-not-allowed text-gray-400 hover:bg-transparent"
+                  : "text-gray-900 hover:text-[#0A5230]"
+              }`}
+              aria-label="Previous page"
             >
-              <span className="text-[17px] sm:text-[20px]">←</span> Previous
+              <span className="text-[17px] sm:text-[20px]">←</span>
+              <span className="hidden sm:inline">Previous</span>
+              <span className="sm:hidden">Prev</span>
             </button>
 
-            <div className="flex items-center gap-2 sm:gap-6 text-[15px] sm:text-[18px]">
-              {Array.from({ length: totalPages }).map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentPage(index + 1)}
-                  className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all cursor-pointer ${currentPage === index + 1 ? "bg-[#0A5230] text-white font-medium" : "text-gray-800 hover:bg-gray-100"}`}
-                >
-                  {index + 1}
-                </button>
-              ))}
+            {/* Pagination Numbers & Ellipses */}
+            <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2">
+              {getPaginationItems().map((item, index) => {
+                if (item === "...") {
+                  return (
+                    <span
+                      key={`ellipsis-${index}`}
+                      className="w-6 h-8 sm:w-8 sm:h-10 flex items-center justify-center text-gray-400 font-bold tracking-widest text-xs sm:text-sm"
+                    >
+                      ...
+                    </span>
+                  );
+                }
+
+                const isCurrent = currentPage === item;
+                return (
+                  <button
+                    key={item}
+                    onClick={() => handlePageChange(item)}
+                    className={`w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-all cursor-pointer text-xs sm:text-sm md:text-base font-medium ${
+                      isCurrent
+                        ? "bg-[#0A5230] text-white font-semibold shadow-xs"
+                        : "text-gray-700 hover:bg-gray-100 hover:text-[#0A5230]"
+                    }`}
+                    aria-label={`Page ${item}`}
+                    aria-current={isCurrent ? "page" : undefined}
+                  >
+                    {item}
+                  </button>
+                );
+              })}
             </div>
 
+            {/* Next */}
             <button
-              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+              onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className={`flex items-center gap-2 transition-colors cursor-pointer text-[15px] sm:text-[18px] ${currentPage === totalPages ? "opacity-35 cursor-not-allowed text-gray-400" : "text-gray-900 hover:text-[#0A5230]"}`}
+              className={`flex items-center gap-1 sm:gap-2 transition-colors cursor-pointer text-[14px] sm:text-[17px] font-medium py-1.5 px-2 sm:px-3 rounded-lg hover:bg-gray-100 ${
+                currentPage === totalPages
+                  ? "opacity-30 cursor-not-allowed text-gray-400 hover:bg-transparent"
+                  : "text-gray-900 hover:text-[#0A5230]"
+              }`}
+              aria-label="Next page"
             >
-              Next <span className="text-[17px] sm:text-[20px]">→</span>
+              <span className="hidden sm:inline">Next</span>
+              <span className="sm:hidden">Next</span>
+              <span className="text-[17px] sm:text-[20px]">→</span>
             </button>
           </div>
         )}
@@ -890,11 +1232,8 @@ export default function ShopProducts() {
                 </h3>
                 <div className="flex flex-col gap-2">
                   <button
-                    onClick={() => {
-                      setSelectedCategory("all");
-                      setCurrentPage(1);
-                    }}
-                    className={`text-left text-sm py-1.5 px-3 transition-colors cursor-pointer  ${selectedCategory === "all" ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]" : "text-gray-600 hover:text-[#07512E]"}`}
+                    onClick={handleSelectAllCategories}
+                    className={`text-left text-sm py-2 px-3 rounded transition-colors cursor-pointer ${selectedCategory === "all" ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]" : "text-gray-600 hover:text-[#07512E] hover:bg-gray-50"}`}
                   >
                     All Items
                   </button>
@@ -906,77 +1245,64 @@ export default function ShopProducts() {
                       );
 
                       const hasChildren = children.length > 0;
+                      const isParentSelected = selectedCategory === cat._id;
+                      const hasSelectedChild = children.some((c) => c._id === selectedCategory);
+                      const isOpen = openCategories[cat._id] !== undefined ? openCategories[cat._id] : hasSelectedChild;
 
                       return (
-                        <div key={cat._id}>
+                        <div key={cat._id} className="border-b border-gray-50 last:border-b-0 pb-1">
                           {hasChildren ? (
-                            <details>
-                              <summary
-                                className={`cursor-pointer py-2 px-3 ${
-                                  selectedCategory === cat._id
-                                    ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]"
-                                    : "text-gray-600 hover:text-[#07512E]"
-                                }`}
+                            <div>
+                              <div
                                 onClick={() => {
-                                  setSelectedCategory(cat._id);
-                                  setFilterShow(cat.name);
-                                  setCurrentPage(1);
-                                  setIsActive(true);
+                                  toggleCategoryOpen(cat._id);
+                                  handleSelectCategory(cat);
                                 }}
+                                className={`flex items-center justify-between py-2 px-3 rounded cursor-pointer transition-colors ${
+                                  isParentSelected
+                                    ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]"
+                                    : "text-gray-700 hover:text-[#07512E] hover:bg-gray-50"
+                                }`}
                               >
-                                {cat.name}
-                              </summary>
-
-                              <div className="ml-4">
-                                {/* Parent Category */}
-                                {/* <button
-                onClick={() => {
-                  setSelectedCategory(cat._id);
-                  setCurrentPage(1);
-                  setIsActive(true);
-                }}
-                className={`block w-full text-left py-2 px-3 cursor-pointer ${
-                  selectedCategory === cat._id
-                    ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]"
-                    : "text-gray-600 hover:text-[#07512E]"
-                }`}
-              >
-                All {cat.name}
-              </button> */}
-
-                                {/* Child Categories */}
-                                {children.map((child) => (
-                                  <button
-                                    key={child._id}
-                                    onClick={() => {
-                                      setSelectedCategory(child._id);
-                                      setCurrentPage(1);
-                                      setFilterShow(child.name);
-                                      setIsActive(true);
-                                    }}
-                                    className={`block w-full text-left py-2 px-3 cursor-pointer ${
-                                      selectedCategory === child._id
-                                        ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]"
-                                        : "text-gray-600 hover:text-[#07512E]"
-                                    }`}
-                                  >
-                                    {child.name}
-                                  </button>
-                                ))}
+                                <span className="text-sm font-medium">{cat.name}</span>
+                                <span className="p-1 text-gray-400 hover:text-[#07512E]">
+                                  {isOpen ? (
+                                    <FiChevronDown className="w-4 h-4 text-[#07512E]" />
+                                  ) : (
+                                    <FiChevronRight className="w-4 h-4" />
+                                  )}
+                                </span>
                               </div>
-                            </details>
+
+                              {/* Child Categories Dropdown */}
+                              {isOpen && (
+                                <div className="ml-4 pl-2 border-l-2 border-[#07512E]/20 mt-1 mb-2 flex flex-col gap-1">
+                                  {children.map((child) => {
+                                    const isChildSelected = selectedCategory === child._id;
+                                    return (
+                                      <button
+                                        key={child._id}
+                                        onClick={() => handleSelectCategory(child)}
+                                        className={`block w-full text-left py-1.5 px-3 text-sm rounded cursor-pointer transition-colors ${
+                                          isChildSelected
+                                            ? "bg-[#07512E]/10 text-[#07512E] font-semibold border-l-2 border-[#07512E]"
+                                            : "text-gray-600 hover:text-[#07512E] hover:bg-gray-50"
+                                        }`}
+                                      >
+                                        {child.name}
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                              )}
+                            </div>
                           ) : (
                             <button
-                              onClick={() => {
-                                setSelectedCategory(cat._id);
-                                setCurrentPage(1);
-                                setFilterShow(cat.name);
-                                setIsActive(true);
-                              }}
-                              className={`block w-full text-left py-2 px-3 cursor-pointer ${
-                                selectedCategory === cat._id
+                              onClick={() => handleSelectCategory(cat)}
+                              className={`block w-full text-left py-2 px-3 text-sm rounded cursor-pointer transition-colors ${
+                                isParentSelected
                                   ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]"
-                                  : "text-gray-600 hover:text-[#07512E]"
+                                  : "text-gray-700 hover:text-[#07512E] hover:bg-gray-50"
                               }`}
                             >
                               {cat.name}
@@ -985,20 +1311,6 @@ export default function ShopProducts() {
                         </div>
                       );
                     })}
-                  {/* {categories.map((cat) => (
-                    
-                    <button
-                      key={cat._id}
-                      onClick={() => {
-                        setSelectedCategory(cat._id);
-                        setCurrentPage(1);
-                        setIsActive(true)
-                      }}
-                      className={`text-left text-sm py-1.5 px-3 transition-colors cursor-pointer  ${selectedCategory === cat._id ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]" : "text-gray-600 hover:text-[#07512E]"}`}
-                    >
-                      {cat.name}
-                    </button>
-                  ))} */}
                 </div>
               </div>
 
@@ -1008,48 +1320,52 @@ export default function ShopProducts() {
                   Price Limit
                 </h3>
                 <div className="flex flex-col gap-2">
-                  {[
-                    { id: "all", label: "All Prices" },
-                    { id: "under-2k", label: "Under ₹ 2,000" },
-                    { id: "over-2k", label: "₹ 2,000 & Above" },
-                  ].map((range) => (
-                    <button
-                      key={range.id}
-                      onClick={() => {
-                        setPriceFilter(range.id);
-                        setCurrentPage(1);
-                        setFilterShow(range.label);
-                        setIsActive(true);
-                      }}
-                      className={`text-left text-sm py-1.5 px-3 transition-colors cursor-pointer ${priceFilter === range.id ? "bg-[#07512E]/10 text-[#07512E] font-medium border-l-2 border-[#07512E]" : "text-gray-600 hover:text-[#07512E]"}`}
-                    >
-                      {range.label}
-                    </button>
-                  ))}
+                  {PRICE_RANGES.map((range) => {
+                    const isSelected =
+                      priceFilter === range.id ||
+                      (range.id === "all" &&
+                        !minPriceParam &&
+                        !maxPriceParam &&
+                        priceFilter === "all") ||
+                      (range.id !== "all" &&
+                        (range.min === null
+                          ? !minPriceParam
+                          : minPriceParam === String(range.min)) &&
+                        (range.max === null
+                          ? !maxPriceParam
+                          : maxPriceParam === String(range.max)));
+
+                    return (
+                      <button
+                        key={range.id}
+                        onClick={() => handleSelectPrice(range)}
+                        className={`text-left text-sm py-1.5 px-3 transition-colors cursor-pointer ${
+                          isSelected
+                            ? "bg-[#07512E]/10 text-[#07512E] font-semibold border-l-2 border-[#07512E]"
+                            : "text-gray-600 hover:text-[#07512E]"
+                        }`}
+                      >
+                        {range.label}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </div>
 
             <div className="border-t border-gray-100 pt-4 mt-6 flex gap-3">
               <button
-                onClick={() => {
-                  setSelectedCategory("all");
-                  setPriceFilter("all");
-                  setSearch("");
-                  setSearchInput("");
-                  setCurrentPage(1);
-                  setIsFilterDrawerOpen(false);
-                }}
+                onClick={handleClearAll}
                 className="flex-1 border border-gray-200 text-gray-600 py-2.5 text-xs font-serif uppercase tracking-widest hover:border-gray-400 transition-colors cursor-pointer text-center"
               >
                 Clear All
               </button>
-              {/* <button
+              <button
                 onClick={() => setIsFilterDrawerOpen(false)}
                 className="flex-1 bg-[#07512E] text-white py-2.5 text-xs font-serif uppercase tracking-widest hover:bg-[#04361E] transition-colors cursor-pointer text-center"
               >
                 Apply
-              </button> */}
+              </button>
             </div>
           </div>
         </div>
