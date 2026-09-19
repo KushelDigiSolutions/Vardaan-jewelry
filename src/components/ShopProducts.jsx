@@ -372,6 +372,9 @@ export default function ShopProducts() {
 
       const queryString = params.toString();
       const newUrl = queryString ? `/shop?${queryString}` : "/shop";
+      if (typeof window !== "undefined") {
+        window.history.replaceState(null, "", newUrl);
+      }
       router.push(newUrl, { scroll: false });
     },
     [searchParams, router],
@@ -515,8 +518,8 @@ export default function ShopProducts() {
 
   const hasCategory = Boolean(categoryBadgeLabel);
   const hasPrice = Boolean(priceBadgeLabel);
-  const hasSearch = Boolean((searchParam && searchParam.trim()) || search.trim());
-  const searchBadgeLabel = (searchParam && searchParam.trim()) || search.trim();
+  const hasSearch = Boolean(search.trim());
+  const searchBadgeLabel = search.trim();
   const hasAnyActiveFilter = hasCategory || hasPrice || hasSearch;
 
   const scrollToProductsSection = useCallback((smooth = false) => {
@@ -663,27 +666,19 @@ export default function ShopProducts() {
     setLoading(true);
     try {
       const params = new URLSearchParams();
-      params.append("page", currentPage);
       const limitVal = limitParam ? parseInt(limitParam, 10) || 9 : 9;
-      params.append("limit", limitVal); // Grid layout limit
 
-      if (selectedCategory !== "all") {
-        params.append("category", selectedCategory);
-      }
+      let activeMin = null;
+      let activeMax = null;
 
-      const effectiveSearch = searchParam ? searchParam.trim() : search.trim();
-      if (effectiveSearch) {
-        params.append("search", effectiveSearch);
-      }
-
-      let activeMin = minPriceParam;
-      let activeMax = maxPriceParam;
-
-      if (!activeMin && !activeMax && priceFilter !== "all") {
+      if (priceFilter !== "all") {
         const found = PRICE_RANGES.find((r) => r.id === priceFilter);
         if (found) {
           if (found.min !== null) activeMin = String(found.min);
           if (found.max !== null) activeMax = String(found.max);
+        } else if (minPriceParam || maxPriceParam) {
+          activeMin = minPriceParam;
+          activeMax = maxPriceParam;
         }
       }
 
@@ -694,20 +689,67 @@ export default function ShopProducts() {
         params.append("maxPrice", activeMax);
       }
 
-      const effectiveSort =
-        sortParam && ["newest", "price_asc", "price_desc"].includes(sortParam)
-          ? sortParam
-          : sortOrder;
-      if (effectiveSort && effectiveSort !== "price-range") {
-        params.append("sort", effectiveSort);
+      if (sortOrder && sortOrder !== "newest" && sortOrder !== "price-range") {
+        params.append("sort", sortOrder);
       }
 
-      const res = await fetch(`${API_URL}/products?${params.toString()}`);
-      if (res.ok) {
-        const json = await res.json();
-        setProducts(json.data.products || []);
-        setTotalResults(json.data.pagination?.total || 0);
-        setTotalPages(json.data.pagination?.pages || 1);
+      const hasSearch = Boolean(search && search.trim());
+
+      if (hasSearch) {
+        // NOTE: The backend API ignores the `search` parameter whenever
+        // the `category` parameter is passed in the query string.
+        // Therefore, when searching, we query the search endpoint with limit=500,
+        // and filter by the selected category on the client side.
+        params.append("search", search.trim());
+        params.append("limit", "500");
+
+        const res = await fetch(`${API_URL}/products?${params.toString()}`);
+        if (res.ok) {
+          const json = await res.json();
+          const rawProducts = json.data?.products || [];
+
+          // Filter by category if a category is selected
+          const filtered = rawProducts.filter((prod) => {
+            if (!selectedCategory || selectedCategory === "all") return true;
+            const prodCatId =
+              prod.category?._id ||
+              (typeof prod.category === "string" ? prod.category : null);
+            if (prodCatId === selectedCategory) return true;
+            if (Array.isArray(prod.categories)) {
+              return prod.categories.some((c) => {
+                const cId = c?._id || (typeof c === "string" ? c : null);
+                return cId === selectedCategory;
+              });
+            }
+            return false;
+          });
+
+          const total = filtered.length;
+          const totalPgs = Math.max(1, Math.ceil(total / limitVal));
+          const safePage = Math.min(Math.max(1, currentPage), totalPgs);
+          const startIndex = (safePage - 1) * limitVal;
+          const paginated = filtered.slice(startIndex, startIndex + limitVal);
+
+          setProducts(paginated);
+          setTotalResults(total);
+          setTotalPages(totalPgs);
+        }
+      } else {
+        // Standard category / all-products browse with backend pagination
+        params.append("page", currentPage);
+        params.append("limit", limitVal);
+
+        if (selectedCategory !== "all") {
+          params.append("category", selectedCategory);
+        }
+
+        const res = await fetch(`${API_URL}/products?${params.toString()}`);
+        if (res.ok) {
+          const json = await res.json();
+          setProducts(json.data?.products || []);
+          setTotalResults(json.data?.pagination?.total || 0);
+          setTotalPages(json.data?.pagination?.pages || 1);
+        }
       }
     } catch (err) {
       console.error("Failed to load products list:", err);
@@ -789,15 +831,14 @@ export default function ShopProducts() {
   useEffect(() => {
     const timer = setTimeout(() => {
       const value = searchInput.trim();
-      const currentUrlSearch = searchParam ? searchParam.trim() : "";
 
       if (value.length >= 3) {
-        if (value !== currentUrlSearch) {
+        if (value !== search) {
           setSearch(value);
           setCurrentPage(1);
           updateUrl({ search: value, page: 1 });
         }
-      } else if (value.length === 0 && currentUrlSearch) {
+      } else if (value.length === 0 && search) {
         setSearch("");
         setCurrentPage(1);
         updateUrl({ search: null, page: 1 });
@@ -805,7 +846,7 @@ export default function ShopProducts() {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [searchInput, searchParam, updateUrl]);
+  }, [searchInput, search, updateUrl]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
