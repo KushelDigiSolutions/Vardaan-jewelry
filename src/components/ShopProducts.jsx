@@ -354,7 +354,8 @@ export default function ShopProducts() {
 
   // URL query updater helper
   const updateUrl = useCallback(
-    (updates) => {
+    (updates, options = {}) => {
+      const { replace = false } = options;
       const params = new URLSearchParams(searchParams ? searchParams.toString() : "");
 
       Object.entries(updates).forEach(([key, value]) => {
@@ -372,10 +373,12 @@ export default function ShopProducts() {
 
       const queryString = params.toString();
       const newUrl = queryString ? `/shop?${queryString}` : "/shop";
-      if (typeof window !== "undefined") {
-        window.history.replaceState(null, "", newUrl);
+
+      if (replace) {
+        router.replace(newUrl, { scroll: false });
+      } else {
+        router.push(newUrl, { scroll: false });
       }
-      router.push(newUrl, { scroll: false });
     },
     [searchParams, router],
   );
@@ -836,12 +839,12 @@ export default function ShopProducts() {
         if (value !== search) {
           setSearch(value);
           setCurrentPage(1);
-          updateUrl({ search: value, page: 1 });
+          updateUrl({ search: value, page: 1 }, { replace: true });
         }
       } else if (value.length === 0 && search) {
         setSearch("");
         setCurrentPage(1);
-        updateUrl({ search: null, page: 1 });
+        updateUrl({ search: null, page: 1 }, { replace: true });
       }
     }, 500);
 
